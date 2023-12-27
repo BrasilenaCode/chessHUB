@@ -11,6 +11,10 @@ import { TorneiComponent } from './tornei/tornei.component';
 import { ClassificaComponent } from './classifica/classifica.component';
 import { ProfiloComponent } from './profilo/profilo.component';
 import { TorneoShowComponent } from './torneo-show/torneo-show.component';
+import { TorneoServiceService } from './torneo-service.service';
+import { HttpClientModule } from '@angular/common/http';
+import { UtentiService } from './utenti.service';
+import { RowComponent } from './row/row.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +26,17 @@ import { TorneoShowComponent } from './torneo-show/torneo-show.component';
     TorneiComponent,
     ClassificaComponent,
     ProfiloComponent,
-    TorneoShowComponent
+    TorneoShowComponent,
+    RowComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule
   ],
   providers: [
+    TorneoServiceService,
+    UtentiService,
     provideClientHydration()
   ],
   bootstrap: [AppComponent]

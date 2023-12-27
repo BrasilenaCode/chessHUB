@@ -1,7 +1,9 @@
-export interface Utente {
-    username: string;
-    password: string;
-    nome: string;
-    cognome: string;
-    dataNascita: Date;
+export interface Utente{
+    nome:string;
+    cognome:string;
+    username:string;
+    password:string;
+    nazionalita:string;
+    dataNascita:Date;
+    punteggio:number;
 }

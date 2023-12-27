@@ -29,6 +29,6 @@ export class TorneoServiceService {
     return this.http.get<Torneo[]>(this.backendUrl+"tornei/luogo/"+luogo);
   }
   dammiTorneiStato(stato:string):Observable<Torneo[]>{
-    return this.http.get<Torneo[]>(this.backendUrl+"tornei/stato/"+stato);
+    return this.http.post<Torneo[]>(this.backendUrl+"tornei/stato", stato);
   }
 }

@@ -30,6 +30,7 @@ public class UtenteDaoPostgres implements UtenteDao {
                 utente.setNazionalita(rs.getString("nazionalità"));
                 utente.setPunteggio(rs.getInt("punteggio"));
                 utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
+                utente.setAdmin(rs.getBoolean("admin"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,6 +53,7 @@ public class UtenteDaoPostgres implements UtenteDao {
                 utente.setPassword(rs.getString("password"));
                 utente.setNazionalita(rs.getString("nazionalità"));
                 utente.setPunteggio(rs.getInt("punteggio"));
+                utente.setAdmin(rs.getBoolean("admin"));
                 utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
                 utenti.add(utente);
             }
@@ -64,7 +66,7 @@ public class UtenteDaoPostgres implements UtenteDao {
     @Override
     public void saveOrUpdate(Utente utente) {
         if (findByPrimaryKey(utente.getUsername()) == null) {
-            String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st;
             try {
                 st = connection.prepareStatement(insertStr);
@@ -75,6 +77,7 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setDate(5, new java.sql.Date(utente.getDataNascita().getTime()));
                 st.setString(6, utente.getNazionalita());
                 st.setInt(7, utente.getPunteggio());
+                st.setBoolean(8, utente.isAdmin());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -85,7 +88,8 @@ public class UtenteDaoPostgres implements UtenteDao {
                     + "password = ?, "
                     + "data_nascita = ?, "
                     + "nazionalità = ?,"
-                    + "punteggio = ? "
+                    + "punteggio = ? ,"
+                    + "admin = ? "
                     + "where username = ?";
 
             PreparedStatement st;
@@ -97,7 +101,8 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setDate(4, new java.sql.Date(utente.getDataNascita().getTime()));
                 st.setString(5, utente.getNazionalita());
                 st.setInt(6, utente.getPunteggio());
-                st.setString(7, utente.getUsername());
+                st.setBoolean(7, utente.isAdmin());
+                st.setString(8, utente.getUsername());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -11,6 +11,8 @@ public class Utente {
     private Date dataNascita;
     private int punteggio;
 
+    private boolean admin;
+
     public Utente() {
     }
 
@@ -68,5 +70,12 @@ public class Utente {
 
     public void setPunteggio(int punteggio) {
         this.punteggio = punteggio;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }
