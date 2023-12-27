@@ -16,7 +16,6 @@ public class DBManager {
     private static DBManager instance = null;
     private Connection connection = null;
 
-
     private DBManager(){}
 
     public static DBManager getInstance(){
@@ -25,10 +24,11 @@ public class DBManager {
         }
         return instance;
     }
+
     public Connection getConnection(){
         if (connection == null){
             try {
-                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "230956");
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "salvatore");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
