@@ -1,0 +1,118 @@
+package org.example.persistenza.DAO.postgres;
+
+import org.example.persistenza.DAO.UtenteDao;
+import org.example.persistenza.model.Utente;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class UtenteDaoPostgres implements UtenteDao {
+    Connection connection;
+    public UtenteDaoPostgres(Connection connection) {
+        this.connection = connection;
+    }
+    @Override
+    public Utente findByPrimaryKey(String username) {
+        Utente utente = null;
+        String query = "select * from utente where username = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                utente = new Utente();
+                utente.setNome(rs.getString("nome"));
+                utente.setCognome(rs.getString("cognome"));
+                utente.setUsername(rs.getString("username"));
+                utente.setPassword(rs.getString("password"));
+                utente.setNazionalita(rs.getString("nazionalità"));
+                utente.setPunteggio(rs.getInt("punteggio"));
+                utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utente;
+    }
+
+    @Override
+    public List<Utente> findAll() {
+        List<Utente> utenti = new ArrayList<Utente>();
+        String query = "select * from utente";
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                Utente utente = new Utente();
+                utente.setNome(rs.getString("nome"));
+                utente.setCognome(rs.getString("cognome"));
+                utente.setUsername(rs.getString("username"));
+                utente.setPassword(rs.getString("password"));
+                utente.setNazionalita(rs.getString("nazionalità"));
+                utente.setPunteggio(rs.getInt("punteggio"));
+                utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
+                utenti.add(utente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utenti;
+    }
+
+    @Override
+    public void saveOrUpdate(Utente utente) {
+        if (findByPrimaryKey(utente.getUsername()) == null) {
+            String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement st;
+            try {
+                st = connection.prepareStatement(insertStr);
+                st.setString(1, utente.getNome());
+                st.setString(2, utente.getCognome());
+                st.setString(3, utente.getUsername());
+                st.setString(4, utente.getPassword());
+                st.setDate(5, new java.sql.Date(utente.getDataNascita().getTime()));
+                st.setString(6, utente.getNazionalita());
+                st.setInt(7, utente.getPunteggio());
+                st.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            String updateStr = "UPDATE utente set nome = ?, "
+                    + "cognome = ?, "
+                    + "password = ?, "
+                    + "data_nascita = ?, "
+                    + "nazionalità = ?,"
+                    + "punteggio = ? "
+                    + "where username = ?";
+
+            PreparedStatement st;
+            try {
+                st = connection.prepareStatement(updateStr);
+                st.setString(1, utente.getNome());
+                st.setString(2, utente.getCognome());
+                st.setString(3, utente.getPassword());
+                st.setDate(4, new java.sql.Date(utente.getDataNascita().getTime()));
+                st.setString(5, utente.getNazionalita());
+                st.setInt(6, utente.getPunteggio());
+                st.setString(7, utente.getUsername());
+                st.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    @Override
+    public void delete(Utente utente) {
+        String query = "DELETE FROM utente WHERE username = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, utente.getUsername());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
