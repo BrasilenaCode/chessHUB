@@ -29,7 +29,9 @@ export class AuthServiceService{
 
   removeToken(){
     this.token = undefined;
-    window.localStorage.removeItem("utente_token");
+    if(isPlatformBrowser(this.platformId)) {
+      window.localStorage.removeItem("utente_token");
+    }
   }
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http:HttpClient, private router:Router) { }
@@ -49,13 +51,9 @@ export class AuthServiceService{
     return this.getToken() != undefined;
   }
 
-  login(username:string, password:string){
+  login(username:string, password:string):Observable<any>{
     var utente:UtenteLogin = {"username": username, "password": password};
-    this.http.post<AuthToken>(this.backendUrl + "/login",utente,{withCredentials: true})
-    .subscribe(response => {
-      this.setToken(response.token);
-      this.router.navigate(["/"]);
-    });
+    return this.http.post(this.backendUrl + "/login",utente,{withCredentials: true})
   }
   logout(){
     this.http.post<AuthToken>(this.backendUrl + "/logout",
