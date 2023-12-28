@@ -53,4 +53,7 @@ export class TorneoService {
   dammiNuovoTorneo(utenti:Utente[]):Observable<Torneo>{
     return this.http.post<Torneo>(this.backendUrl+"/tornei/nuovo",utenti);
   }
+  prova():any{
+    window.alert("prova");
+  }
 }

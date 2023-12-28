@@ -12,7 +12,7 @@ import { ClassificaComponent } from './classifica/classifica.component';
 import { ProfiloComponent } from './profilo/profilo.component';
 import { TorneoShowComponent } from './torneo-show/torneo-show.component';
 import { TorneoService } from './services/torneo.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { UtentiService } from './services/utenti.service';
 import { PartitaService } from './services/partita.service';
 import { RowComponent } from './row/row.component';
@@ -41,6 +41,7 @@ import { PartitaShowComponent } from './partita-show/partita-show.component';
     TorneoService,
     UtentiService,
     PartitaService,
+    provideHttpClient(withFetch()),
     provideClientHydration()
   ],
   bootstrap: [AppComponent]
