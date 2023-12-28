@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthServiceService } from '../services/auth.service';
+import {FormControl} from "@angular/forms";
+
 
 @Component({
   selector: 'app-login',
@@ -7,12 +9,14 @@ import { AuthServiceService } from '../services/auth.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
+  username = new FormControl();
+  password = new FormControl();
+
   constructor(private auth:AuthServiceService){}
+
   faiLogin(){
-    var user = this.username;
-    var pass = this.password;
+    var user = this.username.value;
+    var pass = this.password.value;
     this.auth.login(user, pass);
   }
 }

@@ -1,8 +1,23 @@
+<br>
+<p class="h3">Migliori giocatori di sempre</p>
+<br>
 <div class="row">
-    <div class="col-lg-3">Nome</div>
-    <div class="col-lg-3">Cognome</div>
-    <div class="col-lg-3">Nazionalità</div>
-    <div class="col-lg-3">Punteggio</div>
+    <div class="col-lg-1 h5">Posto</div>
+    <div class="col-lg-3 h5">Nome</div>
+    <div class="col-lg-3 h5">Cognome</div>
+    <div class="col-lg-3 h5">Nazionalità</div>
+    <div class="col-lg-2 h5">Punteggio</div>
 </div>
-<app-row *ngFor="let user of utenti" [utente]="user"></app-row>
+<app-row *ngFor="let user of utentiMigliori, let i=index" [utente]="user" [index]="i+1"></app-row>
+<br>
+<p class="h3">Migliori giocatori della settimana</p>
+<br>
+<div class="row">
+  <div class="col-lg-1 h5">Posto</div>
+  <div class="col-lg-3 h5">Nome</div>
+  <div class="col-lg-3 h5">Cognome</div>
+  <div class="col-lg-3 h5">Nazionalità</div>
+  <div class="col-lg-2 h5">Punteggio</div>
+</div>
+<app-row *ngFor="let user of utentiMiglioriSettimana, let i=index" [utente]="user" [index]="i+1"></app-row>
 

@@ -1,10 +1,15 @@
-<form (ngSubmit)="faiLogin()">
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" [(ngModel)]="username" required>
-  <br>
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" [(ngModel)]="password" required>
-  <br>
-  <button type="submit">Invia</button>
-</form>
-
+<div class="center">
+  <form class="modulo-form" (ngSubmit)="faiLogin()">
+    <div class="h4">Accedi</div>
+    <div class="mb-3 mt-3">
+      <label for="username" class="form-label">Username:</label>
+      <input type="username" class="form-control" id="username" placeholder="Enter username" name="username" [formControl]="username">
+    </div>
+    <div class="mb-3">
+      <label for="pwd" class="form-label">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" [formControl]="password">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

@@ -5,7 +5,8 @@ export interface Utente{
     password:string;
     nazionalita:string;
     dataNascita:Date;
-    punteggio:number;
+    punteggio:number
+    punteggioSettimanale:number
 }
 
 export interface UtenteLogin{
@@ -15,4 +16,4 @@ export interface UtenteLogin{
 
 export interface AuthToken{
     token:string;
-} 
+}

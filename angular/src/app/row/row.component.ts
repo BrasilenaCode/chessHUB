@@ -8,4 +8,5 @@ import { Utente } from '../model/utente';
 })
 export class RowComponent {
   @Input()utente?:Utente;
+  @Input()index?:number;
 }
