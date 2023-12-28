@@ -89,4 +89,8 @@ export class UtentiService {
     }
     );
   }
+  paginaProfilo(username:string):Observable<string>{
+    return this.http.post(this.backendUrl+"/come", username, {responseType: 'text'}); 
+  }
+
 }

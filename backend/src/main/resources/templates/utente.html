@@ -1,17 +1,2 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profilo</title>
-</head>
-<body>
-    <h2 th:text="Profilo di ${utente.username}"></h2>
-    <div>
-        <p><span th:text="${utente.nome} ${utente.cognome}"></span></p>
-        <p><span th:text="nazionalità ${utente.nazionalita}$"></span></p>
-    </div>
-    <table>
-        <th></th>
-    </table>
-</body>
-</html>
+<h1>Profilo</h1>
+<h2 th:text="'Profilo di ' + ${utente.username}"></h2>
