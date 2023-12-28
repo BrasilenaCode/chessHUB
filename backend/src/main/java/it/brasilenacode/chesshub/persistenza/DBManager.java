@@ -29,7 +29,7 @@ public class DBManager {
     public Connection getConnection() {
         if (connection == null) {
             try {
-                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "230956");
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "salvatore");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

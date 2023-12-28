@@ -37,6 +37,7 @@ public class Auth {
     public AuthToken login(@RequestBody Utente user, HttpServletRequest request) throws Exception {
         String username = user.getUsername();
         String password = user.getPassword();
+        System.out.println(username + " " + password);
         String concatenate = username + ":" + password;
         String token = base64encode(concatenate);
         AuthToken auth=new AuthToken();

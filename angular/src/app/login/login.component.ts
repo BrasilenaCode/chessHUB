@@ -7,16 +7,18 @@ import { AuthServiceService } from '../services/auth.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  username = "k";
-  password = "k";
+  username: string = '';
+  password: string = '';
 
   ngOnInit(){
-    this.faiLogin()
+    //this.faiLogin()
   }
 
   constructor(private auth:AuthServiceService){}
 
   faiLogin(){
+    console.log('Username:', this.username);
+    console.log('Password:', this.password);
     var user = this.username;
     var pass = this.password;    
     this.auth.login(user, pass);
