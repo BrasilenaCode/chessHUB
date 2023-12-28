@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Utente } from '../model/utente';
-import { UtentiService } from '../utenti.service';
+import { UtentiService } from '../services/utenti.service';
 
 @Component({
   selector: 'app-classifica',

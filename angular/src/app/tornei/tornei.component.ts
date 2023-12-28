@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { Torneo } from '../model/torneo';
-import { TorneoServiceService } from '../torneo-service.service';
+import { TorneoService } from '../services/torneo.service';
 
 @Component({
   selector: 'app-tornei',
@@ -11,7 +11,7 @@ import { TorneoServiceService } from '../torneo-service.service';
 })
 export class TorneiComponent implements OnInit{
   tornei?: Torneo[];
-  constructor(private torneoService: TorneoServiceService) { }
+  constructor(private torneoService: TorneoService) { }
   ngOnInit(): void {
     this.getTornei();
   }
