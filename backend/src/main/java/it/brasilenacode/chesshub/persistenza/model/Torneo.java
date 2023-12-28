@@ -1,6 +1,7 @@
 package it.brasilenacode.chesshub.persistenza.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Torneo {
 
@@ -12,6 +13,8 @@ public class Torneo {
     private Date dataFine;
     private String stato;
     private Utente vincitore;
+
+    private List<Utente> partecipanti;
 
     public Torneo() {
     }
@@ -78,6 +81,14 @@ public class Torneo {
 
     public void setVincitore(Utente vincitore) {
         this.vincitore = vincitore;
+    }
+
+    public List<Utente> getPartecipanti() {
+        return partecipanti;
+    }
+
+    public void setPartecipanti(List<Utente> partecipanti) {
+        this.partecipanti = partecipanti;
     }
 
 }

@@ -26,7 +26,7 @@ public class TorneoDaoPostgres implements TorneoDao {
             st.setLong(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                torneo = new Torneo();
+                torneo = new TorneoProxy(connection);
                 torneo.setId(rs.getLong("id"));
                 torneo.setNome(rs.getString("nome"));
                 torneo.setLuogo(rs.getString("luogo"));
@@ -51,7 +51,7 @@ public class TorneoDaoPostgres implements TorneoDao {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                Torneo torneo = new Torneo();
+                Torneo torneo = new TorneoProxy(connection);
                 torneo.setId(rs.getLong("id"));
                 torneo.setNome(rs.getString("nome"));
                 torneo.setLuogo(rs.getString("luogo"));
@@ -86,6 +86,7 @@ public class TorneoDaoPostgres implements TorneoDao {
                 st.setString(6, torneo.getStato());
                 st.setString(7, torneo.getVincitore().getUsername());
                 st.setInt(8, torneo.getNumeroPartecipanti());
+                //creo il torneo con dei partecipanti già dentro?
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -124,6 +125,31 @@ public class TorneoDaoPostgres implements TorneoDao {
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setLong(1, torneo.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removePartecipante(Torneo torneo, Utente utente) {
+        String query = "DELETE FROM iscrizione WHERE torneo = ? and utente = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setLong(1, torneo.getId());
+            st.setString(2, utente.getUsername());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void addPartecipante(Torneo torneo, Utente utente) {
+        String query = "INSERT INTO iscrizione VALUES (?, ?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, utente.getUsername());
+            st.setLong(2, torneo.getId());
             st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -39,16 +39,9 @@ public class Auth {
         String password = user.getPassword();
         String concatenate = username + ":" + password;
         String token = base64encode(concatenate);
-        user = getUserByToken(token);
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            AuthToken auth = new AuthToken();
-            auth.setToken(token);
-            auth.setUtente(user);
-            return auth;
-        }
-        return null;
+        AuthToken auth=new AuthToken();
+        auth.setToken(token);
+        return auth;
     }
 
     @PostMapping("/logout")
@@ -57,9 +50,8 @@ public class Auth {
     }
 
     @PostMapping("/isAuthenticated")
-    public boolean isAuthenticated(HttpServletRequest req){
+    public static boolean isAuthenticated(HttpServletRequest req){
         String auth = req.getHeader("Authorization");
-        System.out.println(auth);
         if (auth != null) {
             String token = auth.substring("Basic ".length());
             return getUserByToken(token) != null;
@@ -68,7 +60,7 @@ public class Auth {
         }
     }
 
-    private Utente getUserByToken(String token){
+    private static Utente getUserByToken(String token){
         if (token != null) {
             String decod = base64Decode(token);
             String username = decod.split(":")[0];
@@ -83,12 +75,11 @@ public class Auth {
         return null;
     }
 
-    private String base64encode(String value){
+    protected static String base64encode(String value){
         return Base64.getEncoder().encodeToString(value.getBytes());
     }
 
-    private String base64Decode(String value){
+    private static String base64Decode(String value){
         return new String(Base64.getDecoder().decode(value.getBytes()));
     }
-
 }

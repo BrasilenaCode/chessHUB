@@ -16,34 +16,36 @@ public class DBManager {
     private static DBManager instance = null;
     private Connection connection = null;
 
-    private DBManager(){}
+    private DBManager() {
+    }
 
-    public static DBManager getInstance(){
-        if (instance == null){
+    public static DBManager getInstance() {
+        if (instance == null) {
             instance = new DBManager();
         }
         return instance;
     }
 
-    public Connection getConnection(){
-        if (connection == null){
+    public Connection getConnection() {
+        if (connection == null) {
             try {
-                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "salvatore");
+                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "230956");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
         return connection;
     }
-    public UtenteDao getUtenteDao(){
+
+    public UtenteDao getUtenteDao() {
         return new UtenteDaoPostgres(getConnection());
     }
 
-    public PartitaDao getPartitaDao(){
+    public PartitaDao getPartitaDao() {
         return new PartitaDaoPostgres(getConnection());
     }
 
-    public TorneoDao getTorneoDao(){
+    public TorneoDao getTorneoDao() {
         return new TorneoDaoPostgres(getConnection());
     }
 }

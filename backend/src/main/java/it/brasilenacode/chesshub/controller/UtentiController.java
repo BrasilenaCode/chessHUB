@@ -3,6 +3,7 @@ package it.brasilenacode.chesshub.controller;
 
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.Period;
@@ -10,12 +11,8 @@ import java.time.ZoneId;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "http://localhost:4200/")
+@CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
 public class UtentiController {
-    @GetMapping("/utenti/all")
-    public List<Utente> dammiUtenti(){
-        return DBManager.getInstance().getUtenteDao().findAll();
-    }
     @PostMapping("/utenti/username")
     public Utente dammiUtente(@RequestBody String username){
         return DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
@@ -55,6 +52,49 @@ public class UtentiController {
     @PostMapping("/utenti/punteggioUguale")
     public List<Utente> dammiUtentiPunteggioUguale(@RequestBody int punteggio){
         return DBManager.getInstance().getUtenteDao().findAll().stream().filter(utente -> utente.getPunteggio() == punteggio).toList();
+    }
+    @PostMapping("/getUtente")
+    public Utente getUtente(@RequestBody String username, HttpServletRequest req){
+        if(Auth.isAuthenticated(req)){
+            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            return utente;
+        }
+        return null;
+    }
+
+    @GetMapping("/utenti/all")
+    public List<Utente> dammiUtenti(HttpServletRequest req){
+        if(Auth.isAuthenticated(req)) {
+            return DBManager.getInstance().getUtenteDao().findAll();
+        }
+        return null;
+    }
+
+    @PostMapping("/addUtente")
+    public boolean addUtente(@RequestBody Utente utente, HttpServletRequest req){
+        if(Auth.isAuthenticated(req)){
+            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
+            return true;
+        }
+        return false;
+    }
+
+    @PostMapping("/deleteUtente")
+    public boolean deleteUtente(@RequestBody Utente utente, HttpServletRequest req){
+        if(Auth.isAuthenticated(req)){
+            DBManager.getInstance().getUtenteDao().delete(utente);
+            return true;
+        }
+        return false;
+    }
+
+    @PostMapping("/updateUtente")
+    public boolean updateUtente(@RequestBody Utente utente, HttpServletRequest req){
+        if(Auth.isAuthenticated(req)){
+            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
+            return true;
+        }
+        return false;
     }
 }
 
