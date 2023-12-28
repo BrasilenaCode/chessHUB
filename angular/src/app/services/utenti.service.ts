@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Utente } from '../model/utente';
 import { Observable } from 'rxjs';
+import { AuthServiceService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,8 @@ import { Observable } from 'rxjs';
 export class UtentiService {
   private backendUrl = "http://localhost:8080"
 
-  constructor(private http:HttpClient) {}
+  constructor(private http:HttpClient, private auth:AuthServiceService) {}
 
-  dammiUtenti():Observable<Utente[]>{
-    return this.http.get<Utente[]>(this.backendUrl + "/utenti/all")
-  }
   dammiUtente(username:string):Observable<Utente>{
     return this.http.post<Utente>(this.backendUrl + "/utenti/username", username)
   }
@@ -46,5 +44,50 @@ export class UtentiService {
   dammiUtentiPunteggioUguale(punteggio:number):Observable<Utente[]>{
     return this.http.post<Utente[]>(this.backendUrl + "/utenti/punteggioUguale", punteggio)
   }
+  dammiUtenti():Observable<Utente[]>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.get<Utente[]>(this.backendUrl + "/utenti/all", header)
+  }
+
+  getUtente(username:string):Observable<Utente>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<Utente>(this.backendUrl + "/getUtente", username, header)
+  }
+  aggiungiUtente(utente:Utente):any{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
+    }
+    
+    return this.http.post(this.backendUrl+"/addUtente", utente, header).subscribe((risposta) => {
+    console.log('Risposta dal backend:', risposta);}, (errore) => {
+    console.error('Errore durante la richiesta al backend:', errore);
+    }
+    );
+  }
+  updateUtente(utente:Utente):any{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
+    }
+    return this.http.post(this.backendUrl+"/updateUtente", utente, header).subscribe((risposta) => {
+    console.log('Risposta dal backend:', risposta);}, (errore) => {
+    console.error('Errore durante la richiesta al backend:', errore);
+    }
+    );
+  }
+
+  deleteUtente(utente:Utente):any{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
+    }
+    return this.http.post(this.backendUrl+"/deleteUtente", utente, header).subscribe((risposta) => {
+    console.log('Risposta dal backend:', risposta);}, (errore) => {
+    console.error('Errore durante la richiesta al backend:', errore);
+    }
+    );
+  } 
 
 }

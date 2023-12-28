@@ -7,3 +7,12 @@ export interface Utente{
     dataNascita:Date;
     punteggio:number;
 }
+
+export interface UtenteLogin{
+    username:string;
+    password:string;
+}
+
+export interface AuthToken{
+    token:string;
+} 

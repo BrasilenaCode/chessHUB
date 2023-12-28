@@ -6,6 +6,7 @@ import { AboutComponent } from './about/about.component';
 import { ProfiloComponent } from './profilo/profilo.component';
 import { TorneiComponent } from './tornei/tornei.component';
 import { ClassificaComponent } from './classifica/classifica.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -13,8 +14,7 @@ const routes: Routes = [
   {"path": "about", component: AboutComponent},
   {"path": "profilo", component: ProfiloComponent},
   {"path": "tornei", component: TorneiComponent},
-  {"path": "classifica", component: ClassificaComponent}
-
+  {"path": "classifica", component: ClassificaComponent, canActivate:[AuthGuardService]}
 ];
 
 @NgModule({
