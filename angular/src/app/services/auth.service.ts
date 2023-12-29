@@ -65,13 +65,10 @@ export class AuthServiceService{
     return resp;
   }
   logout(){
-    this.http.post<AuthToken>(this.backendUrl + "/logout",
+    this.http.post<boolean>(this.backendUrl + "/logout",
     {"Authorization":"Basic " + this.token}, {withCredentials: true}).subscribe(
       res => {
-        if (res){
-          this.removeToken();
-        }
-        this.router.navigate(["/"]);
+        this.removeToken();
       }
     );
   }
