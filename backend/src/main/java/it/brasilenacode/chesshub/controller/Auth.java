@@ -16,12 +16,13 @@ import java.util.Base64;
 public class Auth {
 
     private class AuthToken{
+
         String token;
         Utente utente;
-
         public Utente getUtente() {
             return utente;
         }
+
         public void setUtente(Utente utente) {
             this.utente = utente;
         }
@@ -32,7 +33,6 @@ public class Auth {
             this.token = token;
         }
     }
-
     @PostMapping("/login")
     public AuthToken login(@RequestBody Utente user, HttpServletRequest request) throws Exception {
         String username = user.getUsername();
@@ -95,5 +95,10 @@ public class Auth {
 
     private static String base64Decode(String value){
         return new String(Base64.getDecoder().decode(value.getBytes()));
+    }
+
+    public static Utente getUser(HttpServletRequest req) {
+        String token=req.getHeader("Authorization").substring("Basic ".length());
+        return getUserByToken(token);
     }
 }

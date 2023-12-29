@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Utente } from '../model/utente';
 
 @Component({
@@ -6,7 +6,14 @@ import { Utente } from '../model/utente';
   templateUrl: './row.component.html',
   styleUrl: './row.component.css'
 })
-export class RowComponent {
+export class RowComponent implements OnInit{
   @Input()utente?:Utente;
   @Input()index?:number;
+  @Input()utenteAcceduto?:string;
+  condizione?:boolean;
+
+
+  ngOnInit(){
+    this.condizione=this.utenteAcceduto==this.utente?.username;
+  }
 }

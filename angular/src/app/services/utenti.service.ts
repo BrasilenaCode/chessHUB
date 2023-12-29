@@ -44,6 +44,13 @@ export class UtentiService {
   dammiUtentiPunteggioUguale(punteggio:number):Observable<Utente[]>{
     return this.http.post<Utente[]>(this.backendUrl + "/utenti/punteggioUguale", punteggio)
   }
+
+  dammiUtenteAcceduto():Observable<Utente>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.get<Utente>(this.backendUrl + "/utente", header)
+  }
   dammiUtenti():Observable<Utente[]>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)

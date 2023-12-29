@@ -6,6 +6,14 @@
   background-color: #dcdcdc;
 }
 
+.utente{
+  background-color: #999;
+  transition: background-color 0.3s;
+}
+.utente:hover {
+  background-color: #889;
+}
+
 .primo{
   padding-left: 25px;
 }

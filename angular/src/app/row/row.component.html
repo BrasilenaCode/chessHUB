@@ -1,7 +1,14 @@
-<div class="row riga">
-    <div class="col-lg-1 primo">{{index}}</div>
+<div *ngIf=!condizione class="row riga">
+    <div class="col-lg-1 primo" >{{index}}</div>
     <div class="col-lg-3">{{utente?.nome}}</div>
     <div class="col-lg-3">{{utente?.cognome}}</div>
     <div class="col-lg-3">{{utente?.nazionalita}}</div>
     <div class="col-lg-2">{{utente?.punteggio}}</div>
+</div>
+<div *ngIf=condizione class="row utente">
+  <div class="col-lg-1 primo" >{{index}}</div>
+  <div class="col-lg-3">{{utente?.nome}}</div>
+  <div class="col-lg-3">{{utente?.cognome}}</div>
+  <div class="col-lg-3">{{utente?.nazionalita}}</div>
+  <div class="col-lg-2">{{utente?.punteggio}}</div>
 </div>

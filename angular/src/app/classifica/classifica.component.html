@@ -1,23 +1,33 @@
 <br>
-<p class="h3 rientro">Migliori giocatori di sempre</p>
 <br>
-<div class="row">
+<div *ngIf="visualizzaMigliori">
+  <p class="h3 rientro">Migliori giocatori di sempre</p>
+  <br>
+  <div class="row">
     <div class="col-lg-1 h5 primo">Posto</div>
     <div class="col-lg-3 h5">Nome</div>
     <div class="col-lg-3 h5">Cognome</div>
     <div class="col-lg-3 h5">Nazionalità</div>
     <div class="col-lg-2 h5">Punteggio</div>
+  </div>
+  <app-row *ngFor="let user of utentiMiglioriVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
+  <br>
+  <button class="btn btn-primary" (click)="load()">{{testo}}</button>
+  <br>
+  <br>
 </div>
-<app-row *ngFor="let user of utentiMigliori, let i=index" [utente]="user" [index]="i+1"></app-row>
-<br>
-<p class="h3 rientro">Migliori giocatori della settimana</p>
-<br>
-<div class="row">
-  <div class="col-lg-1 h5 primo">Posto</div>
-  <div class="col-lg-3 h5">Nome</div>
-  <div class="col-lg-3 h5">Cognome</div>
-  <div class="col-lg-3 h5">Nazionalità</div>
-  <div class="col-lg-2 h5">Punteggio</div>
+<div *ngIf="visualizzaSettimana">
+  <p class="h3 rientro">Migliori giocatori della settimana</p>
+  <br>
+  <div class="row">
+    <div class="col-lg-1 h5 primo">Posto</div>
+    <div class="col-lg-3 h5">Nome</div>
+    <div class="col-lg-3 h5">Cognome</div>
+    <div class="col-lg-3 h5">Nazionalità</div>
+    <div class="col-lg-2 h5">Punteggio</div>
+  </div>
+  <app-row *ngFor="let user of utentiMiglioriSettimanaVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
+  <br>
+  <button class="btn btn-primary" (click)="loadWeek()">{{testo}}</button>
 </div>
-<app-row *ngFor="let user of utentiMiglioriSettimana, let i=index" [utente]="user" [index]="i+1"></app-row>
 

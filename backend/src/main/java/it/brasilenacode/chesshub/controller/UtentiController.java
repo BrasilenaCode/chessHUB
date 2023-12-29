@@ -62,6 +62,14 @@ public class UtentiController {
         return null;
     }
 
+    @GetMapping("/utente")
+    public Utente dammiUtenteAcceduto(HttpServletRequest req){
+        if(Auth.isAuthenticated(req)){
+            return Auth.getUser(req);
+        }
+        return null;
+    }
+
     @GetMapping("/utenti/all")
     public List<Utente> dammiUtenti(HttpServletRequest req){
         if(Auth.isAuthenticated(req)) {
