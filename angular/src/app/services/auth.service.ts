@@ -52,23 +52,17 @@ export class AuthServiceService{
     return this.getToken() != undefined;
   }
 
-  login(username:string, password:string):boolean{
+  login(username:string, password:string):Observable<AuthToken>{
     var utente:UtenteLogin = {"username": username, "password": password};
     var resp:boolean = false;
-    this.http.post<AuthToken>(this.backendUrl + "/login",utente,{withCredentials: true}).subscribe(response => {
-      if (response){
-        this.setToken(response.token);
-        this.router.navigate(["/"]);
-        resp=true;
-      }
-    });
-    return resp;
+    return this.http.post<AuthToken>(this.backendUrl + "/login",utente,{withCredentials: true});
   }
   logout(){
     this.http.post<boolean>(this.backendUrl + "/logout",
     {"Authorization":"Basic " + this.token}, {withCredentials: true}).subscribe(
       res => {
-        this.removeToken();
+        if(res)
+          this.removeToken();
       }
     );
   }

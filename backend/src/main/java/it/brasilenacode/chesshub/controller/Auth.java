@@ -60,6 +60,7 @@ public class Auth {
             return true;
         }
         return false;
+
     }
 
     @PostMapping("/isAuthenticated")
