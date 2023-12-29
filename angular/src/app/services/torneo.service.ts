@@ -61,4 +61,8 @@ export class TorneoService {
   addTorneo(torneo: TorneoForm):Observable<boolean> {
     return this.http.post<boolean>(this.backendUrl+"/tornei/add", torneo);
   }
+
+  searchTorneo(searchTerm: string):Observable<Torneo[]>{
+    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/search", searchTerm);
+  }
 }

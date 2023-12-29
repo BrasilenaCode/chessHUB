@@ -19,7 +19,9 @@ import { RowComponent } from './row/row.component';
 import { PartitaShowComponent } from './partita-show/partita-show.component';
 import { AddTorneoComponent } from './add-torneo/add-torneo.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TorneiInCorsoComponent } from './tornei-in-corso/tornei-in-corso.component';
+import { TorneiStatoComponent } from './tornei-stato/tornei-stato.component';
+import { TorneoComponent } from './torneo/torneo.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { TorneiInCorsoComponent } from './tornei-in-corso/tornei-in-corso.compon
     RowComponent,
     PartitaShowComponent,
     AddTorneoComponent,
-    TorneiInCorsoComponent
+    TorneiStatoComponent,
+    TorneoComponent,
+    SearchResultsComponent
   ],
     imports: [
         HttpClientModule,

@@ -14,7 +14,8 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
 public class TorneiController {
     @PostMapping("/tornei/id")
-    public Torneo dammiTorneo(@RequestBody long id){
+    public Torneo dammiTorneo(@RequestBody int id){
+        System.out.println("ciao"+id);
         return DBManager.getInstance().getTorneoDao().findByPrimaryKey(id);
     }
     @GetMapping("/tornei/all")
@@ -70,5 +71,9 @@ public class TorneiController {
     @PostMapping("/tornei/add")
     public void aggiungiTorneo(@RequestBody Torneo torneo){
         DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
+    }
+    @PostMapping("/tornei/search")
+    public List<Torneo> cercaTornei(@RequestBody String body){
+        return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getNome().contains(body)).toList();
     }
 }
