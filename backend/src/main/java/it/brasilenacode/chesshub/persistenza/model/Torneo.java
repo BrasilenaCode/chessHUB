@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Torneo {
-
     private long id;
     private int numeroPartecipanti;
     private String nome;
@@ -13,20 +12,15 @@ public class Torneo {
     private Date dataFine;
     private String stato;
     private Utente vincitore;
-
     private List<Utente> partecipanti;
-
     public Torneo() {
     }
-
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
-
     public int getNumeroPartecipanti() {
         return numeroPartecipanti;
     }

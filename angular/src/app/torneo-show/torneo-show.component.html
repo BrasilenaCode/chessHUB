@@ -1,1 +1,14 @@
-<li>{{torneo?.id}}</li>
+<div *ngIf="torneo" class="row riga">
+  <div class="col-lg-2 primo">{{torneo?.nome}}</div>
+  <div class="col-lg-2">{{torneo?.luogo}}</div>
+  <div class="col-lg-3">{{torneo?.dataInizio | date: 'dd/MM/yyyy' }}</div>
+  <div class="col-lg-3">{{torneo?.dataFine | date: 'dd/MM/yyyy' }}</div>
+  <div class="col-lg-2">{{torneo?.numeroPartecipanti}}</div>
+</div>
+<div *ngIf="torneoConcluso" class="row riga">
+  <div class="col-lg-2 primo">{{torneoConcluso?.nome}}</div>
+  <div class="col-lg-2">{{torneoConcluso?.luogo}}</div>
+  <div class="col-lg-3">{{torneoConcluso?.dataInizio | date: 'dd/MM/yyyy' }}</div>
+  <div class="col-lg-3">{{torneoConcluso?.dataFine | date: 'dd/MM/yyyy' }}</div>
+  <div class="col-lg-2">{{torneoConcluso?.vincitore?.nome+" "+torneoConcluso?.vincitore?.cognome}}</div>
+</div>

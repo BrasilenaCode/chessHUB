@@ -1,17 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Torneo } from '../model/torneo';
+import {Torneo, TorneoForm} from '../model/torneo';
 import { Utente } from '../model/utente';
+import {AuthServiceService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TorneoService {
 
-  private backendUrl = "http://localhost:8080";  
+  private backendUrl = "http://localhost:8080";
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private auth:AuthServiceService) { }
 
   dammiTorneo(id:number):Observable<Torneo>{
     return this.http.post<Torneo>(this.backendUrl+"/tornei/id",id);
@@ -55,5 +56,9 @@ export class TorneoService {
   }
   prova():any{
     window.alert("prova");
+  }
+
+  addTorneo(torneo: TorneoForm):Observable<boolean> {
+    return this.http.post<boolean>(this.backendUrl+"/tornei/add", torneo);
   }
 }

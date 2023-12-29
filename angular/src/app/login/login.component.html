@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div class="center">
+  <form class="modulo-form" (ngSubmit)="faiLogin()" (click)="clearErrorMessage()">
+    <div class="h4">Accesso</div>
+    <div class="mb-3 mt-3">
+      <label for="username" class="form-label">Username:</label>
+      <input type="username" class="form-control" id="username" placeholder="Inserisci username" name="username" [formControl]="username">
+    </div>
+    <div class="mb-3">
+      <label for="pwd" class="form-label">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password">
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    <br *ngIf="errorMessage">
+    <button type="submit" class="btn btn-primary">Accedi</button>
+  </form>
+</div>

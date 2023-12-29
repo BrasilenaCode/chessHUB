@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BarraNavigazioneComponent } from './barra-navigazione/barra-navigazione.component';
@@ -17,6 +17,8 @@ import { UtentiService } from './services/utenti.service';
 import { PartitaService } from './services/partita.service';
 import { RowComponent } from './row/row.component';
 import { PartitaShowComponent } from './partita-show/partita-show.component';
+import { AddTorneoComponent } from './add-torneo/add-torneo.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -30,13 +32,17 @@ import { PartitaShowComponent } from './partita-show/partita-show.component';
     ProfiloComponent,
     TorneoShowComponent,
     RowComponent,
-    PartitaShowComponent
+    PartitaShowComponent,
+    AddTorneoComponent
   ],
-  imports: [
-    HttpClientModule,
-    BrowserModule,
-    AppRoutingModule
-  ],
+    imports: [
+        HttpClientModule,
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FontAwesomeModule
+    ],
   providers: [
     TorneoService,
     UtentiService,
@@ -46,4 +52,5 @@ import { PartitaShowComponent } from './partita-show/partita-show.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

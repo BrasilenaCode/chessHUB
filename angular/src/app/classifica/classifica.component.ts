@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, Input, OnInit} from '@angular/core';
 import { Utente } from '../model/utente';
 import { UtentiService } from '../services/utenti.service';
 
@@ -9,59 +9,67 @@ import { UtentiService } from '../services/utenti.service';
   styleUrl: './classifica.component.css'
 })
 export class ClassificaComponent implements OnInit{
-  @Input()utenti?:Utente[]
-  @Input()utente?:Utente
-  
+  @Input()utentiMigliori?:Utente[]
+  @Input()utentiMiglioriSettimana?:Utente[]
+
     ngOnInit(){
-      this.getUtenti();
+      this.getBestUser();
     }
     constructor(private utentiService:UtentiService){}
     getUtenti(){
-        this.utentiService.dammiUtenti().subscribe(user=> this.utenti=user, (risposta)=>{
-          console.log(risposta.cognome)
-        });
-        
+        this.utentiService.dammiUtenti().subscribe(user=> this.utentiMigliori=user);
+
     }
     getUtente(username:string){
       this.utentiService.getUtente(username).subscribe((risposta)=>{
         console.log(risposta.cognome);    })
     }
     updateUtente(){
-      this.utente = {
+      const utente = {
         nome: "Filippo",
         cognome: "Filiberto",
         nazionalita: "spagnolo",
         dataNascita: new Date(),
         username: "filo",
         password: "lala",
-        punteggio: 12
+        punteggio: 12,
+        punteggioSettimanale: 12
       }
-      this.utentiService.updateUtente(this.utente)
+      this.utentiService.updateUtente(utente)
     }
 
 
     deleteUtente(){
-      this.utente = {
+      const utente = {
         nome: "Filippo",
         cognome: "Filiberto",
         nazionalita: "italiano",
         dataNascita: new Date(),
         username: "filo",
         password: "lala",
-        punteggio: 12
+        punteggio: 12,
+        punteggioSettimanale: 12
       }
-      this.utentiService.deleteUtente(this.utente)
+      this.utentiService.deleteUtente(utente)
     }
     addUtente(){
-      this.utente = {
+      const utente = {
         nome: "Filippo",
         cognome: "Filiberto",
         nazionalita: "italiano",
         dataNascita: new Date(),
         username: "filo",
         password: "lala",
-        punteggio: 12
+        punteggio: 12,
+        punteggioSettimanale: 12
       }
-      this.utentiService.aggiungiUtente(this.utente)
+      this.utentiService.aggiungiUtente(utente)
     }
+
+  private getBestUser() {
+    this.utentiService.dammiUtenti().subscribe(user => {
+      this.utentiMigliori = user.slice().sort((a: Utente, b: Utente) => b.punteggio - a.punteggio)
+      this.utentiMiglioriSettimana = user.slice().sort((a: Utente, b: Utente) => b.punteggioSettimanale - a.punteggioSettimanale)
+    });
+  }
 }

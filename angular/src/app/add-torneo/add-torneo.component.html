@@ -1,0 +1,24 @@
+<form  class ="dim" (ngSubmit)="addTorneo()" (click)="clearErrorMessage()">
+  <div class="h4">Dati Torneo</div>
+  <div class="mb-3 mt-3">
+    <label for="nome" class="form-label">Nome:</label>
+    <input type="nome" class="form-control dimForm" id="nome" placeholder="Inserisci Nome" name="nome" [formControl]="nome">
+  </div>
+  <div class="mb-3">
+    <label for="luogo" class="form-label">Luogo:</label>
+    <input class="form-control dimForm" id="luogo" placeholder="Inserisci Luogo" name="luogo"  [formControl]="luogo">
+  </div>
+  <div class="mb-3">
+    <label for="dataInizio" class="form-label">Data Inizio:</label>
+    <input type="date" class="form-control dimForm" id="dataInizio" name="dataInizio"  [formControl]="dataInizio">
+  </div>
+  <div class="mb-3">
+    <label for="dataFine" class="form-label">Data Fine:</label>
+    <input type="date" class="form-control dimForm" id="dataFine" name="dataFine"  [formControl]="dataFine">
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  <br *ngIf="errorMessage">
+  <button type="submit" class="btn btn-primary">Aggiungi</button>
+</form>

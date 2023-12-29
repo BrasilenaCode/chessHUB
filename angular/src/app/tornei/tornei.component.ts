@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Input } from '@angular/core';
 import { Torneo } from '../model/torneo';
 import { TorneoService } from '../services/torneo.service';
+import {Router} from "@angular/router";
+import {faAdd} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-tornei',
@@ -11,12 +12,25 @@ import { TorneoService } from '../services/torneo.service';
 })
 export class TorneiComponent implements OnInit{
   tornei?: Torneo[];
-  constructor(private torneoService: TorneoService) { }
+  torneiConclusi?: Torneo[];
+  constructor(private router:Router, private torneoService: TorneoService) { }
   ngOnInit(): void {
     this.getTornei();
+    this.getTorneiConclusi();
   }
   getTornei(): void {
-    this.torneoService.dammiTorneiStato("attuali").subscribe
+    this.torneoService.dammiTorneiStato("attuale").subscribe
     (tornei => this.tornei = tornei);
   }
+
+  getTorneiConclusi(): void {
+    this.torneoService.dammiTorneiStato("concluso").subscribe
+    (tornei => this.torneiConclusi = tornei);
+  }
+
+  addTorneo() {
+    this.router.navigate(['/addTorneo']);
+  }
+
+  protected readonly faAdd = faAdd;
 }

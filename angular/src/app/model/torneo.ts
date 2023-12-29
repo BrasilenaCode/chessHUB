@@ -10,3 +10,12 @@ export interface Torneo {
     stato: string;
     vincitore: Utente;
 }
+
+export interface TorneoForm {
+    nome: string;
+    luogo: string;
+    dataInizio: Date;
+    dataFine: Date;
+    numeroPartecipanti: number;
+    stato: string;
+}

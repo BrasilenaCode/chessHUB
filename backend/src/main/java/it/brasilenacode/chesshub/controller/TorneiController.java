@@ -4,6 +4,7 @@ import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -65,5 +66,9 @@ public class TorneiController {
     public Torneo dammiNuovoTorneo(@RequestBody List<Utente> partecipanti){
         // todo: codice per generare il nuovo torneo
         return new Torneo();
+    }
+    @PostMapping("/tornei/add")
+    public void aggiungiTorneo(@RequestBody Torneo torneo){
+        DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
     }
 }

@@ -10,6 +10,7 @@ public class Utente {
     private String nazionalita;
     private Date dataNascita;
     private int punteggio;
+    private int punteggioSettimanale;
 
     private boolean admin;
 
@@ -38,6 +39,14 @@ public class Utente {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getPunteggioSettimanale() {
+        return punteggioSettimanale;
+    }
+
+    public void setPunteggioSettimanale(int punteggioSettimanale) {
+        this.punteggioSettimanale = punteggioSettimanale;
     }
 
     public String getPassword() {

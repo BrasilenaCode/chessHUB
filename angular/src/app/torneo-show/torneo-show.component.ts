@@ -8,4 +8,5 @@ import { Torneo } from '../model/torneo';
 })
 export class TorneoShowComponent {
   @Input() torneo?: Torneo;
+  @Input() torneoConcluso?: Torneo;
 }

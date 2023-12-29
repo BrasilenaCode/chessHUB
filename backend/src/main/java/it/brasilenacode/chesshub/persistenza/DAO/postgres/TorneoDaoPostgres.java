@@ -84,9 +84,8 @@ public class TorneoDaoPostgres implements TorneoDao {
                 st.setDate(4, new java.sql.Date(torneo.getDataFine().getTime()));
                 st.setString(5, torneo.getLuogo());
                 st.setString(6, torneo.getStato());
-                st.setString(7, torneo.getVincitore().getUsername());
+                st.setString(7, null);
                 st.setInt(8, torneo.getNumeroPartecipanti());
-                //creo il torneo con dei partecipanti già dentro?
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

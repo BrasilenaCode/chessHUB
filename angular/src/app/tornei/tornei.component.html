@@ -1,5 +1,28 @@
-<p>tornei works!</p>
+<button type="submit"  class="btn btn-primary right" (click)="addTorneo()">Nuovo Torneo <fa-icon [icon]="faAdd" class="fa-sm"></fa-icon>
 
-<ul>
-    <app-torneo-show *ngFor="let t of tornei" [torneo]="t"></app-torneo-show>
-</ul>
+</button>
+<br>
+<br>
+<p class="h3 rientro">Tornei in corso</p>
+<br>
+<div class="row">
+  <div class="col-lg-2 h5 primo">Nome</div>
+  <div class="col-lg-2 h5">Luogo</div>
+  <div class="col-lg-3 h5">Data Inizio</div>
+  <div class="col-lg-3 h5">Data Fine</div>
+  <div class="col-lg-2 h5">Partecipanti Attuali</div>
+</div>
+<app-torneo-show *ngFor="let t of tornei" [torneo]="t"></app-torneo-show>
+<br>
+<p class="h3 rientro">Tornei conclusi</p>
+<br>
+<div class="row">
+  <div class="col-lg-2 h5 primo">Nome</div>
+  <div class="col-lg-2 h5">Luogo</div>
+  <div class="col-lg-3 h5">Data Inizio</div>
+  <div class="col-lg-3 h5">Data Fine</div>
+  <div class="col-lg-2 h5">Vincitore</div>
+</div>
+<app-torneo-show *ngFor="let t of torneiConclusi" [torneoConcluso]="t"></app-torneo-show>
+
+
