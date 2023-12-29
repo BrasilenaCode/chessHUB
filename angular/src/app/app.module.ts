@@ -19,6 +19,7 @@ import { RowComponent } from './row/row.component';
 import { PartitaShowComponent } from './partita-show/partita-show.component';
 import { AddTorneoComponent } from './add-torneo/add-torneo.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TorneiInCorsoComponent } from './tornei-in-corso/tornei-in-corso.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     TorneoShowComponent,
     RowComponent,
     PartitaShowComponent,
-    AddTorneoComponent
+    AddTorneoComponent,
+    TorneiInCorsoComponent
   ],
     imports: [
         HttpClientModule,

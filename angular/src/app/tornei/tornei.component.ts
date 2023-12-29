@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Torneo } from '../model/torneo';
 import { TorneoService } from '../services/torneo.service';
@@ -11,8 +11,8 @@ import {faAdd} from "@fortawesome/free-solid-svg-icons";
   styleUrl: './tornei.component.css'
 })
 export class TorneiComponent implements OnInit{
-  tornei?: Torneo[];
-  torneiConclusi?: Torneo[];
+  @Input() tornei?: Torneo[];
+  @Input() torneiConclusi?: Torneo[];
   constructor(private router:Router, private torneoService: TorneoService) { }
   ngOnInit(): void {
     this.getTornei();

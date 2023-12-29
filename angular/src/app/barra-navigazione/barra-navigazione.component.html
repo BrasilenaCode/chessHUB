@@ -20,7 +20,7 @@
           <a class="nav-link" href="profilo">Profilo</a>
       </li>
       <li *ngIf="isAuthenticated()" class="nav-item">
-        <a class="nav-link" href="/" (click)="doLogout()">Logout</a>
+        <button class="nav-link" (click)="doLogout()">Logout</button>
       </li>
     </ul>
 </div>

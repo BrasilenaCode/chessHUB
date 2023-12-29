@@ -57,13 +57,9 @@ export class AuthServiceService{
     var resp:boolean = false;
     return this.http.post<AuthToken>(this.backendUrl + "/login",utente,{withCredentials: true});
   }
-  logout(){
-    this.http.post<boolean>(this.backendUrl + "/logout",
-    {"Authorization":"Basic " + this.token}, {withCredentials: true}).subscribe(
-      res => {
-        if(res)
-          this.removeToken();
-      }
-    );
+  logout():Observable<boolean>{
+    return this.http.post<boolean>(this.backendUrl + "/logout",
+    {"Authorization":"Basic " + this.token}, {withCredentials: true});
   }
+
 }

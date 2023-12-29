@@ -6,6 +6,7 @@ import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DAO.postgres.PartitaDaoPostgres;
 import it.brasilenacode.chesshub.persistenza.DAO.postgres.TorneoDaoPostgres;
 import it.brasilenacode.chesshub.persistenza.DAO.postgres.UtenteDaoPostgres;
+import it.brasilenacode.chesshub.utilities.JsonReader;
 
 
 import java.sql.Connection;
@@ -28,8 +29,13 @@ public class DBManager {
 
     public Connection getConnection() {
         if (connection == null) {
+            JsonReader jsonReader = new JsonReader();
+            jsonReader.read("DBConnectionParameters.json");
+            String dbUrl = jsonReader.get("url");
+            String dbUser = jsonReader.get("username");
+            String dbPassword = jsonReader.get("password");
             try {
-                connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webApp", "postgres", "230956");
+                connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
