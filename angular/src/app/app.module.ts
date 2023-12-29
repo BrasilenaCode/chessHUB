@@ -22,6 +22,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TorneiStatoComponent } from './tornei-stato/tornei-stato.component';
 import { TorneoComponent } from './torneo/torneo.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { StatisticheComponent } from './statistiche/statistiche.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     AddTorneoComponent,
     TorneiStatoComponent,
     TorneoComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    StatisticheComponent
   ],
     imports: [
         HttpClientModule,

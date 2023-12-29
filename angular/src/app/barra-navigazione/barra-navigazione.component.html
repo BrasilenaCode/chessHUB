@@ -16,7 +16,7 @@
       <li class="nav-item">
           <a class="nav-link" href="classifica">Classifica</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="isAuthenticated()" class="nav-item">
           <a class="nav-link" href="profilo">Profilo</a>
       </li>
       <li *ngIf="isAuthenticated()" class="nav-item">

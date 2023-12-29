@@ -1,0 +1,36 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;  
+}
+
+.stats-grid {
+  margin-left: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.stat-item {
+  width: 200px;
+  height: 100px;
+  margin: 10px;
+}
+
+.card-body {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.stats-chart {
+  max-width: 600px;
+  max-height: 500px;
+  margin-top: 60px;
+  margin-right: 100px;
+  position: absolute;  
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
