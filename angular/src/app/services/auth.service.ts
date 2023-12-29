@@ -30,6 +30,7 @@ export class AuthServiceService{
   }
 
   removeToken(){
+    console.log("removeToken DFNSKJDFNKSD")
     this.token = undefined;
     if(isPlatformBrowser(this.platformId)) {
       window.localStorage.removeItem("utente_token");
@@ -48,15 +49,22 @@ export class AuthServiceService{
   }
 
   isAuthenticated(){
-    return this.token != undefined;
+    return this.getToken() != undefined;
   }
 
-  login(username:string, password:string):Observable<any>{
+  login(username:string, password:string):boolean{
     var utente:UtenteLogin = {"username": username, "password": password};
-    return this.http.post(this.backendUrl + "/login",utente,{withCredentials: true})
+    var resp:boolean = false;
+    this.http.post<AuthToken>(this.backendUrl + "/login",utente,{withCredentials: true}).subscribe(response => {
+      if (response){
+        this.setToken(response.token);
+        this.router.navigate(["/"]);
+        resp=true;
+      }
+    });
+    return resp;
   }
   logout(){
-
     this.http.post<AuthToken>(this.backendUrl + "/logout",
     {"Authorization":"Basic " + this.token}, {withCredentials: true}).subscribe(
       res => {

@@ -14,7 +14,7 @@ export class LoginComponent {
   password = new FormControl();
   errorMessage = "";
 
-  constructor(private auth:AuthServiceService, private router:Router){}
+  constructor(private auth:AuthServiceService){}
 
   faiLogin(){
     var user = this.username.value;
@@ -23,14 +23,9 @@ export class LoginComponent {
       this.errorMessage = "Campi mancanti";
       return;
     }
-    this.auth.login(user, pass).subscribe(response =>{
-      if(response!=null) {
-        this.auth.setToken(response.token);
-        this.router.navigate(["/"]);
-      }else{
-        this.errorMessage = "Credenziali errate";
-      }
-    });
+    if(!this.auth.login(user, pass)){
+      this.errorMessage = "Credenziali errate";
+    }
   }
 
   clearErrorMessage() {
