@@ -1,0 +1,6 @@
+<h1>{{torneo?.nome}}</h1>
+<p *ngIf="torneo?.stato == 'inCorso'">torneo in corso</p>
+<p *ngIf="torneo?.stato == 'passato'">torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
+<p *ngIf="torneo?.stato == 'prossimo'">hai tempo fino al <span>{{torneo?.dataInizio}}</span> per iscriverti</p>
+<p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
+<button onclick="iscrivimi()">ISCRIVITI</button>

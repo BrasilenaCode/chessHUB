@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Torneo } from '../model/torneo';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-torneo-show',
@@ -8,5 +9,8 @@ import { Torneo } from '../model/torneo';
 })
 export class TorneoShowComponent {
   @Input() torneo?: Torneo;
-  @Input() torneoConcluso?: Torneo;
+  constructor(private router: Router) {}
+  vaiAlTorneo(): void{
+    this.router.navigate(['/torneo'], {queryParams: {torneoId: this.torneo?.id}});
+  }
 }

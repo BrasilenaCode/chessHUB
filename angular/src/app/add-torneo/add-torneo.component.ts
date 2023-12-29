@@ -10,6 +10,7 @@ import {FormControl} from "@angular/forms";
 })
 export class AddTorneoComponent {
 
+  torneoAggiunto: boolean = false;
   errorMessage: string = '';
   nome=new FormControl();
   dataInizio=new FormControl();
@@ -27,16 +28,20 @@ export class AddTorneoComponent {
       this.errorMessage="La data di inizio deve essere precedente a quella di fine";
       return;
     }
+    if(this.dataInizio.value < new Date().toJSON()){
+      this.errorMessage="La data di inizio deve essere successiva a quella odierna";
+      return;
+    }
     const torneo:TorneoForm= {
       nome: this.nome.value,
       dataInizio: this.dataInizio.value,
       dataFine: this.dataFine.value,
       numeroPartecipanti: 0,
-      stato: "attuale",
+      stato: "prossimo",
       luogo: this.luogo.value,
     };
     this.torneoService.addTorneo(torneo).subscribe(response => {
-      window.alert("Torneo aggiunto con successo");
+      this.torneoAggiunto = true;
     });
   }
 
