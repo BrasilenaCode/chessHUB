@@ -2,6 +2,11 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import Chart from 'chart.js/auto';
 import { UtentiService } from '../services/utenti.service';
 import { Utente } from '../model/utente';
+import { Partita } from '../model/partita';
+import { Torneo } from '../model/torneo';
+import { PartitaService } from '../services/partita.service';
+import { TorneoService } from '../services/torneo.service';
+import { create } from 'domain';
 
 @Component({
   selector: 'app-statistiche',
@@ -9,27 +14,41 @@ import { Utente } from '../model/utente';
   styleUrls: ['./statistiche.component.css']
 })
 
-export class StatisticheComponent implements AfterViewInit, OnInit {
+export class StatisticheComponent implements OnInit {
   @ViewChild("chart") chart!: ElementRef;
 
-  utente: any;
-  constructor(private utentiService: UtentiService) { }
+  utente!: Utente;
+  partiteVinte?: Partita[];
+  partitePerse?: Partita[];
+  PartitePatte?: Partita[];
+  torneiVinti?: Torneo[];
+
+  numVinte?: number = 0;
+  numPerse?: number = 0;
+  numPatte?: number = 0;
+  numTorneiVinti?: number = 0;
+
+
+  constructor(private utentiService: UtentiService, 
+    private partitaService: PartitaService, private torneoService: TorneoService) { }
   
   ngOnInit(): void {
-    this.utentiService.dammiUtenteAcceduto().subscribe({
-      next: utente => {
-          this.utente = utente;
-          console.log('Utente ricevuto:', utente);
-      },
-      error: error => console.error('Errore nella chiamata HTTP:', error)
-    });
+    
+      this.utentiService.getStatistiche().subscribe({
+        next: list => {
+          console.log("ciaoooooooo" + list.length)
+          this.numVinte = list[0];
+          this.numPerse = list[1];
+          this.numPatte = list[2];
+          this.numTorneiVinti = list[3];
+          this.createBarChart()
+        },
+        error: error => console.error('Errore nella chiamata HTTP:', error)
+      })
+    
   }
 
-  ngAfterViewInit(): void {
-    this.createBarChart();
-  }
 
-  
 
   createBarChart() {
     const ctx = this.chart.nativeElement.getContext('2d');
@@ -41,22 +60,22 @@ export class StatisticheComponent implements AfterViewInit, OnInit {
         datasets: [
           {
             label: "Vittorie",
-            data: ['90'],
+            data: [this.numVinte],
             backgroundColor: 'blue'
           },
           {
             label: "Sconfitte",
-            data: ['123'],
+            data: [this.numPerse],
             backgroundColor: 'red'
           },
           {
             label: "Patte",
-            data: ['32'],
+            data: [this.numPatte],
             backgroundColor: 'grey'
           },
           {
             label: "Vittorie tornei",
-            data: ['3'],
+            data: [this.numTorneiVinti],
             backgroundColor: 'green'
           }
 

@@ -29,9 +29,9 @@ public class PartitaDaoPostgres implements PartitaDao {
             if (rs.next()) {
                 partita = new Partita();
                 partita.setId(rs.getLong("id"));
-                Utente giocatore1= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
+                Utente giocatore1= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("giocatore1"));
                 partita.setGiocatore1(giocatore1);
-                Utente giocatore2= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("perdente"));
+                Utente giocatore2= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("giocatore2"));
                 partita.setGiocatore2(giocatore2);
                 partita.setData(new Date(rs.getDate("data").getTime()));
                 Torneo torneo= DBManager.getInstance().getTorneoDao().findByPrimaryKey(rs.getLong("torneo"));
@@ -55,9 +55,9 @@ public class PartitaDaoPostgres implements PartitaDao {
             while (rs.next()) {
                 Partita partita = new Partita();
                 partita.setId(rs.getLong("id"));
-                Utente giocatore1= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
+                Utente giocatore1= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("giocatore1"));
                 partita.setGiocatore1(giocatore1);
-                Utente giocatore2= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("perdente"));
+                Utente giocatore2= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("giocatore2"));
                 partita.setGiocatore2(giocatore2);
                 partita.setData(new Date(rs.getDate("data").getTime()));
                 Torneo torneo= DBManager.getInstance().getTorneoDao().findByPrimaryKey(rs.getLong("torneo"));
