@@ -33,4 +33,7 @@ export class PartitaService {
   dammiPartitePerdente(username:string):Observable<Partita[]>{
     return this.http.post<Partita[]>(this.backendUrl+"/partite/perdente",username);
   }
+  dammiPartitePatte(username:string):Observable<Partita[]>{
+    return this.http.post<Partita[]>(this.backendUrl+"/partite/patte",username);
+  }
 }
