@@ -65,4 +65,22 @@ export class TorneoService {
   searchTorneo(searchTerm: string):Observable<Torneo[]>{
     return this.http.post<Torneo[]>(this.backendUrl+"/tornei/search", searchTerm);
   }
+  iscriviGiocatore(torneoId: number | undefined):Observable<boolean>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl+"/tornei/iscrivimi", torneoId, header);
+  }
+  generaTorneo(torneoId: number | undefined):Observable<boolean>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl+"/tornei/genera", torneoId, header);
+  }
+  isIscritto(torneoId: number | undefined):Observable<boolean>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl+"/tornei/isIscritto", torneoId, header);
+  }
 }

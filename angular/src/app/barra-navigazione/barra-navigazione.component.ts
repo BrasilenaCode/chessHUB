@@ -13,9 +13,11 @@ export class BarraNavigazioneComponent {
     return this.authService.isAuthenticated();
   }
   doLogout(){
+    console.log("ciaooo")
     this.authService.logout().subscribe(
       res => {
         if(res) {
+          console.log("come")
           this.authService.removeToken();
           this.router.navigate(['/']);
         }

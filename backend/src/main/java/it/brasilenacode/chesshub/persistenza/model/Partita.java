@@ -9,10 +9,18 @@ public class Partita {
     private Utente giocatore2;
     private Date data;
     private Torneo torneo;
-
+    private int turno;
     private String esito;
 
     public Partita() {
+    }
+    public Partita(Torneo torneo, Utente giocatore1, Utente giocatore2, Date data, String esito, int turno){
+        this.torneo = torneo;
+        this.giocatore1 = giocatore1;
+        this.giocatore2 = giocatore2;
+        this.data = data;
+        this.esito = esito;
+        this.turno = turno;
     }
 
     public long getId() {
@@ -53,6 +61,13 @@ public class Partita {
 
     public void setEsito(String esito) {
         this.esito = esito;
+    }
+
+    public void setTurno(int turno){
+        this.turno = turno;
+    }
+    public int getTurno(){
+        return turno;
     }
 
     public Torneo getTorneo() {

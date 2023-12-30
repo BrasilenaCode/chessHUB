@@ -15,7 +15,6 @@ import java.util.List;
 public class TorneiController {
     @PostMapping("/tornei/id")
     public Torneo dammiTorneo(@RequestBody int id){
-        System.out.println("ciao"+id);
         return DBManager.getInstance().getTorneoDao().findByPrimaryKey(id);
     }
     @GetMapping("/tornei/all")
@@ -75,5 +74,34 @@ public class TorneiController {
     @PostMapping("/tornei/search")
     public List<Torneo> cercaTornei(@RequestBody String body){
         return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getNome().contains(body)).toList();
+    }
+    @PostMapping("/tornei/iscrivimi")
+    public boolean aggiungiPartecipante(HttpServletRequest req, @RequestBody int torneoId){
+        if(Auth.isAuthenticated(req)){
+            Utente utente = Auth.getUser(req);
+            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            torneo.addPartecipante(utente);
+            DBManager.getInstance().getTorneoDao().addPartecipante(torneo, utente);
+            return true;
+        }
+        return false;
+    }
+    @PostMapping("/tornei/isIscritto")
+    public boolean isIscritto(HttpServletRequest req, @RequestBody int torneoId){
+        if(Auth.isAuthenticated(req)){
+            Utente utente = Auth.getUser(req);
+            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            return torneo.getPartecipanti().contains(utente);
+        }
+        return false;
+    }
+    @PostMapping("/tornei/genera")
+    public boolean generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
+        if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
+            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            torneo.generaPartite();
+            return true;
+        }
+        return false;
     }
 }

@@ -3,4 +3,11 @@
 <p *ngIf="torneo?.stato == 'passato'">torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
 <p *ngIf="torneo?.stato == 'prossimo'">hai tempo fino al <span>{{torneo?.dataInizio}}</span> per iscriverti</p>
 <p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
-<button onclick="iscrivimi()">ISCRIVITI</button>
+<button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()">ISCRIVITI</button>
+<p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
+<button *ngIf="torneo?.stato == 'prossimo' && flagAdmin" (click)="generaTorneo()">Inizia Torneo</button>
+<div *ngIf="torneo?.stato == 'inCorso'">
+    <h1>Partite</h1>
+    <div class="card">
+    </div>
+</div>

@@ -6,6 +6,7 @@ export interface Utente{
     nazionalita:string;
     dataNascita:Date;
     punteggio:number
+    admin:boolean;
     punteggioSettimanale:number
 }
 

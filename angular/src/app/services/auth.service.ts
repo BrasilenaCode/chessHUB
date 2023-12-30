@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthToken, Utente, UtenteLogin } from '../model/utente';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,11 @@ export class AuthServiceService{
 
   signIn(utente: Utente) {
     return this.http.post<AuthToken>(this.backendUrl + "/signIn", utente, {withCredentials: true});
+  }
+  isAdmin():Observable<boolean>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl + "/utenti/isAdmin", "", header);
   }
 }

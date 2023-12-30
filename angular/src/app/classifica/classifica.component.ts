@@ -34,47 +34,6 @@ export class ClassificaComponent implements OnInit{
     getUtente(username:string){
       this.utentiService.getUtente(username);
     }
-    updateUtente(){
-      const utente = {
-        nome: "Filippo",
-        cognome: "Filiberto",
-        nazionalita: "spagnolo",
-        dataNascita: new Date(),
-        username: "filo",
-        password: "lala",
-        punteggio: 12,
-        punteggioSettimanale: 12
-      }
-      this.utentiService.updateUtente(utente)
-    }
-
-
-    deleteUtente(){
-      const utente = {
-        nome: "Filippo",
-        cognome: "Filiberto",
-        nazionalita: "italiano",
-        dataNascita: new Date(),
-        username: "filo",
-        password: "lala",
-        punteggio: 12,
-        punteggioSettimanale: 12
-      }
-      this.utentiService.deleteUtente(utente)
-    }
-    addUtente(){
-      const utente = {
-        nome: "Filippo",
-        cognome: "Filiberto",
-        nazionalita: "italiano",
-        dataNascita: new Date(),
-        username: "filo",
-        password: "lala",
-        punteggio: 12,
-        punteggioSettimanale: 12
-      }
-      this.utentiService.aggiungiUtente(utente)
-    }
 
   private getBestUser() {
     this.utentiService.dammiUtenti().subscribe(user => {
