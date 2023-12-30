@@ -37,17 +37,16 @@ public class ProfiloController {
         Integer partitePerse = PartiteModel.dammiPartitePerdente(u.getUsername()).size();
         Integer partitePatte = PartiteModel.dammiPartitepatte(u.getUsername()).size();
         TorneoDao torneoDao = DBManager.getInstance().getTorneoDao();
-        List<Torneo> torneiVinti = DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getStato().equals("concluso")).toList();
-        Integer tornei = 0;
-        for (Torneo t : torneiVinti) {
-            if (t.getVincitore().equals(u.getUsername()))
-                tornei++;
-        }
+        Integer torneiVinti = DBManager.getInstance().
+                getTorneoDao().findAll().stream()
+                .filter(torneo -> torneo.getStato().equals("concluso") && (torneo.getVincitore()!=null && torneo.getVincitore().getUsername().equals(u.getUsername())))
+                .toList().size();
+
         List<Integer> stats = new ArrayList<>();
         stats.add(partiteVinte);
         stats.add(partitePerse);
         stats.add(partitePatte);
-        stats.add(tornei);
+        stats.add(torneiVinti);
         System.out.println("la size è " + stats.size());
         return stats;
     }

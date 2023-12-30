@@ -38,6 +38,7 @@ export class StatisticheComponent implements OnInit {
         next: list => {
           console.log("ciaoooooooo" + list.length)
           this.numVinte = list[0];
+          console.log(list[0])
           this.numPerse = list[1];
           this.numPatte = list[2];
           this.numTorneiVinti = list[3];
