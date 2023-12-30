@@ -51,6 +51,16 @@ public class Auth {
         return null;
     }
 
+    @PostMapping("/signIn")
+    public boolean registerUser(@RequestBody Utente user) {
+        Utente tmpUser = DBManager.getInstance().getUtenteDao().findByPrimaryKey(user.getUsername());
+        if (tmpUser == null) {
+            DBManager.getInstance().getUtenteDao().saveOrUpdate(user);
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("/logout")
     public boolean logout(HttpServletRequest req) throws Exception{
         HttpSession session = req.getSession(false);

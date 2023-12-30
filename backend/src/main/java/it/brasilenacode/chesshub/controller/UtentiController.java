@@ -78,15 +78,6 @@ public class UtentiController {
         return null;
     }
 
-    @PostMapping("/addUtente")
-    public boolean addUtente(@RequestBody Utente utente, HttpServletRequest req){
-        if(Auth.isAuthenticated(req)){
-            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
-            return true;
-        }
-        return false;
-    }
-
     @PostMapping("/deleteUtente")
     public boolean deleteUtente(@RequestBody Utente utente, HttpServletRequest req){
         if(Auth.isAuthenticated(req)){

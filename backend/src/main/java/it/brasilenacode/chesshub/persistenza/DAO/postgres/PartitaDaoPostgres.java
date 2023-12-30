@@ -29,13 +29,14 @@ public class PartitaDaoPostgres implements PartitaDao {
             if (rs.next()) {
                 partita = new Partita();
                 partita.setId(rs.getLong("id"));
-                Utente vincitore= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
-                partita.setVincitore(vincitore);
-                Utente perdente= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("perdente"));
-                partita.setPerdente(perdente);
+                Utente giocatore1= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
+                partita.setGiocatore1(giocatore1);
+                Utente giocatore2= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("perdente"));
+                partita.setGiocatore2(giocatore2);
                 partita.setData(new Date(rs.getDate("data").getTime()));
                 Torneo torneo= DBManager.getInstance().getTorneoDao().findByPrimaryKey(rs.getLong("torneo"));
                 partita.setTorneo(torneo);
+                partita.setEsito(rs.getString("esito"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,13 +54,14 @@ public class PartitaDaoPostgres implements PartitaDao {
             while (rs.next()) {
                 Partita partita = new Partita();
                 partita.setId(rs.getLong("id"));
-                Utente vincitore= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
-                partita.setVincitore(vincitore);
-                Utente perdente= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("perdente"));
-                partita.setPerdente(perdente);
+                Utente giocatore1= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
+                partita.setGiocatore1(giocatore1);
+                Utente giocatore2= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("perdente"));
+                partita.setGiocatore2(giocatore2);
                 partita.setData(new Date(rs.getDate("data").getTime()));
                 Torneo torneo= DBManager.getInstance().getTorneoDao().findByPrimaryKey(rs.getLong("torneo"));
                 partita.setTorneo(torneo);
+                partita.setEsito(rs.getString("esito"));
                 partite.add(partita);
             }
         } catch (SQLException e) {
@@ -71,17 +73,18 @@ public class PartitaDaoPostgres implements PartitaDao {
     @Override
     public void saveOrUpdate(Partita partita) {
         if (findByPrimaryKey(partita.getId()) == null) {
-            String insertStr = "INSERT INTO partita VALUES (?, ?, ?, ?, ?)";
+            String insertStr = "INSERT INTO partita VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement st;
             try {
                 st = connection.prepareStatement(insertStr);
                 Long id = IdBroker.getId(connection, "partita");
                 partita.setId(id);
                 st.setLong(1, partita.getId());
-                st.setString(2, partita.getVincitore().getUsername());
-                st.setString(3, partita.getPerdente().getUsername());
+                st.setString(2, partita.getGiocatore1().getUsername());
+                st.setString(3, partita.getGiocatore2().getUsername());
                 st.setLong(4, partita.getTorneo().getId());
                 st.setDate(5, new java.sql.Date(partita.getData().getTime()));
+                st.setString(6, partita.getEsito());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -90,17 +93,19 @@ public class PartitaDaoPostgres implements PartitaDao {
             String updateStr = "UPDATE partita set vincitore = ?, "
                     + "perdente = ?, "
                     + "torneo = ?, "
-                    + "data = ? "
+                    + "data = ? ,"
+                    + "patta= ?"
                     + "where id = ?";
 
             PreparedStatement st;
             try {
                 st = connection.prepareStatement(updateStr);
-                st.setString(1, partita.getVincitore().getUsername());
-                st.setString(2, partita.getPerdente().getUsername());
+                st.setString(1, partita.getGiocatore1().getUsername());
+                st.setString(2, partita.getGiocatore2().getUsername());
                 st.setLong(3, partita.getTorneo().getId());
                 st.setDate(4, new java.sql.Date(partita.getData().getTime()));
-                st.setLong(5, partita.getId());
+                st.setString(5, partita.getEsito());
+                st.setLong(6, partita.getId());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

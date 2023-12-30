@@ -79,7 +79,7 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setDate(5, new java.sql.Date(utente.getDataNascita().getTime()));
                 st.setString(6, utente.getNazionalita());
                 st.setInt(7, utente.getPunteggio());
-                st.setBoolean(8, utente.isAdmin());
+                st.setBoolean(8, false); //utente.isAdmin()
                 st.setInt(9, utente.getPunteggioSettimanale());
                 st.executeUpdate();
             } catch (SQLException e) {
