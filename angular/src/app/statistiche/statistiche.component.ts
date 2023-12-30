@@ -12,16 +12,24 @@ import { Utente } from '../model/utente';
 export class StatisticheComponent implements AfterViewInit, OnInit {
   @ViewChild("chart") chart!: ElementRef;
 
-  utente: Utente | undefined;
+  utente: any;
   constructor(private utentiService: UtentiService) { }
   
   ngOnInit(): void {
-      
+    this.utentiService.dammiUtenteAcceduto().subscribe({
+      next: utente => {
+          this.utente = utente;
+          console.log('Utente ricevuto:', utente);
+      },
+      error: error => console.error('Errore nella chiamata HTTP:', error)
+    });
   }
 
   ngAfterViewInit(): void {
     this.createBarChart();
   }
+
+  
 
   createBarChart() {
     const ctx = this.chart.nativeElement.getContext('2d');

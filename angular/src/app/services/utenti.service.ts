@@ -96,7 +96,11 @@ export class UtentiService {
     }
     );
   }
-  paginaProfilo(username:string):Observable<string>{
-    return this.http.post(this.backendUrl+"/utenti/profilo", username, {responseType: 'text'});
+  paginaProfilo(utente:Utente):Observable<string>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + this.auth.getToken()
+    });
+    return this.http.post(this.backendUrl+"/utenti/profilo", utente, {headers, responseType: 'text'});
   }
 }

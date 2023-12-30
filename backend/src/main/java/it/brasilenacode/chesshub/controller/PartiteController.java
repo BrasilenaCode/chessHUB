@@ -2,6 +2,8 @@ package it.brasilenacode.chesshub.controller;
 
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
+import it.brasilenacode.chesshub.utilities.PartiteModel;
+import jakarta.servlet.http.Part;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -16,36 +18,44 @@ import java.util.List;
 public class PartiteController {
     @GetMapping("/partite/all")
     public List<Partita> dammiPartite(){
-        return DBManager.getInstance().getPartitaDao().findAll();
+        return PartiteModel.dammiPartite();
     }
     @PostMapping("/partite/id")
     public Partita dammiPartita(@RequestBody long id){
-        return DBManager.getInstance().getPartitaDao().findByPrimaryKey(id);
+        return PartiteModel.dammiPartita(id);
     }
     @PostMapping("/partite/giocatore")
     public List<Partita> dammiPartiteGiocatore(@RequestBody String username){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore1().getUsername().equals(username) || partita.getGiocatore2().getUsername().equals(username)).toList();
+        return PartiteModel.dammiPartiteGiocatore(username);
     }
     @PostMapping("/partite/torneo")
     public List<Partita> dammiPartiteTorneo(@RequestBody long id){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getTorneo().getId() == id).toList();
+        return PartiteModel.dammiPartiteTorneo(id);
     }
     @PostMapping("/partite/data")
     public List<Partita> dammiPartiteData(@RequestBody String data){
-        Date date;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(data);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> date.equals(partita.getData())).toList();
+        return PartiteModel.dammiPartiteData(data);
     }
     @PostMapping("/partite/vincitore")
     public List<Partita> dammiPartiteVincitore(@RequestBody String username){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore1().getUsername().equals(username)).toList();
+        return PartiteModel.dammiPartiteVincitore(username);
     }
     @PostMapping("/partite/perdente")
     public List<Partita> dammiPartitePerdente(@RequestBody String username){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore2().getUsername().equals(username)).toList();
+        return PartiteModel.dammiPartitePerdente(username);
     }
+    @PostMapping("/partite/giocate")
+    public List<Partita> dammiPartiteGiocate(@RequestBody String username) {
+        return PartiteModel.dammiPartiteGiocate(username);
+    }
+    @PostMapping("partite/nongiocate")
+    public List<Partita> dammiPartiteNonGiocate(@RequestBody String username) {
+        return PartiteModel.dammiPartiteNonGiocate(username);
+    }
+
+    @PostMapping("/partite/patte")
+    public List<Partita> dammiPartitePatte(@RequestBody String username) {
+        return PartiteModel.dammiPartitepatte(username);
+    }
+
 }

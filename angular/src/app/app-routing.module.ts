@@ -16,7 +16,7 @@ const routes: Routes = [
   {"path": "", component: HomeComponent},
   {"path": "login", component: LoginComponent},
   {"path": "about", component: AboutComponent},
-  {"path": "profilo", component: ProfiloComponent},
+  {"path": "profilo", component: ProfiloComponent, canActivate:[AuthGuardService]},
   {"path": "tornei", component: TorneiComponent},
   {"path": "classifica", component: ClassificaComponent, canActivate:[AuthGuardService]},
   {"path": "addTorneo", component: AddTorneoComponent},
