@@ -23,6 +23,7 @@ import { TorneiStatoComponent } from './tornei-stato/tornei-stato.component';
 import { TorneoComponent } from './torneo/torneo.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { StatisticheComponent } from './statistiche/statistiche.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { StatisticheComponent } from './statistiche/statistiche.component';
     TorneiStatoComponent,
     TorneoComponent,
     SearchResultsComponent,
-    StatisticheComponent
+    StatisticheComponent,
+    SignInComponent
   ],
     imports: [
         HttpClientModule,

@@ -62,4 +62,7 @@ export class AuthServiceService{
     {"Authorization":"Basic " + this.token}, {withCredentials: true});
   }
 
+  signIn(utente: Utente) {
+    return this.http.post<AuthToken>(this.backendUrl + "/signIn", utente, {withCredentials: true});
+  }
 }

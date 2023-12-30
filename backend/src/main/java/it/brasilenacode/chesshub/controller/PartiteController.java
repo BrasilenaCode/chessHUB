@@ -24,7 +24,7 @@ public class PartiteController {
     }
     @PostMapping("/partite/giocatore")
     public List<Partita> dammiPartiteGiocatore(@RequestBody String username){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getPerdente().getUsername().equals(username) || partita.getVincitore().getUsername().equals(username)).toList();
+        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore1().getUsername().equals(username) || partita.getGiocatore2().getUsername().equals(username)).toList();
     }
     @PostMapping("/partite/torneo")
     public List<Partita> dammiPartiteTorneo(@RequestBody long id){
@@ -42,10 +42,10 @@ public class PartiteController {
     }
     @PostMapping("/partite/vincitore")
     public List<Partita> dammiPartiteVincitore(@RequestBody String username){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getVincitore().getUsername().equals(username)).toList();
+        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore1().getUsername().equals(username)).toList();
     }
     @PostMapping("/partite/perdente")
     public List<Partita> dammiPartitePerdente(@RequestBody String username){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getPerdente().getUsername().equals(username)).toList();
+        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore2().getUsername().equals(username)).toList();
     }
 }

@@ -29,7 +29,7 @@ public class TorneiController {
     @PostMapping("/tornei/giocatore")
     public List<Torneo> dammiTorneiGiocatore(@RequestBody String body) {
         Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(body);
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getVincitore().equals(utente) || partita.getPerdente().equals(utente)).map(Partita::getTorneo).distinct().toList();
+        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore1().equals(utente) || partita.getGiocatore2().equals(utente)).map(Partita::getTorneo).distinct().toList();
     }
     @PostMapping("/tornei/dataInizio")
     public List<Torneo> dammiTorneiDataInizio(@RequestBody String body) {

@@ -10,6 +10,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import {AddTorneoComponent} from "./add-torneo/add-torneo.component";
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { TorneoComponent } from './torneo/torneo.component';
+import {SignInComponent} from "./sign-in/sign-in.component";
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -20,7 +21,8 @@ const routes: Routes = [
   {"path": "classifica", component: ClassificaComponent, canActivate:[AuthGuardService]},
   {"path": "addTorneo", component: AddTorneoComponent},
   {"path": "searchResults", component: SearchResultsComponent},
-  {"path": "torneo", component: TorneoComponent}
+  {"path": "torneo", component: TorneoComponent},
+  {"path": "signIn", component: SignInComponent}
 ];
 
 @NgModule({

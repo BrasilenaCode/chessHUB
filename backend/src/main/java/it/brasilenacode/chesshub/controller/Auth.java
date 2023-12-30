@@ -52,13 +52,22 @@ public class Auth {
     }
 
     @PostMapping("/signIn")
-    public boolean registerUser(@RequestBody Utente user) {
+    public AuthToken registerUser(HttpServletRequest request, @RequestBody Utente user) {
         Utente tmpUser = DBManager.getInstance().getUtenteDao().findByPrimaryKey(user.getUsername());
         if (tmpUser == null) {
+            String username = user.getUsername();
+            String password = user.getPassword();
+            String concatenate = username + ":" + password;
+            String token = base64encode(concatenate);
             DBManager.getInstance().getUtenteDao().saveOrUpdate(user);
-            return true;
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            AuthToken auth = new AuthToken();
+            auth.setToken(token);
+            auth.setUtente(user);
+            return auth;
         }
-        return false;
+        return null;
     }
 
     @PostMapping("/logout")

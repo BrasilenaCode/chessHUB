@@ -110,6 +110,7 @@ export class ClassificaComponent implements OnInit{
   cercaUtente(): any | undefined {
       this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto=> {
         this.usernameUtente = utenteAcceduto.username;
+        console.log(this.usernameUtente)
       });
   }
 
