@@ -1,23 +1,24 @@
 package it.brasilenacode.chesshub.controller;
 
 import it.brasilenacode.chesshub.persistenza.DBManager;
+import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@Controller
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
 public class ProfiloController {
 
     @PostMapping("/utenti/profilo")
-    public String ciao(HttpServletRequest req, @RequestBody String body) {
-        Utente u;
-        if(Auth.isAuthenticated(req)){
-            u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(body);
-        } else {
-            u = null;
-        }
+    public String ritornaPaginaProfilo(HttpServletRequest req, @RequestBody Utente u) {
+        //List<Partita>
         req.setAttribute("utente", u);
-        return "utente";
+        //req.setAttribute("partiteGiocate", p);
+        return "profilo";
     }
 }

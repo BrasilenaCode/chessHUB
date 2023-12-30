@@ -9,11 +9,11 @@ import { UtentiService } from '../services/utenti.service';
 })
 export class ProfiloComponent implements OnInit{
   constructor(private utentiService: UtentiService) { }
-  pagina?: string;
+  pagina?: string = "";
   ngOnInit(): void {
-    this.getPaginaUtente("admin");
+    this.getPaginaUtente();
   }
-  getPaginaUtente(username:string): void {
-    this.utentiService.paginaProfilo(username).subscribe(pagina => this.pagina = pagina);
+  getPaginaUtente(): void {
+    this.utentiService.dammiUtenteAcceduto().subscribe(utente => this.utentiService.paginaProfilo(utente).subscribe(pagina => this.pagina = pagina));
   }
 }
