@@ -23,7 +23,7 @@ const routes: Routes = [
   {"path": "addTorneo", component: AddTorneoComponent},
   {"path": "searchResults", component: SearchResultsComponent},
   {"path": "signIn", component: SignInComponent},
-  {"path": "torneo", component: TorneoComponent},
+  {"path": "torneo", component: TorneoComponent, canActivate:[AuthGuardService]},
   {"path": "statistiche", component: StatisticheComponent, canActivate:[AuthGuardService]}
 ];
 

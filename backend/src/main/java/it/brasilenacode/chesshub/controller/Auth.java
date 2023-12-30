@@ -3,7 +3,6 @@ package it.brasilenacode.chesshub.controller;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,8 +40,6 @@ public class Auth {
         String token = base64encode(concatenate);
         user = getUserByToken(token);
         if (user != null){
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
             AuthToken auth = new AuthToken();
             auth.setToken(token);
             auth.setUtente(user);
@@ -60,8 +57,6 @@ public class Auth {
             String concatenate = username + ":" + password;
             String token = base64encode(concatenate);
             DBManager.getInstance().getUtenteDao().saveOrUpdate(user);
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
             AuthToken auth = new AuthToken();
             auth.setToken(token);
             auth.setUtente(user);
@@ -72,21 +67,16 @@ public class Auth {
 
     @PostMapping("/logout")
     public boolean logout(HttpServletRequest req) throws Exception{
-        HttpSession session = req.getSession(false);
-        if (session != null){
-            session.removeAttribute("user");
-            session.invalidate();
-            return true;
-        }
-        return false;
-
+        return true;
     }
 
     @PostMapping("/isAuthenticated")
     public static boolean isAuthenticated(HttpServletRequest req){
         String auth = req.getHeader("Authorization");
+        System.out.println(auth);
         if (auth != null) {
             String token = auth.substring("Basic ".length());
+            //System.out.println("token: " + token);
             return getUserByToken(token) != null;
         } else {
             return false;

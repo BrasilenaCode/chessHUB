@@ -46,6 +46,7 @@ export class SignInComponent {
       nazionalita: this.nazionalita.value,
       dataNascita: this.dataNascita.value,
       punteggio: 0,
+      admin: false,
       punteggioSettimanale: 0
     }
     if (this.sonoValide(utente.username, utente.password, utente.nome, utente.cognome, utente.nazionalita) && utente.dataNascita != null) {

@@ -1,5 +1,10 @@
 package it.brasilenacode.chesshub.persistenza.model;
 
+import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
+import it.brasilenacode.chesshub.persistenza.DAO.postgres.PartitaDaoPostgres;
+import it.brasilenacode.chesshub.persistenza.DBManager;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -85,4 +90,28 @@ public class Torneo {
         this.partecipanti = partecipanti;
     }
 
+    public void addPartecipante(Utente u){
+        if(partecipanti == null){
+            getPartecipanti();
+        }
+        this.partecipanti.add(u);
+    }
+    public List<Partita> generaPartite(){
+        List<Partita> partite = new ArrayList<>();
+        if(this.getPartecipanti().size()%2 != 0){
+            Utente riposo = new Utente();
+            riposo.setUsername("__RIPOSO__");
+            this.addPartecipante(riposo);
+        }
+        PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
+        for(int turno=1;turno < partecipanti.size();turno++){
+            for(int partecipante=0;partecipante<partecipanti.size()/2;partecipante++){
+                Partita partita = new Partita(this, partecipanti.get(partecipante), partecipanti.get(partecipanti.size() - partecipante-1), new Date(), "0", turno);
+                partite.add(partita);
+                partitaDao.saveOrUpdate(partita);
+            }
+            partecipanti.add(1, partecipanti.remove(partecipanti.size() - 1));
+        }
+        return partite;
+    }
 }

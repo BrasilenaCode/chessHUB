@@ -64,10 +64,9 @@ public class UtentiController {
 
     @GetMapping("/utente")
     public Utente dammiUtenteAcceduto(HttpServletRequest req){
-        System.out.println("ciao");
         if(Auth.isAuthenticated(req)){
             Utente u =  Auth.getUser(req);
-            System.out.println(u.getUsername());
+            //System.out.println(u.getUsername());
             return u;
         }
         return null;
@@ -95,6 +94,16 @@ public class UtentiController {
         if(Auth.isAuthenticated(req)){
             DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
             return true;
+        }
+        return false;
+    }
+    @PostMapping("/utenti/isAdmin")
+    public boolean isAdmin(HttpServletRequest req){
+        //System.out.println("ciao");
+        if(Auth.isAuthenticated(req)){
+            Utente utente = Auth.getUser(req);
+            //System.out.println(utente.isAdmin());
+            return utente.isAdmin();
         }
         return false;
     }

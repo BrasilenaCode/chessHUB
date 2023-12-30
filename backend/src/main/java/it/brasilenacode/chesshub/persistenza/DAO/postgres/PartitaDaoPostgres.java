@@ -37,6 +37,7 @@ public class PartitaDaoPostgres implements PartitaDao {
                 Torneo torneo= DBManager.getInstance().getTorneoDao().findByPrimaryKey(rs.getLong("torneo"));
                 partita.setTorneo(torneo);
                 partita.setEsito(rs.getString("esito"));
+                partita.setTurno(rs.getInt("turno"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,6 +63,7 @@ public class PartitaDaoPostgres implements PartitaDao {
                 Torneo torneo= DBManager.getInstance().getTorneoDao().findByPrimaryKey(rs.getLong("torneo"));
                 partita.setTorneo(torneo);
                 partita.setEsito(rs.getString("esito"));
+                partita.setTurno(rs.getInt("turno"));
                 partite.add(partita);
             }
         } catch (SQLException e) {
@@ -73,7 +75,7 @@ public class PartitaDaoPostgres implements PartitaDao {
     @Override
     public void saveOrUpdate(Partita partita) {
         if (findByPrimaryKey(partita.getId()) == null) {
-            String insertStr = "INSERT INTO partita VALUES (?, ?, ?, ?, ?, ?)";
+            String insertStr = "INSERT INTO partita VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st;
             try {
                 st = connection.prepareStatement(insertStr);
@@ -85,6 +87,7 @@ public class PartitaDaoPostgres implements PartitaDao {
                 st.setLong(4, partita.getTorneo().getId());
                 st.setDate(5, new java.sql.Date(partita.getData().getTime()));
                 st.setString(6, partita.getEsito());
+                st.setInt(7, partita.getTurno());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -94,7 +97,8 @@ public class PartitaDaoPostgres implements PartitaDao {
                     + "perdente = ?, "
                     + "torneo = ?, "
                     + "data = ? ,"
-                    + "patta= ?"
+                    + "patta= ? ,"
+                    + "turno= ?"
                     + "where id = ?";
 
             PreparedStatement st;
@@ -105,7 +109,8 @@ public class PartitaDaoPostgres implements PartitaDao {
                 st.setLong(3, partita.getTorneo().getId());
                 st.setDate(4, new java.sql.Date(partita.getData().getTime()));
                 st.setString(5, partita.getEsito());
-                st.setLong(6, partita.getId());
+                st.setInt(6, partita.getTurno());
+                st.setLong(7, partita.getId());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
