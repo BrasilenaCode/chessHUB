@@ -1,5 +1,5 @@
 {
-  "url": "jdbc:postgresql://localhost:5432/webApp",
+  "url": "jdbc:postgresql://localhost:5432/postgres",
   "username": "postgres",
-  "password": "230956"
+  "password": "salvatore"
 }
