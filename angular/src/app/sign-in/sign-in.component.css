@@ -23,13 +23,8 @@
   box-sizing: border-box;
 }
 
-.custom-dropdown-menu {
-  max-height: 200px;
-  overflow-y: scroll;
-}
-
 .modulo-form {
-  width: 600px;
+  width: 500px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;

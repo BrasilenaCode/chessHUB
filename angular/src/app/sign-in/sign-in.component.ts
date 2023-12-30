@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl } from "@angular/forms";
 import {AuthServiceService} from "../services/auth.service";
 import {Router} from "@angular/router";
 import { Utente } from '../model/utente';
@@ -10,6 +10,7 @@ import { Utente } from '../model/utente';
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {
+  submitted = false;
   username = new FormControl();
   password = new FormControl();
   repeatedPassword = new FormControl();
@@ -35,49 +36,48 @@ export class SignInComponent {
     'Russa'
   ];
 
-  constructor(private auth:AuthServiceService, private router:Router){}
+  constructor(private auth:AuthServiceService, private router:Router) {
+}
 
   registrati() {
-    var utente: Utente = {
-      username: this.username.value,
-      password: this.password.value,
-      nome: this.nome.value,
-      cognome: this.cognome.value,
-      nazionalita: this.nazionalita.value,
-      dataNascita: this.dataNascita.value,
-      punteggio: 0,
-      punteggioSettimanale: 0
-    }
-    if (this.sonoValide(utente.username, utente.password, utente.nome, utente.cognome, utente.nazionalita) && utente.dataNascita != null) {
-      if (this.password.value == this.repeatedPassword.value) {
-        if (new Date(this.dataNascita.value) < new Date()) {
-          this.auth.signIn(utente).subscribe(response => {
-            if (response) {
-              this.auth.setToken(response.token);
-              this.router.navigate(["/"]);
-              this.errorMessage = "";
-            }else {
-              this.errorMessage = "Nome utente già in uso";
-            }
-          });
-        }else {
-          console.log(this.dataNascita.value, new Date());
-          this.errorMessage = "Data di nascita non valida";
-        }
-      }else {
-        this.errorMessage = "Le password non coincidono";
+    this.submitted = true;
+    if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
+      var utente: Utente = {
+        username: this.username.value,
+        password: this.password.value,
+        nome: this.nome.value,
+        cognome: this.cognome.value,
+        nazionalita: this.nazionalita.value,
+        dataNascita: this.dataNascita.value,
+        punteggio: 0,
+        punteggioSettimanale: 0
       }
-    }else {
-      this.errorMessage = "Campi mancanti";
-    }
+      if (this.password.value == this.repeatedPassword.value) {
+          if (new Date(this.dataNascita.value) < new Date()) {
+            this.auth.signIn(utente).subscribe(response => {
+              if (response) {
+                this.auth.setToken(response.token);
+                this.router.navigate(["/"]);
+                this.errorMessage = "";
+              } else {
+                this.errorMessage = "Nome utente già in uso";
+              }
+            });
+          } else {
+            console.log(this.dataNascita.value, new Date());
+            this.errorMessage = "Data di nascita non valida";
+          }
+        } else {
+          this.errorMessage = "Le password non coincidono";
+        }
+      }
   }
 
   clearErrorMessage() {
     this.errorMessage = "";
   }
 
-  sonoValide(...variabili: (string | null)[]): boolean {
-    return variabili.every(variabile => variabile !== null && variabile !== "");
+  sonoValide(...variabili: (FormControl | null)[]): boolean {
+    return variabili.every(variabile => variabile?.valid);
   }
-
 }
