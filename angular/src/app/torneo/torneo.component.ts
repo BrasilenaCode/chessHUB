@@ -27,6 +27,8 @@ export class TorneoComponent implements OnInit{
     this.torneoService.iscriviGiocatore(this.torneo?.id).subscribe(risultato => {
       if(risultato){
         this.flagIscritto = true;
+        if(this.torneo!=undefined)
+          this.torneo.numeroPartecipanti++;
       } else {
         this.flagIscritto = false;
       }
