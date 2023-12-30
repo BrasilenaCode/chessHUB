@@ -6,8 +6,7 @@
 <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()">ISCRIVITI</button>
 <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
 <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin" (click)="generaTorneo()">Inizia Torneo</button>
-<div *ngIf="torneo?.stato == 'inCorso'">
+<div *ngIf="torneo?.stato == 'prossimo'">
     <h1>Partite</h1>
-    <div class="card">
-    </div>
+  <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
 </div>

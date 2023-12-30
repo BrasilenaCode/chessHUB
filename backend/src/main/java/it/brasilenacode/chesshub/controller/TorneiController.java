@@ -86,21 +86,21 @@ public class TorneiController {
         }
         return false;
     }
+    @PostMapping("/tornei/genera")
+    public List<Partita> generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
+        System.out.println("genera torneo");
+        if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
+            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            return torneo.generaPartite();
+        }
+        return null;
+    }
     @PostMapping("/tornei/isIscritto")
     public boolean isIscritto(HttpServletRequest req, @RequestBody int torneoId){
         if(Auth.isAuthenticated(req)){
             Utente utente = Auth.getUser(req);
             Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
             return torneo.getPartecipanti().contains(utente);
-        }
-        return false;
-    }
-    @PostMapping("/tornei/genera")
-    public boolean generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
-        if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
-            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-            torneo.generaPartite();
-            return true;
         }
         return false;
     }

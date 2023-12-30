@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Partita} from "../model/partita";
 
 @Component({
   selector: 'app-partita-show',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './partita-show.component.css'
 })
 export class PartitaShowComponent {
-
+  @Input() partita?: Partita;
 }

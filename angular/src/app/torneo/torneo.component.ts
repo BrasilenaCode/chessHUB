@@ -3,6 +3,7 @@ import { Torneo } from '../model/torneo';
 import { ActivatedRoute } from '@angular/router';
 import { TorneoService } from '../services/torneo.service';
 import { AuthServiceService } from '../services/auth.service';
+import {Partita} from "../model/partita";
 
 @Component({
   selector: 'app-torneo',
@@ -11,6 +12,7 @@ import { AuthServiceService } from '../services/auth.service';
 })
 export class TorneoComponent implements OnInit{
   torneo?: Torneo;
+  partite?:Partita[];
   flagIscritto: boolean = false;
   flagAdmin: boolean = false;
   constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService) {}
@@ -31,7 +33,11 @@ export class TorneoComponent implements OnInit{
     });
   }
   generaTorneo(){
-    this.torneoService.generaTorneo(this.torneo?.id);
+    this.torneoService.generaTorneo(this.torneo?.id).subscribe(risultato => {
+      if(risultato){
+        this.partite = risultato;
+      }
+    });
   }
   isAuthenticated(){
     return this.authService.isAuthenticated();

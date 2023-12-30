@@ -1,1 +1,6 @@
-<p>partita-show works!</p>
+<div class="card-body">
+  <h5 class="card-title">{{partita?.giocatore1?.username}}</h5>
+  <h6 class="card-subtitle mb-2 text-muted">{{partita?.giocatore2?.username}}</h6>
+  <p class="card-text">{{partita?.data | date: 'dd/MM/yyyy' }}</p>
+  <p class="card-text">{{partita?.turno}}</p>
+</div>

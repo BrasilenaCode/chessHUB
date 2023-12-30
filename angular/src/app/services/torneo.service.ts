@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {Torneo, TorneoForm} from '../model/torneo';
 import { Utente } from '../model/utente';
 import {AuthServiceService} from "./auth.service";
+import {Partita} from "../model/partita";
 
 @Injectable({
   providedIn: 'root'
@@ -71,11 +72,11 @@ export class TorneoService {
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/iscrivimi", torneoId, header);
   }
-  generaTorneo(torneoId: number | undefined):Observable<boolean>{
+  generaTorneo(torneoId: number | undefined):Observable<Partita[]>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
-    return this.http.post<boolean>(this.backendUrl+"/tornei/genera", torneoId, header);
+    return this.http.post<Partita[]>(this.backendUrl+"/tornei/genera", torneoId, header);
   }
   isIscritto(torneoId: number | undefined):Observable<boolean>{
     var header = {

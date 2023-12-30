@@ -76,7 +76,6 @@ public class Auth {
         System.out.println(auth);
         if (auth != null) {
             String token = auth.substring("Basic ".length());
-            //System.out.println("token: " + token);
             return getUserByToken(token) != null;
         } else {
             return false;

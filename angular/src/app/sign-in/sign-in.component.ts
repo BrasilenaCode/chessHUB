@@ -49,6 +49,7 @@ export class SignInComponent {
         cognome: this.cognome.value,
         nazionalita: this.nazionalita.value,
         dataNascita: this.dataNascita.value,
+        admin: false,
         punteggio: 0,
         punteggioSettimanale: 0
       }

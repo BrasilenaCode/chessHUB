@@ -2,9 +2,9 @@ import { Torneo } from "./torneo";
 import { Utente } from "./utente";
 
 export interface Partita {
-    id: number;
-    vincitore: Utente;
-    perdente: Utente;
+    giocatore1: Utente;
+    giocatore2: Utente;
     data: Date;
     torneo: Torneo;
+    turno: number;
 }

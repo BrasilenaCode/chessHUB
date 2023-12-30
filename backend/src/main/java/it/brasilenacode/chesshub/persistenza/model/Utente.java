@@ -87,4 +87,9 @@ public class Utente {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Utente && ((Utente) o).getUsername().equals(this.getUsername());
+    }
 }

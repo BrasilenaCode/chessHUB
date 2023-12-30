@@ -101,9 +101,13 @@ public class Torneo {
         if(this.getPartecipanti().size()%2 != 0){
             Utente riposo = new Utente();
             riposo.setUsername("__RIPOSO__");
-            this.addPartecipante(riposo);
+            //this.addPartecipante(riposo);
+
         }
         PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
+        if(partecipanti == null){
+            getPartecipanti();
+        }
         for(int turno=1;turno < partecipanti.size();turno++){
             for(int partecipante=0;partecipante<partecipanti.size()/2;partecipante++){
                 Partita partita = new Partita(this, partecipanti.get(partecipante), partecipanti.get(partecipanti.size() - partecipante-1), new Date(), "0", turno);
