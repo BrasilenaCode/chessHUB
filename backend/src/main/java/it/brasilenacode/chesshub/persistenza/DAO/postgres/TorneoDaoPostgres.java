@@ -153,5 +153,6 @@ public class TorneoDaoPostgres implements TorneoDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        saveOrUpdate(torneo);
     }
 }

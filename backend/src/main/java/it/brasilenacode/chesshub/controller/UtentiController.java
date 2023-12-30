@@ -66,7 +66,6 @@ public class UtentiController {
     public Utente dammiUtenteAcceduto(HttpServletRequest req){
         if(Auth.isAuthenticated(req)){
             Utente u =  Auth.getUser(req);
-            //System.out.println(u.getUsername());
             return u;
         }
         return null;
@@ -99,10 +98,8 @@ public class UtentiController {
     }
     @PostMapping("/utenti/isAdmin")
     public boolean isAdmin(HttpServletRequest req){
-        //System.out.println("ciao");
         if(Auth.isAuthenticated(req)){
             Utente utente = Auth.getUser(req);
-            //System.out.println(utente.isAdmin());
             return utente.isAdmin();
         }
         return false;

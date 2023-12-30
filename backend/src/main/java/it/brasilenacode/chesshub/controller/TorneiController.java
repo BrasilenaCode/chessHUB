@@ -88,7 +88,6 @@ public class TorneiController {
     }
     @PostMapping("/tornei/genera")
     public List<Partita> generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
-        System.out.println("genera torneo");
         if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
             Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
             return torneo.generaPartite();

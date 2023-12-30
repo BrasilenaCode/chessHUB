@@ -94,6 +94,7 @@ public class Torneo {
         if(partecipanti == null){
             getPartecipanti();
         }
+        this.numeroPartecipanti++;
         this.partecipanti.add(u);
     }
     public List<Partita> generaPartite(){

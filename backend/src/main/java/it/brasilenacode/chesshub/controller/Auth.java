@@ -73,7 +73,6 @@ public class Auth {
     @PostMapping("/isAuthenticated")
     public static boolean isAuthenticated(HttpServletRequest req){
         String auth = req.getHeader("Authorization");
-        System.out.println(auth);
         if (auth != null) {
             String token = auth.substring("Basic ".length());
             return getUserByToken(token) != null;
