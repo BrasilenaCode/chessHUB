@@ -86,6 +86,15 @@ public class TorneiController {
         }
         return false;
     }
+
+    @PostMapping("/tornei/partite")
+    public List<Partita> esistonoPartite(HttpServletRequest req, @RequestBody int torneoId){
+        if(Auth.isAuthenticated(req)){
+            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            return torneo.trovaPartite();
+        }
+        return null;
+    }
     @PostMapping("/tornei/genera")
     public List<Partita> generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
         if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){

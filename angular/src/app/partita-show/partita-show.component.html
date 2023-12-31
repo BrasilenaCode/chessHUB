@@ -1,6 +1,8 @@
-<div class="card-body">
-  <h5 class="card-title">{{partita?.giocatore1?.username}}</h5>
-  <h6 class="card-subtitle mb-2 text-muted">{{partita?.giocatore2?.username}}</h6>
-  <p class="card-text">{{partita?.data | date: 'dd/MM/yyyy' }}</p>
-  <p class="card-text">{{partita?.turno}}</p>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Partita in data: {{partita?.data | date: 'dd/MM/yyyy' }}</h5>
+    <p class="card-subtitle">Giocatore 1: {{partita?.giocatore1?.username}}</p>
+    <p class="card-subtitle">Giocatore 2: {{partita?.giocatore2?.username}}</p>
+    <p class="card-text">Turno: {{partita?.turno}}</p>
+  </div>
 </div>

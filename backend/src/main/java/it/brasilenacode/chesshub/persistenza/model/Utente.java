@@ -17,6 +17,10 @@ public class Utente {
     public Utente() {
     }
 
+    public Utente(String username){
+        this.username = username;
+    }
+
     public String getNome() {
         return nome;
     }

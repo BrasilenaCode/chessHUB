@@ -98,25 +98,31 @@ public class Torneo {
         this.partecipanti.add(u);
     }
     public List<Partita> generaPartite(){
-        List<Partita> partite = new ArrayList<>();
+        List<Partita> partite=trovaPartite();
         if(this.getPartecipanti().size()%2 != 0){
-            Utente riposo = new Utente();
-            riposo.setUsername("__RIPOSO__");
-            //this.addPartecipante(riposo);
-
-        }
-        PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
-        if(partecipanti == null){
+            Utente riposo = new Utente("__RIPOSO__");
+            this.addPartecipante(riposo);
+        }else if(partecipanti == null){
             getPartecipanti();
         }
+        PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
         for(int turno=1;turno < partecipanti.size();turno++){
             for(int partecipante=0;partecipante<partecipanti.size()/2;partecipante++){
                 Partita partita = new Partita(this, partecipanti.get(partecipante), partecipanti.get(partecipanti.size() - partecipante-1), new Date(), "0", turno);
-                partite.add(partita);
-                partitaDao.saveOrUpdate(partita);
+                if(!partite.contains(partita)) {
+                    partite.add(partita);
+                    if (!(partita.getGiocatore2().getUsername().equals("__RIPOSO__") || partita.getGiocatore1().getUsername().equals("__RIPOSO__"))) {
+                        partitaDao.saveOrUpdate(partita);
+                    }
+                }
             }
             partecipanti.add(1, partecipanti.remove(partecipanti.size() - 1));
         }
-        return partite;
+        return partite.stream().filter(partita -> partita.getGiocatore1().getUsername() != "__RIPOSO__" && partita.getGiocatore2().getUsername() != "__RIPOSO__").toList();
+    }
+
+    public List<Partita> trovaPartite() {
+        PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
+        return new ArrayList<>(partitaDao.findAll().stream().filter(partita -> partita.getTorneo().getId() == this.getId()).toList());
     }
 }

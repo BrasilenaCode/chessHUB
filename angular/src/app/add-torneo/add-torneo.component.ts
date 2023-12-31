@@ -24,8 +24,6 @@ export class AddTorneoComponent {
       this.errorMessage="Compilare campi mancanti";
       return;
     }
-    console.log(this.dataInizio.value);
-    console.log(this.dataFine.value);
     if(this.dataInizio.value>this.dataFine.value){
       this.errorMessage="La data di inizio deve essere precedente a quella di fine";
       return;

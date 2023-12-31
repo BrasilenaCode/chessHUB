@@ -84,4 +84,11 @@ export class TorneoService {
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/isIscritto", torneoId, header);
   }
+
+  dammiPartite(torneoId: number) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<Partita[]>(this.backendUrl+"/tornei/partite", torneoId, header);
+  }
 }

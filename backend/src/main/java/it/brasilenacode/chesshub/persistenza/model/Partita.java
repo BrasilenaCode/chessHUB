@@ -77,4 +77,9 @@ public class Partita {
     public void setTorneo(Torneo torneo) {
         this.torneo = torneo;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Partita && ((Partita) o).getGiocatore2().getUsername().equals(this.getGiocatore2().getUsername()) && ((Partita) o).getGiocatore1().getUsername().equals(this.getGiocatore1().getUsername()) && ((Partita) o).getTorneo().getId()==(this.getTorneo().getId());
+    }
 }
