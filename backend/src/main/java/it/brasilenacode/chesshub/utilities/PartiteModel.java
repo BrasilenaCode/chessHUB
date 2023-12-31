@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class PartiteModel {
     }
 
     public static List<Partita> dammiPartiteGiocate(String username) {
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> (partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)) && (partita.getEsito().equals("1") || partita.getEsito().equals("2") || partita.getEsito().equals("3"))).toList();
+        return new ArrayList<>(DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> (partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)) && (partita.getEsito().equals("1") || partita.getEsito().equals("2") || partita.getEsito().equals("3"))).toList());
     }
 
     public static List<Partita> dammiPartiteNonGiocate(String username) {
