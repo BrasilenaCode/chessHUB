@@ -3,20 +3,24 @@
 <p th:text="'Nome: ' + ${utente.nome}"></p>
 <p th:text="'Cognome: ' + ${utente.cognome}"></p>
 <p th:text="'Nazionalità: ' + ${utente.nazionalita}"></p>
-<p th:text="'Data di nascita: ' + ${utente.dataNascita}"></p>
+<p th:text="'età: ' + ${eta}"></p>
 <div>
-    <h4>I tuoi punteggi</h4>
+    <h4 th:text="'I punteggi di ' + ${utente.username}"></h4>
     <div class="card">
         <p class="card-header">Punteggio settimanale</p>
-        <p class="card-body" th:text="'questa settimana hai totalizzato ' + ${utente.punteggioSettimanale} + ' punti'"></p>
+        <p class="card-body" th:text="'questa settimana ha totalizzato ' + ${utente.punteggioSettimanale} + ' punti'"></p>
     </div>
     <div class="card">
         <p class="card-header">Punteggio totale</p>
-        <p class="card-body" th:text="'hai totalizzato ' + ${utente.punteggio} + ' punti nella tua carriera su ChessHub'"></p>
+        <p class="card-body" th:text="'ha totalizzato ' + ${utente.punteggio} + ' punti nella sua carriera su ChessHub'"></p>
     </div>
 </div>
 <div>
     <h4>Ultime partite giocate</h4>
+    <div class="card">
+        <p class="card-header" ></p>
+        <p class="card-body"></p>
+    </div>
     <div class="card">
         <p class="card-header" ></p>
         <p class="card-body"></p>

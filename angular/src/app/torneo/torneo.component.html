@@ -5,6 +5,7 @@
 <p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
 <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()">ISCRIVITI</button>
 <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
+<butt
 <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
 <div>
     <h1>Partite</h1>
