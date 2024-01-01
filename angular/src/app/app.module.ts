@@ -24,6 +24,7 @@ import { TorneoComponent } from './torneo/torneo.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { StatisticheComponent } from './statistiche/statistiche.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        GoogleMapsModule
     ],
   providers: [
     TorneoService,
