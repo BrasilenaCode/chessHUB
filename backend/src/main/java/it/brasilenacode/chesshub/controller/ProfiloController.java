@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,16 @@ public class ProfiloController {
         req.setAttribute("utente", u);
         req.setAttribute("partiteGiocate", p);
         return "profilo";
+    }
+
+    @PostMapping("/utenti/profiloPubblico")
+    public String ritornaPaginaProfiloPubblico(HttpServletRequest req, @RequestBody String username) {
+        Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+        List<Partita> p = PartiteModel.dammiPartiteGiocate(u.getUsername());
+        p.sort((o1, o2) -> o2.getData().compareTo(o1.getData()));
+        req.setAttribute("utente", u);
+        int eta = Period.between(u.getDataNascita().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+        return "profiloPubblico";
     }
 
     @PostMapping("/utenti/statistiche")
