@@ -1,17 +1,21 @@
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Torneo } from '../model/torneo';
 
 @Component({
-  selector: 'app-google-maps',
-  templateUrl: './google-maps.component.html',
-  styleUrl: './google-maps.component.css'
+  selector: 'app-maps',
+  templateUrl: './maps.component.html',
+  styleUrl: './maps.component.css'
 })
-export class GoogleMapsComponent implements OnInit {
+export class MapsComponent implements OnChanges {
+
+  @Input() torneo?: Torneo;
 
   constructor(private http: HttpClient) {}
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.searchLocation()
   }
+
 
   display: any;
   center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
@@ -26,7 +30,7 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   getGeocoding(place: string) {
-    const apiKey = ''
+    const apiKey = 'API KEY HERE'
     const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(place)}&key=${apiKey}`;
     return this.http.get(apiUrl)
   }
@@ -40,8 +44,10 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   searchLocation() {
-    const addressToSearch = 'Catanzaro'
-    this.markLocation(addressToSearch)
+    console.log("ciaooooo il luogo è " + this.torneo?.luogo)
+    if (this.torneo != undefined) {
+      this.markLocation(this.torneo.luogo)
+    }
   }
 
 }

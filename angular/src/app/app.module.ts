@@ -25,6 +25,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { StatisticheComponent } from './statistiche/statistiche.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { MapsComponent } from './maps/maps.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
     TorneoComponent,
     SearchResultsComponent,
     StatisticheComponent,
-    SignInComponent
+    SignInComponent,
+    MapsComponent
   ],
     imports: [
         HttpClientModule,
