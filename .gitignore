@@ -1,5 +1,5 @@
-backend/.idea/
-backend/.vscode/
+/backend/.idea/
+/backend/.vscode/
 .vscode/
 /backend/DBConnectionParameters.json
 .vscode/
