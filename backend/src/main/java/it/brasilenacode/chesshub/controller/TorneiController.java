@@ -62,11 +62,6 @@ public class TorneiController {
     public List<Torneo> dammiTorneiVincitore(@RequestBody String body) {
         return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getVincitore().equals(DBManager.getInstance().getUtenteDao().findByPrimaryKey(body))).toList();
     }
-    @PostMapping("/tornei/nuovo")
-    public Torneo dammiNuovoTorneo(@RequestBody List<Utente> partecipanti){
-        // todo: codice per generare il nuovo torneo
-        return new Torneo();
-    }
     @PostMapping("/tornei/add")
     public void aggiungiTorneo(@RequestBody Torneo torneo){
         DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
