@@ -1,0 +1,4 @@
+/* Stili per rimuovere i bordi arrotondati dalla barra di navigazione */
+.navbar {
+    border-radius: 0; /* Imposta il bordo arrotondato su 0 */
+}
