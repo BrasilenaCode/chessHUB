@@ -19,12 +19,11 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        //System.out.println(username);
         Utente user = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
         boolean autorizzato;
 
         if (user == null){
-            //System.out.println("NOT AUTHORIZED.");
+            System.out.println("NOT AUTHORIZED.");
             autorizzato = false;
         } else {
 
@@ -35,7 +34,7 @@ public class LoginServlet extends HttpServlet {
                 resp.sendRedirect("/home.html");
 
             } else {
-                //System.out.println("WRONG PASSWORD.");
+                System.out.println("WRONG PASSWORD.");
                 autorizzato = false;
             }
 

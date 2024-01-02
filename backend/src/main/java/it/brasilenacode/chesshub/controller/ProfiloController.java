@@ -22,9 +22,6 @@ public class ProfiloController {
     public String ritornaPaginaProfilo(HttpServletRequest req, @RequestBody Utente u) {
         req.setAttribute("utente", u);
         req.setAttribute("bandiera", FlagDirector.getInstance().getFlag(u.getNazionalita()));
-        System.out.println(u.getNazionalita());
-        System.out.println(FlagDirector.getInstance().getFlag(u.getNazionalita()));
-        System.out.println(FlagDirector.getInstance().getFlag("it"));
         return "profilo";
     }
 

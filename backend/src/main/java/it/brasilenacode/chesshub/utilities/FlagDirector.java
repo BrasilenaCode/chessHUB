@@ -28,7 +28,6 @@ public class FlagDirector {
     public String getFlag(String nationality){
         if(!flags.containsKey(nationality)){
             byte[] Image = null;
-            System.out.println(nationality);
             try {
                 URL urlToFlag = getClass().getResource("/static/flags/" + nationality + ".png");
                 if(urlToFlag != null){
