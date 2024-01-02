@@ -65,8 +65,7 @@ public class UtentiController {
     @GetMapping("/utente")
     public Utente dammiUtenteAcceduto(HttpServletRequest req){
         if(Auth.isAuthenticated(req)){
-            Utente u =  Auth.getUser(req);
-            return u;
+            return Auth.getUser(req);
         }
         return null;
     }

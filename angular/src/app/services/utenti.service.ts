@@ -104,7 +104,6 @@ export class UtentiService {
     return this.http.post(this.backendUrl+"/utenti/profilo", utente, {headers, responseType: 'text'});
   }
   getStatistiche(): Observable<number[]>{
-    console.log("ciaoooo" + this.auth.token)
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }

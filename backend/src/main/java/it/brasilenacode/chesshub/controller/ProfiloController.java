@@ -60,7 +60,6 @@ public class ProfiloController {
         stats.add(partitePerse);
         stats.add(partitePatte);
         stats.add(torneiVinti);
-        System.out.println("la size è " + stats.size());
         return stats;
     }
 }

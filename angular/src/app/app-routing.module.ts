@@ -16,7 +16,7 @@ import {SignInComponent} from "./sign-in/sign-in.component";
 const routes: Routes = [
   {"path": "", component: HomeComponent},
   {"path": "login", component: LoginComponent},
-  {"path": "about", component: AboutComponent},
+  {"path": "about", component: AboutComponent, canActivate:[AuthGuardService]},
   {"path": "profilo", component: ProfiloComponent, canActivate:[AuthGuardService]},
   {"path": "tornei", component: TorneiComponent},
   {"path": "classifica", component: ClassificaComponent, canActivate:[AuthGuardService]},

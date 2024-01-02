@@ -81,7 +81,7 @@ public class Auth {
         }
     }
 
-    private static Utente getUserByToken(String token){
+    public static Utente getUserByToken(String token){
         if (token != null) {
             String decod = base64Decode(token);
             String username = decod.split(":")[0];
