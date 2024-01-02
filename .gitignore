@@ -1,0 +1,9 @@
+backend/.idea/
+backend/.vscode/
+.vscode/
+/backend/DBConnectionParameters.json
+.vscode/
+/backend/target/
+/angular/node_modules/
+/angular/.vscode/
+/angular/.angular/
