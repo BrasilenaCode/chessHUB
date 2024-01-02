@@ -36,4 +36,7 @@ export class PartitaService {
   dammiPartitePatte(username:string):Observable<Partita[]>{
     return this.http.post<Partita[]>(this.backendUrl+"/partite/patte",username);
   }
+  dammiUltimePartiteGiocate(username:string):Observable<Partita[]>{
+    return this.http.post<Partita[]>(this.backendUrl+"/partite/ultime",username);
+  }
 }

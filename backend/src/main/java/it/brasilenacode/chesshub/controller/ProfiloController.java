@@ -6,6 +6,7 @@ import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
+import it.brasilenacode.chesshub.utilities.FlagDirector;
 import it.brasilenacode.chesshub.utilities.PartiteModel;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -25,20 +26,17 @@ public class ProfiloController {
 
     @PostMapping("/utenti/profilo")
     public String ritornaPaginaProfilo(HttpServletRequest req, @RequestBody Utente u) {
-        List<Partita> p = PartiteModel.dammiPartiteGiocate(u.getUsername());
-        p.sort((o1, o2) -> o2.getData().compareTo(o1.getData()));
         req.setAttribute("utente", u);
-        req.setAttribute("partiteGiocate", p);
+        req.setAttribute("bandiera", FlagDirector.getInstance().getFlag(u.getNazionalita()));
         return "profilo";
     }
 
     @PostMapping("/utenti/profiloPubblico")
     public String ritornaPaginaProfiloPubblico(HttpServletRequest req, @RequestBody String username) {
         Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
-        List<Partita> p = PartiteModel.dammiPartiteGiocate(u.getUsername());
-        p.sort((o1, o2) -> o2.getData().compareTo(o1.getData()));
-        req.setAttribute("utente", u);
         int eta = Period.between(u.getDataNascita().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+        req.setAttribute("utente", u);
+        req.setAttribute("eta", eta);
         return "profiloPubblico";
     }
 

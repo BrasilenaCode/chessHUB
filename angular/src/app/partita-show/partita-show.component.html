@@ -1,8 +1,6 @@
 <div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Partita in data: {{partita?.data}}</h5>
-    <p class="card-subtitle">Giocatore 1: {{partita?.giocatore1?.username}}</p>
-    <p class="card-subtitle">Giocatore 2: {{partita?.giocatore2?.username}}</p>
-    <p class="card-text">Turno: {{partita?.turno}}</p>
-  </div>
+  <p class="card-header">{{nomePartita}}</p>
+  <p class="card-body" *ngIf="partita?.esito=='1'">vinta da {{partita?.giocatore1?.username}}</p>
+  <p class="card-body" *ngIf="partita?.esito=='2'">vinta da {{partita?.giocatore2?.username}}</p>
+  <p class="card-body" *ngIf="partita?.esito=='3'">partita patta</p>
 </div>

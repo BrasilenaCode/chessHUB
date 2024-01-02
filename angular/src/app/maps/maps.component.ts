@@ -30,7 +30,7 @@ export class MapsComponent implements OnChanges {
   }
 
   getGeocoding(place: string) {
-    const apiKey = 'API KEY HERE'
+    const apiKey = 'AIzaSyB8ar3GNTtk6U9ZGGhLNVDUAikh0On1AAo'
     const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(place)}&key=${apiKey}`;
     return this.http.get(apiUrl)
   }
