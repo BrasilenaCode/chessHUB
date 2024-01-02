@@ -2,11 +2,13 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { HttpClient } from '@angular/common/http';
 import { Torneo } from '../model/torneo';
 
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrl: './maps.component.css'
 })
+
 export class MapsComponent implements OnChanges {
 
   @Input() torneo?: Torneo;
