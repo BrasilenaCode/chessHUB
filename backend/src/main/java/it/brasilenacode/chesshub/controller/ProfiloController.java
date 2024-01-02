@@ -18,13 +18,6 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
 public class ProfiloController {
 
-    @PostMapping("/utenti/profilo")
-    public String ritornaPaginaProfilo(HttpServletRequest req, @RequestBody Utente u) {
-        req.setAttribute("utente", u);
-        req.setAttribute("bandiera", FlagDirector.getInstance().getFlag(u.getNazionalita()));
-        return "profilo";
-    }
-
     @PostMapping("/utenti/profiloPubblico")
     public String ritornaPaginaProfiloPubblico(HttpServletRequest req, @RequestBody String username) {
         Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
