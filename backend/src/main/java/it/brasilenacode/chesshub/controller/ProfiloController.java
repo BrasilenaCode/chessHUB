@@ -1,25 +1,18 @@
 package it.brasilenacode.chesshub.controller;
 
-import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
-import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
-import it.brasilenacode.chesshub.persistenza.model.Partita;
-import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.utilities.FlagDirector;
 import it.brasilenacode.chesshub.utilities.PartiteModel;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
@@ -29,6 +22,9 @@ public class ProfiloController {
     public String ritornaPaginaProfilo(HttpServletRequest req, @RequestBody Utente u) {
         req.setAttribute("utente", u);
         req.setAttribute("bandiera", FlagDirector.getInstance().getFlag(u.getNazionalita()));
+        System.out.println(u.getNazionalita());
+        System.out.println(FlagDirector.getInstance().getFlag(u.getNazionalita()));
+        System.out.println(FlagDirector.getInstance().getFlag("it"));
         return "profilo";
     }
 
@@ -48,7 +44,6 @@ public class ProfiloController {
         Integer partiteVinte = PartiteModel.dammiPartiteVincitore(u.getUsername()).size();
         Integer partitePerse = PartiteModel.dammiPartitePerdente(u.getUsername()).size();
         Integer partitePatte = PartiteModel.dammiPartitepatte(u.getUsername()).size();
-        TorneoDao torneoDao = DBManager.getInstance().getTorneoDao();
         Integer torneiVinti = DBManager.getInstance().
                 getTorneoDao().findAll().stream()
                 .filter(torneo -> torneo.getStato().equals("concluso") && (torneo.getVincitore()!=null && torneo.getVincitore().getUsername().equals(u.getUsername())))

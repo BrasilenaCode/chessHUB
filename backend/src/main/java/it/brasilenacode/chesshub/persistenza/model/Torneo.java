@@ -1,7 +1,6 @@
 package it.brasilenacode.chesshub.persistenza.model;
 
 import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
-import it.brasilenacode.chesshub.persistenza.DAO.postgres.PartitaDaoPostgres;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 
 import java.util.ArrayList;

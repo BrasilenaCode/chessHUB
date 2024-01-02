@@ -1,5 +1,4 @@
 package it.brasilenacode.chesshub.persistenza.model;
-import java.math.BigInteger;
 import java.util.Date;
 
 public class Utente {

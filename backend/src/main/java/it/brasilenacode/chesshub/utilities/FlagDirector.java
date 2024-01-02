@@ -3,6 +3,8 @@ package it.brasilenacode.chesshub.utilities;
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -14,12 +16,6 @@ public class FlagDirector {
 
     private FlagDirector() {
         flags = new HashMap<String, String>();
-        try{
-            byte[] Image = Files.readAllBytes(Path.of("src/main/resources/static/flags/unknown.png"));
-            flags.put("unknown", Base64.toBase64String(Image));
-        }
-        catch (IOException ignored){
-        }
     }
 
     public static FlagDirector getInstance(){
@@ -32,11 +28,19 @@ public class FlagDirector {
     public String getFlag(String nationality){
         if(!flags.containsKey(nationality)){
             byte[] Image = null;
+            System.out.println(nationality);
             try {
-                Image = Files.readAllBytes(Path.of("src/main/resources/static/flags/" + nationality + ".png"));
+                URL urlToFlag = getClass().getResource("/static/flags/" + nationality + ".png");
+                if(urlToFlag != null){
+                    Image = Files.readAllBytes(Path.of(urlToFlag.toURI()));
+                } else {
+                    return getFlag("unknown");
+                }
             }
             catch (IOException e){
-                return flags.get("unknown");
+                return getFlag("unknown");
+            } catch (URISyntaxException e){
+                return getFlag("unknown");
             }
             flags.put(nationality, Base64.toBase64String(Image));
         }
