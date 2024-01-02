@@ -99,6 +99,8 @@ public class TorneiController {
     public List<Partita> generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
         if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
             Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            torneo.setStato("inCorso");
+            DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
             return torneo.generaPartite();
         }
         return null;

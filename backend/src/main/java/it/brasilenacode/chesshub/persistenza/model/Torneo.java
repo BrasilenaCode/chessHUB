@@ -98,7 +98,7 @@ public class Torneo {
         this.partecipanti.add(u);
     }
     public List<Partita> generaPartite(){
-        List<Partita> partite=trovaPartite();
+        List<Partita> partite=new ArrayList<>();
         if(this.getPartecipanti().size()%2 != 0){
             Utente riposo = new Utente("__RIPOSO__");
             this.addPartecipante(riposo);
@@ -109,11 +109,9 @@ public class Torneo {
         for(int turno=1;turno < partecipanti.size();turno++){
             for(int partecipante=0;partecipante<partecipanti.size()/2;partecipante++){
                 Partita partita = new Partita(this, partecipanti.get(partecipante), partecipanti.get(partecipanti.size() - partecipante-1), new Date(), "0", turno);
-                if(!partite.contains(partita)) {
-                    partite.add(partita);
-                    if (!(partita.getGiocatore2().getUsername().equals("__RIPOSO__") || partita.getGiocatore1().getUsername().equals("__RIPOSO__"))) {
-                        partitaDao.saveOrUpdate(partita);
-                    }
+                partite.add(partita);
+                if (!(partita.getGiocatore2().getUsername().equals("__RIPOSO__") || partita.getGiocatore1().getUsername().equals("__RIPOSO__"))) {
+                    partitaDao.saveOrUpdate(partita);
                 }
             }
             partecipanti.add(1, partecipanti.remove(partecipanti.size() - 1));

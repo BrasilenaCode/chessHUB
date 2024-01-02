@@ -10,13 +10,14 @@ import { OnInit } from '@angular/core';
 })
 export class TorneiStatoComponent implements OnInit{
   @Input() stato: string | undefined;
-  public tornei?: Torneo[]; 
+  public tornei?: Torneo[];
   constructor(private torneiService:TorneoService) { }
   ngOnInit(): void {
     this.getTorneiStato();
   }
   getTorneiStato(): void {
     if(this.stato == undefined) return;
+    console.log(this.stato);
     this.torneiService.dammiTorneiStato(this.stato).subscribe
     (tornei => this.tornei = tornei);
   }
