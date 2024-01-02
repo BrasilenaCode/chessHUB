@@ -57,4 +57,10 @@ public class PartiteModel {
     public static List<Partita> dammiPartitepatte(String username) {
         return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> (partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)) && partita.getEsito().equals("3")).toList();
     }
+
+    public static List<Partita> dammiUltimePartiteGiocate(String username) {
+        List<Partita> partite = PartiteModel.dammiPartiteGiocate(username);
+        partite.sort((o1, o2) -> o2.getData().compareTo(o1.getData()));
+        return partite.subList(0, Math.min(partite.size(), 3));
+    }
 }

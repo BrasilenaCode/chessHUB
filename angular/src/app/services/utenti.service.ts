@@ -103,6 +103,9 @@ export class UtentiService {
     });
     return this.http.post(this.backendUrl+"/utenti/profilo", utente, {headers, responseType: 'text'});
   }
+  paginaProfiloPubblico(username:string):Observable<string>{
+    return this.http.post(this.backendUrl+"/utenti/profiloPubblico", username, {responseType: 'text'});
+  }
   getStatistiche(): Observable<number[]>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())

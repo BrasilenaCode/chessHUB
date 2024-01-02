@@ -57,5 +57,8 @@ public class PartiteController {
     public List<Partita> dammiPartitePatte(@RequestBody String username) {
         return PartiteModel.dammiPartitepatte(username);
     }
-
+    @PostMapping("/partite/ultime")
+    public List<Partita> dammiUltimePartiteGiocate(@RequestBody String username) {
+        return PartiteModel.dammiUltimePartiteGiocate(username);
+    }
 }

@@ -12,6 +12,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { TorneoComponent } from './torneo/torneo.component';
 import { StatisticheComponent } from './statistiche/statistiche.component';
 import {SignInComponent} from "./sign-in/sign-in.component";
+import {ProfiloPubblicoComponent} from "./profilo-pubblico/profilo-pubblico.component";
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -24,7 +25,8 @@ const routes: Routes = [
   {"path": "searchResults", component: SearchResultsComponent},
   {"path": "signIn", component: SignInComponent},
   {"path": "torneo", component: TorneoComponent, canActivate:[AuthGuardService]},
-  {"path": "statistiche", component: StatisticheComponent, canActivate:[AuthGuardService]}
+  {"path": "statistiche", component: StatisticheComponent, canActivate:[AuthGuardService]},
+  {"path": "giocatore/profilo", component: ProfiloPubblicoComponent}
 ];
 
 @NgModule({

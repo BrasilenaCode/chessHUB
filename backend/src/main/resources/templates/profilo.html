@@ -2,7 +2,7 @@
 <h2 th:text="'Profilo di ' + ${utente.username}"></h2>
 <p th:text="'Nome: ' + ${utente.nome}"></p>
 <p th:text="'Cognome: ' + ${utente.cognome}"></p>
-<p th:text="'Nazionalità: ' + ${utente.nazionalita}"></p>
+<p>Nazionalità: <img th:src="'data:image/png;base64,' + ${bandiera}" th:alt="${utente.nazionalita}"></p>
 <p th:text="'Data di nascita: ' + ${utente.dataNascita}"></p>
 <div>
     <h4>I tuoi punteggi</h4>
@@ -13,16 +13,5 @@
     <div class="card">
         <p class="card-header">Punteggio totale</p>
         <p class="card-body" th:text="'hai totalizzato ' + ${utente.punteggio} + ' punti nella tua carriera su ChessHub'"></p>
-    </div>
-</div>
-<div>
-    <h4>Ultime partite giocate</h4>
-    <div class="card">
-        <p class="card-header" ></p>
-        <p class="card-body"></p>
-    </div>
-    <div class="card">
-        <p class="card-header" ></p>
-        <p class="card-body"></p>
     </div>
 </div>
