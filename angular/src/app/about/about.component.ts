@@ -23,4 +23,6 @@ export class AboutComponent implements OnInit{
   get profileLink(): string {
     return 'http://localhost:8080/profilo?username='+this.username;
   }
+
+
 }

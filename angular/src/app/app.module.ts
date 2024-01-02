@@ -28,6 +28,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MapsComponent } from './maps/maps.component';
 import { ProfiloPubblicoComponent } from './profilo-pubblico/profilo-pubblico.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
