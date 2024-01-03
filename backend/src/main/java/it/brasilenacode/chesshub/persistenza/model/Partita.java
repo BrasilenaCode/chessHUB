@@ -12,9 +12,9 @@ public class Partita {
     private Torneo torneo;
     private int turno;
     private String esito;
-    private ArrayList<String> mosse;
+    private String pgn;
 
-    public Partita() {
+    public Partita() {;
     }
     public Partita(Torneo torneo, Utente giocatore1, Utente giocatore2, Date data, String esito, int turno){
         this.torneo = torneo;
@@ -23,6 +23,7 @@ public class Partita {
         this.data = data;
         this.esito = esito;
         this.turno = turno;
+        pgn = "";
     }
 
     public long getId() {
@@ -73,12 +74,12 @@ public class Partita {
         return turno;
     }
 
-    public ArrayList<String> getMosse() {
-        return mosse;
+    public String getPGN() {
+        return pgn;
     }
 
-    public void setMosse(ArrayList<String> mosse) {
-        this.mosse = mosse;
+    public void setMosse(String pgn) {
+        this.pgn = pgn;
     }
 
     public Torneo getTorneo() {

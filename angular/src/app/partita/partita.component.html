@@ -1,4 +1,23 @@
-<div id="board"></div>
+<h1> Partita </h1>
 
-<script> const board1 = Chessboard2('board1', 'start') </script>
+<h2> {{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}} {{partita?.giocatore1?.punteggio}}</h2>
+<h3> VS </h3>
+<h2> {{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}} {{partita?.giocatore2?.punteggio}}</h2>
+
+<h4> {{partita?.pgn}}</h4>
+
+<div id = board></div>
+
+<table>
+  <tr *ngFor="let mossa of mosse">
+    <td>{{mossa[0]}}</td>
+    <td (click)="goTo(mossa[0], 0)">{{mossa[1]}}</td>
+    <td (click)="goTo(mossa[0], 1)">{{mossa[2]}}</td>
+  </tr>
+</table>
+
+<button (click)="previousMove()">"precedente"</button>
+<button (click)="nextMove()">"successiva"</button>
+<button (click)="caricamentoPartita()">carica</button>
+
 

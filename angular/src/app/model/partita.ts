@@ -9,4 +9,5 @@ export interface Partita {
     torneo: Torneo;
     turno: number;
     esito: string;
+    pgn: string;
 }
