@@ -100,8 +100,9 @@ export class UtentiService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + this.auth.getToken()
+
     });
-    return this.http.post(this.backendUrl+"/utenti/profilo", utente, {headers, responseType: 'text'});
+    return this.http.get(this.backendUrl+"/profilo?username=" + utente.username, {headers, responseType: 'text',  withCredentials: true});
   }
   paginaProfiloPubblico(username:string):Observable<string>{
     return this.http.post(this.backendUrl+"/utenti/profiloPubblico", username, {responseType: 'text'});
