@@ -35,9 +35,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/assets/css/bootstrap.min.css",
+              "src/styles.css",
+              "node_modules/@chrisoakman/chessboard2/dist/chessboard2.min.css"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/@chrisoakman/chessboard2/dist/chessboard2.min.js"],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -99,9 +101,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@chrisoakman/chessboard2/dist/chessboard2.min.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/@chrisoakman/chessboard2/dist/chessboard2.min.js"]
           }
         }
       }

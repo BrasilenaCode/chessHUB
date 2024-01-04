@@ -1,5 +1,6 @@
 package it.brasilenacode.chesshub.persistenza.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Partita {
@@ -11,8 +12,9 @@ public class Partita {
     private Torneo torneo;
     private int turno;
     private String esito;
+    private String pgn;
 
-    public Partita() {
+    public Partita() {;
     }
     public Partita(Torneo torneo, Utente giocatore1, Utente giocatore2, Date data, String esito, int turno){
         this.torneo = torneo;
@@ -21,6 +23,7 @@ public class Partita {
         this.data = data;
         this.esito = esito;
         this.turno = turno;
+        pgn = "";
     }
 
     public long getId() {
@@ -66,8 +69,17 @@ public class Partita {
     public void setTurno(int turno){
         this.turno = turno;
     }
+
     public int getTurno(){
         return turno;
+    }
+
+    public String getPGN() {
+        return pgn;
+    }
+
+    public void setMosse(String pgn) {
+        this.pgn = pgn;
     }
 
     public Torneo getTorneo() {

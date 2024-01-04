@@ -23,7 +23,7 @@ public class RegisterController {
         try {
             inputUser = objectMapper.readValue(payload, new TypeReference<Utente>(){});
         } catch (IOException e) {
-            //System.out.println("ERROR TRYING TO PARSE JSON TO OBJECT Utente.");
+            System.out.println("ERROR TRYING TO PARSE JSON TO OBJECT Utente.");
             e.printStackTrace();
             return false;
         }
