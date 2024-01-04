@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
+import {Utente} from "../model/utente";
 
 @Component({
   selector: 'app-profilo',
@@ -15,8 +16,10 @@ export class ProfiloComponent implements OnInit{
   constructor(private utentiService: UtentiService, private router: Router, private activatedRoute: ActivatedRoute, private partiteService: PartitaService) { }
   pagina?: string = "";
   partite?: Partita[];
+  richieste?: Utente[];
   ngOnInit(): void {
     this.getPaginaUtente();
+    this.getRichiesteAmicizia();
   }
   getPaginaUtente(): void {
     this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
@@ -26,5 +29,9 @@ export class ProfiloComponent implements OnInit{
   }
   vaiAlleStatistiche(): void {
     this.router.navigate(['/statistiche']);
+  }
+
+  private getRichiesteAmicizia() {
+    this.utentiService.dammiRichiesteAmicizia().subscribe(richieste => this.richieste = richieste);
   }
 }

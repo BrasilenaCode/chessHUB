@@ -111,5 +111,72 @@ public class UtentiController {
         }
         return false;
     }
+
+    @PostMapping("/utente/segui")
+    public void seguiUtente(HttpServletRequest req, @RequestBody String username) {
+        Utente u = Auth.getUser(req);
+        if(u!=null){
+            Utente utenteDaSeguire = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            DBManager.getInstance().getUtenteDao().segui(utenteDaSeguire, u);
+        }
+    }
+    @PostMapping("/utente/nonSeguire")
+    public void nonSeguire(HttpServletRequest req, @RequestBody String username) {
+        Utente u = Auth.getUser(req);
+        if(u!=null){
+            Utente utenteDaSeguire = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            DBManager.getInstance().getUtenteDao().rifiutaRichiesta(utenteDaSeguire, u);
+        }
+    }
+    @PostMapping(  "/utente/followers")
+    public boolean checkFollow(HttpServletRequest req, @RequestBody String username) {
+        Utente u = Auth.getUser(req);
+        if(u!=null){
+            Utente utenteDaSeguire = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            if(DBManager.getInstance().getUtenteDao().getFollower(utenteDaSeguire).contains(u)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @PostMapping(  "/utente/richiesta")
+    public boolean checkRichieste(HttpServletRequest req, @RequestBody String username) {
+        Utente u = Auth.getUser(req);
+        if(u!=null){
+            Utente utenteDaSeguire = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            if(DBManager.getInstance().getUtenteDao().getRichieste(utenteDaSeguire).contains(u)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @PostMapping(  "/utente/richieste")
+    public List<Utente> dammiRichieste(HttpServletRequest req) {
+        Utente u = Auth.getUser(req);
+        if(u!=null){
+            return DBManager.getInstance().getUtenteDao().getRichieste(u);
+        }
+        return null;
+    }
+
+    @PostMapping(  "/utente/accettaRichiesta")
+    public void accettaRichiesta(HttpServletRequest req, @RequestBody Utente utente){
+        Utente u = Auth.getUser(req);
+        if(u!=null){
+            DBManager.getInstance().getUtenteDao().accettaRichiesta(u, utente);
+        }
+    }
+
+    @PostMapping(  "/utente/rifiutaRichiesta")
+    public void rifiutaRichiesta(HttpServletRequest req, @RequestBody Utente utente){
+        Utente u = Auth.getUser(req);
+        System.out.println(u);
+        if(u!=null){
+            System.out.println(u);
+            DBManager.getInstance().getUtenteDao().rifiutaRichiesta(u, utente);
+        }
+    }
 }
 

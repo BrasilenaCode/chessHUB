@@ -100,12 +100,61 @@ export class UtentiService {
     return this.http.get(this.backendUrl+"/profilo?username=" + utente.username, {responseType: 'text', withCredentials: true});
   }
   paginaProfiloPubblico(username:string):Observable<string>{
-    return this.http.post(this.backendUrl+"/utenti/profiloPubblico", username, {responseType: 'text'});
+    return this.http.get(this.backendUrl+"/utenti/profiloPubblico?username="+ username, {responseType: 'text'});
   }
   getStatistiche(): Observable<number[]>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<number[]>(this.backendUrl + "/utenti/statistiche", '', header)
+  }
+
+  seguiUtente(queryParam: any) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post(this.backendUrl + "/utente/segui", queryParam, header)
+  }
+
+  verificaSeSeguiUtente(queryParam: any):Observable<boolean> {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl + "/utente/followers", queryParam, header)
+  }
+  verificaRichiestaUtente(queryParam: any):Observable<boolean> {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl + "/utente/richiesta", queryParam, header)
+  }
+
+  smettiDiSeguire(queryParam: any) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post(this.backendUrl + "/utente/nonSeguire", queryParam, header)
+  }
+
+  dammiRichiesteAmicizia() {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<Utente[]>(this.backendUrl + "/utente/richieste", "", header)
+  }
+
+  accettaRichiesta(richiesta: Utente | undefined) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post(this.backendUrl + "/utente/accettaRichiesta", richiesta, header)
+  }
+
+  rifiutaRichiesta(richiesta: Utente | undefined) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    console.log(richiesta)
+    return this.http.post(this.backendUrl + "/utente/rifiutaRichiesta", richiesta, header)
   }
 }

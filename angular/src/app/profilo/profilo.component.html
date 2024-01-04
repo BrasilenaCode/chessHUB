@@ -5,3 +5,7 @@
     <p *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
     <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
 </div>
+<div>
+  <h4>Richieste di amicizia</h4>
+    <app-richiesta *ngFor="let richiesta of richieste" [richiesta]="richiesta"></app-richiesta>
+</div>

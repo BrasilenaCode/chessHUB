@@ -14,6 +14,7 @@ import { StatisticheComponent } from './statistiche/statistiche.component';
 import {SignInComponent} from "./sign-in/sign-in.component";
 import {ProfiloPubblicoComponent} from "./profilo-pubblico/profilo-pubblico.component";
 import { PartitaComponent } from './partita/partita.component';
+import {RichiestaComponent} from "./richiesta/richiesta.component";
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -27,7 +28,8 @@ const routes: Routes = [
   {"path": "signIn", component: SignInComponent},
   {"path": "torneo", component: TorneoComponent, canActivate:[AuthGuardService]},
   {"path": "statistiche", component: StatisticheComponent, canActivate:[AuthGuardService]},
-  {"path": "giocatore/profilo", component: ProfiloPubblicoComponent},
+  {"path": "profiloPubblico", component: ProfiloPubblicoComponent, canActivate:[AuthGuardService]},
+  {"path": "richiesta", component: RichiestaComponent, canActivate:[AuthGuardService]},
   {"path": "partita", component: PartitaComponent}
 ];
 

@@ -20,20 +20,13 @@ export class ClassificaComponent implements OnInit{
   indice:number=0;
   indiceWeek:number=0;
 
-    ngOnInit(){
-      this.cercaUtente();
-      this.getBestUser();
-      this.cercaPosizione();
-      this.testo="Visualizza classifica completa";
-    }
-    constructor(private utentiService:UtentiService){}
-    getUtenti(){
-        this.utentiService.dammiUtenti().subscribe(user=> this.utentiMigliori=user);
-
-    }
-    getUtente(username:string){
-      this.utentiService.getUtente(username);
-    }
+  ngOnInit(){
+    this.cercaUtente();
+    this.getBestUser();
+    this.cercaPosizione();
+    this.testo="Visualizza classifica completa";
+  }
+  constructor(private utentiService:UtentiService){}
 
   private getBestUser() {
     this.utentiService.dammiUtenti().subscribe(user => {
@@ -69,7 +62,6 @@ export class ClassificaComponent implements OnInit{
   cercaUtente(): any | undefined {
       this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto=> {
         this.usernameUtente = utenteAcceduto.username;
-        console.log(this.usernameUtente)
       });
   }
 
@@ -79,7 +71,6 @@ export class ClassificaComponent implements OnInit{
         if(this.utentiMigliori[i].username==this.usernameUtente){
           this.usernameUtente=this.usernameUtente;
           this.indice=i+1;
-          console.log(this.indice)
         }
       }
     }

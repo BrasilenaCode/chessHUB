@@ -15,6 +15,8 @@ public interface UtenteDao {
 
     List<Utente> getRichieste(Utente utente);
 
+    List<Utente> getFollower(Utente utente);
+
     void segui(Utente seguito, Utente seguace);
 
     void accettaRichiesta(Utente seguito, Utente seguace);

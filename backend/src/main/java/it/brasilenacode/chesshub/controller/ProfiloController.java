@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
 public class ProfiloController {
 
-    @PostMapping("/utenti/profiloPubblico")
+    @PostMapping("/profiloPubblico")
     public String ritornaPaginaProfiloPubblico(HttpServletRequest req, @RequestBody String username) {
         Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
         int eta = Period.between(u.getDataNascita().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();

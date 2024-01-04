@@ -147,9 +147,9 @@ public class UtenteDaoPostgres implements UtenteDao {
     @Override
     public List<Utente> getRichieste(Utente utente) {
         List<Utente> richieste = new ArrayList<Utente>();
-        String query = "Select utente "+
+        String query = "Select seguace "+
                 "from follow " +
-                "where seguito = ? && stato=false";
+                "where seguito = ? and stato=false";
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, utente.getUsername());
@@ -165,17 +165,39 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
 
     @Override
-    public void segui(Utente seguito, Utente seguace) {
-        String insertStr = "INSERT INTO follow VALUES (?, ?, ?)";
-        PreparedStatement st;
+    public List<Utente> getFollower(Utente utente) {
+        List<Utente> follower = new ArrayList<Utente>();
+        String query = "Select seguace "+
+                "from follow " +
+                "where stato=true and seguito = ?";
         try {
-            st = connection.prepareStatement(insertStr);
-            st.setString(1, seguito.getUsername());
-            st.setString(2, seguace.getUsername());
-            st.setBoolean(3, false);
-            st.executeUpdate();
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, utente.getUsername());
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("seguace"));
+                follower.add(u);
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return follower;
+    }
+
+    @Override
+    public void segui(Utente seguito, Utente seguace) {
+        if(!getFollower(seguito).contains(seguace)&&!getRichieste(seguito).contains(seguace)) {
+            String insertStr = "INSERT INTO follow VALUES (?, ?, ?)";
+            PreparedStatement st;
+            try {
+                st = connection.prepareStatement(insertStr);
+                st.setString(1, seguito.getUsername());
+                st.setString(2, seguace.getUsername());
+                st.setBoolean(3, false);
+                st.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -193,7 +215,7 @@ public class UtenteDaoPostgres implements UtenteDao {
             e.printStackTrace();
         }
         String updateStr = "UPDATE follow set stato=true "
-                + "where seguace = ? && seguito = ?";
+                + "where seguace = ? and seguito = ?";
         try {
             st = connection.prepareStatement(updateStr);
             st.setString(1, seguace.getUsername());
@@ -206,7 +228,7 @@ public class UtenteDaoPostgres implements UtenteDao {
 
     @Override
     public void rifiutaRichiesta(Utente seguito, Utente seguace) {
-        String query = "DELETE FROM follow WHERE seguito = ? && seguace= ?";
+        String query = "DELETE FROM follow WHERE seguito = ? and seguace= ?";
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, seguito.getUsername());
