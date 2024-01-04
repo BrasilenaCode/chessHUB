@@ -172,9 +172,7 @@ public class UtentiController {
     @PostMapping(  "/utente/rifiutaRichiesta")
     public void rifiutaRichiesta(HttpServletRequest req, @RequestBody Utente utente){
         Utente u = Auth.getUser(req);
-        System.out.println(u);
         if(u!=null){
-            System.out.println(u);
             DBManager.getInstance().getUtenteDao().rifiutaRichiesta(u, utente);
         }
     }
