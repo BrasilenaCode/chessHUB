@@ -26,5 +26,9 @@
         <button class="nav-link" (click)="doLogout()">Logout</button>
       </li>
     </ul>
+    <form *ngIf="isAuthenticated()" class="d-flex">
+        <input type="text" placeholder="Ricerca un utente..." class="form-control me-2" (input)="onChanges($event)" (focus)="onFocus()" (blur)="onBlur()">
+    </form>
+  
 </div>
 </nav>

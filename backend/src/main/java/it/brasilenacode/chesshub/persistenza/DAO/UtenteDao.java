@@ -8,7 +8,7 @@ public interface UtenteDao {
     List<Utente> findAll();
     Utente findByPrimaryKey(String username);
 
-    List<Utente> tryToFindUsersByKey(String username);
+    List<Utente> tryToFindUsersByKey(String toSearch);
 
     void saveOrUpdate(Utente utente);
     void delete(Utente utente);

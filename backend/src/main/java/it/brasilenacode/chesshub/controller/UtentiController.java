@@ -89,7 +89,7 @@ public class UtentiController {
 
     @PostMapping("/utenti/ricerca")
     public List<Utente> ricercaUtenti(@RequestBody String string, HttpServletRequest req){
-        if(Auth.isAuthenticated(req)){
+        if (Auth.isAuthenticated(req)) {
             return DBManager.getInstance().getUtenteDao().tryToFindUsersByKey(string);
         }
         return null;

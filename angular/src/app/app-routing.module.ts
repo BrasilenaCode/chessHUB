@@ -15,6 +15,7 @@ import {SignInComponent} from "./sign-in/sign-in.component";
 import {ProfiloPubblicoComponent} from "./profilo-pubblico/profilo-pubblico.component";
 import { PartitaComponent } from './partita/partita.component';
 import { AddPartitaComponent } from './add-partita/add-partita.component';
+import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -31,6 +32,7 @@ const routes: Routes = [
   {"path": "giocatore/profilo", component: ProfiloPubblicoComponent},
   {"path": "partita", component: PartitaComponent},
   {"path": "addPartita", component: AddPartitaComponent},
+  {"path": "ricercaUtente", component: AnteprimaProfiloComponent}
 ];
 
 @NgModule({
