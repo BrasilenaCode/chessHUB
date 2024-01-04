@@ -66,6 +66,34 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
 
     @Override
+    public Utente tryToFindUserByKey(String username) {
+        String query = "select * from utente where username like ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, "%" + username + "%");
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    Utente utente = new Utente();
+                    utente.setNome(rs.getString("nome"));
+                    utente.setCognome(rs.getString("cognome"));
+                    utente.setUsername(rs.getString("username"));
+                    utente.setPassword(rs.getString("password"));
+                    utente.setNazionalita(rs.getString("nazionalità"));
+                    utente.setPunteggio(rs.getInt("punteggio"));
+                    utente.setPunteggioSettimanale(rs.getInt("punteggio_settimanale"));
+                    utente.setAdmin(rs.getBoolean("admin"));
+                    utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
+                    return utente;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public void saveOrUpdate(Utente utente) {
         if (findByPrimaryKey(utente.getUsername()) == null) {
             String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
