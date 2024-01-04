@@ -1,6 +1,7 @@
 package it.brasilenacode.chesshub.persistenza.DAO.postgres;
 
 import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
+import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 
 import java.sql.*;
@@ -28,8 +29,6 @@ public class UtenteDaoPostgres implements UtenteDao {
                 utente.setUsername(rs.getString("username"));
                 utente.setPassword(rs.getString("password"));
                 utente.setNazionalita(rs.getString("nazionalità"));
-                utente.setPunteggio(rs.getInt("punteggio"));
-                utente.setPunteggioSettimanale(rs.getInt("punteggio_settimanale"));
                 utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
                 utente.setAdmin(rs.getBoolean("admin"));
             }
@@ -53,8 +52,6 @@ public class UtenteDaoPostgres implements UtenteDao {
                 utente.setUsername(rs.getString("username"));
                 utente.setPassword(rs.getString("password"));
                 utente.setNazionalita(rs.getString("nazionalità"));
-                utente.setPunteggio(rs.getInt("punteggio"));
-                utente.setPunteggioSettimanale(rs.getInt("punteggio_settimanale"));
                 utente.setAdmin(rs.getBoolean("admin"));
                 utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
                 utenti.add(utente);
@@ -66,37 +63,35 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
 
     @Override
-    public Utente tryToFindUserByKey(String username) {
+    public List<Utente> tryToFindUsersByKey(String username) {
+        List<Utente> utenti = new ArrayList<Utente>();
         String query = "select * from utente where username like ?";
-
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, "%" + username + "%");
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     Utente utente = new Utente();
                     utente.setNome(rs.getString("nome"));
                     utente.setCognome(rs.getString("cognome"));
                     utente.setUsername(rs.getString("username"));
                     utente.setPassword(rs.getString("password"));
                     utente.setNazionalita(rs.getString("nazionalità"));
-                    utente.setPunteggio(rs.getInt("punteggio"));
-                    utente.setPunteggioSettimanale(rs.getInt("punteggio_settimanale"));
                     utente.setAdmin(rs.getBoolean("admin"));
                     utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
-                    return utente;
+                    utenti.add(utente);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return utenti;
     }
 
     @Override
     public void saveOrUpdate(Utente utente) {
         if (findByPrimaryKey(utente.getUsername()) == null) {
-            String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st;
             try {
                 st = connection.prepareStatement(insertStr);
@@ -106,9 +101,7 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setString(4, utente.getPassword());
                 st.setDate(5, new java.sql.Date(utente.getDataNascita().getTime()));
                 st.setString(6, utente.getNazionalita());
-                st.setInt(7, utente.getPunteggio());
-                st.setBoolean(8, false); //utente.isAdmin()
-                st.setInt(9, utente.getPunteggioSettimanale());
+                st.setBoolean(7, false); //utente.isAdmin()
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -119,9 +112,7 @@ public class UtenteDaoPostgres implements UtenteDao {
                     + "password = ?, "
                     + "data_nascita = ?, "
                     + "nazionalità = ?,"
-                    + "punteggio = ? ,"
-                    + "admin = ? ,"
-                    + "punteggio_settimanale = ? "
+                    + "admin = ? "
                     + "where username = ?";
 
             PreparedStatement st;
@@ -132,10 +123,8 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setString(3, utente.getPassword());
                 st.setDate(4, new java.sql.Date(utente.getDataNascita().getTime()));
                 st.setString(5, utente.getNazionalita());
-                st.setInt(6, utente.getPunteggio());
-                st.setBoolean(7, utente.isAdmin());
-                st.setInt(8, utente.getPunteggioSettimanale());
-                st.setString(9, utente.getUsername());
+                st.setBoolean(6, utente.isAdmin());
+                st.setString(7, utente.getUsername());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -153,4 +142,80 @@ public class UtenteDaoPostgres implements UtenteDao {
             e.printStackTrace();
         }
     }
+
+
+    @Override
+    public List<Utente> getRichieste(Utente utente) {
+        List<Utente> richieste = new ArrayList<Utente>();
+        String query = "Select utente "+
+                "from follow " +
+                "where seguito = ? && stato=false";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, utente.getUsername());
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("seguace"));
+                richieste.add(u);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return richieste;
+    }
+
+    @Override
+    public void segui(Utente seguito, Utente seguace) {
+        String insertStr = "INSERT INTO follow VALUES (?, ?, ?)";
+        PreparedStatement st;
+        try {
+            st = connection.prepareStatement(insertStr);
+            st.setString(1, seguito.getUsername());
+            st.setString(2, seguace.getUsername());
+            st.setBoolean(3, false);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void accettaRichiesta(Utente seguito, Utente seguace) {
+        String insertStr = "INSERT INTO follow VALUES (?, ?, ?)";
+        PreparedStatement st;
+        try {
+            st = connection.prepareStatement(insertStr);
+            st.setString(1, seguace.getUsername());
+            st.setString(2, seguito.getUsername());
+            st.setBoolean(3, true);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String updateStr = "UPDATE follow set stato=true "
+                + "where seguace = ? && seguito = ?";
+        try {
+            st = connection.prepareStatement(updateStr);
+            st.setString(1, seguace.getUsername());
+            st.setString(2, seguito.getUsername());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void rifiutaRichiesta(Utente seguito, Utente seguace) {
+        String query = "DELETE FROM follow WHERE seguito = ? && seguace= ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, seguito.getUsername());
+            st.setString(2, seguace.getUsername());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+

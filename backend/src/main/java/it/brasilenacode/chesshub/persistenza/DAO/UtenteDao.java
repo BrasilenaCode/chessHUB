@@ -5,10 +5,20 @@ import it.brasilenacode.chesshub.persistenza.model.Utente;
 import java.util.List;
 
 public interface UtenteDao {
-    public List<Utente> findAll();
-    public Utente tryToFindUserByKey(String username);
-    public Utente findByPrimaryKey(String username);
-    public void saveOrUpdate(Utente utente);
-    public void delete(Utente utente);
+    List<Utente> findAll();
+    Utente findByPrimaryKey(String username);
+
+    List<Utente> tryToFindUsersByKey(String username);
+
+    void saveOrUpdate(Utente utente);
+    void delete(Utente utente);
+
+    List<Utente> getRichieste(Utente utente);
+
+    void segui(Utente seguito, Utente seguace);
+
+    void accettaRichiesta(Utente seguito, Utente seguace);
+
+    void rifiutaRichiesta(Utente seguito, Utente seguace);
 }
 

@@ -87,6 +87,14 @@ public class UtentiController {
         return false;
     }
 
+    @PostMapping("/utenti/ricerca")
+    public List<Utente> ricercaUtenti(@RequestBody String string, HttpServletRequest req){
+        if(Auth.isAuthenticated(req)){
+            return DBManager.getInstance().getUtenteDao().tryToFindUsersByKey(string);
+        }
+        return null;
+    }
+
     @PostMapping("/updateUtente")
     public boolean updateUtente(@RequestBody Utente utente, HttpServletRequest req){
         if(Auth.isAuthenticated(req)){
