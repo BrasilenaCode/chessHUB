@@ -1,3 +1,7 @@
+<div *ngIf="listOfUsers.length === 0">
+    <h2>Nessun utente trovato.</h2>
+</div>
+
 <div *ngFor="let utente of listOfUsers">
     <div class="card">
         <article (click)="vaiAlProfilo(utente)">

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { UtentiService } from '../services/utenti.service';
 import { Utente } from '../model/utente';
 import { ExchangeDataService } from '../services/exchange-data.service';
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-barra-navigazione',
   templateUrl: './barra-navigazione.component.html',
@@ -13,6 +15,7 @@ export class BarraNavigazioneComponent {
 
   constructor(private authService: AuthServiceService,
               private exchDataService: ExchangeDataService,
+              private location: Location,
               private router:Router){}
 
   isInputNotEmpty: boolean = false;
@@ -31,15 +34,17 @@ export class BarraNavigazioneComponent {
   }
 
   onChanges(event: any) {
-    this.exchDataService.updateString(event.target.value)
+    const toSearch: string = event.target.value;
+    if (toSearch === '') {
+      this.location.back()
+    } else {
+      this.router.navigate(['/ricercaUtente'])
+      this.exchDataService.updateString(event.target.value)
+    }
   }
 
   onFocus() {
     this.router.navigate(['/ricercaUtente'])
-  }
-
-  onBlur() {
-    //this.router.navigate(['/']);
   }
 
 }
