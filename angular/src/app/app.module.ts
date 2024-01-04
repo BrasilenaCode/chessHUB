@@ -28,6 +28,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MapsComponent } from './maps/maps.component';
 import { ProfiloPubblicoComponent } from './profilo-pubblico/profilo-pubblico.component';
 import { PartitaComponent } from './partita/partita.component';
+import { AddPartitaComponent } from './add-partita/add-partita.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { PartitaComponent } from './partita/partita.component';
     SignInComponent,
     MapsComponent,
     ProfiloPubblicoComponent,
-    PartitaComponent
+    PartitaComponent,
+    AddPartitaComponent
   ],
     imports: [
         HttpClientModule,

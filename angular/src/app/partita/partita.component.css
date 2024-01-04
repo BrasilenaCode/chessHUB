@@ -6,15 +6,25 @@
 }
 
 td {
-    width: 33%;
-    height: 33%;
+    width: 100px;
     border: 1px solid black;
+    font-size: x-small;
     text-align: center;
     vertical-align: middle;
-    font-size: 50px;
-    cursor: pointer;
+    cursor: default;
+    background-color: #f5f5f5;
 }
 
-#selezionato {
-    background-color: blanchedalmond;
+div #formulario {
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    border: 1px solid black;
+}
+
+div #commento {
+    overflow: auto;
+    position: absolute;
+    left: center;
+    border: 1px solid black;
 }

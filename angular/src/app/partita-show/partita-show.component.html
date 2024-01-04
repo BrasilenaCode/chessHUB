@@ -3,4 +3,6 @@
   <p class="card-body" *ngIf="partita?.esito=='1'">vinta da {{partita?.giocatore1?.username}}</p>
   <p class="card-body" *ngIf="partita?.esito=='2'">vinta da {{partita?.giocatore2?.username}}</p>
   <p class="card-body" *ngIf="partita?.esito=='3'">partita patta</p>
+  <button class="card-body" *ngIf="partita?.esito =='0'" (click) = "caricaPartita()">Carica Partita</button>
+  <button class="card-body" *ngIf="partita?.esito !='0'" (click) = "visualizzaPartita()">Visualizza Partita</button>
 </div>

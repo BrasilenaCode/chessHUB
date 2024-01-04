@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Partita } from '../model/partita';
+import { AuthServiceService } from './auth.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class PartitaService {
 
   private backendUrl = "http://localhost:8080";  
   
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private auth: AuthServiceService) { }
 
   dammiPartite():Observable<Partita[]>{
     return this.http.get<Partita[]>(this.backendUrl+"/partite/all");
@@ -38,5 +40,11 @@ export class PartitaService {
   }
   dammiUltimePartiteGiocate(username:string):Observable<Partita[]>{
     return this.http.post<Partita[]>(this.backendUrl+"/partite/ultime",username);
+  }
+  caricaPartita(id:number|undefined):void{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
+    }
+    this.http.post(this.backendUrl+"/partite/carica",id, header);
   }
 }
