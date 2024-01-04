@@ -15,7 +15,8 @@ import {SignInComponent} from "./sign-in/sign-in.component";
 import {ProfiloPubblicoComponent} from "./profilo-pubblico/profilo-pubblico.component";
 import { PartitaComponent } from './partita/partita.component';
 import {RichiestaComponent} from "./richiesta/richiesta.component";
-
+import { AddPartitaComponent } from './add-partita/add-partita.component';
+import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
 const routes: Routes = [
   {"path": "", component: HomeComponent},
   {"path": "login", component: LoginComponent},
@@ -30,8 +31,14 @@ const routes: Routes = [
   {"path": "statistiche", component: StatisticheComponent, canActivate:[AuthGuardService]},
   {"path": "profiloPubblico", component: ProfiloPubblicoComponent, canActivate:[AuthGuardService]},
   {"path": "richiesta", component: RichiestaComponent, canActivate:[AuthGuardService]},
-  {"path": "partita", component: PartitaComponent}
+  {"path": "partita", component: PartitaComponent},
+  {"path": "giocatore/profilo", component: ProfiloPubblicoComponent},
+  {"path": "partita", component: PartitaComponent},
+  {"path": "addPartita", component: AddPartitaComponent},
+  {"path": "ricercaUtente", component: AnteprimaProfiloComponent}
+
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

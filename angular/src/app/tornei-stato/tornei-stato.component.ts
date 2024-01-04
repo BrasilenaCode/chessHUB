@@ -17,7 +17,6 @@ export class TorneiStatoComponent implements OnInit{
   }
   getTorneiStato(): void {
     if(this.stato == undefined) return;
-    console.log(this.stato);
     this.torneiService.dammiTorneiStato(this.stato).subscribe
     (tornei => this.tornei = tornei);
   }

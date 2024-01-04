@@ -63,12 +63,14 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
 
     @Override
-    public List<Utente> tryToFindUsersByKey(String username) {
+    public List<Utente> tryToFindUsersByKey(String toSearch) {
         List<Utente> utenti = new ArrayList<Utente>();
-        String query = "select * from utente where username like ?";
+        String query = "select * from utente where username like ? or nome like ? or cognome like ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, "%" + username + "%");
+            statement.setString(1, "%" + toSearch + "%");
+            statement.setString(2, "%" + toSearch + "%");
+            statement.setString(3, "%" + toSearch + "%");
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     Utente utente = new Utente();

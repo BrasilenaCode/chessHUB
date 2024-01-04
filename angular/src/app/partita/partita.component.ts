@@ -16,9 +16,15 @@ export class PartitaComponent implements OnInit{
   game: Chess = new Chess();
   board?: any;
   partita?: Partita;
+  infoPartita: {[key: string]: string} = {};
   nAttuale: number = 0;
   mosse: string[][] = [];
   fenHistory: string[] = [];
+  commentoAttuale: string = "";
+  automatic : boolean = false;
+  clock? : NodeJS.Timeout
+
+  comments : {[key: string]: string} = {};
 
   constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute){}
 
@@ -47,12 +53,16 @@ export class PartitaComponent implements OnInit{
     });
     this.fenHistory = this.game.history({ verbose: true }).map((move) => move.after);
     this.fenHistory.unshift(this.board.fen());
+    this.game.getComments().forEach((comment) => {
+      this.comments[comment.fen] = comment.comment;
+    });
   }
 
   nextMove(): void {
     if (this.nAttuale < this.fenHistory.length - 1) {
       this.nAttuale++;
       this.board.position(this.fenHistory[this.nAttuale]);
+      this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
   }
 
@@ -60,6 +70,7 @@ export class PartitaComponent implements OnInit{
     if (this.nAttuale > 0) {
       this.nAttuale--;
       this.board.position(this.fenHistory[this.nAttuale]);
+      this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
   }
 
@@ -68,6 +79,20 @@ export class PartitaComponent implements OnInit{
     if (mossaN >= 0 && mossaN < this.fenHistory.length) {
       this.nAttuale = mossaN;
       this.board.position(this.fenHistory[this.nAttuale]);
+      this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
+  }
+
+  auto() : void {
+    this.automatic = !this.automatic;
+    if (this.automatic) {
+      document.getElementById("automode")!.innerHTML = "ON";
+      this.clock = setInterval(() => this.nextMove(), 1000);
+    }
+    else{
+      document.getElementById("automode")!.innerHTML = "OFF";
+      clearInterval(this.clock);
+    }
+
   }
 }

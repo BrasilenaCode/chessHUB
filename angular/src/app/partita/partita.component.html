@@ -4,20 +4,32 @@
 <h3> VS </h3>
 <h2> {{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}} {{partita?.giocatore2?.punteggio}}</h2>
 
-<h4> {{partita?.pgn}}</h4>
+<div id= formulario >
+  <table id= formulario >
+    <tr *ngFor="let mossa of mosse">
+      <td id= n-formulario>{{mossa[0]}}</td>
+      <td (click)="goTo(mossa[0], 0)">{{mossa[1]}}</td>
+      <td (click)="goTo(mossa[0], 1)">{{mossa[2]}}</td>
+    </tr>
+  </table>
+</div>
+
+
+<div id = commento>
+  <h3 id = titolo-commento> Commento: </h3>
+  <p> {{commentoAttuale}} </p>
+</div>
 
 <div id = board></div>
 
-<table>
-  <tr *ngFor="let mossa of mosse">
-    <td>{{mossa[0]}}</td>
-    <td (click)="goTo(mossa[0], 0)">{{mossa[1]}}</td>
-    <td (click)="goTo(mossa[0], 1)">{{mossa[2]}}</td>
-  </tr>
-</table>
+
+
+
+<p> Auto Mode: 
+<button id="automode" (click)="auto()">OFF</button>
+</p>
 
 <button (click)="previousMove()">"precedente"</button>
 <button (click)="nextMove()">"successiva"</button>
-<button (click)="caricamentoPartita()">carica</button>
 
 

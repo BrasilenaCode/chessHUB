@@ -157,4 +157,11 @@ export class UtentiService {
     console.log(richiesta)
     return this.http.post(this.backendUrl + "/utente/rifiutaRichiesta", richiesta, header)
   }
+
+  ricercaUtente(username: string): Observable<Utente[]> {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<Utente[]>(this.backendUrl + "/utenti/ricerca", username, header);
+  }
 }

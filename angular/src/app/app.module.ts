@@ -29,6 +29,8 @@ import { MapsComponent } from './maps/maps.component';
 import { ProfiloPubblicoComponent } from './profilo-pubblico/profilo-pubblico.component';
 import { PartitaComponent } from './partita/partita.component';
 import { RichiestaComponent } from './richiesta/richiesta.component';
+import { AddPartitaComponent } from './add-partita/add-partita.component';
+import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { RichiestaComponent } from './richiesta/richiesta.component';
     MapsComponent,
     ProfiloPubblicoComponent,
     PartitaComponent,
-    RichiestaComponent
+    RichiestaComponent,
+    AddPartitaComponent,
+    AnteprimaProfiloComponent
   ],
     imports: [
         HttpClientModule,
