@@ -9,7 +9,6 @@ import it.brasilenacode.chesshub.persistenza.model.Utente;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -139,5 +138,31 @@ public class PartitaDaoPostgres implements PartitaDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public List<Partita> findAllWithoutReferences(){
+        List<Partita> partite = new ArrayList<Partita>();
+        String query = "select * from partita";
+        try {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                Partita partita = new Partita();
+                partita.setId(rs.getLong("id"));
+                partita.setGiocatore1(new Utente(rs.getString("giocatore1")));
+                partita.setGiocatore2(new Utente(rs.getString("giocatore2")));
+                partita.setData(new Date(rs.getDate("data").getTime()));
+                Torneo torneo= new Torneo();
+                torneo.setId(rs.getLong("torneo"));
+                partita.setTorneo(torneo);
+                partita.setEsito(rs.getString("esito"));
+                partita.setMosse(rs.getString("pgn"));
+                partita.setTurno(rs.getInt("turno"));
+                partita.setPrivacy(rs.getString("privacy"));
+                partite.add(partita);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return partite;
     }
 }
