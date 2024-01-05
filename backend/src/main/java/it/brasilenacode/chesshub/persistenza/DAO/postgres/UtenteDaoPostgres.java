@@ -3,14 +3,19 @@ package it.brasilenacode.chesshub.persistenza.DAO.postgres;
 import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
+import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class UtenteDaoPostgres implements UtenteDao {
     Connection connection;
+    private final int PUNTI_PER_VITTORIA = 3;
+    private final int PUNTI_PER_PAREGGIO = 1;
+    private final int PUNTI_PER_SCONFITTA = 0;
     public UtenteDaoPostgres(Connection connection) {
         this.connection = connection;
     }
@@ -23,14 +28,7 @@ public class UtenteDaoPostgres implements UtenteDao {
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                utente = new Utente();
-                utente.setNome(rs.getString("nome"));
-                utente.setCognome(rs.getString("cognome"));
-                utente.setUsername(rs.getString("username"));
-                utente.setPassword(rs.getString("password"));
-                utente.setNazionalita(rs.getString("nazionalità"));
-                utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
-                utente.setAdmin(rs.getBoolean("admin"));
+                utente = getProssimoUtente(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,14 +44,7 @@ public class UtenteDaoPostgres implements UtenteDao {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                Utente utente = new Utente();
-                utente.setNome(rs.getString("nome"));
-                utente.setCognome(rs.getString("cognome"));
-                utente.setUsername(rs.getString("username"));
-                utente.setPassword(rs.getString("password"));
-                utente.setNazionalita(rs.getString("nazionalità"));
-                utente.setAdmin(rs.getBoolean("admin"));
-                utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
+                Utente utente = getProssimoUtente(rs);
                 utenti.add(utente);
             }
         } catch (SQLException e) {
@@ -73,14 +64,7 @@ public class UtenteDaoPostgres implements UtenteDao {
             statement.setString(3, "%" + toSearch + "%");
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    Utente utente = new Utente();
-                    utente.setNome(rs.getString("nome"));
-                    utente.setCognome(rs.getString("cognome"));
-                    utente.setUsername(rs.getString("username"));
-                    utente.setPassword(rs.getString("password"));
-                    utente.setNazionalita(rs.getString("nazionalità"));
-                    utente.setAdmin(rs.getBoolean("admin"));
-                    utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
+                    Utente utente = getProssimoUtente(rs);
                     utenti.add(utente);
                 }
             }
@@ -240,5 +224,38 @@ public class UtenteDaoPostgres implements UtenteDao {
             e.printStackTrace();
         }
     }
+    private Utente getProssimoUtente(ResultSet rs) throws SQLException{
+        Utente utente = new Utente();
+        utente.setNome(rs.getString("nome"));
+        utente.setCognome(rs.getString("cognome"));
+        utente.setUsername(rs.getString("username"));
+        utente.setPassword(rs.getString("password"));
+        utente.setNazionalita(rs.getString("nazionalità"));
+        utente.setDataNascita(new Date(rs.getDate("data_nascita").getTime()));
+        utente.setAdmin(rs.getBoolean("admin"));
+        utente.setPunteggio(getPunteggio(utente.getUsername()));
+        utente.setPunteggioSettimanale(getPunteggioSettimanale(utente.getUsername()));
+        return utente;
+    }
+    private int getPunteggio(String username){
+        PartitaDao partitaDaoPostgres = DBManager.getInstance().getPartitaDao();
+        long vittorie = partitaDaoPostgres.findAllWithoutReferences().stream().filter(partita -> (partita.getEsito().equals("1") && partita.getGiocatore1().getUsername().equals(username)) || (partita.getEsito().equals("2") && partita.getGiocatore2().getUsername().equals(username))).count();
+        long pareggi = partitaDaoPostgres.findAllWithoutReferences().stream().filter(partita -> partita.getEsito().equals("3") && (partita.getGiocatore1().getUsername().equals(username) || partita.getGiocatore2().getUsername().equals(username))).count();
+        long sconfitte = partitaDaoPostgres.findAllWithoutReferences().stream().filter(partita -> (partita.getEsito().equals("2") && partita.getGiocatore1().getUsername().equals(username)) || (partita.getEsito().equals("1") && partita.getGiocatore2().getUsername().equals(username))).count();
+        return (int) (vittorie*PUNTI_PER_VITTORIA+pareggi*PUNTI_PER_PAREGGIO+sconfitte*PUNTI_PER_SCONFITTA);
+    }
+    private int getPunteggioSettimanale(String username){
+        PartitaDao partitaDaoPostgres = DBManager.getInstance().getPartitaDao();
+        long vittorie = partitaDaoPostgres.findAllWithoutReferences().stream().filter(partita -> ((partita.getEsito().equals("1") && partita.getGiocatore1().getUsername().equals(username)) || (partita.getEsito().equals("2") && partita.getGiocatore2().getUsername().equals(username))) && isInCurrentWeek(partita.getData())).count();
+        long pareggi = partitaDaoPostgres.findAllWithoutReferences().stream().filter(partita -> (partita.getEsito().equals("3") && (partita.getGiocatore1().getUsername().equals(username) || partita.getGiocatore2().getUsername().equals(username))) && isInCurrentWeek(partita.getData())).count();
+        long sconfitte = partitaDaoPostgres.findAllWithoutReferences().stream().filter(partita -> ((partita.getEsito().equals("2") && partita.getGiocatore1().getUsername().equals(username)) || (partita.getEsito().equals("1") && partita.getGiocatore2().getUsername().equals(username))) && isInCurrentWeek(partita.getData())).count();
+        return (int) (vittorie*PUNTI_PER_VITTORIA+pareggi*PUNTI_PER_PAREGGIO+sconfitte*PUNTI_PER_SCONFITTA);
+    }
+    private static boolean isInCurrentWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        int currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        calendar.setTime(date);
+        int weekOfDate = calendar.get(Calendar.WEEK_OF_YEAR);
+        return currentWeek == weekOfDate;
+    }
 }
-
