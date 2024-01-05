@@ -41,10 +41,13 @@ export class PartitaService {
   dammiUltimePartiteGiocate(username:string):Observable<Partita[]>{
     return this.http.post<Partita[]>(this.backendUrl+"/partite/ultime",username);
   }
-  caricaPartita(id:number|undefined):void{
+
+  salvaPartita(partita:Partita): any{
+    console.log("salvaPartita in services");
+    console.log(partita);
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
     }
-    this.http.post(this.backendUrl+"/partite/carica",id, header);
+    return this.http.post(this.backendUrl+"/partite/salva",partita);
   }
 }
