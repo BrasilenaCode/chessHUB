@@ -1,9 +1,12 @@
 <div [innerHTML]="pagina"></div>
 <button (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
-<div>
-    <h4>Ultime partite giocate</h4>
-    <p *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
-    <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+<div>  
+  <div>
+      <h4>Ultime partite giocate</h4>
+      <p *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
+      <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+  </div>
+  <button (click)="vaiAllePartite()">Visualizza tutte le partite</button>
 </div>
 <div>
   <h4>Richieste di amicizia</h4>
