@@ -35,9 +35,9 @@ export class AddPartitaComponent implements OnInit{
       onDragStart: this.onDragStart,
       onDrop: this.onDrop,
     }
-  
+
     constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute){}
-  
+
     ngOnInit(): void {
       this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => this.partita = partita)
       try{
@@ -69,7 +69,7 @@ export class AddPartitaComponent implements OnInit{
 
       if (AddPartitaComponent.game.turn() === 'w' && !AddPartitaComponent.isWhitePiece(dragStartEvt.piece)) return false;
       if (AddPartitaComponent.game.turn() === 'b' && !AddPartitaComponent.isBlackPiece(dragStartEvt.piece)) return false;
-    
+
       const legalMoves = AddPartitaComponent.game.moves({
         square: dragStartEvt.square,
         verbose: true
@@ -93,8 +93,8 @@ export class AddPartitaComponent implements OnInit{
       catch (e) {
         return 'snapback'
       }
-    
-      
+
+
       AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
 
       AddPartitaComponent.updateStatus();
@@ -108,7 +108,7 @@ export class AddPartitaComponent implements OnInit{
       let esito = '0';
 
       const whosTurn = AddPartitaComponent.game.turn() === 'w' ? 'White' : 'Black';
-    
+
       if (!AddPartitaComponent.game.isGameOver()) {
         if (AddPartitaComponent.game.inCheck()) statusHTML = whosTurn + ' is in check! ';
         statusHTML = statusHTML + whosTurn + ' to move.';
@@ -134,7 +134,7 @@ export class AddPartitaComponent implements OnInit{
         statusHTML = 'Game is drawn by fifty-move rule.';
         esito = '3';
       }
-      
+
       AddPartitaComponent.gameState = esito;
       AddPartitaComponent.gameStatus = statusHTML;
       AddPartitaComponent.gamePGN = AddPartitaComponent.game.pgn();
@@ -183,8 +183,8 @@ export class AddPartitaComponent implements OnInit{
         return;
       this.partita.pgn = AddPartitaComponent.gamePGN;
       this.partita.esito = this.risultato;
-      this.partitaService.salvaPartita(this.partita);
-      console.log("il comando dal front end è partito");
+      this.partitaService.salvaPartita(this.partita).subscribe(result=>
+      console.log("il comando dal front end è partito"));
     }
 
 

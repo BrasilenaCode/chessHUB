@@ -42,12 +42,12 @@ export class PartitaService {
     return this.http.post<Partita[]>(this.backendUrl+"/partite/ultime",username);
   }
 
-  salvaPartita(partita:Partita): any{
+  salvaPartita(partita:Partita){
     console.log("salvaPartita in services");
     console.log(partita);
     var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
-    return this.http.post(this.backendUrl+"/partite/salva",partita);
+    return this.http.post(this.backendUrl+"/partite/salva",partita, header);
   }
 }

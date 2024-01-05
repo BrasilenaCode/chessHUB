@@ -59,8 +59,7 @@ public class PartiteController {
     }
 
     @PostMapping("/partite/salva")
-    public void addPartita (@RequestBody Partita partita, HttpServletRequest req) {
-        System.out.println(partita);
+    public void addPartita (HttpServletRequest req, @RequestBody Partita partita) {
         if(Auth.isAuthenticated(req)){
             DBManager.getInstance().getPartitaDao().saveOrUpdate(partita);
         }

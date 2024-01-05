@@ -96,13 +96,13 @@ public class PartitaDaoPostgres implements PartitaDao {
                 e.printStackTrace();
             }
         } else {
-            String updateStr = "UPDATE partita set vincitore = ?, "
-                    + "perdente = ?, "
+            String updateStr = "UPDATE partita set giocatore1 = ?, "
+                    + "giocatore2 = ?, "
                     + "torneo = ?, "
                     + "data = ? ,"
-                    + "patta= ? ,"
-                    + "turno= ?,"
-                    + "pgn= ?"
+                    + "esito= ? ,"
+                    + "turno= ? ,"
+                    + "pgn= ? "
                     + "where id = ?";
 
             PreparedStatement st;
