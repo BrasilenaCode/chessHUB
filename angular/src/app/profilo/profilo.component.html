@@ -5,10 +5,6 @@
   <app-richiesta *ngFor="let richiesta of richieste" (refreshParent)="refreshParentComponent()" [richiesta]="richiesta"></app-richiesta>
 </div>
 <div>
-  <h4>Amici</h4>
-</div>
-<button (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
-<div>
   <div>
       <h4>Ultime partite giocate</h4>
       <p *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
@@ -16,3 +12,4 @@
   </div>
   <button (click)="vaiAllePartite()">Visualizza tutte le partite</button>
 </div>
+<button (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
