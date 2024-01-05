@@ -17,6 +17,7 @@ import { PartitaComponent } from './partita/partita.component';
 import {RichiestaComponent} from "./richiesta/richiesta.component";
 import { AddPartitaComponent } from './add-partita/add-partita.component';
 import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
+import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.component';
 const routes: Routes = [
   {"path": "", component: HomeComponent},
   {"path": "login", component: LoginComponent},
@@ -35,8 +36,8 @@ const routes: Routes = [
   {"path": "giocatore/profilo", component: ProfiloPubblicoComponent},
   {"path": "partita", component: PartitaComponent},
   {"path": "addPartita", component: AddPartitaComponent},
-  {"path": "ricercaUtente", component: AnteprimaProfiloComponent}
-
+  {"path": "ricercaUtente", component: AnteprimaProfiloComponent},
+  {"path": "partite", component: TutteLePartiteComponent}
 ];
 
 

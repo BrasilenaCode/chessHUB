@@ -31,6 +31,9 @@ export class ProfiloComponent implements OnInit{
   vaiAlleStatistiche(): void {
     this.router.navigate(['/statistiche']);
   }
+  vaiAllePartite(): void {
+    this.router.navigate(['/partite']);
+  }
 
   private getRichiesteAmicizia() {
     this.utentiService.dammiRichiesteAmicizia().subscribe(richieste => this.richieste = richieste);

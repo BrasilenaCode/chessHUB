@@ -31,6 +31,7 @@ import { PartitaComponent } from './partita/partita.component';
 import { RichiestaComponent } from './richiesta/richiesta.component';
 import { AddPartitaComponent } from './add-partita/add-partita.component';
 import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
+import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo
     PartitaComponent,
     RichiestaComponent,
     AddPartitaComponent,
-    AnteprimaProfiloComponent
+    AnteprimaProfiloComponent,
+    TutteLePartiteComponent
   ],
     imports: [
         HttpClientModule,
