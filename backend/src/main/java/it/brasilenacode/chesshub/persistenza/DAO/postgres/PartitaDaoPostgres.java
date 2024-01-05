@@ -40,6 +40,7 @@ public class PartitaDaoPostgres implements PartitaDao {
                 partita.setEsito(rs.getString("esito"));
                 partita.setTurno(rs.getInt("turno"));
                 partita.setMosse(rs.getString("pgn"));
+                partita.setPrivacy(rs.getString("privacy"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,6 +67,8 @@ public class PartitaDaoPostgres implements PartitaDao {
                 partita.setTorneo(torneo);
                 partita.setEsito(rs.getString("esito"));
                 partita.setMosse(rs.getString("pgn"));
+                partita.setTurno(rs.getInt("turno"));
+                partita.setPrivacy(rs.getString("privacy"));
                 partite.add(partita);
             }
         } catch (SQLException e) {
@@ -77,7 +80,7 @@ public class PartitaDaoPostgres implements PartitaDao {
     @Override
     public void saveOrUpdate(Partita partita) {
         if (findByPrimaryKey(partita.getId()) == null) {
-            String insertStr = "INSERT INTO partita VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertStr = "INSERT INTO partita VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st;
             try {
                 st = connection.prepareStatement(insertStr);
@@ -91,6 +94,7 @@ public class PartitaDaoPostgres implements PartitaDao {
                 st.setString(6, partita.getEsito());
                 st.setInt(7, partita.getTurno());
                 st.setString(8, partita.getPGN());
+                st.setString(9, partita.getPrivacy());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -102,7 +106,8 @@ public class PartitaDaoPostgres implements PartitaDao {
                     + "data = ? ,"
                     + "esito= ? ,"
                     + "turno= ? ,"
-                    + "pgn= ? "
+                    + "pgn= ? ,"
+                    + "privacy= ? "
                     + "where id = ?";
 
             PreparedStatement st;
@@ -115,7 +120,8 @@ public class PartitaDaoPostgres implements PartitaDao {
                 st.setString(5, partita.getEsito());
                 st.setInt(6, partita.getTurno());
                 st.setString(7, partita.getPGN());
-                st.setLong(8, partita.getId());
+                st.setString(8, partita.getPrivacy());
+                st.setLong(9, partita.getId());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

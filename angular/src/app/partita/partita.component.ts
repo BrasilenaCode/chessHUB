@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
 import { Utente } from '../model/utente';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Chess } from 'chess.js';
+import {UtentiService} from "../services/utenti.service";
 
 declare var Chessboard2: any;
 
@@ -29,7 +30,9 @@ export class PartitaComponent implements OnInit{
   constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute){}
 
   ngOnInit(): void {
-    this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => this.partita = partita)
+    this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => {
+      this.partita = partita;
+    });
     try{
       this.board = Chessboard2('board', 'start');
     }
@@ -96,6 +99,5 @@ export class PartitaComponent implements OnInit{
       document.getElementById("automode")!.innerHTML = "OFF";
       clearInterval(this.clock);
     }
-
   }
 }

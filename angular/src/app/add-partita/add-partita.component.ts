@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chess } from 'chess.js';
 import { Partita } from '../model/partita';
 import { PartitaService } from '../services/partita.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 declare var Chessboard2: any;
@@ -36,7 +36,7 @@ export class AddPartitaComponent implements OnInit{
       onDrop: this.onDrop,
     }
 
-    constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute){}
+    constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private router:Router){}
 
     ngOnInit(): void {
       this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => this.partita = partita)
@@ -183,9 +183,9 @@ export class AddPartitaComponent implements OnInit{
         return;
       this.partita.pgn = AddPartitaComponent.gamePGN;
       this.partita.esito = this.risultato;
-      this.partitaService.salvaPartita(this.partita).subscribe(result=>
-      console.log("il comando dal front end è partito"));
+      this.partitaService.salvaPartita(this.partita).subscribe(result=> {
+          this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
+        }
+      );
     }
-
-
 }

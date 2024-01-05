@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Partita} from "../model/partita";
 import {Router} from "@angular/router";
+import {UtentiService} from "../services/utenti.service";
+import {AuthServiceService} from "../services/auth.service";
 
 @Component({
   selector: 'app-partita-show',
@@ -10,11 +12,14 @@ import {Router} from "@angular/router";
 export class PartitaShowComponent implements OnInit{
   @Input() partita?: Partita;
   nomePartita: string = " ciao ";
+  privacy?:boolean;
+  admin?:boolean;
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private utenteService:UtentiService, private auth:AuthServiceService){}
 
   ngOnInit(): void {
     this.setNomePartita();
+    this.setPrivacy();
   }
   setNomePartita(): void {
     let giocatore1: string | undefined = this.partita?.giocatore1?.username;
@@ -32,5 +37,25 @@ export class PartitaShowComponent implements OnInit{
 
   visualizzaPartita(): void {
     this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
+  }
+
+  private setPrivacy() {
+    this.privacy = false;
+    this.admin = false;
+    this.auth.isAdmin().subscribe(risultato=>{
+      console.log(risultato)
+      if (risultato){
+        this.privacy = true;
+        this.admin = true;
+      } else {
+        if (this.partita?.privacy == "pubblica")
+          this.privacy = true;
+        else {
+          if (this.partita?.privacy!="privata" && (this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore1?.username!) || (this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore2?.username!)))) {
+            this.privacy = true;
+          }
+        }
+      }
+    });
   }
 }

@@ -43,8 +43,6 @@ export class PartitaService {
   }
 
   salvaPartita(partita:Partita){
-    console.log("salvaPartita in services");
-    console.log(partita);
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }

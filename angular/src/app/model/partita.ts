@@ -10,4 +10,5 @@ export interface Partita {
     turno: number;
     esito: string;
     pgn: string;
+    privacy: string;
 }

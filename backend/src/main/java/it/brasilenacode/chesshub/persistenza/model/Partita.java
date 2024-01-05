@@ -14,6 +14,8 @@ public class Partita {
     private String esito;
     private String pgn;
 
+    private String privacy;
+
     public Partita() {;
     }
     public Partita(Torneo torneo, Utente giocatore1, Utente giocatore2, Date data, String esito, int turno){
@@ -32,6 +34,14 @@ public class Partita {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(String privacy) {
+        this.privacy = privacy;
     }
 
     public void setData(Date data) {

@@ -107,6 +107,7 @@ public class UtentiController {
     public boolean isAdmin(HttpServletRequest req){
         if(Auth.isAuthenticated(req)){
             Utente utente = Auth.getUser(req);
+            System.out.println(utente.isAdmin());
             return utente.isAdmin();
         }
         return false;
