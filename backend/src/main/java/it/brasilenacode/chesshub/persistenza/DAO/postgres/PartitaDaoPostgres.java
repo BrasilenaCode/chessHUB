@@ -101,7 +101,7 @@ public class PartitaDaoPostgres implements PartitaDao {
                     + "torneo = ?, "
                     + "data = ? ,"
                     + "patta= ? ,"
-                    + "turno= ?"
+                    + "turno= ?,"
                     + "pgn= ?"
                     + "where id = ?";
 

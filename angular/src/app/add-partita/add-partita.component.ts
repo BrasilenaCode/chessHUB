@@ -82,6 +82,7 @@ export class AddPartitaComponent implements OnInit{
 
     onDrop (dropEvt : any) : any{
       let move;
+      AddPartitaComponent.board.clearCircles();
       try {
         move = AddPartitaComponent.game.move({
           from: dropEvt.source,
@@ -93,7 +94,7 @@ export class AddPartitaComponent implements OnInit{
         return 'snapback'
       }
     
-      AddPartitaComponent.board.clearCircles();
+      
       AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
 
       AddPartitaComponent.updateStatus();
@@ -160,8 +161,7 @@ export class AddPartitaComponent implements OnInit{
       AddPartitaComponent.updateStatus();
     }
 
-    generaPGN(): void {
-      console.log("generazione...");
+    generaHeaderPGN(): void {
       if(this.partita?.torneo?.nome != null && this.partita?.torneo?.nome != "")
         AddPartitaComponent.game.header('Event', this.partita.torneo.nome + "");
       if(this.partita?.torneo?.luogo != null && this.partita?.torneo?.luogo != "")
@@ -175,11 +175,16 @@ export class AddPartitaComponent implements OnInit{
         AddPartitaComponent.game.header('White', this.partita?.giocatore1?.cognome + "" + this.partita?.giocatore1.nome);
       if(this.partita?.giocatore2?.cognome != null && this.partita?.giocatore2?.cognome != "" && this.partita?.giocatore2?.nome != null && this.partita?.giocatore2?.nome != "")
         AddPartitaComponent.game.header('Black', this.partita?.giocatore2?.cognome + "" + this.partita?.giocatore2.nome);
-      console.log(AddPartitaComponent.game.header());
       }
 
     salvaPartita(): void {
-      console.log("lo devo implementare");
+      this.generaHeaderPGN();
+      if(this.partita == null)
+        return;
+      this.partita.pgn = AddPartitaComponent.gamePGN;
+      this.partita.esito = this.risultato;
+      this.partitaService.salvaPartita(this.partita);
+      console.log("il comando dal front end è partito");
     }
 
 

@@ -1,8 +1,10 @@
 package it.brasilenacode.chesshub.controller;
 
+import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.utilities.PartiteModel;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class PartiteController {
     public List<Partita> dammiPartite(){
         return PartiteModel.dammiPartite();
     }
+
     @PostMapping("/partite/id")
     public Partita dammiPartita(@RequestBody long id){
         return PartiteModel.dammiPartita(id);
@@ -53,5 +56,13 @@ public class PartiteController {
     @PostMapping("/partite/ultime")
     public List<Partita> dammiUltimePartiteGiocate(@RequestBody String username) {
         return PartiteModel.dammiUltimePartiteGiocate(username);
+    }
+
+    @PostMapping("/partite/salva")
+    public void addPartita (@RequestBody Partita partita, HttpServletRequest req) {
+        System.out.println(partita);
+        if(Auth.isAuthenticated(req)){
+            DBManager.getInstance().getPartitaDao().saveOrUpdate(partita);
+        }
     }
 }
