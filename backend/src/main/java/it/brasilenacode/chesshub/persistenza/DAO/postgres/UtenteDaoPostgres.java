@@ -240,6 +240,5 @@ public class UtenteDaoPostgres implements UtenteDao {
             e.printStackTrace();
         }
     }
-
 }
 

@@ -10,7 +10,7 @@ public class Utente {
     private Date dataNascita;
     private int punteggio;
     private int punteggioSettimanale;
-
+    private int follower;
     private boolean admin;
 
     public Utente() {
@@ -34,6 +34,14 @@ public class Utente {
 
     public void setCognome(String cognome) {
         this.cognome = cognome;
+    }
+
+    public int getFollower() {
+        return follower;
+    }
+
+    public void setFollower(int follower) {
+        this.follower = follower;
     }
 
     public String getUsername() {

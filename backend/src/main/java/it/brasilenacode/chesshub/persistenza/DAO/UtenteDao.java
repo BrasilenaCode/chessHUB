@@ -2,6 +2,7 @@ package it.brasilenacode.chesshub.persistenza.DAO;
 
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UtenteDao {
@@ -22,5 +23,6 @@ public interface UtenteDao {
     void accettaRichiesta(Utente seguito, Utente seguace);
 
     void rifiutaRichiesta(Utente seguito, Utente seguace);
+
 }
 

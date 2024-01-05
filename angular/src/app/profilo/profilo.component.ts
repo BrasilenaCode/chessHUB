@@ -13,11 +13,12 @@ import {Utente} from "../model/utente";
   styleUrl: './profilo.component.css'
 })
 export class ProfiloComponent implements OnInit{
-  constructor(private utentiService: UtentiService, private router: Router, private activatedRoute: ActivatedRoute, private partiteService: PartitaService) { }
+  constructor(private utentiService: UtentiService, private router: Router, private partiteService: PartitaService) { }
   pagina?: string = "";
   partite?: Partita[];
   richieste?: Utente[];
   ngOnInit(): void {
+    console.log("ngOnInit");
     this.getPaginaUtente();
     this.getRichiesteAmicizia();
   }

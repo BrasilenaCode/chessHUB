@@ -21,6 +21,7 @@ public class ProfiloServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         resp.setHeader("Access-Control-Allow-Credentials", "true");
         Utente u= DBManager.getInstance().getUtenteDao().findByPrimaryKey(req.getParameter("username"));
+        u.setFollower(DBManager.getInstance().getUtenteDao().getFollower(u).size());
         req.setAttribute("utente", u);
         req.setAttribute("bandiera", FlagDirector.getInstance().getFlag(u.getNazionalita()));
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/profilo.html");
