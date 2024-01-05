@@ -47,6 +47,10 @@ export class ProfiloPubblicoComponent implements OnInit{
     });
   }
 
+  mostraPunteggi(){
+    console.log("qui arriva");
+  }
+
   nonSeguire() {
     this.utentiService.smettiDiSeguire(this.activatedRoute.snapshot.queryParams["username"]).subscribe(risultato => {
       if(this.numeroFollower!=undefined){

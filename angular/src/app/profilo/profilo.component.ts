@@ -17,10 +17,13 @@ export class ProfiloComponent implements OnInit{
   pagina?: string = "";
   partite?: Partita[];
   richieste?: Utente[];
+
   ngOnInit(): void {
-    console.log("ngOnInit");
     this.getPaginaUtente();
     this.getRichiesteAmicizia();
+  }
+  refreshParentComponent() {
+    this.getPaginaUtente();
   }
   getPaginaUtente(): void {
     this.utentiService.dammiUtenteAcceduto().subscribe(utente => {

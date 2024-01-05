@@ -3,7 +3,7 @@
 <p th:text="'Nome: ' + ${utente.nome}"></p>
 <p th:text="'Cognome: ' + ${utente.cognome}"></p>
 <p th:text="'Nazionalità: ' + ${utente.nazionalita}"></p>
-<p th:text="'età: ' + ${eta}"></p>
+<p th:text="'Data di nascita: ' + ${utente.dataNascita}"></p>
 <div>
     <h4 th:text="'I punteggi di ' + ${utente.username}"></h4>
     <div class="card">
@@ -15,4 +15,3 @@
         <p class="card-body" th:text="'ha totalizzato ' + ${utente.punteggio} + ' punti nella sua carriera su ChessHub'"></p>
     </div>
 </div>
-

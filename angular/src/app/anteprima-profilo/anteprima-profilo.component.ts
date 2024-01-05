@@ -36,7 +36,11 @@ export class AnteprimaProfiloComponent implements OnInit {
   }
 
   vaiAlProfilo(utente:Utente) {
-    console.log(utente)
-    this.router.navigate(['/profiloPubblico'], { queryParams: { username: utente.username } });
+    this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto => {
+      if (utenteAcceduto.username == utente.username)
+        this.router.navigate(['/profilo']);
+      else
+        this.router.navigate(['/profiloPubblico'], {queryParams: {username: utente.username}});
+    });
   }
 }

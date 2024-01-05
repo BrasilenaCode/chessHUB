@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Utente} from "../model/utente";
 import {UtentiService} from "../services/utenti.service";
 import {Router} from "@angular/router";
@@ -11,19 +11,23 @@ import {Router} from "@angular/router";
 export class RichiestaComponent {
   @Input() richiesta?: Utente;
   nascondi?: boolean = false;
+  @Output() refreshParent = new EventEmitter<void>();
+  statoRichiesta?: string = "";
+
   constructor(private utentiService: UtentiService, private router:Router){}
 
   accetta() {
     this.utentiService.accettaRichiesta(this.richiesta).subscribe(response=>{
       this.nascondi = true;
-      this.router.navigateByUrl('/profilo', { skipLocationChange: true }).then(() => {
-        this.router.navigate([this.router.url]);
-      });
+      this.refreshParent.emit();
+      this.statoRichiesta = "Richiesta accettata";
     });
   }
 
   rifiuta() {
-    this.utentiService.rifiutaRichiesta(this.richiesta).subscribe(response=>
-    this.nascondi = true);
+    this.utentiService.rifiutaRichiesta(this.richiesta).subscribe(response=>{
+      this.nascondi = true;
+      this.statoRichiesta = "Richiesta rifiutata";
+    });
   }
 }

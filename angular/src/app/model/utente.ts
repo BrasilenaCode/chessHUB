@@ -1,4 +1,4 @@
-export interface Utente{
+export interface UtenteRegistrazione{
     nome:string;
     cognome:string;
     username:string;
@@ -8,6 +8,18 @@ export interface Utente{
     punteggio:number
     admin:boolean;
     punteggioSettimanale:number
+}
+
+export interface Utente{
+  nome:string;
+  cognome:string;
+  username:string;
+  password:string;
+  nazionalita:string;
+  dataNascita:Date;
+  punteggio:number
+  admin:boolean;
+  punteggioSettimanale:number
 }
 
 export interface UtenteLogin{

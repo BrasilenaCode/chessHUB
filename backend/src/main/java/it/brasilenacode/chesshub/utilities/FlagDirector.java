@@ -29,7 +29,7 @@ public class FlagDirector {
         if(!flags.containsKey(nationality)){
             byte[] Image = null;
             try {
-                URL urlToFlag = getClass().getResource("/static/flags/" + nationality + ".png");
+                URL urlToFlag = getClass().getResource("/static/flags/" + nationality.toLowerCase() + ".png");
                 if(urlToFlag != null){
                     Image = Files.readAllBytes(Path.of(urlToFlag.toURI()));
                 } else {
@@ -45,14 +45,4 @@ public class FlagDirector {
         }
         return flags.get(nationality);
     }
-
-    public String getNationality(String flag){
-        for(String key : flags.keySet()){
-            if(flags.get(key).equals(flag)){
-                return key;
-            }
-        }
-        return "unknown";
-    }
-
 }

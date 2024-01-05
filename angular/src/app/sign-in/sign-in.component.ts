@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormControl } from "@angular/forms";
 import {AuthServiceService} from "../services/auth.service";
 import {Router} from "@angular/router";
-import { Utente } from '../model/utente';
+import {UtenteRegistrazione} from '../model/utente';
 
 @Component({
   selector: 'app-sign-in',
@@ -19,22 +19,25 @@ export class SignInComponent {
   nazionalita=new FormControl();
   dataNascita= new FormControl();
   errorMessage = "";
-  nationalities: string[] = [
-    'Italiana',
-    'Tedesca',
-    'Francese',
-    'Spagnola',
-    'Indiana',
-    'Giapponese',
-    'Cinese',
-    'Brasiliana',
-    'Canadese',
-    'Australiana',
-    'Britannica',
-    'Messicana',
-    'Sudcoreana',
-    'Russa'
-  ];
+  nationalities: { [key: string]: string } = {
+    'IT': 'Italiano',
+    'EN': 'Inglese',
+    'FR': 'Francese',
+    'DE': 'Tedesco',
+    'ES': 'Spagnolo',
+    'PT': 'Portoghese',
+    'RU': 'Russo',
+    'CN': 'Cinese',
+    'JP': 'Giapponese',
+    'KR': 'Coreano',
+    'IN': 'Indiano',
+    'BR': 'Brasiliano',
+    'MX': 'Messicano',
+    'CA': 'Canadese',
+    'AU': 'Australiano',
+    'US': 'Americano',
+    'GB': 'Britannico'
+  };
 
   constructor(private auth:AuthServiceService, private router:Router) {
 }
@@ -42,12 +45,12 @@ export class SignInComponent {
   registrati() {
     this.submitted = true;
     if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
-      var utente: Utente = {
+      var utente: UtenteRegistrazione = {
         username: this.username.value,
         password: this.password.value,
         nome: this.nome.value,
         cognome: this.cognome.value,
-        nazionalita: this.nazionalita.value,
+        nazionalita: this.findKeyByValue(this.nazionalita.value),
         dataNascita: this.dataNascita.value,
         admin: false,
         punteggio: 0,
@@ -74,6 +77,16 @@ export class SignInComponent {
       }
   }
 
+  findKeyByValue (nazionalita:string){
+    const keys = Object.keys(this.nationalities);
+    for (const key of keys) {
+      if (this.nationalities[key] === nazionalita) {
+        return key;
+      }
+    }
+    return "undefined"
+  }
+
   clearErrorMessage() {
     this.errorMessage = "";
   }
@@ -81,4 +94,6 @@ export class SignInComponent {
   sonoValide(...variabili: (FormControl | null)[]): boolean {
     return variabili.every(variabile => variabile?.valid);
   }
+
+  protected readonly Object = Object;
 }
