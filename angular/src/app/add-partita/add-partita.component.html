@@ -1,1 +1,25 @@
-<p>add-partita works!</p>
+<h1>Caricamento Partita Torneo</h1>
+<p>Torneo: {{partita?.torneo?.nome}} - t: {{partita?.turno}}</p>
+<p>W: {{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}}</p>
+<p>B: {{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}}</p>
+<p>{{gameStatusPublic}}</p>
+<p>{{gamePGNPublic}}</p>
+<p>{{gameFENPublic}}</p>
+
+<select [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
+    <option value="0"> </option>
+    <option value="1"> 1-0 </option>
+    <option value="2"> 0-1 </option>
+    <option value="3"> 1/2 - 1/2 </option>
+</select>
+
+<label for="commentArea">Commenti</label>
+<textarea [(ngModel)]="commentoAttuale" placeholder="Inserisci un commento alla mossa corrente"></textarea>
+<button (click)="salvaCommento()">Salva Commento</button>
+<button (click)="cancellaCommento()">Cancella Commento</button>
+<button (click)="undoMove()">Annulla</button>
+
+<button (click)="generaPGN()">Genera PGN</button>
+<button (click)="salvaPartita()">Salva Partita</button>
+
+<div id=board></div>

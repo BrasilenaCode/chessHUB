@@ -30,7 +30,10 @@ export class PartitaComponent implements OnInit{
 
   ngOnInit(): void {
     this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => this.partita = partita)
-    this.board = Chessboard2('board', 'start');
+    try{
+      this.board = Chessboard2('board', 'start');
+    }
+    catch(e){}
     setTimeout(() => {
       this.caricamentoPartita();
     }, 1000);
