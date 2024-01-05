@@ -3,6 +3,7 @@ import {Partita} from "../model/partita";
 import {Router} from "@angular/router";
 import {UtentiService} from "../services/utenti.service";
 import {AuthServiceService} from "../services/auth.service";
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-partita-show',
@@ -11,9 +12,13 @@ import {AuthServiceService} from "../services/auth.service";
 })
 export class PartitaShowComponent implements OnInit{
   @Input() partita?: Partita;
-  nomePartita: string = " ciao ";
   privacy?:boolean;
   admin?:boolean;
+  white : string = "";
+  black : string = "";
+  modifica : boolean = true;
+
+  risultato : string = "";
 
   constructor(private router: Router, private utenteService:UtentiService, private auth:AuthServiceService){}
 
@@ -24,11 +29,31 @@ export class PartitaShowComponent implements OnInit{
   setNomePartita(): void {
     let giocatore1: string | undefined = this.partita?.giocatore1?.username;
     if (giocatore1 == undefined)
-      giocatore1 = "Giocatore1";
+      this.white = "Giocatore1";
+    else{
+      this.white = giocatore1;
+    }
     let giocatore2: string | undefined = this.partita?.giocatore2?.username;
     if (giocatore2 == undefined)
-      giocatore2 = "Giocatore2";
-    this.nomePartita = giocatore1 + " vs " + giocatore2;
+      this.black = "Giocatore2";
+    else{
+      this.black = giocatore2;
+    }
+    if(this.partita?.esito == "1"){
+      this.risultato = "1-0";
+    }else if(this.partita?.esito == "2"){
+      this.risultato = "0-1";
+    }
+    else if(this.partita?.esito == "3"){
+      this.risultato = "1/2";
+    }
+    else{
+      this.risultato = "   ";
+    }
+  }
+
+  salvaPartita(): void {
+    
   }
 
   caricaPartita(): void {

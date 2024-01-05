@@ -58,7 +58,7 @@ export class PartitaComponent implements OnInit{
       cont++;
     });
     this.fenHistory = this.game.history({ verbose: true }).map((move) => move.after);
-    this.fenHistory.unshift(this.board.fen());
+    this.fenHistory.unshift(this.board?.fen());
     this.game.getComments().forEach((comment) => {
       this.comments[comment.fen] = comment.comment;
     });

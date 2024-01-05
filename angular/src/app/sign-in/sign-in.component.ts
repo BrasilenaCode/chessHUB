@@ -20,23 +20,22 @@ export class SignInComponent {
   dataNascita= new FormControl();
   errorMessage = "";
   nationalities: { [key: string]: string } = {
-    'IT': 'Italiano',
-    'EN': 'Inglese',
-    'FR': 'Francese',
-    'DE': 'Tedesco',
-    'ES': 'Spagnolo',
-    'PT': 'Portoghese',
-    'RU': 'Russo',
-    'CN': 'Cinese',
-    'JP': 'Giapponese',
-    'KR': 'Coreano',
-    'IN': 'Indiano',
-    'BR': 'Brasiliano',
-    'MX': 'Messicano',
-    'CA': 'Canadese',
-    'AU': 'Australiano',
-    'US': 'Americano',
-    'GB': 'Britannico'
+    'it': 'Italiano',
+    'gb': 'Britannico',
+    'fr': 'Francese',
+    'de': 'Tedesco',
+    'es': 'Spagnolo',
+    'pt': 'Portoghese',
+    'ru': 'Russo',
+    'cn': 'Cinese',
+    'jp': 'Giapponese',
+    'kr': 'Coreano',
+    'in': 'Indiano',
+    'br': 'Brasiliano',
+    'mx': 'Messicano',
+    'ca': 'Canadese',
+    'au': 'Australiano',
+    'us': 'Americano'
   };
 
   constructor(private auth:AuthServiceService, private router:Router) {

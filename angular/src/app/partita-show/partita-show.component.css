@@ -1,10 +1,25 @@
-.primo{
-  padding-left: 20px;
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
-.riga {
-  background-color: #f0f0f0;
-  transition: background-color 0.3s;
+
+.card > p, .card > label, .card > select, .card > button {
+  margin: 0 5px;
+  white-space: nowrap;
 }
-.riga:hover {
-  background-color: #dcdcdc;
+
+.card > select, .card > label {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.card > p#white, .card > p#black {
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.card > button {
+  flex-grow: 0;
 }

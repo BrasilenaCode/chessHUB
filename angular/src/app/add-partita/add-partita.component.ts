@@ -17,14 +17,9 @@ export class AddPartitaComponent implements OnInit{
     static board?: any;
     partita?: Partita;
     static gameStatus: string = "";
-    static gamePGN: string = "";
-    static gameFEN: string = "";
-    static gameState: string = "";
+    static gameState: string = "0";
 
     gameStatusPublic: string = "";
-    gamePGNPublic: string = "";
-    gameFENPublic: string = "";
-
     commentoAttuale: string = "";
     risultato: string = "";
     positionEnded: boolean = false;
@@ -46,14 +41,27 @@ export class AddPartitaComponent implements OnInit{
       setInterval(() => {
         this.updateStats();
       }, 60);
+      setTimeout(() => {
+        this.caricamentoPartita();
+      }, 1000);
+    }
+
+    caricamentoPartita(): void {
+      if (this.partita?.pgn == null || this.partita.pgn == "") {
+        return;
+      }
+      try{
+      AddPartitaComponent.game.loadPgn(this.partita.pgn);
+      }
+      catch(e){
+        return;
+      }
     }
 
     updateStats(): void {
-      if(this.gamePGNPublic != AddPartitaComponent.gamePGN)
+      if(this.gameStatusPublic != AddPartitaComponent.gameStatus)
         this.commentoAttuale = AddPartitaComponent.game.getComment();
       this.gameStatusPublic = AddPartitaComponent.gameStatus;
-      this.gamePGNPublic = AddPartitaComponent.gamePGN;
-      this.gameFENPublic = AddPartitaComponent.gameFEN;
       if(AddPartitaComponent.gameState != "0"){
         this.risultato = AddPartitaComponent.gameState;
         this.positionEnded = true;
@@ -134,11 +142,8 @@ export class AddPartitaComponent implements OnInit{
         statusHTML = 'Game is drawn by fifty-move rule.';
         esito = '3';
       }
-
       AddPartitaComponent.gameState = esito;
       AddPartitaComponent.gameStatus = statusHTML;
-      AddPartitaComponent.gamePGN = AddPartitaComponent.game.pgn();
-      AddPartitaComponent.gameFEN = AddPartitaComponent.game.fen();
     }
 
     undoMove(): void {
@@ -167,10 +172,20 @@ export class AddPartitaComponent implements OnInit{
       if(this.partita?.torneo?.luogo != null && this.partita?.torneo?.luogo != "")
         AddPartitaComponent.game.header('Site', this.partita.torneo.luogo + "");
       if(this.partita?.torneo?.dataInizio != null && this.partita?.torneo?.dataInizio + "" != "")
-        AddPartitaComponent.game.header('Date', this.partita.torneo.dataInizio + "");
+        AddPartitaComponent.game.header('Date', this.partita.torneo.dataInizio.getDate + "");
       if(this.partita?.turno != null && this.partita?.turno + "" != "")
         AddPartitaComponent.game.header('Round', this.partita?.turno + "");
-      AddPartitaComponent
+      let result = "";
+      if(this.risultato == "1")
+        result = "1-0";
+      else if(this.risultato == "2")
+        result = "0-1";
+      else if(this.risultato == "3")
+        result = "1/2-1/2";
+      else{
+        result = "NC";
+      }
+      AddPartitaComponent.game.header('Result', result);
       if(this.partita?.giocatore1?.cognome != null && this.partita?.giocatore1?.cognome != "" && this.partita?.giocatore1?.nome != null && this.partita?.giocatore1?.nome != "")
         AddPartitaComponent.game.header('White', this.partita?.giocatore1?.cognome + "" + this.partita?.giocatore1.nome);
       if(this.partita?.giocatore2?.cognome != null && this.partita?.giocatore2?.cognome != "" && this.partita?.giocatore2?.nome != null && this.partita?.giocatore2?.nome != "")
@@ -179,9 +194,10 @@ export class AddPartitaComponent implements OnInit{
 
     salvaPartita(): void {
       this.generaHeaderPGN();
+      AddPartitaComponent.updateStatus();
       if(this.partita == null)
         return;
-      this.partita.pgn = AddPartitaComponent.gamePGN;
+      this.partita.pgn = AddPartitaComponent.game.pgn();
       this.partita.esito = this.risultato;
       this.partitaService.salvaPartita(this.partita).subscribe(result=> {
           this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});

@@ -1,8 +1,15 @@
 <div class="card">
-  <p class="card-header">{{nomePartita}}</p>
-  <p class="card-body" *ngIf="partita?.esito=='1'">vinta da {{partita?.giocatore1?.username}}</p>
-  <p class="card-body" *ngIf="partita?.esito=='2'">vinta da {{partita?.giocatore2?.username}}</p>
-  <p class="card-body" *ngIf="partita?.esito=='3'">partita patta</p>
+  <p id = white>{{white}}</p>
+
+  <select *ngIf = "modifica" [(ngModel)] = "this.partita!.esito" title="Esito">
+    <option value="0">  -  </option>
+    <option value="1"> 1-0 </option>
+    <option value="2"> 0-1 </option>
+    <option value="3"> 1/2 </option>
+  </select>
+  <label *ngIf = "!modifica"> {{risultato}} </label>
+  
+  <p id = black>{{black}} </p>
   <button class="card-body" *ngIf="admin && privacy && partita?.esito =='0'" (click) = "caricaPartita()">Carica Partita</button>
   <button class="card-body" *ngIf="privacy && partita?.esito !='0'" (click) = "visualizzaPartita()">Visualizza Partita</button>
 </div>

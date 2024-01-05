@@ -3,8 +3,6 @@
 <p>W: {{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}}</p>
 <p>B: {{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}}</p>
 <p>{{gameStatusPublic}}</p>
-<p>{{gamePGNPublic}}</p>
-<p>{{gameFENPublic}}</p>
 
 <select [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
     <option value="0"> </option>
