@@ -23,7 +23,6 @@ export class PartitaShowComponent implements OnInit{
     let giocatore2: string | undefined = this.partita?.giocatore2?.username;
     if (giocatore2 == undefined)
       giocatore2 = "Giocatore2";
-    console.log(giocatore1, giocatore2)
     this.nomePartita = giocatore1 + " vs " + giocatore2;
   }
 

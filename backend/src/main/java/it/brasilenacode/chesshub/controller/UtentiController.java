@@ -128,7 +128,7 @@ public class UtentiController {
             DBManager.getInstance().getUtenteDao().rifiutaRichiesta(utenteDaSeguire, u);
         }
     }
-    @PostMapping(  "/utente/followers")
+    @PostMapping("/utente/followers")
     public boolean checkFollow(HttpServletRequest req, @RequestBody String username) {
         Utente u = Auth.getUser(req);
         if(u!=null){
@@ -140,7 +140,7 @@ public class UtentiController {
         return false;
     }
 
-    @PostMapping(  "/utente/richiesta")
+    @PostMapping("/utente/richiesta")
     public boolean checkRichieste(HttpServletRequest req, @RequestBody String username) {
         Utente u = Auth.getUser(req);
         if(u!=null){
@@ -152,7 +152,7 @@ public class UtentiController {
         return false;
     }
 
-    @PostMapping(  "/utente/richieste")
+    @PostMapping("/utente/richieste")
     public List<Utente> dammiRichieste(HttpServletRequest req) {
         Utente u = Auth.getUser(req);
         if(u!=null){
@@ -161,7 +161,7 @@ public class UtentiController {
         return null;
     }
 
-    @PostMapping(  "/utente/accettaRichiesta")
+    @PostMapping("/utente/accettaRichiesta")
     public void accettaRichiesta(HttpServletRequest req, @RequestBody Utente utente){
         Utente u = Auth.getUser(req);
         if(u!=null){
@@ -169,7 +169,7 @@ public class UtentiController {
         }
     }
 
-    @PostMapping(  "/utente/rifiutaRichiesta")
+    @PostMapping("/utente/rifiutaRichiesta")
     public void rifiutaRichiesta(HttpServletRequest req, @RequestBody Utente utente){
         Utente u = Auth.getUser(req);
         if(u!=null){

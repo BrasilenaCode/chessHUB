@@ -10,8 +10,8 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class PartitaService {
 
-  private backendUrl = "http://localhost:8080";  
-  
+  private backendUrl = "http://localhost:8080";
+
   constructor(private http:HttpClient, private auth: AuthServiceService) { }
 
   dammiPartite():Observable<Partita[]>{
@@ -20,7 +20,7 @@ export class PartitaService {
   dammiPartita(id:number):Observable<Partita>{
     return this.http.post<Partita>(this.backendUrl+"/partite/id",id);
   }
-  daammiPartiteGiocatore(username:string):Observable<Partita[]>{
+  dammiPartiteGiocatore(username:string):Observable<Partita[]>{
     return this.http.post<Partita[]>(this.backendUrl+"/partite/giocatore",username);
   }
   dammiPartiteTorneo(id:number):Observable<Partita[]>{

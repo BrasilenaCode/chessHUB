@@ -14,6 +14,7 @@
   <br>
   <button class="btn btn-primary" (click)="load()">{{testo}}</button>
   <br>
+  <a *ngIf="!visualizzaSettimana" href="/classifica">Torna alla pagina precedente</a>
   <br>
 </div>
 <div *ngIf="visualizzaSettimana">
@@ -29,5 +30,7 @@
   <app-row *ngFor="let user of utentiMiglioriSettimanaVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
   <br>
   <button class="btn btn-primary" (click)="loadWeek()">{{testo}}</button>
+  <br>
+  <a *ngIf="!visualizzaMigliori" href="/classifica">Torna alla pagina precedente</a>
 </div>
 
