@@ -14,7 +14,6 @@ import { PartitaService } from '../services/partita.service';
 export class ProfiloPubblicoComponent implements OnInit{
   constructor(private utentiService: UtentiService, private activatedRoute: ActivatedRoute, private partiteService: PartitaService) { }
   pagina?: string = "";
-  numeroFollower?: number = 0;
   partite?: Partita[];
   seguendo?: boolean=false;
   richiestaInviata?: boolean = false
@@ -37,9 +36,6 @@ export class ProfiloPubblicoComponent implements OnInit{
 
   segui(){
     this.utentiService.seguiUtente(this.activatedRoute.snapshot.queryParams["username"]).subscribe(risultato => {
-      if(this.numeroFollower!=undefined){
-        this.numeroFollower++;
-      }
       if(risultato)
         this.seguendo=true;
       else
@@ -47,15 +43,8 @@ export class ProfiloPubblicoComponent implements OnInit{
     });
   }
 
-  mostraPunteggi(){
-    console.log("qui arriva");
-  }
-
   nonSeguire() {
     this.utentiService.smettiDiSeguire(this.activatedRoute.snapshot.queryParams["username"]).subscribe(risultato => {
-      if(this.numeroFollower!=undefined){
-        this.numeroFollower--;
-      }
       this.seguendo=false;
       this.richiestaInviata=false;
     });

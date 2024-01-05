@@ -164,4 +164,11 @@ export class UtentiService {
     }
     return this.http.post<Utente[]>(this.backendUrl + "/utenti/ricerca", username, header);
   }
+
+  getFollowers() {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<Utente[]>(this.backendUrl + "/utente/getFollowers","", header)
+  }
 }

@@ -32,6 +32,7 @@ import { RichiestaComponent } from './richiesta/richiesta.component';
 import { AddPartitaComponent } from './add-partita/add-partita.component';
 import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
 import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.component';
+import { AmiciComponent } from './amici/amici.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.com
     RichiestaComponent,
     AddPartitaComponent,
     AnteprimaProfiloComponent,
-    TutteLePartiteComponent
+    TutteLePartiteComponent,
+    AmiciComponent
   ],
     imports: [
         HttpClientModule,

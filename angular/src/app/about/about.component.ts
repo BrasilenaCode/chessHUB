@@ -6,16 +6,5 @@ import {UtentiService} from "../services/utenti.service";
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })
-export class AboutComponent implements OnInit{
-
-  public pagina?:string;
-  constructor(private utentiService: UtentiService) {
-  }
-  ngOnInit(): void {
-    this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
-      this.utentiService.paginaProfilo(utente).subscribe(pagina => this.pagina=pagina);
-    });
-  }
-
-
+export class AboutComponent{
 }

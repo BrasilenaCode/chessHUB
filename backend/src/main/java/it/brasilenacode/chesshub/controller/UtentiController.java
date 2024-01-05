@@ -176,5 +176,14 @@ public class UtentiController {
             DBManager.getInstance().getUtenteDao().rifiutaRichiesta(u, utente);
         }
     }
+
+    @PostMapping("/utente/getFollowers")
+    public List<Utente> getFollowers(HttpServletRequest req) {
+        Utente u = Auth.getUser(req);
+        if(u!=null){
+           return DBManager.getInstance().getUtenteDao().getFollower(u);
+        }
+        return null;
+    }
 }
 
