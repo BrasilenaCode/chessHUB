@@ -56,6 +56,7 @@ export class AddPartitaComponent implements OnInit{
       catch(e){
         return;
       }
+      this.risultato = this.partita.esito;
     }
 
     updateStats(): void {
