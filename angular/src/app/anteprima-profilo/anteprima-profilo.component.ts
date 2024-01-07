@@ -12,10 +12,16 @@ import { Utente } from '../model/utente';
 export class AnteprimaProfiloComponent implements OnInit {
 
   toSearch: string = '';
-  listOfUsers: Utente[] = [];
+  listOfUsers: Utente[][] = [];
+  researchType: string[] = [
+                            'Ricerca per nome utente', 
+                            'Ricerca per nome', 
+                            'Ricerca per cognome'
+                           ];
 
   constructor(private exchDataService: ExchangeDataService,
-              private utentiService: UtentiService, private router:Router) {}
+              private utentiService: UtentiService,
+              private router:Router) {}
 
   ngOnInit() {
     this.exchDataService.currentString.subscribe((newString) => {

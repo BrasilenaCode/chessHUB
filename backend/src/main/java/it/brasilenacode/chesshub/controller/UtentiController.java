@@ -1,6 +1,7 @@
 package it.brasilenacode.chesshub.controller;
 
 
+import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -93,13 +95,17 @@ public class UtentiController {
     }
 
     @PostMapping("/utenti/ricerca")
-    public List<Utente> ricercaUtenti(@RequestBody String string, HttpServletRequest req){
+    public List<List<Utente>> ricercaUtenti(@RequestBody String string, HttpServletRequest req){
+        List<List<Utente>> toSend = new ArrayList<>();
+        UtenteDao dao = DBManager.getInstance().getUtenteDao();
         if (Auth.isAuthenticated(req)) {
-            return DBManager.getInstance().getUtenteDao().tryToFindUsersByKey(string);
+            toSend.add(dao.tryToFindUsersByKey(string));
+            toSend.add(dao.tryToFindUserByName(string));
+            toSend.add(dao.tryToFindUserBySurname(string));
+            return toSend;
         }
         return null;
     }
-
     @GetMapping("/updateUtente")
     public boolean updateUtente(HttpServletRequest req){
         Utente utente=Auth.getUser(req);
@@ -130,14 +136,11 @@ public class UtentiController {
     public boolean updatePassword(HttpServletRequest req){
         Utente utente=Auth.getUser(req);
         if(utente!=null){
-            System.out.println(req.getParameter("nome"));
             String oldpwd=req.getParameter("oldpwd");
             String pwd=req.getParameter("pwd");
             if(!utente.getPassword().equals(oldpwd)){
-                System.out.println("Password errata");
                 return false;
             }
-            System.out.println("Password corretta");
             utente.setPassword(pwd);
             DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
             return true;

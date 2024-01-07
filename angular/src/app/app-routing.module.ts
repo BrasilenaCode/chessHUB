@@ -21,6 +21,8 @@ import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.com
 import {AmiciComponent} from "./amici/amici.component";
 import {ModificaDatiComponent} from "./modifica-dati/modifica-dati.component";
 import {ModificaPasswordComponent} from "./modifica-password/modifica-password.component";
+import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
+
 const routes: Routes = [
   {"path": "", component: HomeComponent},
   {"path": "login", component: LoginComponent},
@@ -43,8 +45,9 @@ const routes: Routes = [
   {"path": "partite", component: TutteLePartiteComponent},
   {"path": "amici", component: AmiciComponent,  canActivate:[AuthGuardService]},
   {"path": "modificaDati", component: ModificaDatiComponent, canActivate:[AuthGuardService]},
-  {"path": "modificaPassword", component: ModificaPasswordComponent, canActivate:[AuthGuardService]}
-
+  {"path": "modificaPassword", component: ModificaPasswordComponent, canActivate:[AuthGuardService]},
+  {"path": "amici", component: AmiciComponent},
+  {"path": "ricerca", component: TabDiRicercaComponent}
 ];
 
 

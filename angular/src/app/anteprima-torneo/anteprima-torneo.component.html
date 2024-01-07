@@ -1,0 +1,17 @@
+<div *ngFor="let type of researchType; let typeIndex = index">
+    <h2>{{ type }}</h2>
+    <div *ngIf="listOfTournaments[typeIndex].length > 0; else noResults">
+      <div *ngFor="let torneo of listOfTournaments[typeIndex]">
+        <div class="card">
+          <article>
+            <h3 class="card-title">{{ torneo.nome }}</h3>
+            <p>{{ torneo.luogo }}</p>
+          </article>
+        </div>
+      </div>
+    </div>
+    <ng-template #noResults>
+      <p>Nessun risultato</p>
+    </ng-template>
+</div>
+  

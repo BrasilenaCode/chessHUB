@@ -1,0 +1,14 @@
+<div class="tab">
+    <button class="tablinks" (click)="visualizzaUtenti()">Utenti</button>
+    <button class="tablinks" (click)="visualizzaTornei()">Tornei</button>
+</div>
+
+<div *ngIf="showUsers" id="London" class="tabcontent">
+    <app-anteprima-profilo></app-anteprima-profilo>
+</div>
+  
+<div *ngIf="showTournaments" id="Paris" class="tabcontent">
+    <app-anteprima-torneo></app-anteprima-torneo>
+</div>
+  
+  

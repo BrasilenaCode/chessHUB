@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {UtentiService} from "../services/utenti.service";
 import {AuthServiceService} from "../services/auth.service";
 import { NgModel } from '@angular/forms';
+import { PartitaService } from '../services/partita.service';
 
 @Component({
   selector: 'app-partita-show',
@@ -20,7 +21,7 @@ export class PartitaShowComponent implements OnInit{
 
   risultato : string = "";
 
-  constructor(private router: Router, private utenteService:UtentiService, private auth:AuthServiceService){}
+  constructor(private router: Router, private utenteService:UtentiService, private auth:AuthServiceService, private partitaService:PartitaService){}
 
   ngOnInit(): void {
     this.setNomePartita();
@@ -53,7 +54,11 @@ export class PartitaShowComponent implements OnInit{
   }
 
   salvaPartita(): void {
-    
+    console.log(this.partita?.esito);
+    if (this.partita != undefined){
+      console.log(this.partita);
+      this.partitaService.salvaPartita(this.partita).subscribe();
+    }
   }
 
   caricaPartita(): void {
@@ -62,6 +67,10 @@ export class PartitaShowComponent implements OnInit{
 
   visualizzaPartita(): void {
     this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
+  }
+
+  salvaEsito(): void {
+    console.log(this.partita?.esito);
   }
 
   private setPrivacy() {

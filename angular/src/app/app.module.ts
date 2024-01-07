@@ -35,6 +35,9 @@ import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.com
 import { AmiciComponent } from './amici/amici.component';
 import { ModificaDatiComponent } from './modifica-dati/modifica-dati.component';
 import { ModificaPasswordComponent } from './modifica-password/modifica-password.component';
+import { FooterComponent } from './footer/footer.component';
+import { AnteprimaTorneoComponent } from './anteprima-torneo/anteprima-torneo.component';
+import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
 
 
 @NgModule({
@@ -65,7 +68,10 @@ import { ModificaPasswordComponent } from './modifica-password/modifica-password
     TutteLePartiteComponent,
     AmiciComponent,
     ModificaDatiComponent,
-    ModificaPasswordComponent
+    ModificaPasswordComponent,
+    FooterComponent,
+    AnteprimaTorneoComponent,
+    TabDiRicercaComponent
   ],
     imports: [
         HttpClientModule,

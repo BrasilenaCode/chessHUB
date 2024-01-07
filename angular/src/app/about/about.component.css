@@ -1,0 +1,4 @@
+p {
+    max-width: 750px; /* Imposta il limite di larghezza in pixel */
+    word-wrap: break-word; /* Permette alle parole di andare a capo se superano la larghezza massima */
+}

@@ -8,6 +8,8 @@ import java.util.List;
 public interface TorneoDao {
     List<Torneo> findAll();
     Torneo findByPrimaryKey(long id);
+    List<Torneo> tryToFindByName(String name);
+    List<Torneo> tryToFindByLocation(String location);
     void saveOrUpdate(Torneo torneo);
     void delete(Torneo torneo);
     void removePartecipante(Torneo torneo, Utente utente);
