@@ -15,4 +15,4 @@
         <p class="card-body" th:text="'hai totalizzato ' + ${utente.punteggio} + ' punti nella tua carriera su ChessHub'"></p>
     </div>
 </div>
-<a href="/amici" th:text="'Follower: ' + ${utente.follower}"></a>
+<a th:href="@{/amici(utente=${utente.username})}" th:text="'Follower: ' + ${utente.follower}"></a>

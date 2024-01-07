@@ -12,7 +12,6 @@ import { HttpHeaders } from '@angular/common/http';
 export class AuthServiceService{
   private backendUrl = "http://localhost:8080";
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http:HttpClient, private router:Router) { }
-
   public token?:string | null;
   getToken(){
     if (this.token == undefined){

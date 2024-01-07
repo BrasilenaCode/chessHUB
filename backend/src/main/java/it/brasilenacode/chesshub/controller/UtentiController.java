@@ -5,10 +5,15 @@ import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @RestController
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
@@ -95,9 +100,45 @@ public class UtentiController {
         return null;
     }
 
-    @PostMapping("/updateUtente")
-    public boolean updateUtente(@RequestBody Utente utente, HttpServletRequest req){
-        if(Auth.isAuthenticated(req)){
+    @GetMapping("/updateUtente")
+    public boolean updateUtente(HttpServletRequest req){
+        Utente utente=Auth.getUser(req);
+        if(utente!=null){
+            String nome=req.getParameter("nome");
+            String cognome=req.getParameter("cognome");
+            String nazionalita=req.getParameter("nazionalita");
+            String dataNascita=req.getParameter("data");
+            utente.setNome(nome);
+            utente.setCognome(cognome);
+            utente.setNazionalita(nazionalita);
+            String inputString = dataNascita;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date=null;
+            try {
+                date = sdf.parse(inputString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            utente.setDataNascita(date);
+            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
+            return true;
+        }
+        return false;
+    }
+
+    @GetMapping("/updatePassword")
+    public boolean updatePassword(HttpServletRequest req){
+        Utente utente=Auth.getUser(req);
+        if(utente!=null){
+            System.out.println(req.getParameter("nome"));
+            String oldpwd=req.getParameter("oldpwd");
+            String pwd=req.getParameter("pwd");
+            if(!utente.getPassword().equals(oldpwd)){
+                System.out.println("Password errata");
+                return false;
+            }
+            System.out.println("Password corretta");
+            utente.setPassword(pwd);
             DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
             return true;
         }
@@ -178,10 +219,10 @@ public class UtentiController {
     }
 
     @PostMapping("/utente/getFollowers")
-    public List<Utente> getFollowers(HttpServletRequest req) {
-        Utente u = Auth.getUser(req);
-        if(u!=null){
-           return DBManager.getInstance().getUtenteDao().getFollower(u);
+    public List<Utente> getFollowers(HttpServletRequest req, @RequestBody String username){
+        if(Auth.isAuthenticated(req)){
+            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            return DBManager.getInstance().getUtenteDao().getFollower(utente);
         }
         return null;
     }

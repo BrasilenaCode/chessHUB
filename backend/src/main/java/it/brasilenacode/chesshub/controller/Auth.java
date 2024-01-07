@@ -66,7 +66,7 @@ public class Auth {
     }
 
     @PostMapping("/logout")
-    public boolean logout(HttpServletRequest req) throws Exception{
+    public static boolean logout(HttpServletRequest req) throws Exception{
         return true;
     }
 

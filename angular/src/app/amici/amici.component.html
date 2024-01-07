@@ -1,4 +1,5 @@
 <div>
   <h4>Amicizie</h4>
-  <div *ngFor="let amico of amici">{{amico.username}}</div>
+  <div *ngFor="let amico of amici" (click)="vaiAlProfilo(amico)">{{amico.username}}</div>
+  <div *ngIf="amici?.length == 0">Non hai ancora amicizie</div>
 </div>

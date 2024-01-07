@@ -1,0 +1,29 @@
+<div class="center">
+  <form id="form" [ngClass]="{ 'modulo-form was-validated': submitted, 'modulo-form': !submitted }" (ngSubmit)="onSubmit()">
+    <div class="h4">Modifica i tuoi dati personali</div>
+    <div class="mb-3 mt-3">
+      <label for="nome" class="form-label">Nome:</label>
+      <input class="form-control dim" id="nome" name="nome">
+      <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
+    </div>
+    <div class="mb-3">
+      <label for="cognome" class="form-label">Cognome:</label>
+      <input class="form-control dim" id="cognome"  name="cognome">
+      <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Nazionalità:</label>
+      <select class="form-select dim" id="section1" name="nazionalità">
+      </select>
+      <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
+    </div>
+    <div class="mb-3 mb-3">
+      <label for="data" class="form-label">Data di nascita:</label>
+      <input type="date" class="form-control dim" id="data"  name="dataNascita">
+      <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
+    </div>
+    <a class="destra" href="modificaPassword">Modifica password</a>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

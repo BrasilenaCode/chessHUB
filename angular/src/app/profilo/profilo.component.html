@@ -1,5 +1,6 @@
 <div [innerHTML]="pagina"></div>
 <div>
+  <a routerLink="/modificaDati">Modifica dati</a>
   <h4>Richieste di amicizia</h4>
   <p *ngIf="richieste?.length == 0">Nessuna richiesta al momento</p>
   <app-richiesta *ngFor="let richiesta of richieste" (refreshParent)="refreshParentComponent()" [richiesta]="richiesta"></app-richiesta>
