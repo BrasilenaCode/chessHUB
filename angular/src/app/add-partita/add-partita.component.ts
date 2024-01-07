@@ -43,10 +43,11 @@ export class AddPartitaComponent implements OnInit{
       }, 60);
       setTimeout(() => {
         this.caricamentoPartita();
-      }, 1000);
+      }, 250);
     }
 
     caricamentoPartita(): void {
+      this.risultato = this.partita!.esito;
       if (this.partita?.pgn == null || this.partita.pgn == "") {
         return;
       }
@@ -56,7 +57,6 @@ export class AddPartitaComponent implements OnInit{
       catch(e){
         return;
       }
-      this.risultato = this.partita.esito;
     }
 
     updateStats(): void {
@@ -198,9 +198,13 @@ export class AddPartitaComponent implements OnInit{
       AddPartitaComponent.updateStatus();
       if(this.partita == null)
         return;
-      this.partita.pgn = AddPartitaComponent.game.pgn();
+      if(AddPartitaComponent.game.fen() != "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+        this.partita.pgn = AddPartitaComponent.game.pgn();
       this.partita.esito = this.risultato;
       this.partitaService.salvaPartita(this.partita).subscribe(result=> {
+        if(this.partita?.torneo?.id != null)
+          this.router.navigate(['/torneo'], {queryParams: {torneoId: this.partita?.torneo?.id}});
+        else
           this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
         }
       );

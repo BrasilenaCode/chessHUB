@@ -1,7 +1,7 @@
-<div *ngIf="admin" class="card" (click) = caricaPartita()>
+<div *ngIf="admin" class="card">
   <p id = white>{{white}}</p>
 
-  <select *ngIf = "modifica" [(ngModel)] = "this.partita!.esito" title="Esito">
+  <select *ngIf = "modifica" [(ngModel)] = "this.partita!.esito" title="Esito" (ngModelChange) = salvaPartita()>
     <option value="0">  -  </option>
     <option value="1"> 1-0 </option>
     <option value="2"> 0-1 </option>
@@ -9,7 +9,8 @@
   </select>
   
   <p id = black>{{black}} </p>
-  <button class="card-body" *ngIf="partita?.esito !='0'" (click) = "visualizzaPartita()">Visualizza Partita</button>
+  <button *ngIf="partita?.pgn != null" (click) = "visualizzaPartita()">Visualizza Partita</button>
+  <button (click) = caricaPartita()>Modifica Partita</button>
 </div>
 
 <div *ngIf="!admin && privacy" class="card" (click) = visualizzaPartita()>
