@@ -5,9 +5,10 @@ import it.brasilenacode.chesshub.persistenza.IdBroker;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.persistenza.DBManager;
-
+import org.apache.commons.lang3.StringUtils;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +42,38 @@ public class TorneoDaoPostgres implements TorneoDao {
             e.printStackTrace();
         }
         return torneo;
+    }
+
+    @Override
+    public List<Torneo> tryToFindByName(String name) {
+        List<Torneo> result = tryToFindBy("nome", name);
+        if (result.size() >= 2) {
+            result.sort(Comparator.comparingInt(torneo -> StringUtils.getLevenshteinDistance(name, torneo.getNome())));
+        }
+        return result;
+    }
+
+    @Override
+    public List<Torneo> tryToFindByLocation(String location) {
+        return tryToFindBy("luogo", location);
+    }
+
+    private List<Torneo> tryToFindBy(String toCheck, String param) {
+        String query = "select * from torneo where " + toCheck + " like ?";
+        List<Torneo> tornei = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, "%" + param + "%");
+            try (ResultSet set = statement.executeQuery()) {
+                while (set.next()) {
+                    Torneo tmp = getProssimoTorneo(set);
+                    tornei.add(tmp);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tornei;
     }
 
     @Override
@@ -158,5 +191,19 @@ public class TorneoDaoPostgres implements TorneoDao {
             e.printStackTrace();
         }
         saveOrUpdate(torneo);
+    }
+
+    private Torneo getProssimoTorneo(ResultSet rs) throws SQLException {
+        Torneo torneo = new TorneoProxy(connection);
+        torneo.setId(rs.getLong("id"));
+        torneo.setNome(rs.getString("nome"));
+        torneo.setLuogo(rs.getString("luogo"));
+        torneo.setDataInizio(new Date(rs.getDate("data_inizio").getTime()));
+        torneo.setDataFine(new Date(rs.getDate("data_fine").getTime()));
+        torneo.setStato(rs.getString("stato"));
+        Utente vincitore= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
+        torneo.setVincitore(vincitore);
+        torneo.setNumeroPartecipanti(rs.getInt("numero_partecipanti"));
+        return torneo;
     }
 }

@@ -1,6 +1,7 @@
 package it.brasilenacode.chesshub.controller;
 
 
+import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -88,9 +90,14 @@ public class UtentiController {
     }
 
     @PostMapping("/utenti/ricerca")
-    public List<Utente> ricercaUtenti(@RequestBody String string, HttpServletRequest req){
+    public List<List<Utente>> ricercaUtenti(@RequestBody String string, HttpServletRequest req){
+        List<List<Utente>> toSend = new ArrayList<>();
+        UtenteDao dao = DBManager.getInstance().getUtenteDao();
         if (Auth.isAuthenticated(req)) {
-            return DBManager.getInstance().getUtenteDao().tryToFindUsersByKey(string);
+            toSend.add(dao.tryToFindUsersByKey(string));
+            toSend.add(dao.tryToFindUserByName(string));
+            toSend.add(dao.tryToFindUserBySurname(string));
+            return toSend;
         }
         return null;
     }

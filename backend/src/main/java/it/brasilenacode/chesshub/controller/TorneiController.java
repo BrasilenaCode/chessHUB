@@ -1,5 +1,6 @@
 package it.brasilenacode.chesshub.controller;
 
+import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
@@ -7,6 +8,7 @@ import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -109,4 +111,17 @@ public class TorneiController {
         }
         return false;
     }
+
+    @PostMapping("/tornei/ricerca")
+    public List<List<Torneo>> trovaTornei(@RequestBody String string, HttpServletRequest req) {
+        List<List<Torneo>> toSend = new ArrayList<>();
+        TorneoDao dao = DBManager.getInstance().getTorneoDao();
+        if (Auth.isAuthenticated(req)) {
+            toSend.add(dao.tryToFindByName(string));
+            toSend.add(dao.tryToFindByLocation(string));
+            return toSend;
+        }
+        return null;
+    }
+
 }

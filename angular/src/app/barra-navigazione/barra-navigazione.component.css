@@ -2,3 +2,6 @@
 .navbar {
     border-radius: 0; /* Imposta il bordo arrotondato su 0 */
 }
+input {
+    width: 300px;
+}

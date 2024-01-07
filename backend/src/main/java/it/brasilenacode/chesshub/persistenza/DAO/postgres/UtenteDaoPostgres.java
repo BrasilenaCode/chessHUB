@@ -4,12 +4,12 @@ import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
+//import java.sql.Date;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
 public class UtenteDaoPostgres implements UtenteDao {
     Connection connection;
@@ -54,14 +54,38 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
 
     @Override
-    public List<Utente> tryToFindUsersByKey(String toSearch) {
-        List<Utente> utenti = new ArrayList<Utente>();
-        String query = "select * from utente where username like ? or nome like ? or cognome like ?";
+    public List<Utente> tryToFindUsersByKey(String username) {
+        List<Utente> result = tryToFindBy("username", username);
+        if (result.size() >= 2) {
+            result.sort(Comparator.comparingInt(utente -> StringUtils.getLevenshteinDistance(username, utente.getUsername())));
+        }
+        return result;
+    }
+
+    @Override
+    public List<Utente> tryToFindUserByName(String name) {
+        List<Utente> result = tryToFindBy("nome", name);
+        if (result.size() >= 2) {
+            result.sort(Comparator.comparingInt(utente -> StringUtils.getLevenshteinDistance(name, utente.getNome())));
+        }
+        return result;
+    }
+
+    @Override
+    public List<Utente> tryToFindUserBySurname(String surname) {
+        List<Utente> result = tryToFindBy("cognome", surname);
+        if (result.size() >= 2) {
+            result.sort(Comparator.comparingInt(utente -> StringUtils.getLevenshteinDistance(surname, utente.getCognome())));
+        }
+        return result;
+    }
+
+    private List<Utente> tryToFindBy(String toCheck, String param) {
+        String query = "select * from utente where " + toCheck + " like ?";
+        List<Utente> utenti = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, "%" + toSearch + "%");
-            statement.setString(2, "%" + toSearch + "%");
-            statement.setString(3, "%" + toSearch + "%");
+            statement.setString(1, "%" + param + "%");
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     Utente utente = getProssimoUtente(rs);

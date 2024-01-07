@@ -38,7 +38,7 @@ export class BarraNavigazioneComponent {
     if (toSearch === '') {
       this.location.back()
     } else {
-      this.router.navigate(['/ricercaUtente'])
+      this.router.navigate(['/ricerca'])
       this.exchDataService.updateString(event.target.value)
     }
   }

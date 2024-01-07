@@ -19,6 +19,8 @@ import { AddPartitaComponent } from './add-partita/add-partita.component';
 import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
 import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.component';
 import {AmiciComponent} from "./amici/amici.component";
+import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
+
 const routes: Routes = [
   {"path": "", component: HomeComponent},
   {"path": "login", component: LoginComponent},
@@ -39,8 +41,8 @@ const routes: Routes = [
   {"path": "addPartita", component: AddPartitaComponent},
   {"path": "ricercaUtente", component: AnteprimaProfiloComponent},
   {"path": "partite", component: TutteLePartiteComponent},
-  {"path": "amici", component: AmiciComponent}
-
+  {"path": "amici", component: AmiciComponent},
+  {"path": "ricerca", component: TabDiRicercaComponent}
 ];
 
 

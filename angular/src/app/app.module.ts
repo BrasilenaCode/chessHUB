@@ -33,6 +33,9 @@ import { AddPartitaComponent } from './add-partita/add-partita.component';
 import { AnteprimaProfiloComponent } from './anteprima-profilo/anteprima-profilo.component';
 import { TutteLePartiteComponent } from './tutte-le-partite/tutte-le-partite.component';
 import { AmiciComponent } from './amici/amici.component';
+import { FooterComponent } from './footer/footer.component';
+import { AnteprimaTorneoComponent } from './anteprima-torneo/anteprima-torneo.component';
+import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
 
 
 @NgModule({
@@ -61,7 +64,10 @@ import { AmiciComponent } from './amici/amici.component';
     AddPartitaComponent,
     AnteprimaProfiloComponent,
     TutteLePartiteComponent,
-    AmiciComponent
+    AmiciComponent,
+    FooterComponent,
+    AnteprimaTorneoComponent,
+    TabDiRicercaComponent
   ],
     imports: [
         HttpClientModule,
