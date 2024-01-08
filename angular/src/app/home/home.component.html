@@ -1,14 +1,20 @@
 <h1 class="text-center display-1 text-white">ChessHub</h1>
-<p class="text-center text-white">Il miglior sito per scacchisti</p>
+<p class="bottom text-center text-white">Il miglior sito per scacchisti</p>
 <video id="background-video" autoplay muted>
     <source src="assets/video/background_video.mp4" type="video/mp4">
 </video>
-<hr class="mb-5">
-<section class="justify-content-center mt-5">
-    <h4 class="text-center text-white mt-5 mb-3">Tornei in corso</h4>
-    <div>
-        <article>
-            <app-tornei-stato [stato]="'inCorso'"></app-tornei-stato>
-        </article>
-    </div>
-</section>
+<div class="gradient-overlay">
+</div>
+<div>
+  <section class="justify-content-center mt-5">
+    <h4 class="text-center text-gray mt-5 mb-3">Tornei in corso</h4>
+    <article>
+      <app-tornei-stato [stato]="'inCorso'"></app-tornei-stato>
+    </article>
+  </section>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
