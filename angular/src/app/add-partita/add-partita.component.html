@@ -18,6 +18,7 @@
 <button (click)="undoMove()">Annulla</button>
 
 <button (click)="salvaPartita()">Salva Partita</button>
+<label>Importa partita da PGN <input type="file" accept=".txt" (change)="importa($event)"></label>
 
 <div id=board></div>
 

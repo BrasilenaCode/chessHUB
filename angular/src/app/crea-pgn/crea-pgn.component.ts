@@ -42,12 +42,14 @@ export class CreaPgnComponent implements OnInit{
 
   ngOnInit(): void {
     try{
-      CreaPgnComponent.board = Chessboard2('board', 'start');
+      CreaPgnComponent.board = Chessboard2('board', this.config);
     }catch(e){}
 
-    setInterval(() => {
-      this.updateStats();
-    }, 60);
+    try{
+      window.setInterval(() => {
+        this.updateStats();
+      }, 60);
+    }catch(e){}
   }
 
   salvaCommento(): void {

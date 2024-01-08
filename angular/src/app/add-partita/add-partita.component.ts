@@ -38,13 +38,13 @@ export class AddPartitaComponent implements OnInit{
       this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => this.partita = partita)
       try{
         AddPartitaComponent.board = Chessboard2('board', this.config);
-      }catch(e){}
-      setInterval(() => {
-        this.updateStats();
-      }, 60);
-      setTimeout(() => {
-        this.caricamentoPartita();
-      }, 250);
+        window.setInterval(() => {
+          this.updateStats();
+        }, 60);
+        window.setTimeout(() => {
+          this.caricamentoPartita();
+        }, 250);
+    }catch(e){}
     }
 
     caricamentoPartita(): void {
@@ -221,4 +221,27 @@ export class AddPartitaComponent implements OnInit{
         }
       );
     }
+
+    importa(event: any) : void {
+      const File = event.target.files[0];
+      if(File)
+        this.readFile(File);
+    }
+
+    readFile(file: File) {
+      const fileReader = new FileReader();
+    
+      fileReader.onload = (e) => {
+        const fileContent = fileReader.result as string;
+        AddPartitaComponent.game.loadPgn(fileContent);
+        AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
+        console.log(AddPartitaComponent.game.pgn());
+        AddPartitaComponent.updateStatus();
+      };
+
+      fileReader.readAsText(file);
+    }
+
+
+    
 }
