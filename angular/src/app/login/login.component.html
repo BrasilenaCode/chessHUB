@@ -9,7 +9,7 @@
       <label for="pwd" class="form-label">Password:</label>
       <input type="password" class="form-control" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password">
     </div>
-    <div *ngIf="errorMessage" class="error-message">
+    <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>
     <br *ngIf="errorMessage">

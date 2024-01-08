@@ -38,7 +38,7 @@
       <input type="date" class="form-control dim" id="dataNascita" name="dataNascita" [formControl]="dataNascita" required>
       <div *ngIf="submitted && !dataNascita.valid" class="invalid-feedback">Riempi questo campo</div>
     </div>
-    <div *ngIf="errorMessage" class="error-message">
+    <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>
     <br *ngIf="errorMessage">
