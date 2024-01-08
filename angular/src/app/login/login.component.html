@@ -9,6 +9,9 @@
       <label for="pwd" class="form-label">Password:</label>
       <input type="password" class="form-control" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password">
     </div>
+    <div class="mb-3">
+      <a href="signIn">Non sei registrato? Registrati!</a>
+    </div>
     <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>

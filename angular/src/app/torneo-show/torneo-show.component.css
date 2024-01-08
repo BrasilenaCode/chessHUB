@@ -11,6 +11,7 @@
 
 .card {
   position: relative;
+  margin: 2vw;
 }
 
 .card:hover .overlay {

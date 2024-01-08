@@ -1,7 +1,21 @@
 
 footer {
-
+    position: sticky;
+    bottom: 0;
+    margin-left: auto;
+    right: 0;
+    left: 0;
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #212529;
+    color: #fff;
 }
+
 
 footer p {
     margin: 0;
@@ -10,4 +24,9 @@ footer p {
 footer a {
     margin: 0 10px;
     text-decoration: none;
+}
+
+span{
+    margin-left: 20px;
+    margin-right: 20px;
 }

@@ -1,6 +1,6 @@
-
-app.footer.component.css{
-  bottom:0;
-  margin-bottom:0;
-  top:100%;
+.main-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8vh;
+    min-height: calc(100vh - 9vh);
 }

@@ -27,7 +27,7 @@ import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 const routes: Routes = [
   {"path": "", component: HomeComponent},
   {"path": "login", component: LoginComponent},
-  {"path": "about", component: AboutComponent, canActivate:[AuthGuardService]},
+  {"path": "about", component: AboutComponent},
   {"path": "profilo", component: ProfiloComponent, canActivate:[AuthGuardService]},
   {"path": "tornei", component: TorneiComponent},
   {"path": "classifica", component: ClassificaComponent, canActivate:[AuthGuardService]},

@@ -3,6 +3,7 @@ import {AuthServiceService} from "../services/auth.service";
 import { Router } from '@angular/router';
 import { ExchangeDataService } from '../services/exchange-data.service';
 import { Location } from '@angular/common';
+import {faAdd, faSearch} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-barra-navigazione',
@@ -45,4 +46,7 @@ export class BarraNavigazioneComponent {
     this.router.navigate(['/ricercaUtente'])
   }
 
+
+  protected readonly faSearch = faSearch;
+  protected readonly faAdd = faAdd;
 }

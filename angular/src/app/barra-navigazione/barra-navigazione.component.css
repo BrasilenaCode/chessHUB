@@ -1,7 +1,39 @@
-/* Stili per rimuovere i bordi arrotondati dalla barra di navigazione */
 .navbar {
     margin-bottom: 100px;
 }
 input {
     width: 300px;
+}
+
+.sidebar {
+  flex: 1;
+}
+
+.sidebar-right {
+  flex: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  padding-left: 40px;
+  box-sizing: border-box;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #666666;
 }

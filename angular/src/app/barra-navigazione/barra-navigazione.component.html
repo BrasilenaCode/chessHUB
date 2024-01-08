@@ -8,9 +8,6 @@
           <a *ngIf="!isAuthenticated()" class="nav-link" href="login">Login</a>
       </li>
       <li class="nav-item">
-        <a *ngIf="!isAuthenticated()" class="nav-link" href="signIn">Sign in</a>
-      </li>
-      <li class="nav-item">
           <a class="nav-link" href="about">About</a>
       </li>
       <li class="nav-item">
@@ -26,8 +23,11 @@
         <button class="nav-link" (click)="doLogout()">Logout</button>
       </li>
     </ul>
-    <form *ngIf="isAuthenticated()" class="d-flex">
-        <input type="text" placeholder="Ricerca..." class="form-control me-2" (input)="onChanges($event)">
+    <form  class="d-flex">
+      <div *ngIf="isAuthenticated()" class="search-container d-flex">
+        <fa-icon [icon]="faSearch" class="fa-sm search-icon"></fa-icon>
+        <input type="text" placeholder="Ricerca..." class="form-control search-input" (input)="onChanges($event)">
+      </div>
     </form>
 </div>
 </nav>
