@@ -1,5 +1,10 @@
 
 footer {
+    position: relative;
+    bottom: 0;
+    margin-left: auto;
+    right: 0;
+    left: 0;
     height: 30px;
     width: 650px;
     display: flex;
@@ -7,13 +12,10 @@ footer {
     justify-content: center;
     text-align: center;
     padding: 20px;
-    bottom: 0;
-    right: 0;
     background-color: #333;
     color: #fff;
-    clear: both;
-    margin-left: auto;
 }
+
 
 footer p {
     margin: 0;
