@@ -22,6 +22,7 @@ import {AmiciComponent} from "./amici/amici.component";
 import {ModificaDatiComponent} from "./modifica-dati/modifica-dati.component";
 import {ModificaPasswordComponent} from "./modifica-password/modifica-password.component";
 import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
+import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -47,7 +48,8 @@ const routes: Routes = [
   {"path": "modificaDati", component: ModificaDatiComponent, canActivate:[AuthGuardService]},
   {"path": "modificaPassword", component: ModificaPasswordComponent, canActivate:[AuthGuardService]},
   {"path": "amici", component: AmiciComponent},
-  {"path": "ricerca", component: TabDiRicercaComponent}
+  {"path": "ricerca", component: TabDiRicercaComponent},
+  {"path": "pgn/crea", component: CreaPgnComponent},
 ];
 
 

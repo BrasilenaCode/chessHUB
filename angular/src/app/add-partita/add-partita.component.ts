@@ -18,6 +18,7 @@ export class AddPartitaComponent implements OnInit{
     partita?: Partita;
     static gameStatus: string = "";
     static gameState: string = "0";
+    mosse: string[][] = [];
 
     gameStatusPublic: string = "";
     commentoAttuale: string = "";
@@ -69,6 +70,17 @@ export class AddPartitaComponent implements OnInit{
       }else{
         this.positionEnded = false;
       }
+
+      this.mosse = [];
+      let cont : number = 0;
+      AddPartitaComponent.game.history().forEach(mossa => {
+        if (cont % 2 == 0) {
+          this.mosse.push([])
+          this.mosse[this.mosse.length - 1].push(cont / 2 + 1 + "");
+        }
+        this.mosse[this.mosse.length - 1].push(mossa);
+        cont++;
+      });
     }
 
     onDragStart (dragStartEvt : any) : any{
