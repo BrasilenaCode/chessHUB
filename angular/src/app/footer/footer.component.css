@@ -1,21 +1,7 @@
 
 footer {
-    position: relative;
-    bottom: 0;
-    margin-left: auto;
-    right: 0;
-    left: 0;
-    height: 30px;
-    width: 650px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: #fff;
-}
 
+}
 
 footer p {
     margin: 0;
