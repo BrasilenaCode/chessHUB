@@ -1,0 +1,9 @@
+.main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 86vh; /* Imposta l'altezza minima a 100% della viewport height */
+  }
+  
+  app-footer {
+    margin-top: auto; /* Spinge il footer in fondo alla colonna flex */
+  }
