@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import {AuthServiceService} from "../services/auth.service";
 import { Router } from '@angular/router';
-import { UtentiService } from '../services/utenti.service';
-import { Utente } from '../model/utente';
 import { ExchangeDataService } from '../services/exchange-data.service';
 import { Location } from '@angular/common';
 

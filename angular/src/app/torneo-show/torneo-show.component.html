@@ -1,10 +1,14 @@
-<div *ngIf="torneo" class="card" (click)="vaiAlTorneo()">
-  <div *ngIf="torneo!=undefined" class="card-body">
-    <h5 class="card-title">{{torneo.nome}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{torneo.luogo}}</h6>
-    <p class="card-text">{{torneo.dataInizio }}</p>
-    <p class="card-text">{{torneo.dataFine }}</p>
-    <p class="card-text">{{torneo.numeroPartecipanti}}</p>
-    <p class="card-text" *ngIf="torneo.vincitore != null">{{torneo.vincitore.username}}</p>
+<article>
+  <div *ngIf="torneo" class="view card" (click)="vaiAlTorneo()">
+    <div class="overlay mask flex-center rgba-blue-light">
+    </div>
+    <div *ngIf="torneo!=undefined" class="card-body">
+      <h5 class="card-title">{{torneo.nome}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{torneo.luogo}}</h6>
+      <p class="card-text">data di inizio: {{torneo.dataInizio | date:"yyyy-MM-dd" }}</p>
+      <p class="card-text">data di fine: {{torneo.dataFine | date:"yyyy-MM-dd" }}</p>
+      <p class="card-text">numero dei partecipanti: {{torneo.numeroPartecipanti}}</p>
+      <p class="card-text" *ngIf="torneo.vincitore != null">vincitore: {{torneo.vincitore.username}}</p>
+    </div>
   </div>
-</div>
+</article>
