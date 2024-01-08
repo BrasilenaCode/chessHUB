@@ -7,12 +7,12 @@
 </label> 
 
 <div *ngIf = "colore == 'bianco'">
-    <p>BIANCO : {{io}}</p>
+    <p><label>BIANCO : <input [(ngModel)] = "io" [disabled] = true></label></p>
     <p><label>NERO : <input [(ngModel)] = "avversario"></label></p>
 </div>
 <div *ngIf = "colore == 'nero'">
     <p><label>BIANCO : <input [(ngModel)] = "avversario"></label></p>
-    <p>NERO : {{io}}</p>
+    <p><label>NERO : <input [(ngModel)] = "io" [disabled] = true></label></p>
 </div>
 
 <h2>TORNEO</h2>
