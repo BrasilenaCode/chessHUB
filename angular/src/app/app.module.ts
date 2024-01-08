@@ -38,6 +38,7 @@ import { ModificaPasswordComponent } from './modifica-password/modifica-password
 import { FooterComponent } from './footer/footer.component';
 import { AnteprimaTorneoComponent } from './anteprima-torneo/anteprima-torneo.component';
 import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
+import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component
     ModificaPasswordComponent,
     FooterComponent,
     AnteprimaTorneoComponent,
-    TabDiRicercaComponent
+    TabDiRicercaComponent,
+    CreaPgnComponent
   ],
     imports: [
         HttpClientModule,

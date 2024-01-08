@@ -20,3 +20,13 @@
 <button (click)="salvaPartita()">Salva Partita</button>
 
 <div id=board></div>
+
+<div id= formulario >
+<table id= formulario >
+    <tr *ngFor="let mossa of mosse">
+    <td id= n-formulario>{{mossa[0]}}</td>
+    <td>{{mossa[1]}}</td>
+    <td>{{mossa[2]}}</td>
+    </tr>
+</table>
+</div>

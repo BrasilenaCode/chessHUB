@@ -1,0 +1,55 @@
+<h1> GENERATORE PGN</h1>
+
+<h2> AVVERSARI </h2>
+<label for="colore">Il tuo colore è:
+    <input type="radio" [(ngModel)]="colore" name="colore" value="bianco">Bianco
+    <input type="radio" [(ngModel)]="colore" name="colore" value="nero">Nero
+</label> 
+
+<div *ngIf = "colore == 'bianco'">
+    <p>BIANCO : {{io}}</p>
+    <p><label>NERO : <input [(ngModel)] = "avversario"></label></p>
+</div>
+<div *ngIf = "colore == 'nero'">
+    <p><label>BIANCO : <input [(ngModel)] = "avversario"></label></p>
+    <p>NERO : {{io}}</p>
+</div>
+
+<h2>TORNEO</h2>
+<p>NOME: <input [(ngModel)]="nomeTorneo" id="nomeTorneo" title="Nome Torneo"></p>
+<p>DATA: <input type="date" [(ngModel)]="dataTorneo" id="dataTorneo" title="Data Torneo"></p>
+<p>LUOGO: <input [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo"></p>
+<p>TURNEO: <input type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno"></p>
+
+<h2> PARTITA </h2>
+
+<p>RISULTATO
+<select [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
+    <option value="0"> </option>
+    <option value="1"> 1-0 </option>
+    <option value="2"> 0-1 </option>
+    <option value="3"> 1/2 - 1/2 </option>
+</select>
+</p>
+
+<div id=board></div>
+
+<p for="commentArea">Commenti
+<textarea [(ngModel)]="commentoAttuale" placeholder="Inserisci un commento alla mossa corrente"></textarea>
+<button (click)="cancellaCommento()">Cancella Commento</button>
+<button (click)="salvaCommento()">Salva Commento</button>
+</p>
+
+<button (click)="undoMove()">Mossa Precedente</button>
+
+<div id= formulario >
+    <table id= formulario >
+        <tr *ngFor="let mossa of mosse">
+        <td id= n-formulario>{{mossa[0]}}</td>
+        <td>{{mossa[1]}}</td>
+        <td>{{mossa[2]}}</td>
+        </tr>
+    </table>
+</div>
+
+<button (click)="generaPGN()">Genera PGN</button>
