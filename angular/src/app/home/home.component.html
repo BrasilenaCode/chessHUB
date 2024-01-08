@@ -3,12 +3,12 @@
 <video id="background-video" autoplay muted>
     <source src="assets/video/background_video.mp4" type="video/mp4">
 </video>
-<div class="gradient-overlay">
+<div class="overlay flex-center rgba-blue-light">
 </div>
 <div>
   <section class="justify-content-center mt-5">
     <h4 class="text-center text-gray mt-5 mb-3">Tornei in corso</h4>
-    <article>
+    <article class="spostami-sotto">
       <app-tornei-stato [stato]="'inCorso'"></app-tornei-stato>
     </article>
   </section>

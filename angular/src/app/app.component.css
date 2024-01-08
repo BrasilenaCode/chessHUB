@@ -1,9 +1,23 @@
 .main-content {
     display: flex;
     flex-direction: column;
-    min-height: 86vh; /* Imposta l'altezza minima a 100% della viewport height */
+    margin-top: 7vh;
+    min-height: calc(100vh - 9vh);
   }
   
   app-footer {
-    margin-top: auto; /* Spinge il footer in fondo alla colonna flex */
+    position: relative;
+    bottom: 0;
+    margin-left: auto;
+    right: 0;
+    left: 0;
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
   }
