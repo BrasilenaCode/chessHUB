@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { UtentiService } from '../services/utenti.service';
+import { TorneoService } from '../services/torneo.service';
 import { Chess } from 'chess.js';
+import { PartitaService } from '../services/partita.service';
+import { Utente } from '../model/utente';
+import { Torneo } from '../model/torneo';
+import { Partita } from '../model/partita';
 
 declare var Chessboard2: any;
 
@@ -11,6 +18,10 @@ declare var Chessboard2: any;
 export class CreaPgnComponent implements OnInit{
   static game: Chess = new Chess();
   static board?: any;
+
+  en? : Utente;
+  me? : Utente;
+  customTorneo? : Torneo;
 
   config = {
     draggable: true,
@@ -27,6 +38,7 @@ export class CreaPgnComponent implements OnInit{
   colore : string = "bianco";
   risultato : string= "0";
   io : string = "Manu";
+  appartieneTorneo : string = "0";
   avversario : string = "";
   nomeTorneo : string = "";
   dataTorneo : any;
@@ -38,9 +50,21 @@ export class CreaPgnComponent implements OnInit{
   mosse : string[][] = [];
   positionEnded : boolean = false;
 
-  constructor() {}
+  constructor(private utentiService : UtentiService, private activatedRoute: ActivatedRoute, private torneoService: TorneoService, private partitaService : PartitaService) {}
 
   ngOnInit(): void {
+    this.utentiService.dammiUtente(this.activatedRoute.snapshot.queryParams['username']).subscribe(utente => {
+      this.me = utente;
+    });
+
+    this.utentiService.dammiUtente("custom").subscribe(utente => {
+      this.en = utente;
+    });
+
+    this.torneoService.dammiTorneo(-1).subscribe(torneo => {
+      this.customTorneo = torneo;
+    });
+    
     try{
       CreaPgnComponent.board = Chessboard2('board', this.config);
     }catch(e){}
@@ -49,7 +73,15 @@ export class CreaPgnComponent implements OnInit{
       window.setInterval(() => {
         this.updateStats();
       }, 60);
+      window.setTimeout(() => {
+        this.caricaInfo()
+      }, 500);
     }catch(e){}
+  }
+
+  caricaInfo(): void {
+    if(this.me != null)
+      this.io = this.me.cognome + " " + this.me.nome;
   }
 
   salvaCommento(): void {
@@ -75,10 +107,16 @@ export class CreaPgnComponent implements OnInit{
   }
 
   generaPGN(): void {
-    CreaPgnComponent.game.header('Event', this.nomeTorneo);
-    CreaPgnComponent.game.header('Site', this.luogoTorneo);
-    CreaPgnComponent.game.header('Date', this.dataTorneo.toString());
-    CreaPgnComponent.game.header('Round', this.turno.toString());
+    if(this.appartieneTorneo == "1"){
+      if(this.nomeTorneo != "")
+        CreaPgnComponent.game.header('Event', this.nomeTorneo);
+      if(this.luogoTorneo != "")
+        CreaPgnComponent.game.header('Site', this.luogoTorneo);
+      if(this.dataTorneo != null)
+        CreaPgnComponent.game.header('Date', this.dataTorneo.toString());
+      if(this.turno != 0)
+        CreaPgnComponent.game.header('Round', this.turno.toString());
+    }
     let result = "";
     if(this.risultato == "1")
       result = "1-0";
@@ -101,8 +139,53 @@ export class CreaPgnComponent implements OnInit{
   }
 
   salvaPgn(): void {
-    let pgn = CreaPgnComponent.game.pgn();
-    console.log(pgn);
+    const textContent = CreaPgnComponent.game.pgn();
+    console.log(textContent);
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+
+    // Crea un elemento "a" per simulare il download del file
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'file.txt';
+    document.body.appendChild(a);
+    a.click();
+
+    // Rilascia l'URL dell'oggetto Blob
+    window.URL.revokeObjectURL(url);
+  }
+
+  salvaPartita(): void {
+    if(this.me == null || this.en == null || this.customTorneo == null)
+      return;
+    let partita : Partita;
+    if(this.colore == "bianco"){
+      partita = {
+        id: 0,
+        giocatore1: this.me,
+        giocatore2: this.en,
+        data: new Date(),
+        torneo: this.customTorneo,
+        turno: this.turno,
+        esito: this.risultato,
+        pgn: CreaPgnComponent.game.pgn(),
+        privacy: "pubblica"
+      }
+    }
+    else{
+      partita = {
+        id: 0,
+        giocatore1: this.en,
+        giocatore2: this.me,
+        data: new Date(),
+        torneo: this.customTorneo,
+        turno: this.turno,
+        esito: this.risultato,
+        pgn: CreaPgnComponent.game.pgn(),
+        privacy: "pubblica"
+      }
+    }
+    this.partitaService.salvaPartita(partita).subscribe();
   }
 
   updateStats(): void {

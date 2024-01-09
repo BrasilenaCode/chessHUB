@@ -15,11 +15,22 @@
     <p><label>NERO : <input [(ngModel)] = "io" [disabled] = true></label></p>
 </div>
 
+
+
+
 <h2>TORNEO</h2>
-<p>NOME: <input [(ngModel)]="nomeTorneo" id="nomeTorneo" title="Nome Torneo"></p>
-<p>DATA: <input type="date" [(ngModel)]="dataTorneo" id="dataTorneo" title="Data Torneo"></p>
-<p>LUOGO: <input [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo"></p>
-<p>TURNEO: <input type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno"></p>
+<label for="colore">Partiene appartenente ad un torneo?
+    <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="1">SI
+    <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="0">NO
+</label> 
+
+<div *ngIf="appartieneTorneo == '1'">
+    <p>NOME: <input [(ngModel)]="nomeTorneo" id="nomeTorneo" title="Nome Torneo"></p>
+    <p>DATA: <input type="date" [(ngModel)]="dataTorneo" id="dataTorneo" title="Data Torneo"></p>
+    <p>LUOGO: <input [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo"></p>
+    <p>TURNEO: <input type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno"></p>
+</div>
+
 
 <h2> PARTITA </h2>
 
