@@ -1,14 +1,19 @@
 <h1>{{torneo?.nome}}</h1>
 <p *ngIf="torneo?.stato == 'inCorso'">torneo in corso</p>
 <p *ngIf="torneo?.stato == 'passato'">torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
-<p *ngIf="torneo?.stato == 'prossimo'">hai tempo fino al <span>{{torneo?.dataInizio}}</span> per iscriverti</p>
+<p *ngIf="torneo?.stato == 'prossimo'">hai tempo fino al <span>{{torneo?.dataInizio | date:"dd/MM/yy" }}</span> per iscriverti</p>
 <p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
 <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()">ISCRIVITI</button>
 <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
 <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
 <div>
-    <h1>Partite</h1>
-  <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+  <h1>Partite</h1>
+  <div *ngIf="partite?.length">
+    <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+  </div>
+  <div *ngIf="!partite?.length">
+    <p>Non ci sono partite</p>
+  </div>
 </div>
 <app-maps [torneo]="torneo"></app-maps>
 

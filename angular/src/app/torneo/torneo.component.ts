@@ -30,6 +30,7 @@ export class TorneoComponent implements OnInit{
       }
     });
   }
+
   iscrivimi(){
     this.torneoService.iscriviGiocatore(this.torneo?.id).subscribe(risultato => {
       if(risultato){
@@ -41,6 +42,7 @@ export class TorneoComponent implements OnInit{
       }
     });
   }
+
   generaTorneo(){
     this.torneoService.generaTorneo(this.torneo?.id).subscribe(risultato => {
       if(risultato) {

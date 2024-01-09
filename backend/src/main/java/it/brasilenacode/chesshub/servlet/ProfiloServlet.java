@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 @WebServlet("/profilo")
 public class ProfiloServlet extends HttpServlet {
@@ -24,6 +25,9 @@ public class ProfiloServlet extends HttpServlet {
         u.setFollower(DBManager.getInstance().getUtenteDao().getFollower(u).size());
         req.setAttribute("utente", u);
         req.setAttribute("bandiera", FlagDirector.getInstance().getFlag(u.getNazionalita()));
+        SimpleDateFormat formatter = new SimpleDateFormat("d MMMM yyyy");
+        String formattedDate = formatter.format(u.getDataNascita()); 
+        req.setAttribute("dataNascita", formattedDate);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/profilo.html");
         dispatcher.forward(req, resp);
     }
