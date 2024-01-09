@@ -26,6 +26,11 @@
     justify-content: center;
 }
 h4 {
-  position: sticky;
-  padding-top: 20vh;
+    position: sticky;
+    padding-top: 20vh;
 }
+@media only screen and (max-width: 680px) {
+    .display-1 {
+      font-size: 5rem;
+    }
+  }

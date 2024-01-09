@@ -17,6 +17,19 @@ public class TorneoDaoPostgres implements TorneoDao {
     Connection connection;
     public TorneoDaoPostgres(Connection connection) {
         this.connection = connection;
+        if(connection != null){
+            String queryControllo = "SELECT * FROM torneo WHERE id = -1";
+            try{
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery(queryControllo);
+                if(!rs.next()){
+                    String query = "INSERT INTO torneo VALUES (-1, 'Partite fuori torneo', 'Arcavacata (Rende)', '2021-01-01', '2021-01-02', 'fuoriTorneo', null, 0) ON CONFLICT DO NOTHING";
+                    st.executeUpdate(query);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
     @Override
     public Torneo findByPrimaryKey(long id) {

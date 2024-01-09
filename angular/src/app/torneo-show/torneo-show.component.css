@@ -11,7 +11,8 @@
 
 .card {
   position: relative;
-  margin: 2vw;
+  margin: 2vw 0vw;
+  width: 15rem;
 }
 
 .card:hover .overlay {
@@ -30,5 +31,9 @@
   transition: opacity 0.3s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+article{
+  display: flex;
   justify-content: center;
 }

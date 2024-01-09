@@ -29,6 +29,9 @@
       <li *ngIf="isAuthenticated()" class="nav-item" style="margin-left:auto; margin-right:10px;">
         <button class="nav-link" (click)="doLogout()">Logout</button>
       </li>
+      <li *ngIf="isAuthenticated()" class="nav-item" style="margin-left:auto; margin-right:10px;">
+        <button class="nav-link" (click)="cerca()">Cerca</button>
+      </li>
     </ul>
       <form *ngIf="showResearch" class="form-inline my-2 my-lg-0" style="margin-right: 10px; margin-left:auto;">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" (input)="onChanges($event)">

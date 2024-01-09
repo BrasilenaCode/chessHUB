@@ -65,6 +65,9 @@ export class BarraNavigazioneComponent {
   onFocus() {
     this.router.navigate(['/ricercaUtente'])
   }
+  cerca(){
+    
+  }
 
 
   protected readonly faSearch = faSearch;
