@@ -1,8 +1,15 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-<div class="container-fluid">
-    <ul class="navbar-nav">
+    <a class="navbar-brand" href="/" style="margin-left:10px">ChessHub</a>
+    <form *ngIf="!showResearch" class="form-inline my-2 my-lg-0" style="margin-right: 10px; margin-left:auto;">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" (input)="onChanges($event)">
+    </form>
+    <button class="navbar-toggler" type="button" (click)="isNavbarToggled = !isNavbarToggled">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [ngClass]="{'show': isNavbarToggled}" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-          <a class="nav-link active" href="#">ChessHub</a>
+          <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
           <a *ngIf="!isAuthenticated()" class="nav-link" href="login">Login</a>
@@ -19,15 +26,12 @@
       <li *ngIf="isAuthenticated()" class="nav-item">
           <a class="nav-link" href="profilo">Profilo</a>
       </li>
-      <li *ngIf="isAuthenticated()" class="nav-item">
+      <li *ngIf="isAuthenticated()" class="nav-item" style="margin-left:auto; margin-right:10px;">
         <button class="nav-link" (click)="doLogout()">Logout</button>
       </li>
     </ul>
-    <form  class="d-flex">
-      <div *ngIf="isAuthenticated()" class="search-container d-flex">
-        <fa-icon [icon]="faSearch" class="fa-sm search-icon"></fa-icon>
-        <input type="text" placeholder="Ricerca..." class="form-control search-input" (input)="onChanges($event)">
-      </div>
-    </form>
+      <form *ngIf="showResearch" class="form-inline my-2 my-lg-0" style="margin-right: 10px; margin-left:auto;">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" (input)="onChanges($event)">
+      </form>
 </div>
 </nav>

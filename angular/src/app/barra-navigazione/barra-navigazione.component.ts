@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {AuthServiceService} from "../services/auth.service";
 import { Router } from '@angular/router';
 import { ExchangeDataService } from '../services/exchange-data.service';
@@ -12,6 +12,26 @@ import {faAdd, faSearch} from "@fortawesome/free-solid-svg-icons";
 })
 export class BarraNavigazioneComponent {
 
+  isNavbarToggled = false;
+  showResearch:boolean=true;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkWindowWidth();
+  }
+
+  checkWindowWidth(): void {
+    const screenWidth = window.innerWidth;
+    const breakpointWidth = 550;
+
+    if (screenWidth >= breakpointWidth) {
+      console.log("ridimensionato")
+      this.isNavbarToggled = false;
+      this.showResearch=true;
+    }else{
+      this.showResearch=false;
+    }
+  }
   constructor(private authService: AuthServiceService,
               private exchDataService: ExchangeDataService,
               private location: Location,
@@ -48,5 +68,5 @@ export class BarraNavigazioneComponent {
 
 
   protected readonly faSearch = faSearch;
-  protected readonly faAdd = faAdd;
+
 }
