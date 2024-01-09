@@ -9,7 +9,6 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { TorneiComponent } from './tornei/tornei.component';
 import { ClassificaComponent } from './classifica/classifica.component';
-import { ProfiloComponent } from './profilo/profilo.component';
 import { TorneoShowComponent } from './torneo-show/torneo-show.component';
 import { TorneoService } from './services/torneo.service';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
@@ -39,7 +38,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AnteprimaTorneoComponent } from './anteprima-torneo/anteprima-torneo.component';
 import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
 import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
-
+import {ProfiloComponent} from "./profilo/profilo.component";
+import {SafeHtmlPipe} from "./safe-html-pipe/safe-html-pipe.component";
 
 @NgModule({
   declarations: [
@@ -50,7 +50,6 @@ import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
     AboutComponent,
     TorneiComponent,
     ClassificaComponent,
-    ProfiloComponent,
     TorneoShowComponent,
     RowComponent,
     PartitaShowComponent,
@@ -73,7 +72,9 @@ import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
     FooterComponent,
     AnteprimaTorneoComponent,
     TabDiRicercaComponent,
-    CreaPgnComponent
+    CreaPgnComponent,
+    ProfiloComponent,
+    SafeHtmlPipe
   ],
     imports: [
         HttpClientModule,

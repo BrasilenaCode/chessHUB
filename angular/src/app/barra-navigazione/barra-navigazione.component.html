@@ -1,37 +1,32 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
     <a class="navbar-brand" href="/" style="margin-left:10px">ChessHub</a>
-    <form *ngIf="!showResearch" class="form-inline my-2 my-lg-0" style="margin-right: 10px; margin-left:auto;">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" (input)="onChanges($event)">
-    </form>
     <button class="navbar-toggler" type="button" (click)="isNavbarToggled = !isNavbarToggled">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" [ngClass]="{'show': isNavbarToggled}" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-          <a *ngIf="!isAuthenticated()" class="nav-link" href="login">Login</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="about">About</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="tornei">Tornei</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="classifica">Classifica</a>
-      </li>
-      <li *ngIf="isAuthenticated()" class="nav-item">
-          <a class="nav-link" href="profilo">Profilo</a>
-      </li>
-      <li *ngIf="isAuthenticated()" class="nav-item" style="margin-left:auto; margin-right:10px;">
-        <button class="nav-link" (click)="doLogout()">Logout</button>
-      </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a *ngIf="!isAuthenticated()" class="nav-link" href="login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="about">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="tornei">Tornei</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="classifica">Classifica</a>
+        </li>
+        <li *ngIf="isAuthenticated()" class="nav-item">
+            <a class="nav-link" href="profilo">Profilo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ricerca">Cerca</a>
+        </li>
     </ul>
-      <form *ngIf="showResearch" class="form-inline my-2 my-lg-0" style="margin-right: 10px; margin-left:auto;">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" (input)="onChanges($event)">
-      </form>
-</div>
+        <button *ngIf="isAuthenticated()" class="button-inline nav-button-right nav-link" (click)="doLogout()">Logout</button>
+      </div>
 </nav>

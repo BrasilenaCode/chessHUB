@@ -1,7 +1,18 @@
 .navbar-collapse.flex-column {
-  align-items: flex-start; /* Allinea gli elementi nella colonna all'inizio */
+  align-items: flex-start;
 }
 
 .navbar-collapse.show {
-  display: flex !important; /* Forza la visualizzazione in colonna quando la classe show è presente */
+  display: flex !important;
+}
+
+
+.nav-button-right{
+  background-color: #212529;
+  color: #999999;
+  border-style: none;
+  margin-top:5px;
+  margin-right: 10px;
+  margin-left:auto;
+  font-weight: 4000;
 }

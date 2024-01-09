@@ -1,16 +1,30 @@
-<div [innerHTML]="pagina"></div>
+<figure>
+  <img src="assets/foto/players.PNG" alt="fotoPlayers"/>
+  <div class="overlay flex-center rgba-blue-light">
+  </div>
+</figure>
+<div class="pagina">
+<div [innerHTML]="pagina! | safeHtml"></div>
 <div>
-  <a routerLink="/modificaDati">Modifica dati</a>
-  <h4>Richieste di amicizia</h4>
-  <p *ngIf="richieste?.length == 0">Nessuna richiesta al momento</p>
-  <app-richiesta *ngFor="let richiesta of richieste" (refreshParent)="refreshParentComponent()" [richiesta]="richiesta"></app-richiesta>
+  <div class="larghezza">
+    <h4>Richieste di amicizia</h4>
+    <p *ngIf="richieste?.length == 0">Nessuna richiesta al momento</p>
+    <div class="justify-content-center d-flex">
+      <app-richiesta class="w-25 row" *ngFor="let richiesta of richieste" (refreshParent)="refreshParentComponent()" [richiesta]="richiesta"></app-richiesta>
+    </div>
+  </div>
 </div>
 <div>
   <div>
-      <h4>Ultime partite giocate</h4>
+      <h4 class="text-center">Ultime partite giocate</h4>
       <p *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
-      <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+    <div class="row justify-content-center">
+      <app-partita-show class="col d-flex justify-content-center" *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+    </div>
   </div>
-  <button (click)="vaiAllePartite()">Visualizza tutte le partite</button>
 </div>
-<button (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
+  <div class="row justify-content-center destra">
+  <button class="btn btn-primary col-sm-2 m-5" (click)="vaiAllePartite()">Visualizza tutte le partite</button>
+  <button class="btn btn-primary col-sm-2 m-5" (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
+  </div>
+</div>

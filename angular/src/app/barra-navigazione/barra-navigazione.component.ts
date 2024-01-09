@@ -1,9 +1,7 @@
 import {Component, HostListener} from '@angular/core';
 import {AuthServiceService} from "../services/auth.service";
 import { Router } from '@angular/router';
-import { ExchangeDataService } from '../services/exchange-data.service';
-import { Location } from '@angular/common';
-import {faAdd, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-barra-navigazione',
@@ -13,8 +11,6 @@ import {faAdd, faSearch} from "@fortawesome/free-solid-svg-icons";
 export class BarraNavigazioneComponent {
 
   isNavbarToggled = false;
-  showResearch:boolean=true;
-
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.checkWindowWidth();
@@ -22,22 +18,14 @@ export class BarraNavigazioneComponent {
 
   checkWindowWidth(): void {
     const screenWidth = window.innerWidth;
-    const breakpointWidth = 550;
+    const breakpointWidth = 576;
 
-    if (screenWidth >= breakpointWidth) {
-      console.log("ridimensionato")
+    if (screenWidth >= breakpointWidth)
       this.isNavbarToggled = false;
-      this.showResearch=true;
-    }else{
-      this.showResearch=false;
-    }
   }
   constructor(private authService: AuthServiceService,
-              private exchDataService: ExchangeDataService,
-              private location: Location,
               private router:Router){}
 
-  isInputNotEmpty: boolean = false;
 
   isAuthenticated(){
     return this.authService.isAuthenticated();
@@ -51,22 +39,5 @@ export class BarraNavigazioneComponent {
         }
       });
   }
-
-  onChanges(event: any) {
-    const toSearch: string = event.target.value;
-    if (toSearch === '') {
-      this.location.back()
-    } else {
-      this.router.navigate(['/ricerca'])
-      this.exchDataService.updateString(event.target.value)
-    }
-  }
-
-  onFocus() {
-    this.router.navigate(['/ricercaUtente'])
-  }
-
-
   protected readonly faSearch = faSearch;
-
 }

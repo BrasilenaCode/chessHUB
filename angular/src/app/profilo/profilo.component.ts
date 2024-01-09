@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { UtentiService } from '../services/utenti.service';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
 import {Utente} from "../model/utente";
@@ -17,6 +16,7 @@ export class ProfiloComponent implements OnInit{
   pagina?: string = "";
   partite?: Partita[];
   richieste?: Utente[];
+
 
   ngOnInit(): void {
     this.getPaginaUtente();

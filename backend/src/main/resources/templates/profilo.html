@@ -1,18 +1,32 @@
-<h1>Profilo</h1>
-<h2 th:text="'Profilo di ' + ${utente.username}"></h2>
-<p th:text="'Nome: ' + ${utente.nome}"></p>
-<p th:text="'Cognome: ' + ${utente.cognome}"></p>
-<p>Nazionalità: <img th:src="'data:image/png;base64,' + ${bandiera}" th:alt="${utente.nazionalita}"></p>
-<p th:text="'Data di nascita: ' + ${utente.dataNascita}"></p>
-<div>
-    <h4>I tuoi punteggi</h4>
-    <div class="card">
-        <p class="card-header">Punteggio settimanale</p>
-        <p class="card-body" th:text="'questa settimana hai totalizzato ' + ${utente.punteggioSettimanale} + ' punti'"></p>
-    </div>
-    <div class="card">
-        <p class="card-header">Punteggio totale</p>
-        <p class="card-body" th:text="'hai totalizzato ' + ${utente.punteggio} + ' punti nella tua carriera su ChessHub'"></p>
+<h1 th:text="'Profilo di ' + ${utente.username}" class="text-center fw-bold display-1 text-white"></h1>
+<div class="pt-5 justify-content-center">
+<div class="row pt-5 mt-5" style="margin: 0">
+    <p th:text="'Nome'" class="col text-center fw-bold"></p>
+    <p th:text="'Cognome'" class="col text-center fw-bold"></p>
+    <p th:text="'Data di nascita'" class="col text-center fw-bold"></p>
+    <p th:text="'Nazionalità'" class="col text-center fw-bold"></p>
+    <p  class="col"></p>
+</div>
+    <div class="row" style="margin: 0">
+        <p th:text="${utente.nome}" class="col text-center"></p>
+        <p th:text="${utente.cognome}" class="col text-center"></p>
+        <p  class="col text-center"><img th:src="'data:image/png;base64,' + ${bandiera}" th:alt="${utente.nazionalita}"></p>
+        <p th:text="${utente.dataNascita}" class="col text-center"></p>
+        <p class="col text-center"><a href="/modificaDati" th:text="'Modifica dati'" class="btn btn-primary" style="width: 8vw"></a></p>
     </div>
 </div>
-<a th:href="@{/amici(utente=${utente.username})}" th:text="'Follower: ' + ${utente.follower}"></a>
+<div>
+    <h4 class="pt-3 text-center mt-5">I tuoi punteggi</h4>
+    <div class="row justify-content-center mt-5" style="margin-right:0; margin-left:0;">
+        <div class="card col-sm-4 pb-4 pt-2" style="width: 12rem; position: relative; margin: 0vw 2vw;">
+            <p class="card-title h3 text-center">Punteggio settimanale</p>
+            <p class="card-subtitle text-center" th:text="'questa settimana hai totalizzato ' + ${utente.punteggioSettimanale} + ' punti'"></p>
+        </div>
+        <div class="card col-sm-4 pb-4 pt-2" style="width: 12rem; position: relative; margin: 0vw 2vw;">
+            <p class="card-title h3 text-center">Punteggio totale</p>
+            <p class="card-subtitle text-center" th:text="'hai totalizzato ' + ${utente.punteggio} + ' punti nella tua carriera su ChessHub'"></p>
+        </div>
+    </div>
+</div>
+<p class="text-center mt-5"><a th:href="@{/amici(utente=${utente.username})}" th:text="'Follower: ' + ${utente.follower}" class="btn btn-primary" style="width:20vw"></a></p>
+

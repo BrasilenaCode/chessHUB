@@ -1,20 +1,24 @@
-<div *ngIf="admin" class="card">
-  <p id = white>{{white}}</p>
-
-  <select *ngIf = "modifica" [(ngModel)] = "this.partita!.esito" title="Esito" (ngModelChange) = salvaPartita()>
-    <option value="0">  -  </option>
-    <option value="1"> 1-0 </option>
-    <option value="2"> 0-1 </option>
-    <option value="3"> 1/2 </option>
-  </select>
-  
-  <p id = black>{{black}} </p>
-  <button *ngIf="partita?.pgn != null" (click) = "visualizzaPartita()">Visualizza Partita</button>
-  <button (click) = caricaPartita()>Modifica Partita</button>
+<!---div *ngIf="admin" class="card">
+  <div class="card-title">
+    <p class="col" id = white>{{white}}</p>
+    <select *ngIf = "modifica" [(ngModel)] = "this.partita!.esito" title="Esito" (ngModelChange) = salvaPartita()>
+      <option value="0">  -  </option>
+      <option value="1"> 1-0 </option>
+      <option value="2"> 0-1 </option>
+      <option value="3"> 1/2 </option>
+    </select>
+    <p id = black>{{black}} </p>
+    <button *ngIf="partita?.pgn != null" (click) = "visualizzaPartita()">Visualizza Partita</button>
+    <button (click) = caricaPartita()>Modifica Partita</button>
+  </div>
 </div>
+--->
 
-<div *ngIf="!admin && privacy" class="card" (click) = visualizzaPartita()>
-  <p id = white>{{white}}</p>
-  <label> {{risultato}} </label>
-  <p id = black>{{black}} </p>
+<div *ngIf="privacy" class="view card justify-content-center larghezza" (click) = visualizzaPartita()>
+  <div class="overlay mask flex-center rgba-blue-light">
+  </div>
+  <div class="card-title">
+    <p class="text-center h4 pt-3" id = white>{{white}} vs {{black}}</p>
+    <p class="text-center">{{risultato}}</p>
+  </div>
 </div>

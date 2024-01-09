@@ -1,6 +1,4 @@
-<div>
-  <p class="card-text">{{richiesta?.username}}</p>
-  <button *ngIf="!nascondi" class="btn btn-primary" (click)="accetta()">Accetta</button>
-  <button *ngIf="!nascondi" class="btn btn-primary" (click)="rifiuta()">Rifiuta</button>
-  <p *ngIf="nascondi">{{statoRichiesta}}</p>
-</div>
+  <p class="col">{{richiesta?.username}}</p>
+  <p class="col"><button *ngIf="!nascondi" class="btn btn-success" (click)="accetta()">Accetta</button></p>
+  <p class="col"><button *ngIf="!nascondi" class="btn btn-danger" (click)="rifiuta()">Rifiuta</button></p>
+  <p class="col" *ngIf="nascondi">{{statoRichiesta}}</p>

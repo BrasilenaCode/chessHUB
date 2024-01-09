@@ -33,7 +33,9 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/js"
+              "src/assets/js",
+              "src/assets/video",
+              "src/assets/foto"
             ],
             "styles": [
               "src/styles.css",
@@ -100,7 +102,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/video"
+              "src/assets/video",
+              "src/assets/foto"
             ],
             "styles": [
               "src/styles.css",
