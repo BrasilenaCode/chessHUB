@@ -18,6 +18,17 @@ public class UtenteDaoPostgres implements UtenteDao {
     private final int PUNTI_PER_SCONFITTA = 0;
     public UtenteDaoPostgres(Connection connection) {
         this.connection = connection;
+        if(connection != null){
+            if(findByPrimaryKey("custom") == null){
+                String query = "INSERT INTO utente VALUES ('custom', 'custom', 'custom', 'custom', '2021-01-01', 'custom', false) ON CONFLICT DO NOTHING";
+                try{
+                    Statement st = connection.createStatement();
+                    st.executeUpdate(query);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     @Override
     public Utente findByPrimaryKey(String username) {

@@ -16,7 +16,6 @@ footer {
     color: #fff;
 }
 
-
 footer p {
     margin: 0;
 }
@@ -29,4 +28,11 @@ footer a {
 span{
     margin-left: 20px;
     margin-right: 20px;
+}
+
+@media only screen and (max-width: 680px) {
+    footer {
+        height: 75px;
+    }
+    
 }
