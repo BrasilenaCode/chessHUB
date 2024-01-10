@@ -2,11 +2,8 @@ import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnInit, PLA
 import Chart from 'chart.js/auto';
 import { UtentiService } from '../services/utenti.service';
 import { Utente } from '../model/utente';
-import { Partita } from '../model/partita';
-import { Torneo } from '../model/torneo';
 import { PartitaService } from '../services/partita.service';
 import { TorneoService } from '../services/torneo.service';
-import { create } from 'domain';
 import { isPlatformBrowser } from '@angular/common';
 
 
@@ -18,11 +15,8 @@ import { isPlatformBrowser } from '@angular/common';
 
 export class StatisticheComponent implements OnInit {
   @ViewChild("chart") chart!: ElementRef;
-
   caricamentoFinito: boolean = false;
-
   utente!: Utente;
-
   numVinte?: number = 0;
   numPerse?: number = 0;
   numPatte?: number = 0;
@@ -30,13 +24,13 @@ export class StatisticheComponent implements OnInit {
   isScreenResized: boolean = true;
 
 
-  constructor(private utentiService: UtentiService, 
+  constructor(private utentiService: UtentiService,
     private partitaService: PartitaService, private torneoService: TorneoService,
     @Inject(PLATFORM_ID) private platformId: Object) { }
 
-  
+
   ngOnInit(): void {
-    
+
     this.checkWindowWidth()
       this.utentiService.getStatistiche().subscribe({
         next: list => {
@@ -50,7 +44,7 @@ export class StatisticheComponent implements OnInit {
         },
         error: error => console.error('Errore nella chiamata HTTP:', error)
       })
-    
+
   }
 
 
@@ -67,7 +61,7 @@ export class StatisticheComponent implements OnInit {
 
     if (screenWidth >= breakpointWidth){
       this.isScreenResized = true;
-      
+
     }else{
       this.isScreenResized = false;
     }
@@ -76,7 +70,7 @@ export class StatisticheComponent implements OnInit {
 
   createBarChart() {
     const ctx = this.chart.nativeElement.getContext('2d');
-    
+
     const chart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -117,5 +111,5 @@ export class StatisticheComponent implements OnInit {
       }
     });
   }
-  
+
 }

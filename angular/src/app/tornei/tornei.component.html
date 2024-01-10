@@ -6,7 +6,7 @@
 <div>
     <h1 class="titolo text-center fw-bold display-1 text-white">Tornei</h1>
     <div class="container text-center">
-        <button type="submit"  class="btn btn-primary m-5 col-sm-2" (click)="addTorneo()">Nuovo Torneo <fa-icon [icon]="faAdd" class="fa-sm"></fa-icon></button>
+        <button *ngif="isAdmin" type="submit"  class="btn btn-primary m-5 col-sm-2" (click)="addTorneo()">Nuovo Torneo <fa-icon [icon]="faAdd" class="fa-sm"></fa-icon></button>
         <div class="prossimi">
             <p class="h3 rientro">Prossimi tornei</p>
             <app-tornei-stato [stato]="'prossimo'"></app-tornei-stato>

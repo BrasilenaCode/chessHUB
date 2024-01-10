@@ -3,14 +3,11 @@
   flex-direction: row;
 }
 .card {
-
   height: 15vh;
-  
-  border: 3px solid black;
+  border: 3px solid gray;
   position: relative;
   margin: 2vw 2vw;
   width: 15rem;
-   
 }
 
 
@@ -69,8 +66,8 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  margin: 0;  
-  padding: 0; 
+  margin: 0;
+  padding: 0;
 }
 .foto, img{
   width: 100%;
@@ -96,7 +93,11 @@
   justify-content: center;
 }
 .contenitore {
-  margin-top: 40vh;
+  margin-top: 25vh;
+}
+
+.margine{
+  margin-bottom:25vh;
 }
 
 
