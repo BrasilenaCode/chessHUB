@@ -1,12 +1,54 @@
-/* 
-This code represents the selected CSS styles.
-Please refer to the comments within the code for specific details on each style.
-*/
 .foto, img{
-    width: 100%;
-    height: 100%;
+    border-color: black;
+    border-style: solid;
+    border-width: 5px;
+    width: 70%;
+    position: relative;
+    left: 15%;
+    box-shadow: 0px 0px 10px 0px black;
 }
 
-h1{
-    font-size: 100px;
+.title{
+    color:red;
+    font-size: 4vw;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    position: relative;
+    top: 10%;
 }
+
+.typewriter-text {
+    font-weight: bold;
+    position:relative;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 2.5vw;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.typewriter-text p:last-child::after {
+    content: '|';
+    animation: blink 1s step-start infinite;
+  }
+  
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+.home{
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2vh;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2vw;
+    font-weight: bold;
+    width: 25vw;
+    height: 6vh;
+}
+  

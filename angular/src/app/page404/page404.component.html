@@ -1,7 +1,13 @@
+<h1 class=title>Pagina 404</h1>
+
 <figure>
     <img src="assets/foto/404.jpg" alt="404"/>
     <div class="overlay flex-center rgba-blue-light">
     </div>
 </figure>
 
-<h1>OPS...</h1>
+<div class=typewriter-text>
+    <p *ngFor = "let riga of testoVisualizzato">{{riga}}</p>
+</div> 
+
+<button *ngIf="end" class=home (click) = home()>Torna alla home</button>
