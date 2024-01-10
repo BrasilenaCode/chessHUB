@@ -40,6 +40,7 @@ import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component
 import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 import {ProfiloComponent} from "./profilo/profilo.component";
 import {SafeHtmlPipe} from "./safe-html-pipe/safe-html-pipe.component";
+import { Page404Component } from './page404/page404.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {SafeHtmlPipe} from "./safe-html-pipe/safe-html-pipe.component";
     TabDiRicercaComponent,
     CreaPgnComponent,
     ProfiloComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    Page404Component,
   ],
     imports: [
         HttpClientModule,

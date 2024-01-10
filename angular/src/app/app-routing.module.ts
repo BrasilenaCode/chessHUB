@@ -23,6 +23,7 @@ import {ModificaDatiComponent} from "./modifica-dati/modifica-dati.component";
 import {ModificaPasswordComponent} from "./modifica-password/modifica-password.component";
 import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
 import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
+import { Page404Component } from './page404/page404.component';
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -50,6 +51,7 @@ const routes: Routes = [
   {"path": "amici", component: AmiciComponent},
   {"path": "ricerca", component: TabDiRicercaComponent},
   {"path": "pgn/crea", component: CreaPgnComponent},
+  {"path": "**", component: Page404Component}
 ];
 
 
