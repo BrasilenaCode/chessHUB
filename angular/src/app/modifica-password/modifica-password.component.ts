@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthServiceService} from "../services/auth.service";
-import {Observable, of} from "rxjs";
 declare const submitPassword: any;
 @Component({
   selector: 'app-modifica-password',
