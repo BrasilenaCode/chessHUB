@@ -41,6 +41,9 @@ import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 import {ProfiloComponent} from "./profilo/profilo.component";
 import {SafeHtmlPipe} from "./safe-html-pipe/safe-html-pipe.component";
 import { Page404Component } from './page404/page404.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -85,7 +88,9 @@ import { Page404Component } from './page404/page404.component';
         FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        GoogleMapsModule
+        GoogleMapsModule,
+        BrowserAnimationsModule,
+        MatProgressSpinnerModule
     ],
   providers: [
     TorneoService,

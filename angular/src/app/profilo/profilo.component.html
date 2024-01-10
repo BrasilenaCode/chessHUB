@@ -24,7 +24,12 @@
   </div>
 </div>
   <div class="row justify-content-center destra">
-    <button class="btn btn-primary col-sm-2 m-5" (click)="vaiAllePartite()">Visualizza tutte le partite</button>
-    <button class="btn btn-primary col-sm-2 m-5" (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
+    <a href="partite" class="col-sm-2 m-5">
+      <button class="btn btn-primary" (click)="vaiAllePartite()">Visualizza tutte le partite</button>
+    </a>
+  
+    <a href="statistiche" class="col-sm-2 m-5">
+      <button class="btn btn-primary  " (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
+    </a>
   </div>
 </div>

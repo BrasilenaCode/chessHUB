@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { UtentiService } from '../services/utenti.service';
 import { Utente } from '../model/utente';
@@ -7,6 +7,8 @@ import { Torneo } from '../model/torneo';
 import { PartitaService } from '../services/partita.service';
 import { TorneoService } from '../services/torneo.service';
 import { create } from 'domain';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Component({
   selector: 'app-statistiche',
@@ -17,31 +19,33 @@ import { create } from 'domain';
 export class StatisticheComponent implements OnInit {
   @ViewChild("chart") chart!: ElementRef;
 
+  caricamentoFinito: boolean = false;
+
   utente!: Utente;
-  partiteVinte?: Partita[];
-  partitePerse?: Partita[];
-  PartitePatte?: Partita[];
-  torneiVinti?: Torneo[];
 
   numVinte?: number = 0;
   numPerse?: number = 0;
   numPatte?: number = 0;
   numTorneiVinti?: number = 0;
+  isScreenResized: boolean = true;
 
 
   constructor(private utentiService: UtentiService, 
-    private partitaService: PartitaService, private torneoService: TorneoService) { }
+    private partitaService: PartitaService, private torneoService: TorneoService,
+    @Inject(PLATFORM_ID) private platformId: Object) { }
+
   
   ngOnInit(): void {
     
+    this.checkWindowWidth()
       this.utentiService.getStatistiche().subscribe({
         next: list => {
-          console.log("ciaoooooooo" + list.length)
           this.numVinte = list[0];
           console.log(list[0])
           this.numPerse = list[1];
           this.numPatte = list[2];
           this.numTorneiVinti = list[3];
+          this.caricamentoFinito = true;
           this.createBarChart()
         },
         error: error => console.error('Errore nella chiamata HTTP:', error)
@@ -51,13 +55,32 @@ export class StatisticheComponent implements OnInit {
 
 
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkWindowWidth();
+  }
+  checkWindowWidth(): void {
+    let screenWidth=0;
+    if(isPlatformBrowser(this.platformId))
+         screenWidth = window.innerWidth;
+    const breakpointWidth = 750;
+
+    if (screenWidth >= breakpointWidth){
+      this.isScreenResized = true;
+      
+    }else{
+      this.isScreenResized = false;
+    }
+  }
+
+
   createBarChart() {
     const ctx = this.chart.nativeElement.getContext('2d');
     
     const chart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['stats'],
+        labels: ['Grafico di visualizzazione'],
         datasets: [
           {
             label: "Vittorie",
@@ -79,12 +102,20 @@ export class StatisticheComponent implements OnInit {
             data: [this.numTorneiVinti],
             backgroundColor: 'green'
           }
-
         ]
       },
       options: {
-        aspectRatio: 2.5
+        responsive: true,
+        aspectRatio: 1.7,
+        scales: {
+          y: {
+            ticks: {
+              stepSize: 1,
+            }
+          }
+        }
       }
     });
   }
+  
 }

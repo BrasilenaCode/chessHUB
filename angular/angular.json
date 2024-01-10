@@ -38,6 +38,7 @@
               "src/assets/foto"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css",
               "node_modules/@chrisoakman/chessboard2/dist/chessboard2.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css"
