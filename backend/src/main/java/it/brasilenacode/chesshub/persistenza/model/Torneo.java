@@ -122,4 +122,14 @@ public class Torneo {
         PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
         return new ArrayList<>(partitaDao.findAll().stream().filter(partita -> partita.getTorneo().getId() == this.getId()).toList());
     }
+
+    public void removePartecipante(Utente utente) {
+        if(partecipanti == null){
+            getPartecipanti();
+        }
+        if(partecipanti.contains(utente)){
+            partecipanti.remove(utente);
+            this.numeroPartecipanti--;
+        }
+    }
 }

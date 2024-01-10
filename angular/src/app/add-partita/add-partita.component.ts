@@ -3,7 +3,6 @@ import { Chess } from 'chess.js';
 import { Partita } from '../model/partita';
 import { PartitaService } from '../services/partita.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import { FormsModule } from '@angular/forms';
 
 declare var Chessboard2: any;
 
@@ -230,7 +229,7 @@ export class AddPartitaComponent implements OnInit{
 
     readFile(file: File) {
       const fileReader = new FileReader();
-    
+
       fileReader.onload = (e) => {
         const fileContent = fileReader.result as string;
         AddPartitaComponent.game.loadPgn(fileContent);
@@ -243,5 +242,5 @@ export class AddPartitaComponent implements OnInit{
     }
 
 
-    
+
 }

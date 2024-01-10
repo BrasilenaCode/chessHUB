@@ -84,6 +84,18 @@ public class TorneiController {
         return false;
     }
 
+    @PostMapping("/tornei/disiscrivimi")
+    public boolean rimuoviPartecipante(HttpServletRequest req, @RequestBody int torneoId){
+        if(Auth.isAuthenticated(req)){
+            Utente utente = Auth.getUser(req);
+            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            torneo.removePartecipante(utente);
+            DBManager.getInstance().getTorneoDao().removePartecipante(torneo, utente);
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("/tornei/partite")
     public List<Partita> esistonoPartite(HttpServletRequest req, @RequestBody int torneoId){
         if(Auth.isAuthenticated(req)){

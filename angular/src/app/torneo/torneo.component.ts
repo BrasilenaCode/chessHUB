@@ -83,4 +83,16 @@ export class TorneoComponent implements OnInit{
     if(this.turno > 0)
       this.turno--;
   }
+
+  discrivimi() {
+    this.torneoService.disiscriviGiocatore(this.torneo?.id).subscribe(risultato => {
+      if(risultato){
+        this.flagIscritto = false;
+        if(this.torneo!=undefined)
+          this.torneo.numeroPartecipanti--;
+      } else {
+        this.flagIscritto = true;
+      }
+    });
+  }
 }

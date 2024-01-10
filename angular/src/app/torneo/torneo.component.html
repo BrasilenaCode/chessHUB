@@ -11,6 +11,7 @@
     <p *ngIf="torneo?.stato == 'prossimo'">Il torneo deve ancora iniziare: hai tempo fino al <span>{{torneo?.dataInizio | date:"dd/MM/yy" }}</span> per iscriverti</p>
     <p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
     <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-3">ISCRIVITI</button>
+    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" (click)="discrivimi()" class="btn btn-primary m-3">DISCRIVITI</button>
     <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
     <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
     <div>

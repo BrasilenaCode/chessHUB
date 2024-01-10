@@ -98,5 +98,10 @@ export class TorneoService {
     }
     return this.http.post<Torneo[][]>(this.backendUrl+"/tornei/ricerca", param, header);
   }
-
+  disiscriviGiocatore(id: number | undefined) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl+"/tornei/disiscrivimi", id, header);
+  }
 }
