@@ -17,17 +17,6 @@ public class PartitaDaoPostgres implements PartitaDao {
     Connection connection;
     public PartitaDaoPostgres(Connection connection) {
         this.connection = connection;
-        if(connection != null){
-            if(findByPrimaryKey(-1) == null){
-                String query = "INSERT INTO partita VALUES (-1, 'admin', 'admin', -1, '2021-01-01', 'admin', 0, '', 'public') ON CONFLICT DO NOTHING";
-                try{
-                    Statement st = connection.createStatement();
-                    st.executeUpdate(query);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
     @Override
     public Partita findByPrimaryKey(long id) {

@@ -29,7 +29,7 @@ const routes: Routes = [
   {"path": "login", component: LoginComponent},
   {"path": "about", component: AboutComponent},
   {"path": "profilo", component: ProfiloComponent, canActivate:[AuthGuardService]},
-  {"path": "tornei", component: TorneiComponent},
+  {"path": "tornei", component: TorneiComponent, canActivate:[AuthGuardService]},
   {"path": "classifica", component: ClassificaComponent, canActivate:[AuthGuardService]},
   {"path": "addTorneo", component: AddTorneoComponent},
   {"path": "searchResults", component: SearchResultsComponent},

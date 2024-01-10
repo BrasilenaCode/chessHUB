@@ -1,30 +1,37 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {AuthServiceService} from "../services/auth.service";
 import { Router } from '@angular/router';
-import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {HttpClient} from "@angular/common/http";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-barra-navigazione',
   templateUrl: './barra-navigazione.component.html',
   styleUrl: './barra-navigazione.component.css'
 })
-export class BarraNavigazioneComponent {
+export class BarraNavigazioneComponent implements OnInit {
 
   isNavbarToggled = false;
+  show:boolean=true;
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.checkWindowWidth();
   }
-
   checkWindowWidth(): void {
-    const screenWidth = window.innerWidth;
+    let screenWidth=0;
+    if(isPlatformBrowser(this.platformId))
+         screenWidth = window.innerWidth;
     const breakpointWidth = 576;
 
-    if (screenWidth >= breakpointWidth)
+    if (screenWidth >= breakpointWidth){
       this.isNavbarToggled = false;
+      this.show=true;
+    }else{
+      this.show=false;
+    }
   }
   constructor(private authService: AuthServiceService,
-              private router:Router){}
+              private router:Router, @Inject(PLATFORM_ID) private platformId: Object){}
 
 
   isAuthenticated(){
@@ -39,5 +46,10 @@ export class BarraNavigazioneComponent {
         }
       });
   }
-  protected readonly faSearch = faSearch;
+  doLogin() {
+    this.router.navigate(["/login"]);
+  }
+  ngOnInit(): void {
+    this.checkWindowWidth();
+  }
 }

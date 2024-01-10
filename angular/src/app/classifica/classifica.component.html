@@ -20,12 +20,12 @@
 <div *ngIf="visualizzaSettimana">
   <p class="h3 rientro">Migliori giocatori della settimana</p>
   <br>
-  <div class="row">
-    <div class="col-lg-1 h5 primo">Posto</div>
-    <div class="col-lg-3 h5">Nome</div>
-    <div class="col-lg-3 h5">Cognome</div>
-    <div class="col-lg-3 h5">Nazionalità</div>
-    <div class="col-lg-2 h5">Punteggio</div>
+  <div class="row justify-content-center">
+    <div class="col h5 text-center">Posto</div>
+    <div class="col h5 text-center">Nome</div>
+    <div class="col h5 text-center">Cognome</div>
+    <div class="col h5 text-center">Nazionalità</div>
+    <div class="col h5 text-center">Punteggio</div>
   </div>
   <app-row *ngFor="let user of utentiMiglioriSettimanaVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
   <br>

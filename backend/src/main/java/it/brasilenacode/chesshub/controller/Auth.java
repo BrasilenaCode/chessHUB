@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Base64;
 
@@ -56,6 +57,7 @@ public class Auth {
             String password = user.getPassword();
             String concatenate = username + ":" + password;
             String token = base64encode(concatenate);
+            user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             DBManager.getInstance().getUtenteDao().saveOrUpdate(user);
             AuthToken auth = new AuthToken();
             auth.setToken(token);
@@ -88,7 +90,7 @@ public class Auth {
             String password = decod.split(":")[1];
             Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
             if (utente != null) {
-                if (utente.getPassword().equals(password)) {
+                if(BCrypt.checkpw(password, utente.getPassword())) {
                     return utente;
                 }
             }
