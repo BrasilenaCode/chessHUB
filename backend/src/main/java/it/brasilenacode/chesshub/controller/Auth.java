@@ -82,7 +82,6 @@ public class Auth {
             return false;
         }
     }
-
     public static Utente getUserByToken(String token){
         if (token != null) {
             String decod = base64Decode(token);

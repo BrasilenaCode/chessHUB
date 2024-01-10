@@ -1,36 +1,43 @@
-<br>
-<br>
-<div *ngIf="visualizzaMigliori">
-  <p class="h3 rientro">Migliori giocatori di sempre</p>
-  <br>
-  <div class="row">
-    <div class="col-lg-1 h5 primo">Posto</div>
-    <div class="col-lg-3 h5">Nome</div>
-    <div class="col-lg-3 h5">Cognome</div>
-    <div class="col-lg-3 h5">Nazionalità</div>
-    <div class="col-lg-2 h5">Punteggio</div>
+<figure>
+  <img src="assets/foto/podio.jpg" alt="fotoPodio"/>
+  <div class="overlay flex-center rgba-blue-light">
   </div>
-  <app-row *ngFor="let user of utentiMiglioriVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
+</figure>
+<h1 class="text-center display-1 text-white mb-2 sposta">Classifica</h1>
+<div class="margine justify-content-center" *ngIf="visualizzaMigliori">
+  <p [ngClass]="{'margine':!visualizzaSettimana}" class="mt-5 h3 text-center">Migliori giocatori di sempre</p>
   <br>
-  <button class="btn btn-primary" (click)="load()">{{testo}}</button>
-  <br>
+  <div class="container">
+    <div class="mx-auto text-center w-80">
+      <div class="row justify-content-center">
+        <div class="col text-center h6">Posto</div>
+        <div class="col text-center h6">Nome</div>
+        <div class="col text-center h6">Cognome</div>
+        <div class="col text-center h6">Nazionalità</div>
+        <div class="col text-center h6">Punteggio</div>
+      </div>
+      <app-row *ngFor="let user of utentiMiglioriVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
+    </div>
+  </div>
+  <p  *ngIf="visualizzaBottone" class="text-center mt-4"><a class="btn btn-primary" (click)="load()">{{testo}}</a></p>
   <a *ngIf="!visualizzaSettimana" href="/classifica">Torna alla pagina precedente</a>
-  <br>
 </div>
-<div *ngIf="visualizzaSettimana">
-  <p class="h3 rientro">Migliori giocatori della settimana</p>
+<div class="justify-content-center mt-2" *ngIf="visualizzaSettimana">
+  <p [ngClass]="{'margine':!visualizzaMigliori}" class="h3 text-center">Migliori giocatori della settimana</p>
   <br>
-  <div class="row justify-content-center">
-    <div class="col h5 text-center">Posto</div>
-    <div class="col h5 text-center">Nome</div>
-    <div class="col h5 text-center">Cognome</div>
-    <div class="col h5 text-center">Nazionalità</div>
-    <div class="col h5 text-center">Punteggio</div>
+  <div class="container">
+    <div class="mx-auto text-center w-80">
+      <div class="row justify-content-center">
+        <div class="col h6 text-center dimensione">Posto</div>
+        <div class="col h6  text-center dimensione">Nome</div>
+        <div class="col h6 text-center dimensione">Cognome</div>
+        <div class="col h6 text-center dimensione">Nazionalità</div>
+        <div class="col h6 text-center dimensione">Punteggio</div>
+      </div>
+      <app-row *ngFor="let user of utentiMiglioriSettimanaVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
+    </div>
   </div>
-  <app-row *ngFor="let user of utentiMiglioriSettimanaVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
-  <br>
-  <button class="btn btn-primary" (click)="loadWeek()">{{testo}}</button>
-  <br>
-  <a *ngIf="!visualizzaMigliori" href="/classifica">Torna alla pagina precedente</a>
+  <p *ngIf="visualizzaBottone" class="text-center mt-4"><a class="btn btn-primary" (click)="loadWeek()">{{testo}}</a></p>
+  <a class="btn btn-primary" *ngIf="!visualizzaMigliori" href="/classifica">Torna alla pagina precedente</a>
 </div>
 

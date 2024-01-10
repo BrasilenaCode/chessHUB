@@ -19,12 +19,14 @@ export class ClassificaComponent implements OnInit{
   usernameUtente?:string;
   indice:number=0;
   indiceWeek:number=0;
+  visualizzaBottone=true;
 
   ngOnInit(){
     this.cercaUtente();
     this.getBestUser();
     this.cercaPosizione();
     this.testo="Visualizza classifica completa";
+    this.visualizzaBottone=true;
   }
   constructor(private utentiService:UtentiService){}
 
@@ -43,8 +45,11 @@ export class ClassificaComponent implements OnInit{
       this.visualizzaSettimana = false;
     }
     var length=this.utentiMiglioriVisualizzati?.length;
-    if(length!=undefined)
-      length+=10;
+    if(length!=undefined) {
+      length += 10;
+      if (length >= this.utentiMigliori!.length)
+        this.visualizzaBottone = false;
+    }
     this.utentiMiglioriVisualizzati=this.utentiMigliori?.slice(0, length);
   }
 
@@ -54,8 +59,11 @@ export class ClassificaComponent implements OnInit{
         this.visualizzaMigliori = false;
       }
       var length=this.utentiMiglioriSettimanaVisualizzati?.length;
-      if(length!=undefined)
-        length+=10;
+      if(length!=undefined) {
+        length += 10;
+        if (length >= this.utentiMigliori!.length)
+          this.visualizzaBottone = false;
+      }
       this.utentiMiglioriSettimanaVisualizzati=this.utentiMiglioriSettimana?.slice(0, length);
   }
 

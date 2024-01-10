@@ -13,13 +13,8 @@
 .utente:hover {
   background-color: #889;
 }
-
-.primo{
-  padding-left: 25px;
-}
-
-
 .row{
   margin: 0;
+  width:100%;
 }
 

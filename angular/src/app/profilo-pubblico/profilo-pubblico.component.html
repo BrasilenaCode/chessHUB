@@ -2,8 +2,8 @@
 <button *ngIf="!seguendo&&!richiestaInviata" type="button" class="btn btn-success" (click)="segui()">Invia Richiesta</button>
 <button *ngIf="seguendo" type="button" class="btn btn-success" (click)="nonSeguire()">Non seguire più</button>
 <button *ngIf="richiestaInviata" type="button" class="btn btn-success" (click)="nonSeguire()">Annulla Richiesta</button>
-<div>
+<div class="justify-content-center">
   <h4>Ultime partite giocate</h4>
-  <p *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
+  <p class="text-center" *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
   <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
 </div>
