@@ -39,14 +39,16 @@ export class MapsComponent implements OnChanges {
 
   markLocation(place: string) {
     this.getGeocoding(place).subscribe((response: any) => {
-      const location = response.results[0].geometry.location;
-      this.display = { lat: location.lat, lng: location.lng }
-      this.center = this.display;
+      let location: any;
+      if(response.results.length >0 && response.results[0].geometry != undefined) {
+        location = response.results[0].geometry.location;
+        this.display = {lat: location.lat, lng: location.lng}
+        this.center = this.display;
+      }
     })
   }
 
   searchLocation() {
-    console.log("ciaooooo il luogo è " + this.torneo?.luogo)
     if (this.torneo != undefined) {
       this.markLocation(this.torneo.luogo)
     }
