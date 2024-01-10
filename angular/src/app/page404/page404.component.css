@@ -1,0 +1,12 @@
+/* 
+This code represents the selected CSS styles.
+Please refer to the comments within the code for specific details on each style.
+*/
+.foto, img{
+    width: 100%;
+    height: 100%;
+}
+
+h1{
+    font-size: 100px;
+}

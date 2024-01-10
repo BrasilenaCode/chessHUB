@@ -13,6 +13,7 @@ declare var Chessboard2: any;
   templateUrl: './partita.component.html',
   styleUrl: './partita.component.css'
 })
+
 export class PartitaComponent implements OnInit{
   game: Chess = new Chess();
   board?: any;
@@ -25,28 +26,44 @@ export class PartitaComponent implements OnInit{
   automatic : boolean = false;
   clock? : NodeJS.Timeout
 
+  custom : boolean = false;
+  selezioneInCorso : boolean = true;
+
+  info : {[key: string]: string} = {
+    "White": "Sconosciuto",
+    "Black": "Sconosciuto",
+    "Site": "",
+    "Date": "",
+    "Round": "",
+    "Result": "NC",
+    "Event": ""
+  };
+
   comments : {[key: string]: string} = {};
 
   constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute){}
 
   ngOnInit(): void {
-    this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => {
-      this.partita = partita;
-    });
     try{
       this.board = Chessboard2('board', 'start');
     }
     catch(e){}
-    setTimeout(() => {
-      this.caricamentoPartita();
-    }, 1000);
+    if(this.activatedRoute.snapshot.queryParams['id'] == null){
+      this.custom = true;
+    }else{
+      this.custom = false;
+      this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => {
+        this.partita = partita;
+      });
+      setTimeout(() => {
+        this.caricamentoPartita(this.partita!.pgn);
+        this.caricaDati();
+      }, 1000);
+    }
   }
 
-  caricamentoPartita(): void {
-    if (this.partita == null) {
-      return;
-    }
-    this.game.loadPgn(this.partita.pgn);
+  caricamentoPartita(pgn : string): void {
+    this.game.loadPgn(pgn);
     let cont : number = 0;
     this.mosse = [];
     this.game.history().forEach(mossa => {
@@ -99,5 +116,102 @@ export class PartitaComponent implements OnInit{
       document.getElementById("automode")!.innerHTML = "OFF";
       clearInterval(this.clock);
     }
+  }
+
+  caricaDatiCustom() : void {
+    if(this.game.header()["White"] != undefined)
+      this.info["White"] = this.game.header()["White"];
+
+    if(this.game.header()["Black"] != undefined)
+      this.info["Black"] = this.game.header()["Black"];
+
+    if(this.game.header()["Site"] != undefined)
+      this.info["Site"] = this.game.header()["Site"];
+
+    if(this.game.header()["Date"] != undefined)
+      this.info["Date"] = this.game.header()["Date"];
+
+    if(this.game.header()["Round"] != undefined)
+      this.info["Round"] = this.game.header()["Round"];
+
+    if(this.game.header()["Result"] != undefined)
+      this.info["Result"] = this.game.header()["Result"];
+
+    if(this.game.header()["Event"] != undefined)
+      this.info["Event"] = this.game.header()["Event"];
+  }
+
+  caricaDati(){
+    if(this.partita == null)
+      return;
+
+    if(this.partita.giocatore1.username == "custom")
+      if(this.game.header()["White"] != undefined)
+        this.info["White"] = this.game.header()["White"]
+    else
+      this.info["White"] = this.partita.giocatore1.nome + " " + this.partita.giocatore1.cognome;
+
+    if(this.partita.giocatore2.username == "custom")
+      if(this.game.header()["Black"] != undefined)
+        this.info["Black"] = this.game.header()["Black"]
+    else
+      this.info["Black"] = this.partita.giocatore2.nome + " " + this.partita.giocatore2.cognome;
+
+    if(this.partita.turno != undefined)
+      this.info["Round"] = this.partita.turno + " ";
+    else if (this.game.header()["Round"] != undefined)
+      this.info["Round"] = this.game.header()["Round"];
+
+    if(this.partita.torneo.id == -1){
+      if(this.game.header()["Site"] != undefined)
+        this.info["Site"] = this.game.header()["Site"]
+      if(this.game.header()["Event"] != undefined)
+        this.info["Event"] = this.game.header()["Event"]
+      }
+    else{
+      this.info["Event"] = this.partita.torneo.nome;
+      this.info["Site"] = this.partita.torneo.luogo;
+    }
+
+    if(this.partita.data != undefined)
+      this.info["Date"] = this.partita.data.toString();
+    else if(this.game.header()["Date"] != undefined)
+      this.info["Date"] = this.game.header()["Date"];
+
+    if(this.partita.esito != undefined){
+      switch(this.partita.esito){
+        case "1":
+          this.info["Result"] = "1-0";
+          break;
+        case "2":
+          this.info["Result"] = "0-1";
+          break;
+        case "3":
+          this.info["Result"] = "1/2-1/2";
+          break;
+      }
+
+    }
+    else if(this.game.header()["Result"] != undefined)
+      this.info["Result"] = this.game.header()["Result"];
+  }
+
+  importa(event: any) : void {
+    const File = event.target.files[0];
+    if(File)
+      this.readFile(File);
+  }
+
+  readFile(file: File) {
+    const fileReader = new FileReader();
+  
+    fileReader.onload = (e) => {
+      const fileContent = fileReader.result as string;
+      this.caricamentoPartita(fileContent);
+      this.caricaDatiCustom();
+    };
+
+    fileReader.readAsText(file);
+    this.selezioneInCorso = false;
   }
 }

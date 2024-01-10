@@ -11,8 +11,10 @@ import {Partita} from "../model/partita";
   styleUrl: './torneo.component.css'
 })
 export class TorneoComponent implements OnInit{
+
+  turno: number = 0;
   torneo?: Torneo;
-  partite?:Partita[];
+  partiteTurno:Partita[][] = [];
   flagIscritto: boolean = false;
   flagAdmin: boolean = false;
   flagPartite: boolean = true;
@@ -24,9 +26,10 @@ export class TorneoComponent implements OnInit{
     this.torneoService.isIscritto(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(risultato => {this.flagIscritto = risultato});
     this.authService.isAdmin().subscribe(risultato => {this.flagAdmin = risultato});
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
-      if(partite.length > 0) {
+      this.loadPartite(partite);
+      if(partite?.length > 0) {
+        this.turno = 1;
         this.flagPartite = false;
-        this.partite = partite;
       }
     });
   }
@@ -43,17 +46,41 @@ export class TorneoComponent implements OnInit{
     });
   }
 
+  loadPartite(partite?: Partita[]){
+    if(partite == null)
+      return;
+    if(this.partiteTurno == null)
+      return;
+    for(let i = 0; i < partite.length; i++){
+      while(this.partiteTurno.length < partite[i].turno){
+        this.partiteTurno?.push([]);
+      }
+      this.partiteTurno[partite[i].turno-1].push(partite[i]);
+    }
+  }
+
   generaTorneo(){
     this.torneoService.generaTorneo(this.torneo?.id).subscribe(risultato => {
       if(risultato) {
-        this.partite = risultato;
         this.flagPartite = false;
         if(this.torneo!=undefined)
           this.torneo.stato = "inCorso";
+        this.loadPartite(risultato);
       }
     });
   }
+
   isAuthenticated(){
     return this.authService.isAuthenticated();
+  }
+
+  prossimoTurno(){
+    if(this.turno < this.partiteTurno!.length - 1)
+      this.turno++;
+  }
+
+  precedenteTurno(){
+    if(this.turno > 0)
+      this.turno--;
   }
 }
