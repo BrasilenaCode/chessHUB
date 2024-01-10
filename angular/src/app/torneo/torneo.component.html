@@ -1,24 +1,37 @@
-<h1>{{torneo?.nome}}</h1>
-<p *ngIf="torneo?.stato == 'inCorso'">torneo in corso</p>
-<p *ngIf="torneo?.stato == 'passato'">torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
-<p *ngIf="torneo?.stato == 'prossimo'">hai tempo fino al <span>{{torneo?.dataInizio | date:"dd/MM/yy" }}</span> per iscriverti</p>
-<p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
-<button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()">ISCRIVITI</button>
-<p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
-<button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
-<div>
-  <h1>Partite</h1>
-  <div *ngIf="partiteTurno?.length">
-    <p>Turno {{turno + 1}}</p>
-    <app-partita-show *ngFor="let partita of partiteTurno![turno]" [partita]="partita"></app-partita-show>
-  
-    <button (click) = "prossimoTurno()" title = "Successivo">Turno Successivo</button>
-    <button (click) = "precedenteTurno()" title = "Precedente">Turno Precedente</button>
-
+<figure>
+  <img src="assets/foto/torneo.jpg" alt="fotoPlayers"/>
+  <div class="overlay flex-center rgba-blue-light">
   </div>
-  <div *ngIf="!partiteTurno?.length">
-    <p>Non ci sono partite</p>
+</figure>
+<div>
+  <h1 class="titolo text-center fw-bold display-1 text-white">{{torneo?.nome}}</h1>
+  <div class="container text-center">
+    <p *ngIf="torneo?.stato == 'inCorso'">Il torneo è in corso</p>
+    <p *ngIf="torneo?.stato == 'passato'">Il torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
+    <p *ngIf="torneo?.stato == 'prossimo'">Il torneo deve ancora iniziare: hai tempo fino al <span>{{torneo?.dataInizio | date:"dd/MM/yy" }}</span> per iscriverti</p>
+    <p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
+    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-3">ISCRIVITI</button>
+    <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
+    <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
+    <div>
+      <h2 class="h2 text-center">Partite</h2>
+      <div *ngIf="partiteTurno?.length">
+        <div class="row justify-content-center">
+          <button (click) = "precedenteTurno()" title = "Precedente" class="btn btn-primary col-sm-2">Turno Precedente</button>
+          <p class="col-sm-2">Turno {{turno + 1}}</p>
+          <button (click) = "prossimoTurno()" title = "Successivo" class="btn btn-primary col-sm-2">Turno Successivo</button>
+        </div>
+        <div class="row justify-content-around contenitore-partite">
+          <app-partita-show *ngFor="let partita of partiteTurno![turno]" [partita]="partita" class="col"></app-partita-show>
+        </div>
+      </div>
+      <div *ngIf="!partiteTurno?.length">
+        <p>Non ci sono partite</p>
+      </div>
+    </div>
+    <h2 class="h4 text-center">Luogo</h2>
+    <div class="d-flex justify-content-center">
+      <app-maps [torneo]="torneo" class="m-4"></app-maps>
+    </div>
   </div>
 </div>
-<app-maps [torneo]="torneo"></app-maps>
-
