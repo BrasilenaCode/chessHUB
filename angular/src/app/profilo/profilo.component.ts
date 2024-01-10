@@ -12,10 +12,12 @@ import {Utente} from "../model/utente";
   styleUrl: './profilo.component.css'
 })
 export class ProfiloComponent implements OnInit{
+
   constructor(private utentiService: UtentiService, private router: Router, private partiteService: PartitaService) { }
   pagina?: string = "";
   partite?: Partita[];
   richieste?: Utente[];
+  caricamentoFinito: boolean = false;
 
 
   ngOnInit(): void {
@@ -29,6 +31,7 @@ export class ProfiloComponent implements OnInit{
     this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
       this.utentiService.paginaProfilo(utente).subscribe(pagina => this.pagina = pagina)
       this.partiteService.dammiUltimePartiteGiocate(utente.username).subscribe(partite => this.partite = partite);
+      this.caricamentoFinito = true;
     });
   }
   vaiAlleStatistiche(): void {

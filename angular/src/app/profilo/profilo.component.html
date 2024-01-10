@@ -33,3 +33,9 @@
     </a>
   </div>
 </div>
+<div class="overlay-loading" *ngIf="!caricamentoFinito">
+  <div class="overlay-content">
+      <b>Caricamento...</b>
+      <mat-spinner></mat-spinner>
+  </div>
+</div>
