@@ -1,16 +1,16 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {AuthServiceService} from "../services/auth.service";
 import { Router } from '@angular/router';
-import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-barra-navigazione',
   templateUrl: './barra-navigazione.component.html',
   styleUrl: './barra-navigazione.component.css'
 })
-export class BarraNavigazioneComponent {
+export class BarraNavigazioneComponent implements OnInit {
 
   isNavbarToggled = false;
+  show:boolean=true;
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.checkWindowWidth();
@@ -20,8 +20,12 @@ export class BarraNavigazioneComponent {
     const screenWidth = window.innerWidth;
     const breakpointWidth = 576;
 
-    if (screenWidth >= breakpointWidth)
+    if (screenWidth >= breakpointWidth){
       this.isNavbarToggled = false;
+      this.show=true;
+    }else{
+      this.show=false;
+    }
   }
   constructor(private authService: AuthServiceService,
               private router:Router){}
@@ -39,5 +43,10 @@ export class BarraNavigazioneComponent {
         }
       });
   }
-  protected readonly faSearch = faSearch;
+  doLogin() {
+    this.router.navigate(["/login"]);
+  }
+  ngOnInit(): void {
+    this.checkWindowWidth();
+  }
 }

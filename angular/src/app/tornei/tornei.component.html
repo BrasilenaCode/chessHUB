@@ -1,4 +1,4 @@
-<button type="submit"  class="btn btn-primary right" (click)="addTorneo()">Nuovo Torneo <fa-icon [icon]="faAdd" class="fa-sm"></fa-icon>
+<button *ngif="isAdmin" type="submit"  class="btn btn-primary right" (click)="addTorneo()">Nuovo Torneo <fa-icon [icon]="faAdd" class="fa-sm"></fa-icon>
 </button>
 <br>
 <br>

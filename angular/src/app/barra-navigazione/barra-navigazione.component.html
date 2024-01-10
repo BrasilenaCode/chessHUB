@@ -1,15 +1,14 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-    <a class="navbar-brand" href="/" style="margin-left:10px">ChessHub</a>
+    <a class="navbar-brand" href="/">ChessHub</a>
     <button class="navbar-toggler" type="button" (click)="isNavbarToggled = !isNavbarToggled">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <button *ngIf="!show&&isAuthenticated()" class="button-inline nav-button-right text-white margine" (click)="doLogout()">Logout</button>
+    <button *ngIf="!show&&!isAuthenticated()" class="button-inline nav-button-right text-white" (click)="doLogin()">Login</button>
     <div class="collapse navbar-collapse" [ngClass]="{'show': isNavbarToggled}" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
             <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-            <a *ngIf="!isAuthenticated()" class="nav-link" href="login">Login</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="about">About</a>
@@ -26,7 +25,8 @@
         <li class="nav-item">
           <a class="nav-link" href="ricerca">Cerca</a>
         </li>
-    </ul>
-        <button *ngIf="isAuthenticated()" class="button-inline nav-button-right nav-link" (click)="doLogout()">Logout</button>
-      </div>
+      </ul>
+      <button *ngIf="show&&isAuthenticated()" class="button-inline nav-button-right text-white" (click)="doLogout()">Logout</button>
+      <button *ngIf="show&&!isAuthenticated()" class="button-inline nav-button-right text-white" (click)="doLogin()">Login</button>
+    </div>
 </nav>

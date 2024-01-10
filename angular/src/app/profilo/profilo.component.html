@@ -1,5 +1,5 @@
 <figure>
-  <img src="assets/foto/players.PNG" alt="fotoPlayers"/>
+  <img src="assets/foto/profilo.jpg" alt="fotoPlayers"/>
   <div class="overlay flex-center rgba-blue-light">
   </div>
 </figure>
@@ -18,13 +18,13 @@
   <div>
       <h4 class="text-center">Ultime partite giocate</h4>
       <p *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center margine">
       <app-partita-show class="col d-flex justify-content-center" *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
     </div>
   </div>
 </div>
   <div class="row justify-content-center destra">
-  <button class="btn btn-primary col-sm-2 m-5" (click)="vaiAllePartite()">Visualizza tutte le partite</button>
-  <button class="btn btn-primary col-sm-2 m-5" (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
+  <button class="btn btn-primary col m-5" (click)="vaiAllePartite()">Visualizza tutte le partite</button>
+  <button class="btn btn-primary col m-5" (click)="vaiAlleStatistiche()">vai alle statistiche complete</button>
   </div>
 </div>

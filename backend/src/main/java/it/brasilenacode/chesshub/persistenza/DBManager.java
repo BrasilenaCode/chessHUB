@@ -12,6 +12,7 @@ import it.brasilenacode.chesshub.utilities.JsonReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBManager {
     private static DBManager instance = null;
@@ -53,5 +54,35 @@ public class DBManager {
 
     public TorneoDao getTorneoDao() {
         return new TorneoDaoPostgres(getConnection());
+    }
+
+    public void createGuest() {
+        if (getUtenteDao().findByPrimaryKey("custom") == null) {
+            String query = "INSERT INTO utente VALUES ('custom', 'custom', 'custom', 'custom', '2021-01-01', 'custom', false) ON CONFLICT DO NOTHING";
+            try {
+                Statement st = connection.createStatement();
+                st.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(getTorneoDao().findByPrimaryKey(-1) == null){
+            String query = "INSERT INTO torneo VALUES (-1, 'Partite fuori torneo', '2021-01-01', '2021-01-02', 'Arcavacata (Rende)', 'fuoriTorneo', null, 0) ON CONFLICT DO NOTHING";
+            try{
+                Statement st = connection.createStatement();
+                st.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(getPartitaDao().findByPrimaryKey(-1) == null){
+            String query = "INSERT INTO partita VALUES (-1, 'custom', 'custom', -1, '2021-01-01', '-1', 0, '', 'public') ON CONFLICT DO NOTHING";
+            try{
+                Statement st = connection.createStatement();
+                st.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

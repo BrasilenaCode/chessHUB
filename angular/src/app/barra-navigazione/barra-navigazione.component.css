@@ -6,7 +6,13 @@
   display: flex !important;
 }
 
-
+.margine{
+  margin-right: 10px;
+  margin-left:auto;
+}
+.navbar-brand{
+  margin-left:10px;
+}
 .nav-button-right{
   background-color: #212529;
   color: #999999;
@@ -14,5 +20,4 @@
   margin-top:5px;
   margin-right: 10px;
   margin-left:auto;
-  font-weight: 4000;
 }

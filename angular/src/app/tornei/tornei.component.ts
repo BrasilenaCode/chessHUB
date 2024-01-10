@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {faAdd} from "@fortawesome/free-solid-svg-icons";
 import { Torneo } from '../model/torneo';
 import {UtentiService} from "../services/utenti.service";
+import {AuthServiceService} from "../services/auth.service";
 
 @Component({
   selector: 'app-tornei',
@@ -15,7 +16,7 @@ export class TorneiComponent implements OnInit{
   tornei?: Torneo[];
   isAdmin:boolean=false;
 
-  constructor(private router:Router, private torneoService: TorneoService, utentiService:UtentiService) { }
+  constructor(private router:Router, private auth:AuthServiceService) { }
 
   addTorneo() {
     this.router.navigate(['/addTorneo']);
@@ -28,6 +29,6 @@ export class TorneiComponent implements OnInit{
   protected readonly faAdd = faAdd;
 
   ngOnInit(): void {
-
+    this.auth.isAdmin().subscribe(result=> this.isAdmin=result);
   }
 }
