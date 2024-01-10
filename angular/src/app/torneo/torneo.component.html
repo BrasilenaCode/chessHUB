@@ -8,10 +8,15 @@
 <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
 <div>
   <h1>Partite</h1>
-  <div *ngIf="partite?.length">
-    <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+  <div *ngIf="partiteTurno?.length">
+    <p>Turno {{turno + 1}}</p>
+    <app-partita-show *ngFor="let partita of partiteTurno![turno]" [partita]="partita"></app-partita-show>
+  
+    <button (click) = "prossimoTurno()" title = "Successivo">Turno Successivo</button>
+    <button (click) = "precedenteTurno()" title = "Precedente">Turno Precedente</button>
+
   </div>
-  <div *ngIf="!partite?.length">
+  <div *ngIf="!partiteTurno?.length">
     <p>Non ci sono partite</p>
   </div>
 </div>

@@ -1,8 +1,16 @@
 <h1> Partita </h1>
 
-<h2> {{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}} {{partita?.giocatore1?.punteggio}}</h2>
-<h3> VS </h3>
-<h2> {{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}} {{partita?.giocatore2?.punteggio}}</h2>
+<label *ngIf = "custom && selezioneInCorso">Importa partita da PGN <input type="file" accept=".txt" (change)="importa($event)"></label>
+
+<div>
+  <h2>{{info["White"]}}</h2>
+  <h3> VS </h3>
+  <h2>{{info["Black"]}}</h2>
+  <p> Evento: {{info["Event"]}} - {{info["Round"]}}</p>
+  <p> Luogo: {{info["Site"]}}</p>
+  <p> Data: {{info["Date"]}}</p>
+</div>
+
 
 <div id= formulario >
   <table id= formulario >
@@ -21,9 +29,6 @@
 </div>
 
 <div id = board></div>
-
-
-
 
 <p> Auto Mode: 
 <button id="automode" (click)="auto()">OFF</button>
