@@ -1,0 +1,18 @@
+[
+    {
+        "challenge": "a",
+        "response": "b"
+    },
+    {
+        "challenge": "c",
+        "response": "d"
+    },
+    {
+        "challenge": "e",
+        "response": "f"
+    },
+    {
+        "challenge": "g",
+        "response": "h"
+    }
+]
