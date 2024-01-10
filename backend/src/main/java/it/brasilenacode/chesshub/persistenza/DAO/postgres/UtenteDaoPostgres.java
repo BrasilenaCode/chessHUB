@@ -39,7 +39,7 @@ public class UtenteDaoPostgres implements UtenteDao {
     @Override
     public List<Utente> findAll() {
         List<Utente> utenti = new ArrayList<Utente>();
-        String query = "select * from utente";
+        String query = "select * from utente where username != 'custom'";
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);

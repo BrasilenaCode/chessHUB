@@ -79,7 +79,7 @@ public class TorneoDaoPostgres implements TorneoDao {
     @Override
     public List<Torneo> findAll() {
         List<Torneo> tornei = new ArrayList<>();
-        String query = "select * from torneo";
+        String query = "select * from torneo where id != -1";
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
