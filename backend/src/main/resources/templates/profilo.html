@@ -1,5 +1,5 @@
-<h1 th:text="'Profilo Personale'" class="mb-2 text-center fw-bold display-1 text-white" style="font-size:4rem;"></h1>
-<h2 th:text="${utente.username}" class="text-center display-1 text-white fw-bold mb-5" style="font-size:3rem;"></h2>
+<h1 th:text="'Profilo Personale'" class="text-center display-1 text-white mb-2" style="font-size:4rem;"></h1>
+<h2 th:text="${utente.username}" class="text-center display-1 text-white fw-bold mb-5" style="font-size:3rem; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black;"></h2>
 <div class="justify-content-center mt-5 mb-5">
     <p class="text-black fw-bold text-center" style="margin-top:25vh; font-size:20px">Dati Personali</p>
 <div class="row pt-5" style="margin: 0">
@@ -12,7 +12,7 @@
     <div class="row" style="margin: 0">
         <p th:text="${utente.nome}" class="col text-center"></p>
         <p th:text="${utente.cognome}" class="col text-center"></p>
-        <p th:text="${utente.dataNascita}" class="col text-center"></p>
+        <p th:text="${dataNascita}" class="col text-center"></p>
         <p  class="col text-center"><img th:src="'data:image/png;base64,' + ${bandiera}" th:alt="${utente.nazionalita}"></p>
         <p class="col text-center"><a href="/modificaDati" th:text="'Modifica dati'" class="btn btn-primary" style="width: 8vw"></a></p>
     </div>

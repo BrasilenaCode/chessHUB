@@ -98,7 +98,7 @@ export class TorneoService {
     }
     return this.http.post<Torneo[][]>(this.backendUrl+"/tornei/ricerca", param, header);
   }
-
-  disiscriviGiocatore(id: number | undefined):Observable<any> {
-  }
+/*
+  disiscriviGiocatore(id: number | undefined) {
+  }*/
 }
