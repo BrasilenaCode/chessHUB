@@ -1,20 +1,18 @@
 package it.brasilenacode.chesshub.utilities;
 
 import java.util.Map;
-import it.brasilenacode.chesshub.utilities.JsonReader;
 
-class RecaptchaDirector {
-    private RecaptchaDirector instance = null;
+public class RecaptchaDirector {
+    private static RecaptchaDirector instance = null;
     private Map<String, String> recaptchaChallenges;
 
     private RecaptchaDirector() {
         JsonReader jsonReader = new JsonReader();
         jsonReader.read(getClass().getResource("/recaptcha-challenges/challenges.json").getPath());
         recaptchaChallenges = jsonReader.getMap("challenge", "response");
-        System.out.println(recaptchaChallenges);
     }
 
-    public RecaptchaDirector getInstance() {
+    public static RecaptchaDirector getInstance() {
         if (instance == null) {
             instance = new RecaptchaDirector();
         }
