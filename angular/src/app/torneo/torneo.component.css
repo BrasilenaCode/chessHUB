@@ -34,7 +34,23 @@
 .display-1{
   font-size:4rem;
 }
-.contenitore-partite {
-    margin-left: 10%;
-    margin-right: 10%;
-  }
+
+.disattivato{
+  background-color: #888899;
+  border-color: #888899;
+  cursor: default;
+}
+
+disattivato:active {
+  background-color: #888899;
+}
+
+disattivato:focus {
+  outline: none;
+  box-shadow: 0 0 5px #888899;
+}
+
+.contenitore-tornei {
+  margin-left: 10%;
+  margin-right: 10%;
+}

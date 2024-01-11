@@ -1,7 +1,6 @@
 import {Component, HostListener, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {AuthServiceService} from "../services/auth.service";
 import { Router } from '@angular/router';
-import {HttpClient} from "@angular/common/http";
 import {isPlatformBrowser} from "@angular/common";
 
 @Component({
@@ -10,9 +9,10 @@ import {isPlatformBrowser} from "@angular/common";
   styleUrl: './barra-navigazione.component.css'
 })
 export class BarraNavigazioneComponent implements OnInit {
+  constructor(private authService: AuthServiceService, private router:Router, @Inject(PLATFORM_ID) private platformId: Object){}
 
   isNavbarToggled = false;
-  show:boolean=true;
+  show:boolean=false;
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.checkWindowWidth();
@@ -22,7 +22,6 @@ export class BarraNavigazioneComponent implements OnInit {
     if(isPlatformBrowser(this.platformId))
          screenWidth = window.innerWidth;
     const breakpointWidth = 576;
-
     if (screenWidth >= breakpointWidth){
       this.isNavbarToggled = false;
       this.show=true;
@@ -30,10 +29,6 @@ export class BarraNavigazioneComponent implements OnInit {
       this.show=false;
     }
   }
-  constructor(private authService: AuthServiceService,
-              private router:Router, @Inject(PLATFORM_ID) private platformId: Object){}
-
-
   isAuthenticated(){
     return this.authService.isAuthenticated();
   }

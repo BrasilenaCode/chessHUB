@@ -3,11 +3,19 @@ function submit(){
   var form = document.getElementById("form");
   var nome= form.elements["nome"].value;
   var cognome= form.elements["cognome"].value;
-  var data= form.elements["data"].value;
+  var date= form.elements["data"].value;
   var nazionalita= form.elements["section1"].value;
-  var url = 'http://localhost:8080/updateUtente?nome=' + nome + '&cognome=' + cognome + '&data=' + data + '&nazionalita=' + nazionalita;
-  xhr.open("GET", url, true);
+  var url = 'http://localhost:8080/updateUtente';
+  xhr.open("POST", url, true);
+  var data = {
+    key1: nome,
+    key2: cognome,
+    key3: date,
+    key4: nazionalita
+  };
+  var jsonData = JSON.stringify(data);
   xhr.setRequestHeader("Authorization", "Basic " + localStorage.getItem('utente_token'));
+  xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onload = function () {
     if (xhr.status >= 200 && xhr.status < 300) {
       var response = JSON.parse(xhr.responseText);
@@ -18,7 +26,7 @@ function submit(){
   xhr.onerror = function () {
     console.error("Errore di rete durante la richiesta.");
   };
-  xhr.send();
+  xhr.send(jsonData);
 }
 
 function submitPassword() {
@@ -32,20 +40,29 @@ function submitPassword() {
       resolve("Le password non coincidono");
       return;
     }
-    var url = 'http://localhost:8080/updatePassword?oldpwd=' + oldPassword + '&pwd=' + newPassword;
-    xhr.open("GET", url, true);
+    var url = 'http://localhost:8080/updatePassword';
+    xhr.open("POST", url, true);
+    var data = {
+        key1: oldPassword,
+        key2: newPassword
+    };
+    var jsonData = JSON.stringify(data);
     xhr.setRequestHeader("Authorization", "Basic " + localStorage.getItem('utente_token'));
-    xhr.send();
+    xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = function () {
       if (xhr.status >= 200 && xhr.status < 300) {
-        if(JSON.parse(xhr.responseText))
+        if(JSON.parse(xhr.responseText)) {
           resolve("ok");
-        else
+        } else
           resolve("La vecchia password non è corretta");
       } else {
         reject(xhr.status);
       }
     };
+    xhr.onerror = function () {
+      reject("Errore di rete durante la richiesta");
+    };
+    xhr.send(jsonData);
   });
 }
 function dammiUtenteAcceduto() {

@@ -1,9 +1,20 @@
-<div [innerHTML]="pagina"></div>
-<button *ngIf="!seguendo&&!richiestaInviata" type="button" class="btn btn-success" (click)="segui()">Invia Richiesta</button>
-<button *ngIf="seguendo" type="button" class="btn btn-success" (click)="nonSeguire()">Non seguire più</button>
-<button *ngIf="richiestaInviata" type="button" class="btn btn-success" (click)="nonSeguire()">Annulla Richiesta</button>
-<div class="justify-content-center">
-  <h4>Ultime partite giocate</h4>
-  <p class="text-center" *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
-  <app-partita-show *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+<figure>
+  <img src="assets/foto/profilo.jpg" alt="fotoPlayers"/>
+  <div class="overlay flex-center rgba-blue-light">
+  </div>
+</figure>
+<div class="pagina">
+  <div [innerHTML]="pagina! | safeHtml"></div>
+  <div class="justify-content-center">
+    <p class="text-center mt-2">
+    <a *ngIf="!seguendo&&!richiestaInviata" type="button" class="button-center btn btn-success" (click)="segui()">Invia Richiesta</a>
+    <a *ngIf="seguendo" type="button" class="btn btn-success button-center" (click)="nonSeguire()">Non seguire più</a>
+    <a *ngIf="richiestaInviata" type="button" class="btn btn-success button-center" (click)="nonSeguire()">Annulla Richiesta</a>
+    </p>
+    <h4 class="text-center">Ultime partite giocate</h4>
+    <p class="text-center" *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
+    <div class="row justify-content-center margine">
+      <app-partita-show class="col d-flex justify-content-center" *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
+    </div>
+  </div>
 </div>

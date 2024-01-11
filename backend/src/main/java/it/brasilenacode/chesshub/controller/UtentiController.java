@@ -5,6 +5,7 @@ import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -12,10 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @RestController
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
@@ -106,14 +104,14 @@ public class UtentiController {
         }
         return null;
     }
-    @GetMapping("/updateUtente")
-    public boolean updateUtente(HttpServletRequest req){
+    @PostMapping("/updateUtente")
+    public boolean updateUtente(HttpServletRequest req, @RequestBody Map<String, String> dati){
         Utente utente=Auth.getUser(req);
         if(utente!=null){
-            String nome=req.getParameter("nome");
-            String cognome=req.getParameter("cognome");
-            String nazionalita=req.getParameter("nazionalita");
-            String dataNascita=req.getParameter("data");
+            String nome=dati.get("key1");
+            String cognome=dati.get("key2");
+            String nazionalita=dati.get("key4");
+            String dataNascita=dati.get("key3");
             utente.setNome(nome);
             utente.setCognome(cognome);
             utente.setNazionalita(nazionalita);
@@ -132,16 +130,16 @@ public class UtentiController {
         return false;
     }
 
-    @GetMapping("/updatePassword")
-    public boolean updatePassword(HttpServletRequest req){
+    @PostMapping("/updatePassword")
+    public boolean updatePassword(HttpServletRequest req, @RequestBody Map<String, String> passwords){
         Utente utente=Auth.getUser(req);
         if(utente!=null){
-            String oldpwd=req.getParameter("oldpwd");
-            String pwd=req.getParameter("pwd");
-            if(!utente.getPassword().equals(oldpwd)){
-                return false;
+            String oldpwd = passwords.get("key1");
+            String pwd = passwords.get("key2");
+            if(!BCrypt.checkpw(oldpwd, utente.getPassword())) {
+               return false;
             }
-            utente.setPassword(pwd);
+            utente.setPassword(BCrypt.hashpw(pwd, BCrypt.gensalt()));
             DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
             return true;
         }

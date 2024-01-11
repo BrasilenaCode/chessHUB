@@ -16,7 +16,8 @@ export class ProfiloPubblicoComponent implements OnInit{
   pagina?: string = "";
   partite?: Partita[];
   seguendo?: boolean=false;
-  richiestaInviata?: boolean = false
+  richiestaInviata?: boolean = false;
+
   ngOnInit(): void {
     this.getPaginaUtente();
     this.getPartiteUtente();
@@ -31,7 +32,10 @@ export class ProfiloPubblicoComponent implements OnInit{
     this.utentiService.paginaProfiloPubblico(this.activatedRoute.snapshot.queryParams["username"]).subscribe(pagina => this.pagina = pagina);
   }
   getPartiteUtente(): void {
-    this.partiteService.dammiUltimePartiteGiocate(this.activatedRoute.snapshot.queryParams["username"]).subscribe(partite => this.partite = partite);
+    this.partiteService.dammiUltimePartiteGiocate(this.activatedRoute.snapshot.queryParams["username"]).subscribe(partite => {
+      this.partite = partite;
+      console.log(this.partite);
+    });
   }
 
   segui(){

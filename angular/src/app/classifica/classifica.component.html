@@ -20,7 +20,7 @@
     </div>
   </div>
   <p  *ngIf="visualizzaBottone" class="text-center mt-4"><a class="btn btn-primary" (click)="load()">{{testo}}</a></p>
-  <a *ngIf="!visualizzaSettimana" href="/classifica">Torna alla pagina precedente</a>
+  <p class="text-center mt-4"><a class="btn btn-primary" *ngIf="!visualizzaSettimana" href="/classifica">Torna alla pagina precedente</a></p>
 </div>
 <div class="justify-content-center mt-2" *ngIf="visualizzaSettimana">
   <p [ngClass]="{'margine':!visualizzaMigliori}" class="h3 text-center">Migliori giocatori della settimana</p>
@@ -38,6 +38,6 @@
     </div>
   </div>
   <p *ngIf="visualizzaBottone" class="text-center mt-4"><a class="btn btn-primary" (click)="loadWeek()">{{testo}}</a></p>
-  <a class="btn btn-primary" *ngIf="!visualizzaMigliori" href="/classifica">Torna alla pagina precedente</a>
+  <p class="text-center mt-4"><a class="btn btn-primary" *ngIf="!visualizzaMigliori" href="/classifica">Torna alla pagina precedente</a></p>
 </div>
 

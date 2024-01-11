@@ -28,6 +28,7 @@
 .card {
   position: relative;
   margin: 2vw;
+  cursor: default;
 }
 
 .larghezza{

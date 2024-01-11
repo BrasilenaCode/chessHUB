@@ -14,18 +14,17 @@
     <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" (click)="discrivimi()" class="btn btn-primary m-3">DISCRIVITI</button>
     <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
     <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
-    <div>
       <h2 class="h2 text-center">Partite</h2>
       <div *ngIf="partiteTurno?.length">
         <div class="row justify-content-center">
-          <button (click) = "precedenteTurno()" title = "Precedente" class="btn btn-primary col-sm-2">Turno Precedente</button>
+          <button [ngClass]="{'disattivato':(turno<=0)}" (click) = "precedenteTurno()" title = "Precedente" class="btn btn-primary col-sm-2">Turno Precedente</button>
           <p class="col-sm-2">Turno {{turno + 1}}</p>
-          <button (click) = "prossimoTurno()" title = "Successivo" class="btn btn-primary col-sm-2">Turno Successivo</button>
-        </div>
-        <div class="row justify-content-around contenitore-partite">
-          <app-partita-show *ngFor="let partita of partiteTurno![turno]" [partita]="partita" class="col"></app-partita-show>
+          <button [ngClass]="{'disattivato':(turno>=(this.partiteTurno!.length - 1))}" (click) = "prossimoTurno()" title = "Successivo" class="btn btn-primary col-sm-2">Turno Successivo</button>
         </div>
       </div>
+        <div class="row justify-content-center margine">
+          <app-partita-show class="col justify-content-center d-flex" *ngFor="let partita of partiteTurno![turno]" [partita]="partita"></app-partita-show>
+        </div>
       <div *ngIf="!partiteTurno?.length">
         <p>Non ci sono partite</p>
       </div>
@@ -34,5 +33,4 @@
     <div class="d-flex justify-content-center">
       <app-maps [torneo]="torneo" class="m-4"></app-maps>
     </div>
-  </div>
 </div>

@@ -3,8 +3,6 @@
     <button class="navbar-toggler" type="button" (click)="isNavbarToggled = !isNavbarToggled">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <button *ngIf="!show&&isAuthenticated()" class="button-inline nav-button-right text-white margine" (click)="doLogout()">Logout</button>
-    <button *ngIf="!show&&!isAuthenticated()" class="button-inline nav-button-right text-white" (click)="doLogin()">Login</button>
     <div class="collapse navbar-collapse" [ngClass]="{'show': isNavbarToggled}" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
@@ -23,7 +21,7 @@
           <a class="nav-link" href="ricerca">Cerca</a>
         </li>
       </ul>
-      <button *ngIf="show&&isAuthenticated()" class="button-inline nav-button-right text-white" (click)="doLogout()">Logout</button>
-      <button *ngIf="show&&!isAuthenticated()" class="button-inline nav-button-right text-white" (click)="doLogin()">Login</button>
     </div>
+    <button *ngIf="(isAuthenticated()&&isNavbarToggled)||(!isNavbarToggled&&isAuthenticated()&&show)" class=" nav-button-right text-white" (click)="doLogout()">Logout</button>
+    <button *ngIf="(!isAuthenticated()&&isNavbarToggled)||(!isNavbarToggled&&!isAuthenticated()&&show)" class="nav-button-right text-white" (click)="doLogin()">Login</button>
 </nav>

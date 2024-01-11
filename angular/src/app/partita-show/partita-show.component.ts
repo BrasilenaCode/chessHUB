@@ -17,9 +17,8 @@ export class PartitaShowComponent implements OnInit{
   admin?:boolean;
   white : string = "";
   black : string = "";
-  modifica : boolean = true;
 
-  risultato : string = "";
+  risultato : string = "Da giocare";
 
   constructor(private router: Router, private utenteService:UtentiService, private auth:AuthServiceService, private partitaService:PartitaService){}
 
@@ -49,14 +48,12 @@ export class PartitaShowComponent implements OnInit{
       this.risultato = "1/2";
     }
     else{
-      this.risultato = "   ";
+      this.risultato = "Da giocare";
     }
   }
 
   salvaPartita(): void {
-    console.log(this.partita?.esito);
     if (this.partita != undefined){
-      console.log(this.partita);
       this.partitaService.salvaPartita(this.partita).subscribe();
     }
   }
@@ -66,7 +63,8 @@ export class PartitaShowComponent implements OnInit{
   }
 
   visualizzaPartita(): void {
-    this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
+    if(this.privacy)
+      this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
   }
 
   salvaEsito(): void {
@@ -77,12 +75,13 @@ export class PartitaShowComponent implements OnInit{
     this.privacy = false;
     this.admin = false;
     this.auth.isAdmin().subscribe(risultato=>{
-      console.log(risultato)
       if (risultato){
         this.privacy = true;
         this.admin = true;
       } else {
-        if (this.partita?.privacy == "pubblica")
+        if(this.risultato=="Da giocare")
+          this.privacy=false;
+        else if (this.partita?.privacy == "pubblica")
           this.privacy = true;
         else {
           if (this.partita?.privacy!="privata" && (this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore1?.username!) || (this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore2?.username!)))) {

@@ -1,6 +1,7 @@
-import { Component, Inject, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { Utente } from '../model/utente';
 import { UtentiService } from '../services/utenti.service';
+import {NavigationEnd, Router} from "@angular/router";
 
 
 @Component({
@@ -27,8 +28,10 @@ export class ClassificaComponent implements OnInit{
     this.cercaPosizione();
     this.testo="Visualizza classifica completa";
     this.visualizzaBottone=true;
+
   }
-  constructor(private utentiService:UtentiService){}
+  constructor(private utentiService:UtentiService){
+  }
 
   private getBestUser() {
     this.utentiService.dammiUtenti().subscribe(user => {

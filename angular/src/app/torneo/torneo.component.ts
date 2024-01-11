@@ -56,6 +56,7 @@ export class TorneoComponent implements OnInit{
         this.partiteTurno?.push([]);
       }
       this.partiteTurno[partite[i].turno-1].push(partite[i]);
+      this.partiteTurno[partite[i].turno-1].sort((a, b) => b.esito.localeCompare(a.esito));
     }
   }
 
