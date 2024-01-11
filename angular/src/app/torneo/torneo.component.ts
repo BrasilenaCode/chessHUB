@@ -18,6 +18,8 @@ export class TorneoComponent implements OnInit{
   flagIscritto: boolean = false;
   flagAdmin: boolean = false;
   flagPartite: boolean = true;
+  flagErrore: boolean = false;
+
   constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService) {}
 
   ngOnInit() {
@@ -69,6 +71,18 @@ export class TorneoComponent implements OnInit{
         this.loadPartite(risultato);
       }
     });
+  }
+  chiudiTorneo(){
+    this.torneoService.chiudiTorneo(this.torneo?.id).subscribe(risultato => {
+      if(!risultato) {
+        this.flagErrore = true;
+      } else {
+        this.flagPartite = true;
+        if(this.torneo!=undefined)
+          this.torneo.stato = "passato";
+      }
+    });
+    
   }
 
   isAuthenticated(){

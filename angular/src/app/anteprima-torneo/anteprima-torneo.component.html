@@ -1,17 +1,19 @@
 <div *ngFor="let type of researchType; let typeIndex = index">
-    <h2>{{ type }}</h2>
-    <div *ngIf="listOfTournaments[typeIndex].length > 0; else noResults">
-      <div *ngFor="let torneo of listOfTournaments[typeIndex]">
-        <div class="card">
-          <article class="anteprima" (click)="vaiAlTorneo(torneo)">
-            <h3 class="card-title">{{ torneo.nome }}</h3>
-            <p>{{ torneo.luogo }}</p>
-          </article>
-        </div>
+  <h2 class="text-center">{{ type }}</h2>
+  <div *ngIf="listOfTournaments[typeIndex] && listOfTournaments[typeIndex].length > 0; else noResults">
+    <div class="row justify-content-around">
+      <div *ngFor="let torneo of listOfTournaments[typeIndex]" class="col d-flex justify-content-center">
+        <article class="card" (click)="vaiAlTorneo(torneo)">
+          <h3 class="card-title">{{ torneo.nome }}</h3>
+          <p class="card-subtitle">{{ torneo.luogo }}</p>
+          <div class="overlay mask flex-center rgba-blue-light">
+          </div>
+        </article>
       </div>
     </div>
-    <ng-template #noResults>
-      <p>Nessun risultato</p>
-    </ng-template>
+  </div>
+  <ng-template #noResults>
+    <p class="text-center">Nessun risultato</p>
+  </ng-template>
 </div>
-  
+

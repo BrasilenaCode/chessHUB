@@ -78,6 +78,12 @@ export class TorneoService {
     }
     return this.http.post<Partita[]>(this.backendUrl+"/tornei/genera", torneoId, header);
   }
+  chiudiTorneo(torneoId: number | undefined):Observable<boolean>{
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl+"/tornei/chiudi", torneoId, header);
+  }
   isIscritto(torneoId: number | undefined):Observable<boolean>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())

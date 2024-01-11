@@ -3,6 +3,10 @@ package it.brasilenacode.chesshub.persistenza.model;
 import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 
+import java.beans.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -131,5 +135,15 @@ public class Torneo {
             partecipanti.remove(utente);
             this.numeroPartecipanti--;
         }
+    }
+    public void setAll(int id, String nome, String luogo, Date dataInizio, Date dataFine, String stato, Utente vincitore, int numeroPartecipanti){
+        this.id = id;
+        this.nome = nome;
+        this.luogo = luogo;
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+        this.stato = stato;
+        this.vincitore = vincitore;
+        this.numeroPartecipanti = numeroPartecipanti;
     }
 }

@@ -114,6 +114,20 @@ public class TorneiController {
         }
         return null;
     }
+    @PostMapping("/tornei/chiudi")
+    public boolean chiudiTorneo(HttpServletRequest req, @RequestBody int torneoId){
+        if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
+            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            
+            if (DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getTorneo().getId() == torneo.getId()).map(partita -> partita.getEsito().equals("0")).filter(esito -> esito == true).count() != 0){
+                return false;
+            }
+            torneo.setStato("passato");
+            DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
+            return true;
+        }
+        return false;
+    }
     @PostMapping("/tornei/isIscritto")
     public boolean isIscritto(HttpServletRequest req, @RequestBody int torneoId){
         if(Auth.isAuthenticated(req)){

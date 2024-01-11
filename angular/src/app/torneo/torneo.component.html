@@ -9,11 +9,14 @@
     <p *ngIf="torneo?.stato == 'inCorso'">Il torneo è in corso</p>
     <p *ngIf="torneo?.stato == 'passato'">Il torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
     <p *ngIf="torneo?.stato == 'prossimo'">Il torneo deve ancora iniziare: hai tempo fino al <span>{{torneo?.dataInizio | date:"dd/MM/yy" }}</span> per iscriverti</p>
-    <p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
-    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-3">ISCRIVITI</button>
-    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" (click)="discrivimi()" class="btn btn-primary m-3">DISCRIVITI</button>
-    <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
-    <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
+    <p>Ci sono {{torneo?.numeroPartecipanti}} iscritti giocatori iscritti al torneo</p>
+    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-3">Iscriviti</button>
+    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" (click)="discrivimi()" class="btn btn-primary m-3">Disiscriviti</button>
+    <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei iscritto a questo torneo</p>
+    <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()" class="btn btn-primary m-3">Genera Partite</button>
+    <button *ngIf="torneo?.stato == 'inCorso' && flagAdmin" (click)="chiudiTorneo()" class="btn btn-primary m-3">Chiudi Torneo</button>
+    <p *ngIf="torneo?.stato == 'inCorso' && flagAdmin && flagErrore">non puoi chiudere il torneo: alcune partite devono ancora essere giocate</p>
+    <div *ngIf="torneo?.stato != 'prossimo'">
       <h2 class="h2 text-center">Partite</h2>
       <div *ngIf="partiteTurno?.length">
         <div class="row justify-content-center">
@@ -29,8 +32,9 @@
         <p>Non ci sono partite</p>
       </div>
     </div>
-    <h2 class="h4 text-center">Luogo</h2>
-    <div class="d-flex justify-content-center">
-      <app-maps [torneo]="torneo" class="m-4"></app-maps>
-    </div>
+  </div>
+  <h2 class="h4 text-center">Luogo</h2>
+  <div class="d-flex justify-content-center">
+    <app-maps [torneo]="torneo" class="m-4"></app-maps>
+  </div>
 </div>
