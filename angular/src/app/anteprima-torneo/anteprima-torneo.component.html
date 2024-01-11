@@ -3,7 +3,7 @@
     <div *ngIf="listOfTournaments[typeIndex].length > 0; else noResults">
       <div *ngFor="let torneo of listOfTournaments[typeIndex]">
         <div class="card">
-          <article>
+          <article class="anteprima" (click)="vaiAlTorneo(torneo)">
             <h3 class="card-title">{{ torneo.nome }}</h3>
             <p>{{ torneo.luogo }}</p>
           </article>

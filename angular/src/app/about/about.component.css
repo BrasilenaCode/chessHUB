@@ -1,4 +1,4 @@
-.foto, img{
+img.titolo{
     width: 100%;
     height: 70vh;
     object-fit: cover;
@@ -28,4 +28,16 @@
 .elemento{
     list-style: none;
     text-align: center;
+}
+
+.iconAzienda{
+    width: 13vw;
+    display: block;
+    margin: 0 auto;
+}
+
+ul#team{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
 }

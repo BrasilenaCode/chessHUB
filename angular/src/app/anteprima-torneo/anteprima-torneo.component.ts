@@ -39,4 +39,8 @@ export class AnteprimaTorneoComponent implements OnInit {
         }
       });
     }
+
+    vaiAlTorneo(torneo: Torneo): void{
+      this.router.navigate(['/torneo'], {queryParams: {torneoId: torneo.id}});
+    }
 }

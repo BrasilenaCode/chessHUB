@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import java.io.File;
@@ -31,6 +32,7 @@ public class JsonReader {
             return null;
         return jsonNode.get(key).asText();
     }
+
     public List<String> getArray(String key){
         if(jsonNode == null)
             return null;
@@ -41,5 +43,19 @@ public class JsonReader {
             }
         }
         return list;
+    }
+
+    public HashMap<String, String> getMap(String key, String value){
+        if(jsonNode == null)
+            return null;
+        HashMap<String, String> map = new HashMap<>();
+        if (jsonNode.isArray()) {
+            for (JsonNode node : jsonNode) {
+                String k = node.get(key).asText();
+                String v = node.get(value).asText();
+                map.put(k, v);
+            }
+        }
+        return map;
     }
 }

@@ -3,7 +3,7 @@
   <div *ngIf="listOfUsers[typeIndex] && listOfUsers[typeIndex].length > 0; else noResults">
     <div *ngFor="let utente of listOfUsers[typeIndex]">
       <div class="card">
-        <article (click)="vaiAlProfilo(utente)">
+        <article class="anteprima" (click)="vaiAlProfilo(utente)">
           <h3 class="card-title">{{ utente.username }}</h3>
           <h4 class="card-subtitle mb-2 text-muted">{{ utente.nome }} {{ utente.cognome }}</h4>
         </article>

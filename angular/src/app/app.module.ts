@@ -43,6 +43,7 @@ import {SafeHtmlPipe} from "./safe-html-pipe/safe-html-pipe.component";
 import { Page404Component } from './page404/page404.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ProfiloComponent,
     SafeHtmlPipe,
     Page404Component,
+    RecaptchaComponent,
   ],
     imports: [
         HttpClientModule,
