@@ -9,6 +9,7 @@ import java.util.List;
 
 import java.io.File;
 import java.io.IOException;
+
 public class JsonReader {
     JsonNode jsonNode;
     public void read(String filename) {

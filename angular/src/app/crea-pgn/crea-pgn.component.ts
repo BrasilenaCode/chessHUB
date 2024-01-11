@@ -200,12 +200,15 @@ export class CreaPgnComponent implements OnInit{
     }
     this.mosse = [];
     let cont : number = 0;
-    CreaPgnComponent.game.history().forEach(mossa => {
+    CreaPgnComponent.game.history({verbose : true}).forEach(mossa => {
       if (cont % 2 == 0) {
         this.mosse.push([])
         this.mosse[this.mosse.length - 1].push(cont / 2 + 1 + "");
       }
-      this.mosse[this.mosse.length - 1].push(mossa);
+      if(CreaPgnComponent.game.getComments().some(element => element.fen === mossa.after))
+        this.mosse[this.mosse.length - 1].push(mossa.san + "*");
+      else
+        this.mosse[this.mosse.length - 1].push(mossa.san);
       cont++;
     });
   }

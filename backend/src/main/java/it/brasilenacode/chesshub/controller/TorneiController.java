@@ -150,4 +150,11 @@ public class TorneiController {
         return null;
     }
 
+    @PostMapping("/tornei/aggiornaCustom")
+    public void aggiornaCustom(HttpServletRequest req) {
+        if (Auth.isAuthenticated(req)) {
+            DBManager.getInstance().getTorneoDao().aggiornaIscrizione(Auth.getUser(req));
+        }
+    }
+
 }

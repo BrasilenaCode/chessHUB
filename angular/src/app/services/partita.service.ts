@@ -48,4 +48,11 @@ export class PartitaService {
     }
     return this.http.post(this.backendUrl+"/partite/salva",partita, header);
   }
+
+  aggiornaPartiteCustom() {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post(this.backendUrl+"/partite/setCustom","", header);
+  }
 }

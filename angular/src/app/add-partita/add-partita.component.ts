@@ -72,12 +72,15 @@ export class AddPartitaComponent implements OnInit{
 
       this.mosse = [];
       let cont : number = 0;
-      AddPartitaComponent.game.history().forEach(mossa => {
+      AddPartitaComponent.game.history({verbose : true}).forEach(mossa => {
         if (cont % 2 == 0) {
           this.mosse.push([])
           this.mosse[this.mosse.length - 1].push(cont / 2 + 1 + "");
         }
-        this.mosse[this.mosse.length - 1].push(mossa);
+        if(AddPartitaComponent.game.getComments().some(element => element.fen === mossa.after))
+          this.mosse[this.mosse.length - 1].push(mossa.san + "*");
+        else
+          this.mosse[this.mosse.length - 1].push(mossa.san);
         cont++;
       });
     }

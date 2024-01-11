@@ -86,15 +86,11 @@ export class UtentiService {
     );
   }
 
-  deleteUtente(utente:Utente):any{
+  deleteUtente(){
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
     }
-    return this.http.post(this.backendUrl+"/deleteUtente", utente, header).subscribe((risposta) => {
-    console.log('Risposta dal backend:', risposta);}, (errore) => {
-    console.error('Errore durante la richiesta al backend:', errore);
-    }
-    );
+    return this.http.post(this.backendUrl+"/deleteUtente", "", header);
   }
   paginaProfilo(utente:Utente):Observable<string>{
     return this.http.get(this.backendUrl+"/profilo?username=" + utente.username, {responseType: 'text', withCredentials: true});
