@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
 import {Utente} from "../model/utente";
+import {TorneoService} from "../services/torneo.service";
+import {AuthServiceService} from "../services/auth.service";
 
 @Component({
   selector: 'app-profilo',
@@ -13,7 +15,7 @@ import {Utente} from "../model/utente";
 })
 export class ProfiloComponent implements OnInit{
 
-  constructor(private utentiService: UtentiService, private router: Router, private partiteService: PartitaService) { }
+  constructor(private utentiService: UtentiService, private router: Router, private partiteService: PartitaService, private torneoService:TorneoService, private auth:AuthServiceService) { }
   pagina?: string = "";
   partite?: Partita[];
   richieste?: Utente[];
@@ -43,5 +45,22 @@ export class ProfiloComponent implements OnInit{
 
   private getRichiesteAmicizia() {
     this.utentiService.dammiRichiesteAmicizia().subscribe(richieste => this.richieste = richieste);
+  }
+
+  eliminaAccount() {
+    this.torneoService.aggiornaIscrizioneCustom().subscribe(result=>{
+        this.partiteService.aggiornaPartiteCustom().subscribe(result=>{
+          this.utentiService.deleteUtente().subscribe(result=>{
+            this.auth.logout().subscribe(
+              res => {
+                if(res) {
+                  this.auth.removeToken();
+                  this.router.navigate(['/']);
+                }
+              });
+          });
+        })
+      }
+    )
   }
 }

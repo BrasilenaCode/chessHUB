@@ -84,8 +84,9 @@ public class UtentiController {
     }
 
     @PostMapping("/deleteUtente")
-    public boolean deleteUtente(@RequestBody Utente utente, HttpServletRequest req){
-        if(Auth.isAuthenticated(req)){
+    public boolean deleteUtente(HttpServletRequest req){
+        Utente utente=Auth.getUser(req);
+        if(utente!=null){
             DBManager.getInstance().getUtenteDao().delete(utente);
             return true;
         }
