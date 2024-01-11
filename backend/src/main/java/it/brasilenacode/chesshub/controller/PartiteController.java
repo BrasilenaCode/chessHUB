@@ -2,6 +2,7 @@ package it.brasilenacode.chesshub.controller;
 
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
+import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.utilities.PartiteModel;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -64,4 +65,21 @@ public class PartiteController {
             DBManager.getInstance().getPartitaDao().saveOrUpdate(partita);
         }
     }
+
+    @PostMapping("/partite/setCustom")
+    public void setCustom(HttpServletRequest req) {
+        if(Auth.isAuthenticated(req)){
+            String username=Auth.getUser(req).getUsername();
+            List<Partita> partiteUtente=PartiteModel.dammiPartiteGiocatore(username);
+            for(Partita p:partiteUtente) {
+                Utente custom=DBManager.getInstance().getUtenteDao().findByPrimaryKey("custom");
+                if(p.getGiocatore2().getUsername().equals(username))
+                    p.setGiocatore2(custom);
+                else if(p.getGiocatore1().getUsername().equals(username))
+                    p.setGiocatore1(custom);
+                DBManager.getInstance().getPartitaDao().saveOrUpdate(p);
+            }
+        }
+    }
+
 }

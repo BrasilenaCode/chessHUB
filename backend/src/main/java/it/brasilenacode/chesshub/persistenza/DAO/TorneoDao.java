@@ -14,4 +14,5 @@ public interface TorneoDao {
     void delete(Torneo torneo);
     void removePartecipante(Torneo torneo, Utente utente);
     void addPartecipante(Torneo torneo, Utente utente);
+    void aggiornaIscrizione(Utente user);
 }

@@ -181,16 +181,32 @@ public class TorneoDaoPostgres implements TorneoDao {
     }
     @Override
     public void addPartecipante(Torneo torneo, Utente utente) {
-        String query = "INSERT INTO iscrizione VALUES (?, ?)";
+        String query = "INSERT INTO iscrizione VALUES (?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, utente.getUsername());
             st.setLong(2, torneo.getId());
+            Long id = IdBroker.getId(connection, "iscrizione");
+            st.setLong(3, id);
             st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         saveOrUpdate(torneo);
+    }
+
+    @Override
+    public void aggiornaIscrizione(Utente user) {
+        String updateStr = "UPDATE iscrizione set utente = 'custom'"
+                + "where utente = ?";
+        PreparedStatement st;
+        try {
+            st = connection.prepareStatement(updateStr);
+            st.setString(1, user.getUsername());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private Torneo getProssimoTorneo(ResultSet rs) throws SQLException {

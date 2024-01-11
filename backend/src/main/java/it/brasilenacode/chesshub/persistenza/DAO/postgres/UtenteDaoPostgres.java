@@ -143,7 +143,17 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
     @Override
     public void delete(Utente utente) {
-        String query = "DELETE FROM utente WHERE username = ?";
+        String query = "DELETE FROM follow WHERE seguito = ? or seguace = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, utente.getUsername());
+            st.setString(2, utente.getUsername());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        query = "DELETE FROM utente WHERE username = ?";
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, utente.getUsername());

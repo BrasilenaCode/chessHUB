@@ -10,10 +10,10 @@
     <p *ngIf="torneo?.stato == 'passato'">Il torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
     <p *ngIf="torneo?.stato == 'prossimo'">Il torneo deve ancora iniziare: hai tempo fino al <span>{{torneo?.dataInizio | date:"dd/MM/yy" }}</span> per iscriverti</p>
     <p>si sono iscritti {{torneo?.numeroPartecipanti}} giocatori</p>
-    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-3">ISCRIVITI</button>
-    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" (click)="discrivimi()" class="btn btn-primary m-3">DISCRIVITI</button>
     <p *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" >Sei Già Iscritto a questo torneo</p>
-    <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
+    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-2">ISCRIVITI</button>
+    <button *ngIf="torneo?.stato == 'prossimo' && isAuthenticated() && flagIscritto" (click)="discrivimi()" class="btn btn-primary m-2">DISCRIVITI</button>
+    <button class="btn btn-primary m-2" *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()">Genera Partite</button>
       <h2 class="h2 text-center">Partite</h2>
       <div *ngIf="partiteTurno?.length">
         <div class="row justify-content-center">
