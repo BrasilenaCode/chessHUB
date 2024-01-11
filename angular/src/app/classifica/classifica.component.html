@@ -16,7 +16,7 @@
         <div class="col text-center h6">Nazionalità</div>
         <div class="col text-center h6">Punteggio</div>
       </div>
-      <app-row *ngFor="let user of utentiMiglioriVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
+      <app-row *ngFor="let user of utentiMiglioriVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1" (click)="visualizzaUtente(user)"></app-row>
     </div>
   </div>
   <p  *ngIf="visualizzaBottone" class="text-center mt-4"><a class="btn btn-primary" (click)="load()">{{testo}}</a></p>
@@ -34,7 +34,7 @@
         <div class="col h6 text-center dimensione">Nazionalità</div>
         <div class="col h6 text-center dimensione">Punteggio</div>
       </div>
-      <app-row *ngFor="let user of utentiMiglioriSettimanaVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"></app-row>
+      <app-row *ngFor="let user of utentiMiglioriSettimanaVisualizzati, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1"  (click)="visualizzaUtente(user)"></app-row>
     </div>
   </div>
   <p *ngIf="visualizzaBottone" class="text-center mt-4"><a class="btn btn-primary" (click)="loadWeek()">{{testo}}</a></p>

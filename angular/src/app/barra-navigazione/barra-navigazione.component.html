@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+<nav [ngClass]="{'altezza':isNavbarToggled}" class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
     <a class="navbar-brand" href="/">ChessHub</a>
     <button class="navbar-toggler" type="button" (click)="isNavbarToggled = !isNavbarToggled">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" [ngClass]="{'show': isNavbarToggled}" id="navbarTogglerDemo02">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <ul class="navbar-nav mr-auto mt-lg-0">
         <li class="nav-item">
             <a class="nav-link" href="about">About</a>
         </li>

@@ -3,22 +3,45 @@
   align-items: center;
   justify-content: center;
   height: 80vh;
-  margin: 0;
+  margin-bottom: 9vh;
+}
+
+.altezza{
+  height: 100%;
+  padding-bottom: 5vh;
+}
+.figure, img {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  top:7.5vh;
+}
+.figure{
+  width: 100%;
+}
+
+.dimensione{
+  font-size:0.8rem;
 }
 
 .error-message {
   color: #721c24;
   background-color: #f8d7da;
   border: 1px solid #f5c6cb;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   margin-top: 10px;
   width: 80%;
-  font-size: 12px;
   box-sizing: border-box;
+  font-size: 0.9rem
 }
 
 .modulo-form {
+  position: absolute;
+  background-color: white;
   width: 300px;
   height: 400px;
   padding: 20px;

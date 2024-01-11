@@ -42,25 +42,26 @@ export class ProfiloComponent implements OnInit{
   vaiAllePartite(): void {
     this.router.navigate(['/partite']);
   }
-
   private getRichiesteAmicizia() {
     this.utentiService.dammiRichiesteAmicizia().subscribe(richieste => this.richieste = richieste);
   }
-
   eliminaAccount() {
-    this.torneoService.aggiornaIscrizioneCustom().subscribe(result=>{
-        this.partiteService.aggiornaPartiteCustom().subscribe(result=>{
-          this.utentiService.deleteUtente().subscribe(result=>{
-            this.auth.logout().subscribe(
-              res => {
-                if(res) {
-                  this.auth.removeToken();
-                  this.router.navigate(['/']);
-                }
-              });
-          });
-        })
-      }
-    )
+    const conferma = window.confirm('Sei sicuro di voler eliminare l\'account?');
+    if (conferma) {
+      this.torneoService.aggiornaIscrizioneCustom().subscribe(result => {
+          this.partiteService.aggiornaPartiteCustom().subscribe(result => {
+            this.utentiService.deleteUtente().subscribe(result => {
+              this.auth.logout().subscribe(
+                res => {
+                  if (res) {
+                    this.auth.removeToken();
+                    this.router.navigate(['/']);
+                  }
+                });
+            });
+          })
+        }
+      )
+    }
   }
 }

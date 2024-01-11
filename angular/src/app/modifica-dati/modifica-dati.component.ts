@@ -18,6 +18,7 @@ export class ModificaDatiComponent implements OnInit{
   }
   protected readonly Object = Object;
   onSubmit() {
+    this.submitted=true;
     submit();
     this.router.navigate(['/profilo']);
   }

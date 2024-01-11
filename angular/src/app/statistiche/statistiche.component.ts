@@ -1,9 +1,7 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { UtentiService } from '../services/utenti.service';
 import { Utente } from '../model/utente';
-import { PartitaService } from '../services/partita.service';
-import { TorneoService } from '../services/torneo.service';
 import { isPlatformBrowser } from '@angular/common';
 
 
@@ -22,20 +20,13 @@ export class StatisticheComponent implements OnInit {
   numPatte?: number = 0;
   numTorneiVinti?: number = 0;
   isScreenResized: boolean = true;
-
-
-  constructor(private utentiService: UtentiService,
-    private partitaService: PartitaService, private torneoService: TorneoService,
-    @Inject(PLATFORM_ID) private platformId: Object) { }
-
+  constructor(private utentiService: UtentiService, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
-
     this.checkWindowWidth()
       this.utentiService.getStatistiche().subscribe({
         next: list => {
           this.numVinte = list[0];
-          console.log(list[0])
           this.numPerse = list[1];
           this.numPatte = list[2];
           this.numTorneiVinti = list[3];
@@ -46,8 +37,6 @@ export class StatisticheComponent implements OnInit {
       })
 
   }
-
-
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
@@ -66,8 +55,6 @@ export class StatisticheComponent implements OnInit {
       this.isScreenResized = false;
     }
   }
-
-
   createBarChart() {
     const ctx = this.chart.nativeElement.getContext('2d');
 

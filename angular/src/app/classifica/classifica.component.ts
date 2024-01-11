@@ -30,7 +30,7 @@ export class ClassificaComponent implements OnInit{
     this.visualizzaBottone=true;
 
   }
-  constructor(private utentiService:UtentiService){
+  constructor(private utentiService:UtentiService, private router:Router){
   }
 
   private getBestUser() {
@@ -93,5 +93,12 @@ export class ClassificaComponent implements OnInit{
       }
     }
   }
-
+  visualizzaUtente(user: Utente) {
+    this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto => {
+      if (utenteAcceduto.username == user.username)
+        this.router.navigate(['/profilo']);
+      else
+        this.router.navigate(['/profiloPubblico'], {queryParams: {username: user.username}});
+    });
+  }
 }

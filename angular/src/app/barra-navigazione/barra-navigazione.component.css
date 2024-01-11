@@ -6,6 +6,14 @@
   display: flex !important;
 }
 
+.navbar{
+  height:8vh;
+}
+
+.altezza{
+  height:auto;
+}
+
 .margine{
   margin-right: 10px;
   margin-left:auto;
@@ -17,7 +25,6 @@
   background-color: #212529;
   color: #999999;
   border-style: none;
-  margin-top:5px;
   margin-right: 10px;
   margin-left:auto;
 }
@@ -32,4 +39,5 @@
   .nav-link{
     margin-left: 1vw;
   }
+
 }

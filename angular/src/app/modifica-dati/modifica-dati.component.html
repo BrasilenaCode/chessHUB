@@ -1,25 +1,25 @@
 <div class="center">
   <form id="form" [ngClass]="{ 'modulo-form was-validated': submitted, 'modulo-form': !submitted }" (ngSubmit)="onSubmit()">
-    <div class="h4">Modifica i tuoi dati personali</div>
+    <div class="h4 mt-5">Modifica i tuoi dati personali</div>
     <div class="mb-3 mt-3">
       <label for="nome" class="form-label">Nome:</label>
-      <input class="form-control dim" id="nome" name="nome">
+      <input class="form-control dim" id="nome" name="nome" required>
       <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <div class="mb-3">
       <label for="cognome" class="form-label">Cognome:</label>
-      <input class="form-control dim" id="cognome"  name="cognome">
+      <input class="form-control dim" id="cognome"  name="cognome" required>
       <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <div class="mb-3">
       <label class="form-label">Nazionalità:</label>
-      <select class="form-select dim" id="section1" name="nazionalità">
+      <select class="form-select dim" id="section1" name="nazionalità" required>
       </select>
       <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <div class="mb-3 mb-3">
       <label for="data" class="form-label">Data di nascita:</label>
-      <input type="date" class="form-control dim" id="data"  name="dataNascita">
+      <input type="date" class="form-control dim" id="data"  name="dataNascita" required>
       <div *ngIf="submitted" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <a class="destra" href="modificaPassword">Modifica password</a>

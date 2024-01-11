@@ -32,10 +32,7 @@ export class ProfiloPubblicoComponent implements OnInit{
     this.utentiService.paginaProfiloPubblico(this.activatedRoute.snapshot.queryParams["username"]).subscribe(pagina => this.pagina = pagina);
   }
   getPartiteUtente(): void {
-    this.partiteService.dammiUltimePartiteGiocate(this.activatedRoute.snapshot.queryParams["username"]).subscribe(partite => {
-      this.partite = partite;
-      console.log(this.partite);
-    });
+    this.partiteService.dammiUltimePartiteGiocate(this.activatedRoute.snapshot.queryParams["username"]).subscribe(partite => this.partite = partite);
   }
 
   segui(){

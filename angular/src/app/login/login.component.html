@@ -1,3 +1,7 @@
+<div class="altezza">
+  <figure>
+  <img src="assets/foto/scacchi.png" alt="scacchiFoto">
+</figure>
 <div class="center">
   <form class="modulo-form" (ngSubmit)="faiLogin()" (click)="clearErrorMessage()">
     <div class="h4">Accesso</div>
@@ -10,12 +14,13 @@
       <input type="password" class="form-control" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password">
     </div>
     <div class="mb-3">
-      <a href="signIn">Non sei registrato? Registrati!</a>
+      <a href="signIn" class="dimensione">Non sei registrato? Registrati!</a>
     </div>
-    <div *ngIf="errorMessage" class="alert alert-danger">
+    <div *ngIf="errorMessage" class="error-message text-center">
       {{ errorMessage }}
     </div>
     <br *ngIf="errorMessage">
     <button type="submit" class="btn btn-primary">Accedi</button>
   </form>
+</div>
 </div>

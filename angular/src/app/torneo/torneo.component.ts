@@ -21,7 +21,6 @@ export class TorneoComponent implements OnInit{
   constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService) {}
 
   ngOnInit() {
-    console.log(this.activatedRoute.snapshot.queryParams['torneoId']);
     this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => this.torneo = torneo);
     this.torneoService.isIscritto(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(risultato => {this.flagIscritto = risultato});
     this.authService.isAdmin().subscribe(risultato => {this.flagAdmin = risultato});
