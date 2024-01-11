@@ -2,8 +2,8 @@
   <input class="form-control mr-sm-2" type="search" placeholder="Search" (input)="onChanges($event)">
 </form>
 <div class="tab">
-    <button class="tablinks" (click)="visualizzaUtenti()">Utenti</button>
-    <button class="tablinks" (click)="visualizzaTornei()">Tornei</button>
+    <button class="btn btn-lg btn-block tablinks" [class.active]="showUsers" (click)="visualizzaUtenti()">Utenti</button>
+    <button class="btn btn-lg btn-block tablinks" [class.active]="showTournaments" (click)="visualizzaTornei()">Tornei</button>
 </div>
 
 <div *ngIf="showUsers" id="London" class="tabcontent">
