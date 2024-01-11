@@ -19,6 +19,7 @@ export class SignInComponent {
   nazionalita=new FormControl();
   dataNascita= new FormControl();
   errorMessage = "";
+  recaptcha: boolean = false;
   nationalities: { [key: string]: string } = {
     "it": "Italia",
     "ad": "Andorra",
@@ -276,7 +277,9 @@ export class SignInComponent {
 
   registrati() {
     this.submitted = true;
-    if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
+    if(!this.recaptcha)
+      this.errorMessage = "Completa il captcha";
+    else if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
       var utente: UtenteRegistrazione = {
         username: this.username.value,
         password: this.password.value,
@@ -325,6 +328,10 @@ export class SignInComponent {
 
   sonoValide(...variabili: (FormControl | null)[]): boolean {
     return variabili.every(variabile => variabile?.valid);
+  }
+
+  recaptchaResolved(recaptcha: boolean) {
+    this.recaptcha = recaptcha;
   }
 
   protected readonly Object = Object;
