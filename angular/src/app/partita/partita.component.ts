@@ -66,12 +66,15 @@ export class PartitaComponent implements OnInit{
     this.game.loadPgn(pgn);
     let cont : number = 0;
     this.mosse = [];
-    this.game.history().forEach(mossa => {
+    this.game.history({verbose : true}).forEach(mossa => {
       if (cont % 2 == 0) {
         this.mosse.push([])
         this.mosse[this.mosse.length - 1].push(cont / 2 + 1 + "");
       }
-      this.mosse[this.mosse.length - 1].push(mossa);
+      if(this.game.getComments().some(element => element.fen === mossa.after))
+        this.mosse[this.mosse.length - 1].push(mossa.san + "*");
+      else
+        this.mosse[this.mosse.length - 1].push(mossa.san);
       cont++;
     });
     this.fenHistory = this.game.history({ verbose: true }).map((move) => move.after);
