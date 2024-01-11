@@ -1,15 +1,27 @@
-<h1> Partita </h1>
+<figure>
+  <img class="titolo" src="assets/foto/profilo.jpg" alt="fotoPlayers"/>
+  <div class="overlay flex-center rgba-blue-light">
+  </div>
+</figure>  
+<div class="container justify-content-center ">
+  <h1 class="text-center fw-bold display-1 text-white margine">Partita</h1>
 
 <label *ngIf = "custom && selezioneInCorso">Importa partita da PGN <input type="file" accept=".txt" (change)="importa($event)"></label>
 
-<div>
-  <h2>{{info["White"]}}</h2>
-  <h3> VS </h3>
-  <h2>{{info["Black"]}}</h2>
-  <p> Evento: {{info["Event"]}} - {{info["Round"]}}</p>
-  <p> Luogo: {{info["Site"]}}</p>
-  <p> Data: {{info["Date"]}}</p>
+
+<div class="text-center justify-content-center mt-5 mb-5"> 
+    <h2 class="d-inline-block mx-2">{{info["White"]}}</h2>
+    <h3 class="d-inline-block mx-2"> VS </h3>
+    <h2 class="d-inline-block mx-2">{{info["Black"]}}</h2>
 </div>
+
+<div class="text-center justify-content-center mb-5">
+  <p> <b>Evento</b>: {{info["Event"]}} - {{info["Round"]}}</p>
+  <p> <b>Luogo</b>: {{info["Site"]}}</p>
+  <p> <b>Data</b>: {{info["Date"]}}</p>
+</div>
+  
+
 
 
 <div id= formulario >
@@ -37,4 +49,37 @@
 <button (click)="previousMove()">"precedente"</button>
 <button (click)="nextMove()">"successiva"</button>
 
+</div>
+
+
+<!--p> Evento: {{info["Event"]}} - {{info["Round"]}}</p>
+  <p> Luogo: {{info["Site"]}}</p>
+  <p> Data: {{info["Date"]}}</p>
+
+
+
+<div id= formulario >
+  <table id= formulario >
+    <tr *ngFor="let mossa of mosse">
+      <td id= n-formulario>{{mossa[0]}}</td>
+      <td (click)="goTo(mossa[0], 0)">{{mossa[1]}}</td>
+      <td (click)="goTo(mossa[0], 1)">{{mossa[2]}}</td>
+    </tr>
+  </table>
+</div>
+
+
+<div id = commento>
+  <h3 id = titolo-commento> Commento: </h3>
+  <p> {{commentoAttuale}} </p>
+</div>
+
+<div id = board></div>
+
+<p> Auto Mode: 
+<button id="automode" (click)="auto()">OFF</button>
+</p>
+
+<button (click)="previousMove()">"precedente"</button>
+<button (click)="nextMove()">"successiva"</button-->
 

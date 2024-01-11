@@ -27,16 +27,7 @@ public class TorneoDaoPostgres implements TorneoDao {
             st.setLong(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                torneo = new TorneoProxy(connection);
-                torneo.setId(rs.getLong("id"));
-                torneo.setNome(rs.getString("nome"));
-                torneo.setLuogo(rs.getString("luogo"));
-                torneo.setDataInizio(new Date(rs.getDate("data_inizio").getTime()));
-                torneo.setDataFine(new Date(rs.getDate("data_fine").getTime()));
-                torneo.setStato(rs.getString("stato"));
-                Utente vincitore= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
-                torneo.setVincitore(vincitore);
-                torneo.setNumeroPartecipanti(rs.getInt("numero_partecipanti"));
+                torneo = getProssimoTorneo(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,17 +75,7 @@ public class TorneoDaoPostgres implements TorneoDao {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                Torneo torneo = new TorneoProxy(connection);
-                torneo.setId(rs.getLong("id"));
-                torneo.setNome(rs.getString("nome"));
-                torneo.setLuogo(rs.getString("luogo"));
-                torneo.setDataInizio(new Date(rs.getDate("data_inizio").getTime()));
-                torneo.setDataFine(new Date(rs.getDate("data_fine").getTime()));
-                torneo.setStato(rs.getString("stato"));
-                Utente vincitore= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
-                torneo.setVincitore(vincitore);
-                torneo.setNumeroPartecipanti(rs.getInt("numero_partecipanti"));
-                tornei.add(torneo);
+                tornei.add(getProssimoTorneo(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,15 +192,25 @@ public class TorneoDaoPostgres implements TorneoDao {
 
     private Torneo getProssimoTorneo(ResultSet rs) throws SQLException {
         Torneo torneo = new TorneoProxy(connection);
-        torneo.setId(rs.getLong("id"));
-        torneo.setNome(rs.getString("nome"));
-        torneo.setLuogo(rs.getString("luogo"));
-        torneo.setDataInizio(new Date(rs.getDate("data_inizio").getTime()));
-        torneo.setDataFine(new Date(rs.getDate("data_fine").getTime()));
-        torneo.setStato(rs.getString("stato"));
         Utente vincitore= DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("vincitore"));
-        torneo.setVincitore(vincitore);
-        torneo.setNumeroPartecipanti(rs.getInt("numero_partecipanti"));
+        torneo.setAll(rs.getInt("id"), rs.getString("nome"), rs.getString("luogo"), new Date(rs.getDate("data_inizio").getTime()), new Date(rs.getDate("data_fine").getTime()), rs.getString("stato"), vincitore, getNumeroPartecipanti(rs.getInt("id")));
         return torneo;
+    }
+
+    private int getNumeroPartecipanti(int id){
+        String query = "Select count(*) "+
+        "from iscrizione " +
+        "where torneo = ? ";
+        try {
+            PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 }

@@ -1,17 +1,19 @@
 <div *ngFor="let type of researchType; let typeIndex = index">
-  <h2>{{ type }}</h2>
+  <h2 class="text-center">{{ type }}</h2>
   <div *ngIf="listOfUsers[typeIndex] && listOfUsers[typeIndex].length > 0; else noResults">
-    <div *ngFor="let utente of listOfUsers[typeIndex]">
-      <div class="card">
-        <article class="anteprima" (click)="vaiAlProfilo(utente)">
+    <div class="row justify-content-around">
+      <div *ngFor="let utente of listOfUsers[typeIndex]" class="col d-flex justify-content-center">
+        <article class="card" (click)="vaiAlProfilo(utente)">
           <h3 class="card-title">{{ utente.username }}</h3>
           <h4 class="card-subtitle mb-2 text-muted">{{ utente.nome }} {{ utente.cognome }}</h4>
+          <div class="overlay mask flex-center rgba-blue-light">
+          </div>
         </article>
       </div>
     </div>
   </div>
   <ng-template #noResults>
-    <p>Nessun risultato</p>
+    <p class="text-center">Nessun risultato</p>
   </ng-template>
 </div>
 

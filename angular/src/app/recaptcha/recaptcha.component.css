@@ -1,0 +1,14 @@
+#board{
+    max-width: 22vw;
+    min-width: 35vh;
+    display: block;
+    margin: 0 auto;
+}
+
+p {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}

@@ -1,62 +1,110 @@
-<h1> GENERATORE PGN</h1>
+<figure>
+    <img class="titolo" src="assets/foto/profilo.jpg" alt="fotoPlayers"/>
+    <div class="overlay flex-center rgba-blue-light">
+    </div>
+</figure> 
+<div class="container justify-content-center contenitore mb-4">
+    <h1 class="text-center fw-bold display-1 text-white margine"> Generatore PGN</h1>
+    
+    <div class="text-center mb-5">
+        <h2> AVVERSARI </h2>
+        <div>
+            <div class="mb-4"> 
+                <label for="colore" class="mx-3">Il tuo colore è: </label> 
+                <input type="radio" [(ngModel)]="colore" name="colore" value="bianco" class="form-check-input border-primary">Bianco
+                <input type="radio" [(ngModel)]="colore" name="colore" value="nero" class="form-check-input border-primary">Nero
+            </div>
+            <div class="text-center">
+                <div *ngIf = "colore == 'bianco'" class="row">
+                    <p><label>BIANCO : <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true></label></p>
+                    <p><label>NERO : <input class="form-control-sm" [(ngModel)] = "avversario"></label></p>
+                </div>
+                <div *ngIf = "colore == 'nero'" class="row">
+                    <p><label>BIANCO : <input class="form-control-sm" [(ngModel)] = "avversario"></label></p>
+                    <p><label>NERO : <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true></label></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mb-4">
+        <h2>TORNEO</h2>
+        <div>
+            <label for="colore" class="mx-3">Partiene appartenente ad un torneo?</label>   
+            <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="1">SI
+            <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="0">NO
+        </div>
+        <div *ngIf="appartieneTorneo == '1'" class="mt-4">
+            <p>NOME: <input class="form-control-sm" [(ngModel)]="nomeTorneo" id="nomeTorneo" title="Nome Torneo"></p>
+            <p>DATA: <input class="form-control-sm" type="date" [(ngModel)]="dataTorneo" id="dataTorneo" title="Data Torneo"></p>
+            <p>LUOGO: <input class="form-control-sm" [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo"></p>
+            <p>TURNEO: <input class="form-control-sm" type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno"></p>
+        </div>
+    </div>
+    <div class="text-center mb-4">
+        <h2> PARTITA </h2>
+        
+        <p>RISULTATO
+        <select class="form-control-sm" [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
+            <option value="0"> </option>
+            <option value="1"> 1-0 </option>
+            <option value="2"> 0-1 </option>
+            <option value="3"> 1/2 - 1/2 </option>
+        </select>
+        </p>
+    </div>
+    
+    <div class="text-center row justify-content-around">
+        <div class="text-center mt-4 col-sm-2">
+            <label for="commentArea">Commenti</label>
+            <div class="mb-2">
+                <textarea class="form-control" [(ngModel)]="commentoAttuale" id="commentArea" placeholder="Inserisci un commento alla mossa corrente"></textarea>
+            </div>
+            <div class="row">
+                <button class="btn btn-success col mx-1" (click)="salvaCommento()">Salva Commento</button>
+                <button class="btn btn-danger col" (click)="cancellaCommento()">Cancella Commento</button>
+            </div>
+        </div>
+        
+        <div class="col-sm-4">
+            <div id=board></div>
+        </div>
+        <div id="formulario" class="col-sm-2">
+            <div class="row justify-content-center">
+                <div class="col text-center h6">Turno</div>
+                <div class="col text-center h6">Bianco</div>
+                <div class="col text-center h6">Nero</div>
+            </div>
+            <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
+                <div *ngFor="let mossa of mosse" class="row justify-content-center">
+                    <div class="riga col text-center">{{mossa[0]}}</div>
+                    <div class="riga col text-center">{{mossa[1]}}</div>
+                    <div class="riga col text-center">{{mossa[2]}}</div>
+                </div>
+            </div>
+        </div>
 
-<h2> AVVERSARI </h2>
-<label for="colore">Il tuo colore è:
-    <input type="radio" [(ngModel)]="colore" name="colore" value="bianco">Bianco
-    <input type="radio" [(ngModel)]="colore" name="colore" value="nero">Nero
-</label> 
-
-<div *ngIf = "colore == 'bianco'">
-    <p><label>BIANCO : <input [(ngModel)] = "io" [disabled] = true></label></p>
-    <p><label>NERO : <input [(ngModel)] = "avversario"></label></p>
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn btn-secondary" (click)="undoMove()">Mossa Precedente</button>
+    </div>
+     
+    <div class="text-center mt-3">
+        <button class="btn btn-primary" (click)="generaPGN()">Genera PGN</button>
+    </div>
+    
 </div>
-<div *ngIf = "colore == 'nero'">
-    <p><label>BIANCO : <input [(ngModel)] = "avversario"></label></p>
-    <p><label>NERO : <input [(ngModel)] = "io" [disabled] = true></label></p>
-</div>
 
-<h2>TORNEO</h2>
-<label for="colore">Partiene appartenente ad un torneo?
-    <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="1">SI
-    <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="0">NO
-</label> 
 
-<div *ngIf="appartieneTorneo == '1'">
-    <p>NOME: <input [(ngModel)]="nomeTorneo" id="nomeTorneo" title="Nome Torneo"></p>
-    <p>DATA: <input type="date" [(ngModel)]="dataTorneo" id="dataTorneo" title="Data Torneo"></p>
-    <p>LUOGO: <input [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo"></p>
-    <p>TURNEO: <input type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno"></p>
-</div>
 
-<h2> PARTITA </h2>
 
-<p>RISULTATO
-<select [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
-    <option value="0"> </option>
-    <option value="1"> 1-0 </option>
-    <option value="2"> 0-1 </option>
-    <option value="3"> 1/2 - 1/2 </option>
-</select>
-</p>
 
-<div id=board></div>
 
-<p for="commentArea">Commenti
-<textarea [(ngModel)]="commentoAttuale" placeholder="Inserisci un commento alla mossa corrente"></textarea>
-<button (click)="cancellaCommento()">Cancella Commento</button>
-<button (click)="salvaCommento()">Salva Commento</button>
-</p>
 
-<button (click)="undoMove()">Mossa Precedente</button>
 
-<div id= formulario >
-    <table id= formulario >
-        <tr *ngFor="let mossa of mosse">
-        <td id= n-formulario>{{mossa[0]}}</td>
-        <td>{{mossa[1]}}</td>
-        <td>{{mossa[2]}}</td>
-        </tr>
-    </table>
-</div>
+ 
 
-<button (click)="generaPGN()">Genera PGN</button>
+
+
+
+
+
