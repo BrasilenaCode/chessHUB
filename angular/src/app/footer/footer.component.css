@@ -30,9 +30,14 @@ span{
     margin-right: 20px;
 }
 
-@media only screen and (max-width: 680px) {
+@media only screen and (max-width:750px) {
     footer {
-        height: 75px;
+        flex-direction: column;
+        text-align: center;
+        height: auto;
     }
-    
+
+    footer p {
+        margin: 1%;
+    }
 }
