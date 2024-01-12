@@ -20,6 +20,7 @@ import java.util.*;
 public class UtentiController {
     @PostMapping("/utenti/username")
     public Utente dammiUtente(@RequestBody String username){
+        System.out.println("ciao");
         return DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
     }
     @PostMapping("/utenti/nome")

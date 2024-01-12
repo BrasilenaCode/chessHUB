@@ -14,14 +14,29 @@
                 <input type="radio" [(ngModel)]="colore" name="colore" value="bianco" class="form-check-input border-primary">Bianco
                 <input type="radio" [(ngModel)]="colore" name="colore" value="nero" class="form-check-input border-primary">Nero
             </div>
-            <div class="text-center">
-                <div *ngIf = "colore == 'bianco'" class="row">
-                    <p><label>BIANCO : <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true></label></p>
-                    <p><label>NERO : <input class="form-control-sm" [(ngModel)] = "avversario"></label></p>
+            <div class="text-center modulo-form">
+                <div *ngIf = "colore == 'bianco'" class="row justify-content-center">
+                    <div class="mb-4">
+                        <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
+                        <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
+                    </div>
+                    <div>
+                        <p class="p-0 m-0"><label class="form-label">NERO:  </label></p>
+                        <input class="form-control-sm" [(ngModel)] = "avversario">
+                    </div>
+                     
                 </div>
                 <div *ngIf = "colore == 'nero'" class="row">
-                    <p><label>BIANCO : <input class="form-control-sm" [(ngModel)] = "avversario"></label></p>
-                    <p><label>NERO : <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true></label></p>
+                    
+                    <div class="mb-4">
+                        <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
+                        <input class="form-control-sm" [(ngModel)] = "avversario">
+                    </div>
+                    <div>
+                        <p class="p-0 m-0"><label class="form-label">NERO:  </label></p>
+                        <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
+                    </div>
+                     
                 </div>
             </div>
         </div>
@@ -34,10 +49,23 @@
             <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="0">NO
         </div>
         <div *ngIf="appartieneTorneo == '1'" class="mt-4">
-            <p>NOME: <input class="form-control-sm" [(ngModel)]="nomeTorneo" id="nomeTorneo" title="Nome Torneo"></p>
-            <p>DATA: <input class="form-control-sm" type="date" [(ngModel)]="dataTorneo" id="dataTorneo" title="Data Torneo"></p>
-            <p>LUOGO: <input class="form-control-sm" [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo"></p>
-            <p>TURNEO: <input class="form-control-sm" type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno"></p>
+            <div class="mb-4">
+                <p class="p-0 m-0">NOME: </p>
+                <input class="form-control-sm" [(ngModel)]="nomeTorneo" id="nomeTorneo" title="Nome Torneo">
+            </div>
+            <div class="mb-4">
+                <p class="p-0 m-0">DATA: </p>
+                <input class="form-control-sm" type="date" [(ngModel)]="dataTorneo" id="dataTorneo" title="Data Torneo">
+            </div>
+            <div class="mb-4">
+                <p class="p-0 m-0">LUOGO: </p>
+                <input class="form-control-sm" [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo">
+            </div>
+            <div class="mb-4">
+                <p class="p-0 m-0">TURNEO: </p>
+                <input class="form-control-sm" type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno">
+            </div>
+            
         </div>
     </div>
     <div class="text-center mb-4">
@@ -53,10 +81,10 @@
         </p>
     </div>
     
-    <div class="text-center row justify-content-around">
-        <div class="text-center mt-4 col-sm-2">
+    <div class="text-center row justify-content-around" [ngClass]="">
+        <div class="text-center mt-4 mb-4 col-xl-2">
             <label for="commentArea">Commenti</label>
-            <div class="mb-2">
+            <div class="mb-3">
                 <textarea class="form-control" [(ngModel)]="commentoAttuale" id="commentArea" placeholder="Inserisci un commento alla mossa corrente"></textarea>
             </div>
             <div class="row">
@@ -65,14 +93,14 @@
             </div>
         </div>
         
-        <div class="col-sm-4">
+        <div class="col-xl-4 text-center mb-4">
             <div id=board></div>
         </div>
-        <div id="formulario" class="col-sm-2">
+        <div id="formulario" class="col-xl-2 mb-4">
             <div class="row justify-content-center">
-                <div class="col text-center h6">Turno</div>
-                <div class="col text-center h6">Bianco</div>
-                <div class="col text-center h6">Nero</div>
+                <div class="col text-center colonne">Turno</div>
+                <div class="col text-center colonne">Bianco</div>
+                <div class="col text-center colonne">Nero</div>
             </div>
             <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
                 <div *ngFor="let mossa of mosse" class="row justify-content-center">

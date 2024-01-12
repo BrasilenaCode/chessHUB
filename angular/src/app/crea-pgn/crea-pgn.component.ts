@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UtentiService } from '../services/utenti.service';
 import { TorneoService } from '../services/torneo.service';
@@ -7,6 +7,7 @@ import { PartitaService } from '../services/partita.service';
 import { Utente } from '../model/utente';
 import { Torneo } from '../model/torneo';
 import { Partita } from '../model/partita';
+import { isPlatformBrowser } from '@angular/common';
 
 declare var Chessboard2: any;
 
@@ -18,10 +19,37 @@ declare var Chessboard2: any;
 export class CreaPgnComponent implements OnInit{
   static game: Chess = new Chess();
   static board?: any;
-
+  isScreenResized: boolean = false;
+  isScreenShrinked: boolean = false;
   en? : Utente;
   me? : Utente;
   customTorneo? : Torneo;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkWindowWidth();
+  }
+  checkWindowWidth(): void {
+    let screenWidth=0;
+    if(isPlatformBrowser(this.platformId))
+         screenWidth = window.innerWidth;
+    const breakpointWidth = 1430;
+    const shrinked = 1010;
+
+    if (screenWidth >= breakpointWidth){
+      this.isScreenResized = false;
+      this.isScreenShrinked = false;
+    }else{
+      if (screenWidth < shrinked) {
+        this.isScreenShrinked = true;
+        this.isScreenResized = false;
+      
+      } else {
+        this.isScreenResized = true;
+        this.isScreenShrinked = false;
+      }
+    }
+  }
 
   config = {
     draggable: true,
@@ -50,10 +78,13 @@ export class CreaPgnComponent implements OnInit{
   mosse : string[][] = [];
   positionEnded : boolean = false;
 
-  constructor(private utentiService : UtentiService, private activatedRoute: ActivatedRoute, private torneoService: TorneoService, private partitaService : PartitaService) {}
+  constructor(private utentiService : UtentiService, private activatedRoute: ActivatedRoute,
+     private torneoService: TorneoService, private partitaService : PartitaService,
+     @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     this.utentiService.dammiUtente(this.activatedRoute.snapshot.queryParams['username']).subscribe(utente => {
+      console.log("arrivata")
       this.me = utente;
     });
 
