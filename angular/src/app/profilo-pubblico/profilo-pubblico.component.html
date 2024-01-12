@@ -7,9 +7,10 @@
   <div [innerHTML]="pagina! | safeHtml"></div>
   <div class="justify-content-center">
     <p class="text-center mt-2">
-    <a *ngIf="!seguendo&&!richiestaInviata" type="button" class="button-center btn btn-success" (click)="segui()">Invia Richiesta</a>
-    <a *ngIf="seguendo" type="button" class="btn btn-success button-center" (click)="nonSeguire()">Non seguire più</a>
-    <a *ngIf="richiestaInviata" type="button" class="btn btn-success button-center" (click)="nonSeguire()">Annulla Richiesta</a>
+      <a *ngIf="registrato&&!seguendo&&!richiestaInviata" type="button" class="button-center btn btn-success" (click)="segui()">Invia Richiesta</a>
+      <a *ngIf="registrato&&seguendo" type="button" class="btn btn-success button-center" (click)="nonSeguire()">Non seguire più</a>
+      <a *ngIf="registrato&&richiestaInviata" type="button" class="btn btn-success button-center" (click)="nonSeguire()">Annulla Richiesta</a>
+      <a *ngIf="admin&&!utenteAdmin" type="button" class="btn btn-success button-center margineSinistra" (click)="rendiAdmin()">Rendi Admin</a>
     </p>
     <h4 class="text-center">Ultime partite giocate</h4>
     <p class="text-center" *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>

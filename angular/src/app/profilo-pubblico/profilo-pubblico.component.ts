@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import {Partita} from "../model/partita";
 import { PartitaService } from '../services/partita.service';
+import {AuthServiceService} from "../services/auth.service";
 
 @Component({
   selector: 'app-profilo-pubblico',
@@ -12,31 +13,47 @@ import { PartitaService } from '../services/partita.service';
   styleUrl: './profilo-pubblico.component.css',
 })
 export class ProfiloPubblicoComponent implements OnInit{
-  constructor(private utentiService: UtentiService, private activatedRoute: ActivatedRoute, private partiteService: PartitaService) { }
+  constructor(private utentiService: UtentiService, private activatedRoute: ActivatedRoute, private partiteService: PartitaService, private auth:AuthServiceService) { }
   pagina?: string = "";
   partite?: Partita[];
   seguendo?: boolean=false;
   richiestaInviata?: boolean = false;
+  registrato: boolean = true;
+  admin: boolean = false;
+  utenteAdmin: boolean = false;
+  username?: string;
 
   ngOnInit(): void {
+    this.username=this.activatedRoute.snapshot.queryParams["username"];
     this.getPaginaUtente();
     this.getPartiteUtente();
-    this.utentiService.verificaSeSeguiUtente(this.activatedRoute.snapshot.queryParams["username"]).subscribe(risultato => {
-      this.seguendo = risultato;
-    });
-    this.utentiService.verificaRichiestaUtente(this.activatedRoute.snapshot.queryParams["username"]).subscribe(risultato => {
-      this.richiestaInviata = risultato;
-    });
+    if(!this.auth.isAuthenticated()) {
+      this.registrato = false;
+    }else{
+      this.auth.isAdmin().subscribe(risultato => {
+        this.admin = risultato;
+      });
+      this.utentiService.verificaSeAdmin(this.username).subscribe(risultato => {
+        this.utenteAdmin = risultato;
+        console.log(this.admin&&!this.utenteAdmin)
+      });
+      this.utentiService.verificaSeSeguiUtente(this.username).subscribe(risultato => {
+        this.seguendo = risultato;
+      });
+      this.utentiService.verificaRichiestaUtente(this.username).subscribe(risultato => {
+        this.richiestaInviata = risultato;
+      });
+    }
   }
   getPaginaUtente(): void {
-    this.utentiService.paginaProfiloPubblico(this.activatedRoute.snapshot.queryParams["username"]).subscribe(pagina => this.pagina = pagina);
+    this.utentiService.paginaProfiloPubblico(this.username!).subscribe(pagina => this.pagina = pagina);
   }
   getPartiteUtente(): void {
-    this.partiteService.dammiUltimePartiteGiocate(this.activatedRoute.snapshot.queryParams["username"]).subscribe(partite => this.partite = partite);
+    this.partiteService.dammiUltimePartiteGiocate(this.username!).subscribe(partite => this.partite = partite);
   }
 
   segui(){
-    this.utentiService.seguiUtente(this.activatedRoute.snapshot.queryParams["username"]).subscribe(risultato => {
+    this.utentiService.seguiUtente(this.username!).subscribe(risultato => {
       if(risultato)
         this.seguendo=true;
       else
@@ -45,9 +62,13 @@ export class ProfiloPubblicoComponent implements OnInit{
   }
 
   nonSeguire() {
-    this.utentiService.smettiDiSeguire(this.activatedRoute.snapshot.queryParams["username"]).subscribe(risultato => {
+    this.utentiService.smettiDiSeguire(this.username!).subscribe(risultato => {
       this.seguendo=false;
       this.richiestaInviata=false;
     });
+  }
+
+  rendiAdmin() {
+    this.auth.createAdmin(this.username!).subscribe(result=> this.utenteAdmin=true);
   }
 }

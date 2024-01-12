@@ -74,6 +74,8 @@ export class PartitaShowComponent implements OnInit{
   private setPrivacy() {
     this.privacy = false;
     this.admin = false;
+    if(!this.auth.isAuthenticated())
+      return;
     this.auth.isAdmin().subscribe(risultato=>{
       if (risultato){
         this.privacy = true;

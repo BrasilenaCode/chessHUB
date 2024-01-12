@@ -46,16 +46,16 @@ export class UtentiService {
   }
 
   dammiUtenteAcceduto():Observable<Utente>{
+    if(!this.auth.isAuthenticated())
+      return new Observable<Utente>();
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.get<Utente>(this.backendUrl + "/utente", header)
   }
+
   dammiUtenti():Observable<Utente[]>{
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
-    }
-    return this.http.get<Utente[]>(this.backendUrl + "/utenti/all", header)
+    return this.http.get<Utente[]>(this.backendUrl + "/utenti/all")
   }
 
   getUtente(username:string):Observable<Utente>{
@@ -155,10 +155,7 @@ export class UtentiService {
   }
 
   ricercaUtente(username: string): Observable<Utente[][]> {
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
-    }
-    return this.http.post<Utente[][]>(this.backendUrl + "/utenti/ricerca", username, header);
+    return this.http.post<Utente[][]>(this.backendUrl + "/utenti/ricerca", username);
   }
 
   getFollowers(username:string) {
@@ -166,5 +163,12 @@ export class UtentiService {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<Utente[]>(this.backendUrl + "/utente/getFollowers",username, header)
+  }
+
+  verificaSeAdmin(username: string | undefined) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post<boolean>(this.backendUrl + "/utente/admin",username, header)
   }
 }

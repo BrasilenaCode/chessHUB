@@ -2,6 +2,7 @@ import { Component, Input, OnInit} from '@angular/core';
 import { Utente } from '../model/utente';
 import { UtentiService } from '../services/utenti.service';
 import {NavigationEnd, Router} from "@angular/router";
+import {AuthServiceService} from "../services/auth.service";
 
 
 @Component({
@@ -72,7 +73,8 @@ export class ClassificaComponent implements OnInit{
 
   cercaUtente(): any | undefined {
       this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto=> {
-        this.usernameUtente = utenteAcceduto.username;
+        if(utenteAcceduto!=undefined)
+          this.usernameUtente = utenteAcceduto.username;
       });
   }
 
@@ -94,11 +96,9 @@ export class ClassificaComponent implements OnInit{
     }
   }
   visualizzaUtente(user: Utente) {
-    this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto => {
-      if (utenteAcceduto.username == user.username)
-        this.router.navigate(['/profilo']);
-      else
-        this.router.navigate(['/profiloPubblico'], {queryParams: {username: user.username}});
-    });
+    if(this.usernameUtente!=undefined&&user.username==this.usernameUtente)
+      this.router.navigate(['/profilo']);
+    else
+      this.router.navigate(['/profiloPubblico'], {queryParams: {username: user.username}});
   }
 }

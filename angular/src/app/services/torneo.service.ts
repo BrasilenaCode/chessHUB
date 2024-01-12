@@ -92,17 +92,11 @@ export class TorneoService {
   }
 
   dammiPartite(torneoId: number) {
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
-    }
-    return this.http.post<Partita[]>(this.backendUrl+"/tornei/partite", torneoId, header);
+    return this.http.post<Partita[]>(this.backendUrl+"/tornei/partite", torneoId);
   }
 
   ricercaTornei(param: string): Observable<Torneo[][]> {
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
-    }
-    return this.http.post<Torneo[][]>(this.backendUrl+"/tornei/ricerca", param, header);
+    return this.http.post<Torneo[][]>(this.backendUrl+"/tornei/ricerca", param);
   }
   disiscriviGiocatore(id: number | undefined) {
     var header = {

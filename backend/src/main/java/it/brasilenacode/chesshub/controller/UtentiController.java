@@ -76,11 +76,8 @@ public class UtentiController {
     }
 
     @GetMapping("/utenti/all")
-    public List<Utente> dammiUtenti(HttpServletRequest req){
-        if(Auth.isAuthenticated(req)) {
-            return DBManager.getInstance().getUtenteDao().findAll();
-        }
-        return null;
+    public List<Utente> dammiUtenti(){
+        return DBManager.getInstance().getUtenteDao().findAll();
     }
 
     @PostMapping("/deleteUtente")
@@ -94,16 +91,13 @@ public class UtentiController {
     }
 
     @PostMapping("/utenti/ricerca")
-    public List<List<Utente>> ricercaUtenti(@RequestBody String string, HttpServletRequest req){
+    public List<List<Utente>> ricercaUtenti(@RequestBody String string){
         List<List<Utente>> toSend = new ArrayList<>();
         UtenteDao dao = DBManager.getInstance().getUtenteDao();
-        if (Auth.isAuthenticated(req)) {
-            toSend.add(dao.tryToFindUsersByKey(string));
-            toSend.add(dao.tryToFindUserByName(string));
-            toSend.add(dao.tryToFindUserBySurname(string));
-            return toSend;
-        }
-        return null;
+        toSend.add(dao.tryToFindUsersByKey(string));
+        toSend.add(dao.tryToFindUserByName(string));
+        toSend.add(dao.tryToFindUserBySurname(string));
+        return toSend;
     }
     @PostMapping("/updateUtente")
     public boolean updateUtente(HttpServletRequest req, @RequestBody Map<String, String> dati){
@@ -150,6 +144,27 @@ public class UtentiController {
     public boolean isAdmin(HttpServletRequest req){
         if(Auth.isAuthenticated(req)){
             Utente utente = Auth.getUser(req);
+            return utente.isAdmin();
+        }
+        return false;
+    }
+
+    @GetMapping("/utenti/createAdmin")
+    public boolean createAdmin(HttpServletRequest req){
+        if(Auth.isAuthenticated(req)){
+            String username=req.getParameter("username");
+            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            utente.setAdmin(true);
+            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
+            return true;
+        }
+        return false;
+    }
+
+    @PostMapping("/utente/admin")
+    public boolean admin(HttpServletRequest req, @RequestBody String username){
+        if(Auth.isAuthenticated(req)){
+            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
             return utente.isAdmin();
         }
         return false;

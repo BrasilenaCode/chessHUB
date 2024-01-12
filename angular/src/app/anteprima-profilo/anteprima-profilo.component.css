@@ -2,6 +2,8 @@
     position: relative;
     margin: 2vw 0vw;
     width: 15rem;
+    padding-top:2vh;
+    padding-bottom:2vh;
 }
 
 .card:hover .overlay {

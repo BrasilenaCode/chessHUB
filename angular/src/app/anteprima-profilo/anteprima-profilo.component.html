@@ -3,9 +3,9 @@
   <div *ngIf="listOfUsers[typeIndex] && listOfUsers[typeIndex].length > 0; else noResults">
     <div class="row justify-content-around">
       <div *ngFor="let utente of listOfUsers[typeIndex]" class="col d-flex justify-content-center">
-        <article class="card" (click)="vaiAlProfilo(utente)">
-          <h3 class="card-title">{{ utente.username }}</h3>
-          <h4 class="card-subtitle mb-2 text-muted">{{ utente.nome }} {{ utente.cognome }}</h4>
+        <article class="card text-center" (click)="vaiAlProfilo(utente)">
+          <h3 class="card-title text-center">{{ utente.username }}</h3>
+          <h4 class="card-subtitle text-center mb-2 text-muted">{{ utente.nome }} {{ utente.cognome }}</h4>
           <div class="overlay mask flex-center rgba-blue-light">
           </div>
         </article>

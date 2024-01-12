@@ -14,8 +14,8 @@ export class AnteprimaProfiloComponent implements OnInit {
   toSearch: string = '';
   listOfUsers: Utente[][] = [];
   researchType: string[] = [
-                            'Ricerca per nome utente', 
-                            'Ricerca per nome', 
+                            'Ricerca per nome utente',
+                            'Ricerca per nome',
                             'Ricerca per cognome'
                            ];
 
@@ -43,10 +43,9 @@ export class AnteprimaProfiloComponent implements OnInit {
 
   vaiAlProfilo(utente:Utente) {
     this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto => {
-      if (utenteAcceduto.username == utente.username)
+      if (utenteAcceduto != undefined && utenteAcceduto.username == utente.username)
         this.router.navigate(['/profilo']);
-      else
-        this.router.navigate(['/profiloPubblico'], {queryParams: {username: utente.username}});
     });
+    this.router.navigate(['/profiloPubblico'], {queryParams: {username: utente.username}});
   }
 }

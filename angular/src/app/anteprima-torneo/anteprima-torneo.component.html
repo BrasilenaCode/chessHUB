@@ -3,9 +3,9 @@
   <div *ngIf="listOfTournaments[typeIndex] && listOfTournaments[typeIndex].length > 0; else noResults">
     <div class="row justify-content-around">
       <div *ngFor="let torneo of listOfTournaments[typeIndex]" class="col d-flex justify-content-center">
-        <article class="card" (click)="vaiAlTorneo(torneo)">
-          <h3 class="card-title">{{ torneo.nome }}</h3>
-          <p class="card-subtitle">{{ torneo.luogo }}</p>
+        <article class="card text-center" (click)="vaiAlTorneo(torneo)">
+          <h3 class="card-title text-center">{{ torneo.nome }}</h3>
+          <p class="card-subtitle text-center">{{ torneo.luogo }}</p>
           <div class="overlay mask flex-center rgba-blue-light">
           </div>
         </article>

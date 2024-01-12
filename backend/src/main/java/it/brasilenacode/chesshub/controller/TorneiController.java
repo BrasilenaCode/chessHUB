@@ -98,11 +98,8 @@ public class TorneiController {
 
     @PostMapping("/tornei/partite")
     public List<Partita> esistonoPartite(HttpServletRequest req, @RequestBody int torneoId){
-        if(Auth.isAuthenticated(req)){
-            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-            return torneo.trovaPartite();
-        }
-        return null;
+        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+        return torneo.trovaPartite();
     }
     @PostMapping("/tornei/genera")
     public List<Partita> generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
@@ -142,12 +139,9 @@ public class TorneiController {
     public List<List<Torneo>> trovaTornei(@RequestBody String string, HttpServletRequest req) {
         List<List<Torneo>> toSend = new ArrayList<>();
         TorneoDao dao = DBManager.getInstance().getTorneoDao();
-        if (Auth.isAuthenticated(req)) {
-            toSend.add(dao.tryToFindByName(string));
-            toSend.add(dao.tryToFindByLocation(string));
-            return toSend;
-        }
-        return null;
+        toSend.add(dao.tryToFindByName(string));
+        toSend.add(dao.tryToFindByLocation(string));
+        return toSend;
     }
 
     @PostMapping("/tornei/aggiornaCustom")

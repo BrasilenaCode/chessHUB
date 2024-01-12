@@ -19,13 +19,12 @@ export class TorneoComponent implements OnInit{
   flagAdmin: boolean = false;
   flagPartite: boolean = true;
   flagErrore: boolean = false;
+  flagRegistrato:boolean=true;
 
   constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService) {}
 
   ngOnInit() {
     this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => this.torneo = torneo);
-    this.torneoService.isIscritto(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(risultato => {this.flagIscritto = risultato});
-    this.authService.isAdmin().subscribe(risultato => {this.flagAdmin = risultato});
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
       this.loadPartite(partite);
       if(partite?.length > 0) {
@@ -33,6 +32,17 @@ export class TorneoComponent implements OnInit{
         this.flagPartite = false;
       }
     });
+    if(this.authService.isAuthenticated()) {
+      this.torneoService.isIscritto(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(risultato => {
+        this.flagIscritto = risultato
+      });
+      this.authService.isAdmin().subscribe(risultato => {
+        this.flagAdmin = risultato
+      });
+    }else{
+      this.flagRegistrato = false;
+      this.flagAdmin = false;
+    }
   }
 
   iscrivimi(){
@@ -81,7 +91,7 @@ export class TorneoComponent implements OnInit{
           this.torneo.stato = "passato";
       }
     });
-    
+
   }
 
   isAuthenticated(){

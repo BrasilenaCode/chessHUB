@@ -29,6 +29,9 @@ export class TorneiComponent implements OnInit{
   protected readonly faAdd = faAdd;
 
   ngOnInit(): void {
-    this.auth.isAdmin().subscribe(result=> this.isAdmin=result);
+    if(this.auth.isAuthenticated())
+      this.auth.isAdmin().subscribe(result=> this.isAdmin=result);
+    else
+      this.isAdmin=false;
   }
 }

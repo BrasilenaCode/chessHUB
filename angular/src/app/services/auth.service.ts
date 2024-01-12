@@ -71,4 +71,11 @@ export class AuthServiceService{
     }
     return this.http.post<boolean>(this.backendUrl + "/utenti/isAdmin", "", header);
   }
+
+  createAdmin(username:string) {
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.getToken())
+    }
+    return this.http.get<boolean>(this.backendUrl + "/utenti/createAdmin?username="+username, header);
+  }
 }

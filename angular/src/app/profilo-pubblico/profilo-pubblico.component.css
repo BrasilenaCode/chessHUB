@@ -11,7 +11,9 @@
 .pagina{
   margin-top: 25vh;
 }
-
+.margineSinistra{
+  margin-left:10px;
+}
 .margine{
   margin-right:0;
 }
