@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
@@ -149,6 +150,14 @@ public class TorneiController {
         if (Auth.isAuthenticated(req)) {
             DBManager.getInstance().getTorneoDao().aggiornaIscrizione(Auth.getUser(req));
         }
+    }
+    @PostMapping("/tornei/utentiTorneo")
+    public List<Utente> dammiUtentiTorneo(@RequestBody int torneoId){
+        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+        List<Utente> utenti = torneo.getPartecipanti();
+        Map<String, Integer> punteggi = torneo.getPunteggi();
+        utenti.sort((o1, o2) -> punteggi.get(o1.getUsername()) > punteggi.get(o2.getUsername()) ? -1 : 1);
+        return utenti;
     }
 
 }

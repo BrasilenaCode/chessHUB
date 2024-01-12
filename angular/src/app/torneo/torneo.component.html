@@ -7,7 +7,7 @@
   <h1 class="titolo text-center fw-bold display-1 text-white">{{torneo?.nome}}</h1>
   <div class="container text-center">
     <p *ngIf="torneo?.stato == 'inCorso'">Il torneo è in corso</p>
-    <p *ngIf="torneo?.stato == 'passato'">Il torneo concluso. Il vincitore è {{torneo?.vincitore?.username}}</p>
+    <p *ngIf="torneo?.stato == 'passato'">Il torneo concluso. Il vincitore è <a [href]="'/profiloPubblico?username='+torneo?.vincitore?.username">{{torneo?.vincitore?.username}}</a></p>
     <p *ngIf="torneo?.stato == 'prossimo'">Il torneo deve ancora iniziare: hai tempo fino al <span>{{torneo?.dataInizio | date:"dd/MM/yy" }}</span> per iscriverti</p>
     <p>Ci sono {{torneo?.numeroPartecipanti}} iscritti giocatori iscritti al torneo</p>
     <button *ngIf="torneo?.stato == 'prossimo' && flagRegistrato && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-3">Iscriviti</button>
@@ -17,6 +17,24 @@
     <button *ngIf="torneo?.stato == 'inCorso' && flagAdmin" (click)="chiudiTorneo()" class="btn btn-primary m-3">Chiudi Torneo</button>
     <p *ngIf="torneo?.stato == 'inCorso' && flagAdmin && flagErrore">non puoi chiudere il torneo: alcune partite devono ancora essere giocate</p>
     <div *ngIf="torneo?.stato != 'prossimo'">
+      <h2 class="h2 text-center">Classifica del torneo</h2>
+      <div>
+        <div class="margine justify-content-center">
+          <div class="container">
+            <div class="mx-auto text-center w-80">
+              <div class="row justify-content-center">
+                <div class="col text-center h6">Posto</div>
+                <div class="col text-center h6">Nome</div>
+                <div class="col text-center h6">Cognome</div>
+                <div class="col text-center h6">Nazionalità</div>
+                <div class="col text-center h6">Punteggio</div>
+              </div>
+              <app-row *ngFor="let user of utentiTorneo, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1" (click)="visualizzaUtente(user)"></app-row>
+            </div>
+          </div>
+        </div>
+        
+      </div>
       <h2 class="h2 text-center">Partite</h2>
       <div *ngIf="partiteTurno?.length">
         <div class="row justify-content-center">

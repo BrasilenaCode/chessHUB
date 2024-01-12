@@ -3,13 +3,11 @@ package it.brasilenacode.chesshub.persistenza.model;
 import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 
-import java.beans.Statement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Torneo {
     private long id;
@@ -21,6 +19,7 @@ public class Torneo {
     private String stato;
     private Utente vincitore;
     private List<Utente> partecipanti;
+    private Map<String, Integer> punteggi;
     public Torneo() {
     }
     public long getId() {
@@ -135,6 +134,12 @@ public class Torneo {
             partecipanti.remove(utente);
             this.numeroPartecipanti--;
         }
+    }
+    public Map<String, Integer> getPunteggi() {
+        return punteggi;
+    }
+    public void setPunteggi(Map<String, Integer> punteggi) {
+        this.punteggi = punteggi;
     }
     public void setAll(int id, String nome, String luogo, Date dataInizio, Date dataFine, String stato, Utente vincitore, int numeroPartecipanti){
         this.id = id;

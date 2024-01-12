@@ -111,4 +111,7 @@ export class TorneoService {
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/aggiornaCustom", "", header);
   }
+  dammiUtentiTorneo(id: number): Observable<Utente[]> {
+    return this.http.post<Utente[]>(this.backendUrl+"/tornei/utentiTorneo", id);
+  }
 }

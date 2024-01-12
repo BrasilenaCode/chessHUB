@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { TorneoService } from '../services/torneo.service';
 import { AuthServiceService } from '../services/auth.service';
 import {Partita} from "../model/partita";
+import {Utente} from "../model/utente";
+import { UtentiService } from '../services/utenti.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-torneo',
@@ -14,6 +17,8 @@ export class TorneoComponent implements OnInit{
 
   turno: number = 0;
   torneo?: Torneo;
+  usernameUtente: string = "nessuno";
+  utentiTorneo : Utente[] = [];
   partiteTurno:Partita[][] = [];
   flagIscritto: boolean = false;
   flagAdmin: boolean = false;
@@ -21,7 +26,7 @@ export class TorneoComponent implements OnInit{
   flagErrore: boolean = false;
   flagRegistrato:boolean=true;
 
-  constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService) {}
+  constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService, private utentiService: UtentiService, private router: Router) {}
 
   ngOnInit() {
     this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => this.torneo = torneo);
@@ -32,6 +37,8 @@ export class TorneoComponent implements OnInit{
         this.flagPartite = false;
       }
     });
+    this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => this.utentiTorneo = utenti);
+    this.cercaUtente();
     if(this.authService.isAuthenticated()) {
       this.torneoService.isIscritto(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(risultato => {
         this.flagIscritto = risultato
@@ -44,6 +51,13 @@ export class TorneoComponent implements OnInit{
       this.flagAdmin = false;
     }
   }
+  cercaUtente(): any | undefined {
+    this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto=> {
+      if(utenteAcceduto!=undefined)
+        this.usernameUtente = utenteAcceduto.username;
+    });
+  }
+
 
   iscrivimi(){
     this.torneoService.iscriviGiocatore(this.torneo?.id).subscribe(risultato => {
@@ -119,4 +133,11 @@ export class TorneoComponent implements OnInit{
       }
     });
   }
+  visualizzaUtente(user: Utente) {
+    if(this.usernameUtente!=undefined&&user.username==this.usernameUtente)
+      this.router.navigate(['/profilo']);
+    else
+      this.router.navigate(['/profiloPubblico'], {queryParams: {username: user.username}});
+  }
+
 }
