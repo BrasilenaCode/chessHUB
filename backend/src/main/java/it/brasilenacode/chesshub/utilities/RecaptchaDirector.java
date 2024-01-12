@@ -1,5 +1,7 @@
 package it.brasilenacode.chesshub.utilities;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Map;
 
 public class RecaptchaDirector {
@@ -8,7 +10,13 @@ public class RecaptchaDirector {
 
     private RecaptchaDirector() {
         JsonReader jsonReader = new JsonReader();
-        jsonReader.read(getClass().getResource("/recaptcha-challenges/challenges.json").getPath());
+        String filePath = null;
+        try {
+            filePath = URLDecoder.decode(getClass().getResource("/recaptcha-challenges/challenges.json").getPath(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        jsonReader.read(filePath);
         recaptchaChallenges = jsonReader.getMap("challenge", "response");
     }
 

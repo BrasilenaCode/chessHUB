@@ -40,7 +40,6 @@ const routes: Routes = [
   {"path": "profiloPubblico", component: ProfiloPubblicoComponent},
   {"path": "richiesta", component: RichiestaComponent, canActivate:[AuthGuardService]},
   {"path": "partita", component: PartitaComponent},
-  {"path": "partita", component: PartitaComponent},
   {"path": "addPartita", component: AddPartitaComponent},
   {"path": "ricercaUtente", component: AnteprimaProfiloComponent},
   {"path": "partite", component: TutteLePartiteComponent, canActivate:[AuthGuardService]},

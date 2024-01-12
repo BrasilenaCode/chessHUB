@@ -73,6 +73,8 @@ public class PartiteController {
             List<Partita> partiteUtente=PartiteModel.dammiPartiteGiocatore(username);
             for(Partita p:partiteUtente) {
                 Utente custom=DBManager.getInstance().getUtenteDao().findByPrimaryKey("custom");
+                if(p.getEsito().equals("0"))
+
                 if(p.getGiocatore2().getUsername().equals(username))
                     p.setGiocatore2(custom);
                 else if(p.getGiocatore1().getUsername().equals(username))
