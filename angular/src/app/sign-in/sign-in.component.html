@@ -38,6 +38,7 @@
       <input type="date" class="form-control dim" id="dataNascita" name="dataNascita" [formControl]="dataNascita" required>
       <div *ngIf="submitted && !dataNascita.valid" class="invalid-feedback">Riempi questo campo</div>
     </div>
+    <app-recaptcha (onCaptchaComplete)="recaptchaResolved($event)"></app-recaptcha>
     <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>
@@ -45,12 +46,3 @@
     <button type="submit" class="btn btn-primary">Registrati</button>
   </form>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
