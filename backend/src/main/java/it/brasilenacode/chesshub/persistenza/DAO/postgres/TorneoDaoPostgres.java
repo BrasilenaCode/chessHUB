@@ -86,7 +86,7 @@ public class TorneoDaoPostgres implements TorneoDao {
     @Override
     public void saveOrUpdate(Torneo torneo) {
         if (findByPrimaryKey(torneo.getId()) == null) {
-            String insertStr = "INSERT INTO torneo VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertStr = "INSERT INTO torneo VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st;
             try {
                 st = connection.prepareStatement(insertStr);
@@ -99,7 +99,6 @@ public class TorneoDaoPostgres implements TorneoDao {
                 st.setString(5, torneo.getLuogo());
                 st.setString(6, torneo.getStato());
                 st.setString(7, null);
-                st.setInt(8, torneo.getNumeroPartecipanti());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -110,8 +109,7 @@ public class TorneoDaoPostgres implements TorneoDao {
                     + "data_fine = ?, "
                     + "luogo = ?, "
                     + "stato = ?, "
-                    + "vincitore = ?, "
-                    + "numero_partecipanti = ? "
+                    + "vincitore = ? "
                     + "where id = ?";
 
             PreparedStatement st;
@@ -127,8 +125,7 @@ public class TorneoDaoPostgres implements TorneoDao {
                 } else {
                     st.setString(6, torneo.getVincitore().getUsername());
                 }
-                st.setInt(7, torneo.getNumeroPartecipanti());
-                st.setLong(8, torneo.getId());
+                st.setLong(7, torneo.getId());
                 st.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

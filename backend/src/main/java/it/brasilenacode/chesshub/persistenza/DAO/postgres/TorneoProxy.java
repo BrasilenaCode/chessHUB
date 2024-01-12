@@ -26,7 +26,7 @@ public class TorneoProxy extends Torneo {
         List<Utente> partecipanti = new ArrayList<Utente>();
         Map<String, Integer> punteggi = new HashMap<String, Integer>();
         if (super.getPartecipanti() == null) {
-            String query = "Select utente "+
+            String query = "Select utente, punteggio "+
                     "from iscrizione " +
                     "where torneo = ? ";
             try {

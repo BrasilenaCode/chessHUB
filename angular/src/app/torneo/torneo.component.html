@@ -13,14 +13,14 @@
     <button *ngIf="torneo?.stato == 'prossimo' && flagRegistrato && !flagIscritto" (click)="iscrivimi()" class="btn btn-primary m-3">Iscriviti</button>
     <button *ngIf="torneo?.stato == 'prossimo' && flagRegistrato && flagIscritto" (click)="discrivimi()" class="btn btn-primary m-3">Disiscriviti</button>
     <p *ngIf="torneo?.stato == 'prossimo' && flagRegistrato && flagIscritto" >Sei iscritto a questo torneo</p>
-    <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()" class="btn btn-primary m-3">Genera Partite</button>
+    <button *ngIf="torneo?.stato == 'prossimo' && flagAdmin && flagPartite" (click)="generaTorneo()" class="btn btn-primary m-3">Inizia torneo</button>
     <button *ngIf="torneo?.stato == 'inCorso' && flagAdmin" (click)="chiudiTorneo()" class="btn btn-primary m-3">Chiudi Torneo</button>
     <p *ngIf="torneo?.stato == 'inCorso' && flagAdmin && flagErrore">non puoi chiudere il torneo: alcune partite devono ancora essere giocate</p>
     <div *ngIf="torneo?.stato != 'prossimo'">
       <h2 class="h2 text-center">Classifica del torneo</h2>
       <div>
         <div class="margine justify-content-center">
-          <div class="container">
+          <div class="my-3">
             <div class="mx-auto text-center w-80">
               <div class="row justify-content-center">
                 <div class="col text-center h6">Posto</div>
@@ -33,7 +33,6 @@
             </div>
           </div>
         </div>
-        
       </div>
       <h2 class="h2 text-center">Partite</h2>
       <div *ngIf="partiteTurno?.length">
