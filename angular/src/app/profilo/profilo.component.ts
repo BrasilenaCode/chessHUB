@@ -44,7 +44,6 @@ export class ProfiloComponent implements OnInit{
     this.router.navigate(['/statistiche']);
   }
   vaiAllePartite(): void {
-    console.log(this.username);
     this.router.navigate(['/partite'], {queryParams: {username: this.username!}});
   }
   private getRichiesteAmicizia() {

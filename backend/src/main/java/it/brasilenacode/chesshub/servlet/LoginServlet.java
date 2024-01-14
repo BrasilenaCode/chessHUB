@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
         boolean autorizzato;
 
         if (user == null){
-            System.out.println("NOT AUTHORIZED.");
             autorizzato = false;
         } else {
 
@@ -34,7 +33,6 @@ public class LoginServlet extends HttpServlet {
                 resp.sendRedirect("/home.html");
 
             } else {
-                System.out.println("WRONG PASSWORD.");
                 autorizzato = false;
             }
 

@@ -67,10 +67,6 @@ export class PartitaShowComponent implements OnInit{
       this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
   }
 
-  salvaEsito(): void {
-    console.log(this.partita?.esito);
-  }
-
   private setPrivacy() {
     this.privacy = false;
     this.admin = false;

@@ -133,8 +133,6 @@ export class CreaPgnComponent implements OnInit{
   }
 
   undoMove(): void {
-    if(CreaPgnComponent.board == null)
-      console.log("board null");
     CreaPgnComponent.game.undo();
     CreaPgnComponent.board.position(CreaPgnComponent.game.fen());
     CreaPgnComponent.updateStatus();
@@ -143,7 +141,6 @@ export class CreaPgnComponent implements OnInit{
   scaricaPGN(): void {
     this.generaPGN();
     const textContent = CreaPgnComponent.game.pgn();
-    console.log(textContent);
     const blob = new Blob([textContent], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
 

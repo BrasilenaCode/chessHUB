@@ -34,7 +34,6 @@ ngOnInit(): void {
   this.torneoService.dammiTornei().subscribe(tornei => {
     tornei.forEach(torneo => {
       if (torneo.stato === 'prossimo') {
-        console.log(torneo.id)
         this.tornei.set(torneo.id, torneo);
         this.listOfLocations.set(torneo.id, false);
       }
@@ -71,7 +70,6 @@ markLocation(place: string, iamhere: boolean) {
         this.display = { lat: location.lat, lng: location.lng };
         this.center = this.display;
       } else {
-        console.log("chiamata")
         this.displayDest = { lat: location.lat, lng: location.lng };
         this.center = this.displayDest;
         this.show = true;
@@ -110,9 +108,7 @@ calculateDistance() {
                   { lat: location2.lat, lng: location2.lng }
                 ).toFixed(2)
               );
-              console.log("distanza da " + torneo.luogo + ": " + calculatedDistance)
               if (this.distance >= calculatedDistance) {
-                console.log("siiii")
                 this.listOfLocations.set(toCheck, true);
               } else {
                 this.listOfLocations.set(toCheck, false);

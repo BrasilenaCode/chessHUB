@@ -1,19 +1,3 @@
-<!---div *ngIf="admin" class="card">
-  <div class="card-title">
-    <p class="col" id = white>{{white}}</p>
-    <select *ngIf = "modifica" [(ngModel)] = "this.partita!.esito" title="Esito" (ngModelChange) = salvaPartita()>
-      <option value="0">  -  </option>
-      <option value="1"> 1-0 </option>
-      <option value="2"> 0-1 </option>
-      <option value="3"> 1/2 </option>
-    </select>
-    <p id = black>{{black}} </p>
-    <button *ngIf="partita?.pgn != null" (click) = "visualizzaPartita()">Visualizza Partita</button>
-    <button (click) = caricaPartita()>Modifica Partita</button>
-  </div>
-</div>
---->
-
 <div class="view card justify-content-center text-center larghezza" (click) = visualizzaPartita()>
   <div [ngClass]="{'overlay':privacy}" class="mask flex-center rgba-blue-light">
   </div>

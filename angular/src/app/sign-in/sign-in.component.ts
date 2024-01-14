@@ -303,7 +303,6 @@ export class SignInComponent {
               }
             });
           } else {
-            console.log(this.dataNascita.value, new Date());
             this.errorMessage = "Data di nascita non valida";
           }
         } else {

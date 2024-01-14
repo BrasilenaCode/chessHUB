@@ -30,7 +30,6 @@ export class AuthServiceService{
   }
 
   removeToken(){
-    console.log("removeToken DFNSKJDFNKSD")
     this.token = undefined;
     if(isPlatformBrowser(this.platformId)) {
       window.localStorage.removeItem("utente_token");

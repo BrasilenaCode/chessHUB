@@ -117,7 +117,6 @@ export class PartitaComponent implements OnInit{
     if (mossaN >= 0 && mossaN < this.fenHistory.length) {
       this.nAttuale = mossaN;
       this.n = Math.floor((this.nAttuale + 1) / 2);
-      console.log(this.nAttuale + " " + this.n);
       this.board.position(this.fenHistory[this.nAttuale]);
       this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
