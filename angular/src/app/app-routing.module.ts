@@ -47,7 +47,7 @@ const routes: Routes = [
   {"path": "amici", component: AmiciComponent,  canActivate:[AuthGuardService]},
   {"path": "modificaDati", component: ModificaDatiComponent, canActivate:[AuthGuardService]},
   {"path": "modificaPassword", component: ModificaPasswordComponent, canActivate:[AuthGuardService]},
-  {"path": "torneiVicini", component: TorneiComponent},
+  {"path": "torneiVicini", component: TorneiViciniComponent},
   {"path": "amici", component: AmiciComponent},
   {"path": "ricerca", component: TabDiRicercaComponent},
   {"path": "generatorePgn", component: CreaPgnComponent},

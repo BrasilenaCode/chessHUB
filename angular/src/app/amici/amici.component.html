@@ -1,5 +1,12 @@
-<div>
-  <h4>Amicizie</h4>
-  <div *ngFor="let amico of amici" (click)="vaiAlProfilo(amico)">{{amico.username}}</div>
+<div style="height: 100vh">
+  <h4 class="text-center mt-4">Amicizie</h4>
+  <div *ngFor="let amico of amici" >
+    <article class="card text-center" (click)="vaiAlProfilo(amico)">
+      <h3 class="card-title text-center">{{ amico.username }}</h3>
+      <h4 class="card-subtitle text-center mb-2 text-muted">{{ amico.nome }} {{ amico.cognome }}</h4>
+      <div class="overlay mask flex-center rgba-blue-light">
+      </div>
+    </article>
+  </div>
   <div *ngIf="amici?.length == 0">Non hai ancora amicizie</div>
 </div>
