@@ -8,6 +8,7 @@ import { Utente } from '../model/utente';
 import { Torneo } from '../model/torneo';
 import { Partita } from '../model/partita';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 declare var Chessboard2: any;
 
@@ -72,17 +73,34 @@ export class CreaPgnComponent implements OnInit{
   dataTorneo : any;
   luogoTorneo : string = "";
   turno : number = 0;
+  guest : boolean = false;
 
   commentoAttuale : string = "";
+  fenAttuale : string = "";
 
   mosse : string[][] = [];
   positionEnded : boolean = false;
 
   constructor(private utentiService : UtentiService, private activatedRoute: ActivatedRoute,
-     private torneoService: TorneoService, private partitaService : PartitaService,
+     private torneoService: TorneoService, private partitaService : PartitaService, private router: Router,
      @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
+    try{
+      CreaPgnComponent.board = Chessboard2('board', this.config);
+    }catch(e){}
+
+    try{
+      window.setInterval(() => {
+        this.updateStats();
+      }, 60);
+    }catch(e){}
+
+    if(this.activatedRoute.snapshot.queryParams['username'] == undefined){
+      this.guest = true;
+      return;
+    }
+
     this.utentiService.dammiUtente(this.activatedRoute.snapshot.queryParams['username']).subscribe(utente => {
       this.me = utente;
       this.io = this.me.cognome + " " + this.me.nome;
@@ -96,37 +114,22 @@ export class CreaPgnComponent implements OnInit{
       this.customTorneo = torneo;
     });
     
-    try{
-      CreaPgnComponent.board = Chessboard2('board', this.config);
-    }catch(e){}
 
-    try{
-      window.setInterval(() => {
-        this.updateStats();
-      }, 60);
-      window.setTimeout(() => {
-        this.caricaInfo()
-      }, 500);
-    }catch(e){}
-  }
-
-  caricaInfo(): void {
-    if(this.me != null)
-      this.io = this.me.cognome + " " + this.me.nome;
   }
 
   salvaCommento(): void {
     if (this.commentoAttuale == "")
-    return;
-  CreaPgnComponent.game.setComment(this.commentoAttuale);
-  CreaPgnComponent.updateStatus();
+      return;
+    CreaPgnComponent.game.setComment(this.commentoAttuale);
+    CreaPgnComponent.updateStatus();
+    this.updateFormulario();
   }
 
   cancellaCommento(): void {
     this.commentoAttuale = "";
     CreaPgnComponent.game.deleteComment();
     CreaPgnComponent.updateStatus();
-
+    this.updateFormulario();
   }
 
   undoMove(): void {
@@ -135,6 +138,24 @@ export class CreaPgnComponent implements OnInit{
     CreaPgnComponent.game.undo();
     CreaPgnComponent.board.position(CreaPgnComponent.game.fen());
     CreaPgnComponent.updateStatus();
+  }
+
+  scaricaPGN(): void {
+    this.generaPGN();
+    const textContent = CreaPgnComponent.game.pgn();
+    console.log(textContent);
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+
+    // Crea un elemento "a" per simulare il download del file
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "partita.txt";
+    document.body.appendChild(a);
+    a.click();
+
+    // Rilascia l'URL dell'oggetto Blob
+    window.URL.revokeObjectURL(url);
   }
 
   generaPGN(): void {
@@ -160,36 +181,24 @@ export class CreaPgnComponent implements OnInit{
     }
     if(result != "NC")
       CreaPgnComponent.game.header('Result', result);
-    if(this.io != ""){
-      CreaPgnComponent.game.header('White', this.io);
-      CreaPgnComponent.game.header('Black', this.avversario);
+    if(this.colore == "bianco"){
+      if(this.io != "")
+        CreaPgnComponent.game.header('White', this.io);
+      if(this.avversario != "")
+        CreaPgnComponent.game.header('Black', this.avversario);
     }else{
-      CreaPgnComponent.game.header('White', this.avversario);
-      CreaPgnComponent.game.header('Black', this.io);
+      if(this.avversario != "")
+        CreaPgnComponent.game.header('White', this.avversario);
+      if(this.io != "")
+        CreaPgnComponent.game.header('Black', this.io);
     }
-    this.salvaPgn();
-  }
-
-  salvaPgn(): void {
-    const textContent = CreaPgnComponent.game.pgn();
-    console.log(textContent);
-    const blob = new Blob([textContent], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-
-    // Crea un elemento "a" per simulare il download del file
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'file.txt';
-    document.body.appendChild(a);
-    a.click();
-
-    // Rilascia l'URL dell'oggetto Blob
-    window.URL.revokeObjectURL(url);
   }
 
   salvaPartita(): void {
+    this.generaPGN();
     if(this.me == null || this.en == null || this.customTorneo == null)
       return;
+    
     let partita : Partita;
     if(this.colore == "bianco"){
       partita = {
@@ -217,11 +226,16 @@ export class CreaPgnComponent implements OnInit{
         privacy: "pubblica"
       }
     }
-    this.partitaService.salvaPartita(partita).subscribe();
+    this.partitaService.salvaPartita(partita).subscribe(((id) => {
+      this.router.navigate(['/partita'], {queryParams: {id: id}});
+    }));
   }
 
   updateStats(): void {
-    if(this.gameStatusPublic != CreaPgnComponent.gameStatus)
+    if(this.fenAttuale == CreaPgnComponent.game.fen())
+      return;
+    this.fenAttuale = CreaPgnComponent.game.fen();
+    if(this.commentoAttuale != CreaPgnComponent.game.getComment())
       this.commentoAttuale = CreaPgnComponent.game.getComment();
     this.gameStatusPublic = CreaPgnComponent.gameStatus;
     if(CreaPgnComponent.gameState != "0"){
@@ -230,6 +244,10 @@ export class CreaPgnComponent implements OnInit{
     }else{
       this.positionEnded = false;
     }
+    this.updateFormulario();
+  }
+
+  updateFormulario(): void {
     this.mosse = [];
     let cont : number = 0;
     CreaPgnComponent.game.history({verbose : true}).forEach(mossa => {

@@ -9,13 +9,13 @@
     <div class="text-center mb-5">
         <h2> AVVERSARI </h2>
         <div>
-            <div class="mb-4"> 
+            <div *ngIf = "!guest" class="mb-4"> 
                 <label for="colore" class="mx-3">Il tuo colore è: </label> 
                 <input title="colore" type="radio" [(ngModel)]="colore" name="colore" value="bianco" class="form-check-input border-primary">Bianco
                 <input title="colore" type="radio" [(ngModel)]="colore" name="colore" value="nero" class="form-check-input border-primary">Nero
             </div>
             <div class="text-center modulo-form">
-                <div *ngIf = "colore == 'bianco'" class="row justify-content-center">
+                <div *ngIf = "colore == 'bianco' && !guest" class="row justify-content-center">
                     <div class="mb-4">
                         <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
                         <input title="nomeBianco" class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
@@ -26,7 +26,7 @@
                     </div>
                      
                 </div>
-                <div *ngIf = "colore == 'nero'" class="row">
+                <div *ngIf = "colore == 'nero' && !guest" class="row">
                     
                     <div class="mb-4">
                         <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
@@ -37,6 +37,16 @@
                         <input title="nomeNero" class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
                     </div>
                      
+                </div>
+                <div *ngIf = "guest" class="row justify-content-center">
+                    <div class="mb-4">
+                        <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
+                        <input title="nomeBianco" class="form-control-sm" [(ngModel)] = "io">
+                    </div>
+                    <div>
+                        <p class="p-0 m-0"><label class="form-label">NERO:  </label></p>
+                        <input title="nomeNero" class="form-control-sm" [(ngModel)] = "avversario">
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,7 +72,7 @@
                 <input class="form-control-sm" [(ngModel)]="luogoTorneo" id="luogoTorneo" title="Luogo Torneo">
             </div>
             <div class="mb-4">
-                <p class="p-0 m-0">TURNEO: </p>
+                <p class="p-0 m-0">TURNO: </p>
                 <input class="form-control-sm" type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno">
             </div>
             
@@ -113,26 +123,15 @@
 
     </div>
     <div class="text-center mt-4">
-        <button class="btn btn-secondary" (click)="undoMove()">Mossa Precedente</button>
+        <button class="btn btn-secondary" (click)="undoMove()">Cancella Mossa</button>
     </div>
      
     <div class="text-center mt-3">
-        <button class="btn btn-primary" (click)="generaPGN()">Genera PGN</button>
+        <button class="btn btn-primary" (click)="scaricaPGN()">Scarica PGN</button>
+    </div>
+
+    <div *ngIf="!guest" class="text-center mt-3">
+        <button class="btn btn-primary" (click)="salvaPartita()">Salva Partita</button>
     </div>
     
 </div>
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-

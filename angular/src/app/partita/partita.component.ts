@@ -99,7 +99,7 @@ export class PartitaComponent implements OnInit{
       this.nAttuale++;
       this.n = Math.floor((this.nAttuale + 1) / 2);
       this.board.position(this.fenHistory[this.nAttuale]);
-      this.commentoAttuale = this.comments[this.board.fen()];
+      this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
   }
 
@@ -108,7 +108,7 @@ export class PartitaComponent implements OnInit{
       this.nAttuale--;
       this.n = Math.floor((this.nAttuale + 1) / 2);
       this.board.position(this.fenHistory[this.nAttuale]);
-      this.commentoAttuale = this.comments[this.fenHistory[this.board.fen()]];
+      this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
   }
 
@@ -119,7 +119,7 @@ export class PartitaComponent implements OnInit{
       this.n = Math.floor((this.nAttuale + 1) / 2);
       console.log(this.nAttuale + " " + this.n);
       this.board.position(this.fenHistory[this.nAttuale]);
-      this.commentoAttuale = this.comments[this.fenHistory[this.board.fen()]];
+      this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
   }
 

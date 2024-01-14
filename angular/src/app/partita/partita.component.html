@@ -34,7 +34,7 @@
       <div *ngFor="let mossa of mosse" class="row justify-content-center">
           <div class="riga col text-center">{{mossa[0]}}</div>
           <div (click)="goTo(mossa[0], 0)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 1}">{{mossa[1]}}</div>
-          <div *ngIf="mossa[2] != undefined" (click)="goTo(mossa[0], 1)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 0}">{{mossa[2]}}</div>
+          <div (click)="goTo(mossa[0], 1)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 0}">{{mossa[2]}}</div>
       </div>
   </div>
 </div>

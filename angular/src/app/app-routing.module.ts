@@ -48,7 +48,7 @@ const routes: Routes = [
   {"path": "modificaPassword", component: ModificaPasswordComponent, canActivate:[AuthGuardService]},
   {"path": "amici", component: AmiciComponent},
   {"path": "ricerca", component: TabDiRicercaComponent},
-  {"path": "pgn/crea", component: CreaPgnComponent},
+  {"path": "generatorePgn", component: CreaPgnComponent},
   {"path": "**", component: Page404Component}
 ];
 

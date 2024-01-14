@@ -60,10 +60,12 @@ public class PartiteController {
     }
 
     @PostMapping("/partite/salva")
-    public void addPartita(HttpServletRequest req, @RequestBody Partita partita) {
+    public Long addPartita(HttpServletRequest req, @RequestBody Partita partita) {
         if(Auth.isAuthenticated(req)){
             DBManager.getInstance().getPartitaDao().saveOrUpdate(partita);
+            return partita.getId();
         }
+        return null;
     }
 
     @PostMapping("/partite/setCustom")
