@@ -158,7 +158,8 @@ export class CreaPgnComponent implements OnInit{
     else{
       result = "NC";
     }
-    CreaPgnComponent.game.header('Result', result);
+    if(result != "NC")
+      CreaPgnComponent.game.header('Result', result);
     if(this.io != ""){
       CreaPgnComponent.game.header('White', this.io);
       CreaPgnComponent.game.header('Black', this.avversario);

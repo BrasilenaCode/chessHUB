@@ -28,7 +28,7 @@
     </div>
     <div class="mb-3">
       <label class="form-label">Nazionalità:</label>
-        <select class="form-select dim" id="nazionalita" name="nazionalità" [formControl]="nazionalita" required>
+        <select title="nazionalita" class="form-select dim" id="nazionalita" name="nazionalità" [formControl]="nazionalita" required>
           <option *ngFor="let nazione of Object.values(nationalities)"  [value]="nazione">{{nazione}}</option>
         </select>
       <div *ngIf="submitted && !nazionalita.valid" class="invalid-feedback">Riempi questo campo</div>

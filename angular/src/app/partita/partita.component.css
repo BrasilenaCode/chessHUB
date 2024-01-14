@@ -56,3 +56,11 @@ img.titolo{
     margin-top: 60vh;
     width: 70%;
 }
+
+.clickCursor {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #ff0000;
+}

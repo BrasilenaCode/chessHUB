@@ -11,18 +11,18 @@
         <div>
             <div class="mb-4"> 
                 <label for="colore" class="mx-3">Il tuo colore è: </label> 
-                <input type="radio" [(ngModel)]="colore" name="colore" value="bianco" class="form-check-input border-primary">Bianco
-                <input type="radio" [(ngModel)]="colore" name="colore" value="nero" class="form-check-input border-primary">Nero
+                <input title="colore" type="radio" [(ngModel)]="colore" name="colore" value="bianco" class="form-check-input border-primary">Bianco
+                <input title="colore" type="radio" [(ngModel)]="colore" name="colore" value="nero" class="form-check-input border-primary">Nero
             </div>
             <div class="text-center modulo-form">
                 <div *ngIf = "colore == 'bianco'" class="row justify-content-center">
                     <div class="mb-4">
                         <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
-                        <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
+                        <input title="nomeBianco" class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
                     </div>
                     <div>
                         <p class="p-0 m-0"><label class="form-label">NERO:  </label></p>
-                        <input class="form-control-sm" [(ngModel)] = "avversario">
+                        <input title="nomeNero" class="form-control-sm" [(ngModel)] = "avversario">
                     </div>
                      
                 </div>
@@ -30,11 +30,11 @@
                     
                     <div class="mb-4">
                         <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
-                        <input class="form-control-sm" [(ngModel)] = "avversario">
+                        <input title="nomeBianco" class="form-control-sm" [(ngModel)] = "avversario">
                     </div>
                     <div>
                         <p class="p-0 m-0"><label class="form-label">NERO:  </label></p>
-                        <input class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
+                        <input title="nomeNero" class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
                     </div>
                      
                 </div>
@@ -44,9 +44,9 @@
     <div class="text-center mb-4">
         <h2>TORNEO</h2>
         <div>
-            <label for="colore" class="mx-3">Partiene appartenente ad un torneo?</label>   
-            <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="1">SI
-            <input type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="0">NO
+            <label for="torneo" class="mx-3">Partiene appartenente ad un torneo?</label>   
+            <input title="torneo" type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="1">SI
+            <input title="torneo" type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="0">NO
         </div>
         <div *ngIf="appartieneTorneo == '1'" class="mt-4">
             <div class="mb-4">
