@@ -4,13 +4,13 @@
     <div class="row pt-5" style="margin: 0">
         <p th:text="'Nome'" class="col text-center fw-bold"></p>
         <p th:text="'Cognome'" class="col text-center fw-bold"></p>
-        <p th:text="'Data di nascita'" class="col text-center fw-bold"></p>
+        <p th:text="'Età'" class="col text-center fw-bold"></p>
         <p th:text="'Nazionalità'" class="col text-center fw-bold"></p>
     </div>
     <div class="row" style="margin: 0">
         <p th:text="${utente.nome}" class="col text-center"></p>
         <p th:text="${utente.cognome}" class="col text-center"></p>
-        <p th:text="${dataNascita}" class="col text-center"></p>
+        <p th:text="${eta}" class="col text-center"></p>
         <p  class="col text-center"><img th:src="'data:image/png;base64,' + ${bandiera}" th:alt="${utente.nazionalita}"></p>
     </div>
 </div>

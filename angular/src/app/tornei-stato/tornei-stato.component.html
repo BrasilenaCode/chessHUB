@@ -1,5 +1,6 @@
 <div>
     <div class="row justify-content-around contenitore-tornei">
+        <p *ngIf="tornei.length == 0" class="col-12 text-center">Non sono presenti tornei in questo stato</p>
         <app-torneo-show *ngFor="let t of tornei" class="col" [torneo]="t"></app-torneo-show>
     </div>
 </div>
