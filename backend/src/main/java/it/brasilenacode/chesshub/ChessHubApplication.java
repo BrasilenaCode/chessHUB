@@ -13,5 +13,4 @@ public class ChessHubApplication {
         SpringApplication.run(ChessHubApplication.class, args);
         DBManager.getInstance().createGuest();
     }
-
 }

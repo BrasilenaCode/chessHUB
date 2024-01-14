@@ -29,7 +29,7 @@
                 <div class="col text-center h6">Nazionalità</div>
                 <div class="col text-center h6">Punteggio</div>
               </div>
-              <app-row *ngFor="let user of utentiTorneo, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1" (click)="visualizzaUtente(user)"></app-row>
+              <app-row *ngFor="let user of utentiTorneo, let i=index" [utente]="user" [utenteAcceduto]="usernameUtente" [index]="i+1" [punteggi]="punteggiTorneo" (click)="visualizzaUtente(user)"></app-row>
             </div>
           </div>
         </div>

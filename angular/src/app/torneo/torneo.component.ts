@@ -20,6 +20,7 @@ export class TorneoComponent implements OnInit{
   usernameUtente: string = "nessuno";
   utentiTorneo : Utente[] = [];
   partiteTurno:Partita[][] = [];
+  punteggiTorneo: Map<string, number>=new Map<string, number>();
   flagIscritto: boolean = false;
   flagAdmin: boolean = false;
   flagPartite: boolean = true;
@@ -30,6 +31,10 @@ export class TorneoComponent implements OnInit{
 
   ngOnInit() {
     this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => this.torneo = torneo);
+    this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi =>{
+      this.punteggiTorneo = new Map(Object.entries(punteggi));
+    });
+
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
       this.loadPartite(partite);
       if(partite?.length > 0) {
@@ -108,10 +113,6 @@ export class TorneoComponent implements OnInit{
 
   }
 
-  isAuthenticated(){
-    return this.authService.isAuthenticated();
-  }
-
   prossimoTurno(){
     if(this.turno < this.partiteTurno!.length - 1)
       this.turno++;
@@ -134,6 +135,8 @@ export class TorneoComponent implements OnInit{
     });
   }
   visualizzaUtente(user: Utente) {
+    if(user.username=="custom")
+      return;
     if(this.usernameUtente!=undefined&&user.username==this.usernameUtente)
       this.router.navigate(['/profilo']);
     else

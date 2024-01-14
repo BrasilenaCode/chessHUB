@@ -146,10 +146,21 @@ public class TorneiController {
     }
 
     @PostMapping("/tornei/aggiornaCustom")
-    public void aggiornaCustom(HttpServletRequest req) {
+    public boolean aggiornaCustom(HttpServletRequest req) {
         if (Auth.isAuthenticated(req)) {
-            DBManager.getInstance().getTorneoDao().aggiornaIscrizione(Auth.getUser(req));
+            Utente u=Auth.getUser(req);
+            List<Torneo> tornei=DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getPartecipanti().contains(u)).toList();
+            for(Torneo torneo:tornei){
+                if(torneo.getStato().equals("inCorso"))
+                    return false;
+                else if(torneo.getStato().equals("prossimo"))
+                    DBManager.getInstance().getTorneoDao().removePartecipante(torneo, u);
+                else
+                    DBManager.getInstance().getTorneoDao().aggiornaIscrizione(u);
+            }
+            return true;
         }
+        return false;
     }
     @PostMapping("/tornei/utentiTorneo")
     public List<Utente> dammiUtentiTorneo(@RequestBody int torneoId){
@@ -160,4 +171,9 @@ public class TorneiController {
         return utenti;
     }
 
+    @PostMapping("/tornei/punteggiTorneo")
+    public Map<String, Integer> dammiPunteggiTorneo(@RequestBody int torneoId){
+        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+        return torneo.getPunteggi();
+    }
 }

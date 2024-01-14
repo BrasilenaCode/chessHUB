@@ -55,4 +55,8 @@ export class PartitaService {
     }
     return this.http.post(this.backendUrl+"/partite/setCustom","", header);
   }
+
+  dammiUltimePartiteFuoriTorneo(username: string) {
+    return this.http.post<Partita[]>(this.backendUrl+"/partite/ultimeFuoriTorneo",username);
+  }
 }

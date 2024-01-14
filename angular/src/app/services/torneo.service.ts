@@ -114,4 +114,8 @@ export class TorneoService {
   dammiUtentiTorneo(id: number): Observable<Utente[]> {
     return this.http.post<Utente[]>(this.backendUrl+"/tornei/utentiTorneo", id);
   }
+
+  dammiPunteggi(id: number) {
+    return this.http.post<Map<string, number>>(this.backendUrl+"/tornei/punteggiTorneo", id);
+  }
 }

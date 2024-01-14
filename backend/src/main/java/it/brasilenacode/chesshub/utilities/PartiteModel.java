@@ -46,7 +46,11 @@ public class PartiteModel {
     }
 
     public static List<Partita> dammiPartiteGiocate(String username) {
-        return new ArrayList<>(DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> (partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)) && (partita.getEsito().equals("1") || partita.getEsito().equals("2") || partita.getEsito().equals("3"))).toList());
+        return new ArrayList<>(DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> (partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)) && (partita.getEsito().equals("1") || partita.getEsito().equals("2") || partita.getEsito().equals("3")) && partita.getTorneo().getId()!=-1).toList());
+    }
+
+    public static List<Partita> dammiPartiteGiocateFuoriTorneo(String username) {
+        return new ArrayList<>(DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> (partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)) && (partita.getEsito().equals("1") || partita.getEsito().equals("2") || partita.getEsito().equals("3")) && partita.getTorneo().getId()==-1).toList());
     }
 
     public static List<Partita> dammiPartiteNonGiocate(String username) {
@@ -59,6 +63,12 @@ public class PartiteModel {
 
     public static List<Partita> dammiUltimePartiteGiocate(String username) {
         List<Partita> partite = PartiteModel.dammiPartiteGiocate(username);
+        partite.sort((o1, o2) -> o2.getData().compareTo(o1.getData()));
+        return partite.subList(0, Math.min(partite.size(), 3));
+    }
+
+    public static List<Partita> dammiUltimePartiteFuoriTorneo(String username) {
+        List<Partita> partite = PartiteModel.dammiPartiteGiocateFuoriTorneo(username);
         partite.sort((o1, o2) -> o2.getData().compareTo(o1.getData()));
         return partite.subList(0, Math.min(partite.size(), 3));
     }

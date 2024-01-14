@@ -237,7 +237,6 @@ export class AddPartitaComponent implements OnInit{
         const fileContent = fileReader.result as string;
         AddPartitaComponent.game.loadPgn(fileContent);
         AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
-        console.log(AddPartitaComponent.game.pgn());
         AddPartitaComponent.updateStatus();
       };
 

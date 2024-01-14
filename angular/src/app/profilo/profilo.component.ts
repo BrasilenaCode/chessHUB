@@ -18,8 +18,10 @@ export class ProfiloComponent implements OnInit{
   constructor(private utentiService: UtentiService, private router: Router, private partiteService: PartitaService, private torneoService:TorneoService, private auth:AuthServiceService) { }
   pagina?: string = "";
   partite?: Partita[];
+  partiteFuoriTorneo?: Partita[];
   richieste?: Utente[];
   caricamentoFinito: boolean = false;
+  username?: string;
 
 
   ngOnInit(): void {
@@ -31,8 +33,10 @@ export class ProfiloComponent implements OnInit{
   }
   getPaginaUtente(): void {
     this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
+      this.username = utente.username;
       this.utentiService.paginaProfilo(utente).subscribe(pagina => this.pagina = pagina)
       this.partiteService.dammiUltimePartiteGiocate(utente.username).subscribe(partite => this.partite = partite);
+      this.partiteService.dammiUltimePartiteFuoriTorneo(utente.username).subscribe(partite => this.partiteFuoriTorneo = partite);
       this.caricamentoFinito = true;
     });
   }
@@ -40,7 +44,8 @@ export class ProfiloComponent implements OnInit{
     this.router.navigate(['/statistiche']);
   }
   vaiAllePartite(): void {
-    this.router.navigate(['/partite']);
+    console.log(this.username);
+    this.router.navigate(['/partite'], {queryParams: {username: this.username!}});
   }
   private getRichiesteAmicizia() {
     this.utentiService.dammiRichiesteAmicizia().subscribe(richieste => this.richieste = richieste);
@@ -49,7 +54,8 @@ export class ProfiloComponent implements OnInit{
     const conferma = window.confirm('Sei sicuro di voler eliminare l\'account?');
     if (conferma) {
       this.torneoService.aggiornaIscrizioneCustom().subscribe(result => {
-          this.partiteService.aggiornaPartiteCustom().subscribe(result => {
+          if(result)
+            this.partiteService.aggiornaPartiteCustom().subscribe(result => {
             this.utentiService.deleteUtente().subscribe(result => {
               this.auth.logout().subscribe(
                 res => {
@@ -60,6 +66,8 @@ export class ProfiloComponent implements OnInit{
                 });
             });
           })
+        else
+          window.alert("Non è stato possibile eliminare l'account, hai ancora tornei in corso");
         }
       )
     }

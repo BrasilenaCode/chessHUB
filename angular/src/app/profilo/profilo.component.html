@@ -22,9 +22,16 @@
       <app-partita-show class="col d-flex justify-content-center" *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
     </div>
   </div>
+  <div>
+    <h4 class="text-center">Ultime partite fuori torneo</h4>
+    <p  class="text-center" *ngIf="partiteFuoriTorneo?.length == 0">Nessuna partita giocata ancora</p>
+    <div class="row justify-content-center margine">
+      <app-partita-show class="col d-flex justify-content-center" *ngFor="let partita of partiteFuoriTorneo" [partita]="partita"></app-partita-show>
+    </div>
+  </div>
 </div>
   <div class="row justify-content-center destra">
-    <a href="partite" class="col-sm-2 m-5">
+    <a class="col-sm-2 m-5">
       <button class="btn btn-primary" (click)="vaiAllePartite()">Visualizza tutte le partite</button>
     </a>
     <a href="statistiche" class="col-sm-2 m-5">

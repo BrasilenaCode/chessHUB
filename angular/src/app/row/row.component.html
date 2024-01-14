@@ -3,5 +3,6 @@
     <div class="col text-center">{{utente?.nome}}</div>
     <div class="col text-center">{{utente?.cognome}}</div>
     <div class="col text-center">{{utente?.nazionalita}}</div>
-    <div class="col text-center">{{utente?.punteggio}}</div>
+    <div *ngIf="!condizioneClassifica" class="col text-center">{{utente?.punteggio}}</div>
+    <div *ngIf="condizioneClassifica" class="col text-center">{{punteggi?.get(utente!.username)}}</div>
 </div>

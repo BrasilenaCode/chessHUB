@@ -59,11 +59,18 @@ public class PartiteController {
         return PartiteModel.dammiUltimePartiteGiocate(username);
     }
 
+    @PostMapping("/partite/ultimeFuoriTorneo")
+    public List<Partita> dammiUltimePartiteFuoriTorneo(@RequestBody String username) {
+        return PartiteModel.dammiUltimePartiteFuoriTorneo(username);
+    }
+
     @PostMapping("/partite/salva")
-    public void addPartita(HttpServletRequest req, @RequestBody Partita partita) {
+    public Long addPartita(HttpServletRequest req, @RequestBody Partita partita) {
         if(Auth.isAuthenticated(req)){
             DBManager.getInstance().getPartitaDao().saveOrUpdate(partita);
+            return partita.getId();
         }
+        return null;
     }
 
     @PostMapping("/partite/setCustom")
@@ -73,12 +80,12 @@ public class PartiteController {
             List<Partita> partiteUtente=PartiteModel.dammiPartiteGiocatore(username);
             for(Partita p:partiteUtente) {
                 Utente custom=DBManager.getInstance().getUtenteDao().findByPrimaryKey("custom");
-                if(p.getEsito().equals("0"))
-
-                if(p.getGiocatore2().getUsername().equals(username))
+                if(p.getGiocatore2().getUsername().equals(username)){
                     p.setGiocatore2(custom);
-                else if(p.getGiocatore1().getUsername().equals(username))
+                }
+                else if(p.getGiocatore1().getUsername().equals(username)) {
                     p.setGiocatore1(custom);
+                }
                 DBManager.getInstance().getPartitaDao().saveOrUpdate(p);
             }
         }
