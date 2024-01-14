@@ -44,6 +44,7 @@ import { Page404Component } from './page404/page404.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
+import { TorneiViciniComponent } from './tornei-vicini/tornei-vicini.component';
 
 
 @NgModule({
@@ -82,6 +83,7 @@ import { RecaptchaComponent } from './recaptcha/recaptcha.component';
     SafeHtmlPipe,
     Page404Component,
     RecaptchaComponent,
+    TorneiViciniComponent,
   ],
     imports: [
         HttpClientModule,
