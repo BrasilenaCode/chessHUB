@@ -46,7 +46,7 @@ export class PartitaService {
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
-    return this.http.post(this.backendUrl+"/partite/salva",partita, header);
+    return this.http.post<number>(this.backendUrl+"/partite/salva",partita, header);
   }
 
   aggiornaPartiteCustom() {

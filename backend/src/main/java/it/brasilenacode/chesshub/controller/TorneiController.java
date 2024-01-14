@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @RestController
 @CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
@@ -35,12 +37,25 @@ public class TorneiController {
     }
     @PostMapping("/tornei/dataInizio")
     public List<Torneo> dammiTorneiDataInizio(@RequestBody String body) {
-        return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getDataInizio().toInstant().equals(new Date(body).toInstant())).toList();
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(body);
+            return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getDataInizio().toInstant().equals(date.toInstant())).toList();
+        } catch (ParseException e) {
+            // Handle the parse exception
+            return new ArrayList<>();
+        }
     }
+
     @PostMapping("/tornei/dataFine")
     public List<Torneo> dammiTorneiDataFine(@RequestBody String body) {
-        return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getDataInizio().toInstant().equals(new Date(body).toInstant())).toList();
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(body);
+            return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getDataFine().toInstant().equals(date.toInstant())).toList();
+        } catch (ParseException e) {
+            return new ArrayList<>();
+        }
     }
+
     @PostMapping("/tornei/luogo")
     public List<Torneo> dammiTorneiLuogo(@RequestBody String body) {
         return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getLuogo().equals(body)).toList();

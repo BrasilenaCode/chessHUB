@@ -20,11 +20,13 @@ export class PartitaComponent implements OnInit{
   partita?: Partita;
   infoPartita: {[key: string]: string} = {};
   nAttuale: number = 0;
-  mosse: string[][] = [];
+  n: number = 0;
+  mosse: string[][] = [[]];
   fenHistory: string[] = [];
   commentoAttuale: string = "";
   automatic : boolean = false;
-  clock? : NodeJS.Timeout
+  clock? : NodeJS.Timeout;
+  errorePGN = "";
 
   custom : boolean = false;
   selezioneInCorso : boolean = true;
@@ -32,11 +34,11 @@ export class PartitaComponent implements OnInit{
   info : {[key: string]: string} = {
     "White": "Sconosciuto",
     "Black": "Sconosciuto",
-    "Site": "",
-    "Date": "",
-    "Round": "",
+    "Site": "Sconosciuto",
+    "Date": "Non Presente",
+    "Round": "0",
     "Result": "NC",
-    "Event": ""
+    "Event": "Personalizzato"
   };
 
   comments : {[key: string]: string} = {};
@@ -54,16 +56,26 @@ export class PartitaComponent implements OnInit{
       this.custom = false;
       this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => {
         this.partita = partita;
-      });
-      setTimeout(() => {
-        this.caricamentoPartita(this.partita!.pgn);
+        this.caricamentoPartita(this.partita?.pgn);
         this.caricaDati();
-      }, 1000);
+      });
     }
   }
 
-  caricamentoPartita(pgn : string): void {
-    this.game.loadPgn(pgn);
+  caricamentoPartita(pgn : string | undefined): void {
+    if(pgn == undefined){
+      this.errorePGN = "File non inserito";
+      return;
+    }
+    try{
+      this.game.loadPgn(pgn);
+    }catch(e){
+      this.errorePGN = "File non valido";
+      return;
+    }
+    this.game.getComments().forEach((comment) => {
+      this.comments[comment.fen] = comment.comment;
+    });
     let cont : number = 0;
     this.mosse = [];
     this.game.history({verbose : true}).forEach(mossa => {
@@ -71,7 +83,7 @@ export class PartitaComponent implements OnInit{
         this.mosse.push([])
         this.mosse[this.mosse.length - 1].push(cont / 2 + 1 + "");
       }
-      if(this.game.getComments().some(element => element.fen === mossa.after))
+      if(this.comments[mossa.after] != undefined)
         this.mosse[this.mosse.length - 1].push(mossa.san + "*");
       else
         this.mosse[this.mosse.length - 1].push(mossa.san);
@@ -79,14 +91,13 @@ export class PartitaComponent implements OnInit{
     });
     this.fenHistory = this.game.history({ verbose: true }).map((move) => move.after);
     this.fenHistory.unshift(this.board?.fen());
-    this.game.getComments().forEach((comment) => {
-      this.comments[comment.fen] = comment.comment;
-    });
+    this.errorePGN = "";
   }
 
   nextMove(): void {
     if (this.nAttuale < this.fenHistory.length - 1) {
       this.nAttuale++;
+      this.n = Math.floor((this.nAttuale + 1) / 2);
       this.board.position(this.fenHistory[this.nAttuale]);
       this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
@@ -95,6 +106,7 @@ export class PartitaComponent implements OnInit{
   previousMove(): void {
     if (this.nAttuale > 0) {
       this.nAttuale--;
+      this.n = Math.floor((this.nAttuale + 1) / 2);
       this.board.position(this.fenHistory[this.nAttuale]);
       this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
@@ -104,6 +116,8 @@ export class PartitaComponent implements OnInit{
     let mossaN = parseInt(mossa) * 2 - 2 + colore + 1;
     if (mossaN >= 0 && mossaN < this.fenHistory.length) {
       this.nAttuale = mossaN;
+      this.n = Math.floor((this.nAttuale + 1) / 2);
+      console.log(this.nAttuale + " " + this.n);
       this.board.position(this.fenHistory[this.nAttuale]);
       this.commentoAttuale = this.comments[this.fenHistory[this.nAttuale]];
     }
@@ -148,17 +162,17 @@ export class PartitaComponent implements OnInit{
     if(this.partita == null)
       return;
 
-    if(this.partita.giocatore1.username == "custom")
-      if(this.game.header()["White"] != undefined)
-        this.info["White"] = this.game.header()["White"]
-    else
+    if(this.partita.giocatore1.username != "custom")
       this.info["White"] = this.partita.giocatore1.nome + " " + this.partita.giocatore1.cognome;
+    else if(this.game.header()["White"] != undefined)
+      this.info["White"] = this.game.header()["White"];
+      
 
-    if(this.partita.giocatore2.username == "custom")
-      if(this.game.header()["Black"] != undefined)
-        this.info["Black"] = this.game.header()["Black"]
-    else
+    if(this.partita.giocatore2.username != "custom")
       this.info["Black"] = this.partita.giocatore2.nome + " " + this.partita.giocatore2.cognome;
+    else if(this.game.header()["Black"] != undefined)
+      this.info["Black"] = this.game.header()["Black"];
+      
 
     if(this.partita.turno != undefined)
       this.info["Round"] = this.partita.turno + " ";
@@ -167,9 +181,9 @@ export class PartitaComponent implements OnInit{
 
     if(this.partita.torneo.id == -1){
       if(this.game.header()["Site"] != undefined)
-        this.info["Site"] = this.game.header()["Site"]
+        this.info["Site"] = this.game.header()["Site"];
       if(this.game.header()["Event"] != undefined)
-        this.info["Event"] = this.game.header()["Event"]
+        this.info["Event"] = this.game.header()["Event"];
       }
     else{
       this.info["Event"] = this.partita.torneo.nome;
@@ -177,7 +191,7 @@ export class PartitaComponent implements OnInit{
     }
 
     if(this.partita.data != undefined)
-      this.info["Date"] = this.partita.data.toString();
+      this.info["Date"] = this.partita.data.toString().substring(8, 10) + "/" + this.partita.data.toString().substring(5, 7) + "/" + this.partita.data.toString().substring(0, 4);
     else if(this.game.header()["Date"] != undefined)
       this.info["Date"] = this.game.header()["Date"];
 
@@ -211,10 +225,13 @@ export class PartitaComponent implements OnInit{
     fileReader.onload = (e) => {
       const fileContent = fileReader.result as string;
       this.caricamentoPartita(fileContent);
+      if (this.errorePGN != "")
+        return;
       this.caricaDatiCustom();
+      this.selezioneInCorso = false;
     };
 
     fileReader.readAsText(file);
-    this.selezioneInCorso = false;
+
   }
 }

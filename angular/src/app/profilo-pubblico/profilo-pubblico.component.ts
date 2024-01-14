@@ -15,7 +15,7 @@ import {AuthServiceService} from "../services/auth.service";
 export class ProfiloPubblicoComponent implements OnInit{
   constructor(private utentiService: UtentiService, private activatedRoute: ActivatedRoute, private partiteService: PartitaService, private auth:AuthServiceService, private router:Router) { }
   pagina?: string = "";
-  partite?: Partita[];
+  partite?: Partita[]=[];
   partiteFuoriTorneo?: Partita[];
   seguendo?: boolean=false;
   richiestaInviata?: boolean = false;

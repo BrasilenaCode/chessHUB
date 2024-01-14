@@ -4,10 +4,7 @@ import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
-import org.apache.commons.lang3.StringUtils;
-
 import java.sql.*;
-//import java.sql.Date;
 import java.util.*;
 import java.util.Date;
 
@@ -57,7 +54,7 @@ public class UtenteDaoPostgres implements UtenteDao {
     public List<Utente> tryToFindUsersByKey(String username) {
         List<Utente> result = tryToFindBy("username", username);
         if (result.size() >= 2) {
-            result.sort(Comparator.comparingInt(utente -> StringUtils.getLevenshteinDistance(username, utente.getUsername())));
+            result.sort(Comparator.comparingInt(utente -> Math.abs(username.length() - utente.getUsername().length())));
         }
         return result;
     }
@@ -66,7 +63,7 @@ public class UtenteDaoPostgres implements UtenteDao {
     public List<Utente> tryToFindUserByName(String name) {
         List<Utente> result = tryToFindBy("nome", name);
         if (result.size() >= 2) {
-            result.sort(Comparator.comparingInt(utente -> StringUtils.getLevenshteinDistance(name, utente.getNome())));
+            result.sort(Comparator.comparingInt(utente -> Math.abs(name.length() - utente.getNome().length())));
         }
         return result;
     }
@@ -75,7 +72,7 @@ public class UtenteDaoPostgres implements UtenteDao {
     public List<Utente> tryToFindUserBySurname(String surname) {
         List<Utente> result = tryToFindBy("cognome", surname);
         if (result.size() >= 2) {
-            result.sort(Comparator.comparingInt(utente -> StringUtils.getLevenshteinDistance(surname, utente.getCognome())));
+            result.sort(Comparator.comparingInt(utente -> Math.abs(surname.length() - utente.getCognome().length())));
         }
         return result;
     }

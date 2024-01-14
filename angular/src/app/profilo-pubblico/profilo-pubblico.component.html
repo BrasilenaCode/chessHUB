@@ -13,7 +13,7 @@
       <a *ngIf="admin&&!utenteAdmin" type="button" class="btn btn-success button-center margineSinistra" (click)="rendiAdmin()">Rendi Admin</a>
     </p>
     <h4 class="text-center">Ultime partite giocate</h4>
-    <p class="text-center" *ngIf="partite?.length == 0">Nessuna partita giocata ancora</p>
+    <p class="text-center" *ngIf="partite.length == 0">Nessuna partita giocata ancora</p>
     <div class="row justify-content-center margine">
       <app-partita-show class="col d-flex justify-content-center" *ngFor="let partita of partite" [partita]="partita"></app-partita-show>
     </div>

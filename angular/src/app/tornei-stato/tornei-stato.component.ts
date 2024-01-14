@@ -10,7 +10,7 @@ import { OnInit } from '@angular/core';
 })
 export class TorneiStatoComponent implements OnInit{
   @Input() stato: string | undefined;
-  public tornei?: Torneo[];
+  public tornei: Torneo[] = [];
   constructor(private torneiService:TorneoService) { }
   ngOnInit(): void {
     this.getTorneiStato();

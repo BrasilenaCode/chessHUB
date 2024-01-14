@@ -5,7 +5,6 @@ import it.brasilenacode.chesshub.persistenza.IdBroker;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.persistenza.DBManager;
-import org.apache.commons.lang3.StringUtils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,7 +38,7 @@ public class TorneoDaoPostgres implements TorneoDao {
     public List<Torneo> tryToFindByName(String name) {
         List<Torneo> result = tryToFindBy("nome", name);
         if (result.size() >= 2) {
-            result.sort(Comparator.comparingInt(torneo -> StringUtils.getLevenshteinDistance(name, torneo.getNome())));
+            result.sort(Comparator.comparingInt(torneo -> Math.abs(name.length() - torneo.getNome().length())));
         }
         return result;
     }

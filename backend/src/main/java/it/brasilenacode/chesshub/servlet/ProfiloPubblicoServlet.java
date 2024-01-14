@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.Period;
+import java.time.LocalDate;
 
 @WebServlet("/utenti/profiloPubblico")
 public class ProfiloPubblicoServlet extends HttpServlet {
@@ -23,6 +25,7 @@ public class ProfiloPubblicoServlet extends HttpServlet {
         u.setFollower(DBManager.getInstance().getUtenteDao().getFollower(u).size());
         req.setAttribute("utente", u);
         req.setAttribute("bandiera", FlagDirector.getInstance().getFlag(u.getNazionalita()));
+        req.setAttribute("eta", Period.between(u.getDataNascita().toInstant().atZone(java.time.ZoneId.of("UTC+1")).toLocalDate(), LocalDate.now()).getYears());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/profiloPubblico.html");
         dispatcher.forward(req, resp);
     }
