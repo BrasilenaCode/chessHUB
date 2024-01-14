@@ -65,7 +65,7 @@ export class CreaPgnComponent implements OnInit{
 
   colore : string = "bianco";
   risultato : string= "0";
-  io : string = "Manu";
+  io : string = "";
   appartieneTorneo : string = "0";
   avversario : string = "";
   nomeTorneo : string = "";
@@ -84,8 +84,8 @@ export class CreaPgnComponent implements OnInit{
 
   ngOnInit(): void {
     this.utentiService.dammiUtente(this.activatedRoute.snapshot.queryParams['username']).subscribe(utente => {
-      console.log("arrivata")
       this.me = utente;
+      this.io = this.me.cognome + " " + this.me.nome;
     });
 
     this.utentiService.dammiUtente("custom").subscribe(utente => {
