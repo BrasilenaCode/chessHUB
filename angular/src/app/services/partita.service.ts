@@ -64,6 +64,10 @@ export class PartitaService {
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
-    return this.http.post(this.backendUrl+"/partite/elimina",id, header);
+    return this.http.post<boolean>(this.backendUrl+"/partite/elimina",id, header);
+  }
+
+  dammiPartiteFuoriTorneo():Observable<Partita[]>{
+    return this.http.get<Partita[]>(this.backendUrl+"/partite/fuoriTorneo");
   }
 }

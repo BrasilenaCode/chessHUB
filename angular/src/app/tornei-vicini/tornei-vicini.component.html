@@ -12,8 +12,8 @@
             <input type="text" class="form-control-lg" [(ngModel)]="location1"placeholder="es. Via delle vie, Milano">
         </div>
         <div class="row justify-content-center mb-4">
-            <p class="p-0 m-0">Distanza massima: </p>
-            <input type="number" class="form-control-lg" [(ngModel)]="distance">
+            <p class="p-0 m-0">Distanza massima in km: </p>
+            <input title="distanza" type="number" class="form-control-lg" [(ngModel)]="distance">
         </div>
         <div class="row justify-content-center mb-5">
             <button class="btn btn-primary" (click)="searchLocation()">Trova</button>

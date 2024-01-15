@@ -5,6 +5,7 @@ import { Utente } from '../model/utente';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Chess } from 'chess.js';
 import {UtentiService} from "../services/utenti.service";
+import { AuthServiceService } from '../services/auth.service';
 
 declare var Chessboard2: any;
 
@@ -28,6 +29,11 @@ export class PartitaComponent implements OnInit{
   clock? : NodeJS.Timeout;
   errorePGN = "";
 
+  locked : boolean = true;
+  proprietario : boolean = false;
+
+  admin : boolean = false;
+
   custom : boolean = false;
   selezioneInCorso : boolean = true;
 
@@ -43,11 +49,22 @@ export class PartitaComponent implements OnInit{
 
   comments : {[key: string]: string} = {};
 
-  constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute){}
+  constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private authService : AuthServiceService, private utentiService : UtentiService, private router : Router){}
 
   ngOnInit(): void {
+    if(this.authService.isAuthenticated()){
+      this.authService.isAdmin().subscribe(admin => this.admin = admin);
+      this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
+        if(utente.username == this.partita?.giocatore1.username || utente.username == this.partita?.giocatore2.username)
+          if(this.partita?.torneo.id == -1)
+            this.proprietario = true;
+      });
+    }
+    if(this.partita?.torneo.stato != "passato" || this.partita?.torneo.id == -1)
+      this.locked = false;
+
     try{
-      this.board = Chessboard2('board', 'start');
+      this.board = Chessboard2('board1', 'start');
     }
     catch(e){}
     if(this.activatedRoute.snapshot.queryParams['id'] == null){
@@ -60,6 +77,7 @@ export class PartitaComponent implements OnInit{
         this.caricaDati();
       });
     }
+    
   }
 
   caricamentoPartita(pgn : string | undefined): void {
@@ -231,6 +249,30 @@ export class PartitaComponent implements OnInit{
     };
 
     fileReader.readAsText(file);
+  }
 
+  modifica() : void {
+    if(this.partita?.torneo.id != -1)
+      this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
+    else{
+      this.router.navigate(['/generatorePgn'], {queryParams: {id: this.partita?.id}});
+    }
+  }
+
+  elimina() : void {
+    if(this.partita?.torneo.id != -1)
+      alert("Non puoi eliminare la partita di un torneo");
+    else{
+      if(confirm("Sei sicuro di voler eliminare la partita?")){
+        this.partitaService.eliminaPartita(this.partita?.id!).subscribe((response) => {
+          if(response){
+            this.router.navigate(['/']);
+            alert("Partita eliminata con successo");
+          }
+          else
+            alert("Errore nell'eliminazione della partita");
+        });
+      }
+    }
   }
 }

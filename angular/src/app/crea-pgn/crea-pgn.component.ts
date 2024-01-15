@@ -192,6 +192,16 @@ export class CreaPgnComponent implements OnInit{
   }
 
   salvaPartita(): void {
+    if(this.risultato == "0"){
+      alert("Inserisci un risultato per salvare la partita");
+      return;
+    }
+
+    if(this.mosse.length == 0){
+      alert("Non è possibile salvare una partita senza mosse");
+      return;
+    }
+
     this.generaPGN();
     if(this.me == null || this.en == null || this.customTorneo == null)
       return;

@@ -4,6 +4,6 @@
   <div class="card-title text-center">
     <p class="text-center h4 pt-3" id = white>{{white}} vs {{black}}</p>
     <p class="text-center">{{risultato}}</p>
-    <p class="text-center">Visibilità: {{partita?.privacy}}</p>
+    <p *ngIf = "seePrivacy" class="text-center">Visibilità: {{partita?.privacy}}</p>
   </div>
 </div>

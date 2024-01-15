@@ -6,52 +6,57 @@
 <div class="container justify-content-center ">
   <h1 class="text-center fw-bold display-1 text-white margine">Partita</h1>
 
-<div *ngIf = "custom && selezioneInCorso">
-  <label>Importa partita da PGN <input type="file" accept=".txt" (change)="importa($event)"></label>
-  {{errorePGN}}
-</div>
+  <div *ngIf = "custom && selezioneInCorso">
+    <label>Importa partita da PGN <input type="file" accept=".txt" (change)="importa($event)"></label>
+    {{errorePGN}}
+  </div>
 
 
-<div class="text-center justify-content-center mt-5 mb-5"> 
+  <div class="text-center justify-content-center mt-5 mb-5"> 
     <h2 class="d-inline-block mx-2">{{info["White"]}}</h2>
     <h3 class="d-inline-block mx-2"> VS </h3>
     <h2 class="d-inline-block mx-2">{{info["Black"]}}</h2>
-</div>
-
-<div class="text-center justify-content-center mb-5">
-  <p> <b>Evento</b>: {{info["Event"]}} - {{info["Round"]}}</p>
-  <p> <b>Luogo</b>: {{info["Site"]}}</p>
-  <p> <b>Data</b>: {{info["Date"]}}</p>
-</div>
-
-<div id="formulario" class="col-xl-2 mb-4">
-  <div class="row justify-content-center">
-      <div class="col text-center colonne">Turno</div>
-      <div class="col text-center colonne">Bianco</div>
-      <div class="col text-center colonne">Nero</div>
   </div>
-  <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
-      <div *ngFor="let mossa of mosse" class="row justify-content-center">
-          <div class="riga col text-center">{{mossa[0]}}</div>
-          <div (click)="goTo(mossa[0], 0)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 1}">{{mossa[1]}}</div>
-          <div (click)="goTo(mossa[0], 1)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 0}">{{mossa[2]}}</div>
-      </div>
+
+  <div class="text-center justify-content-center mb-5">
+    <p> <b>Evento</b>: {{info["Event"]}} - {{info["Round"]}}</p>
+    <p> <b>Luogo</b>: {{info["Site"]}}</p>
+    <p> <b>Data</b>: {{info["Date"]}}</p>
   </div>
+
+  <div id="formulario" class="col-xl-2 mb-4">
+    <div class="row justify-content-center">
+        <div class="col text-center colonne">Turno</div>
+        <div class="col text-center colonne">Bianco</div>
+        <div class="col text-center colonne">Nero</div>
+    </div>
+    <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
+        <div *ngFor="let mossa of mosse" class="row justify-content-center">
+            <div class="riga col text-center">{{mossa[0]}}</div>
+            <div (click)="goTo(mossa[0], 0)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 1}">{{mossa[1]}}</div>
+            <div (click)="goTo(mossa[0], 1)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 0}">{{mossa[2]}}</div>
+        </div>
+    </div>
+  </div>
+
+
+  <div id = commento>
+    <h3 id = titolo-commento> Commento: </h3>
+    <p> {{commentoAttuale}} </p>
+  </div>
+
+  <div id = board1></div>
+
+  <p> Auto Mode: 
+  <button id="automode" (click)="auto()">OFF</button>
+  </p>
+
+  <button (click)="previousMove()">Mossa Precedente</button>
+  <button (click)="nextMove()">Mossa Successiva</button>
+
 </div>
 
-
-<div id = commento>
-  <h3 id = titolo-commento> Commento: </h3>
-  <p> {{commentoAttuale}} </p>
-</div>
-
-<div id = board></div>
-
-<p> Auto Mode: 
-<button id="automode" (click)="auto()">OFF</button>
-</p>
-
-<button (click)="previousMove()">Mossa Precedente</button>
-<button (click)="nextMove()">Mossa Successiva</button>
-
+<div *ngIf = "!custom && (admin || proprietario) && !locked">
+  <button (click)="modifica()">Modifica</button>
+  <button (click)="elimina()">Elimina</button>
 </div>
