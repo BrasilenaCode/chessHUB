@@ -41,7 +41,7 @@
   position: absolute;
   background-color: white;
   width: 50%;
-  min-width: 80vw;
+  min-width:300px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
