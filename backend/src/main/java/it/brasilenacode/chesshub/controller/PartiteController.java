@@ -50,6 +50,15 @@ public class PartiteController {
         return PartiteModel.dammiPartiteNonGiocate(username);
     }
 
+    @PostMapping("partite/elimina")
+    public boolean eliminaPartita(HttpServletRequest req, @RequestBody Long id) {
+        if(Auth.isAuthenticated(req)) {
+            DBManager.getInstance().getPartitaDao().delete(DBManager.getInstance().getPartitaDao().findByPrimaryKey(id));
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("/partite/patte")
     public List<Partita> dammiPartitePatte(@RequestBody String username) {
         return PartiteModel.dammiPartitepatte(username);

@@ -10,7 +10,6 @@ import {UtenteRegistrazione} from '../model/utente';
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {
-  submitted = false;
   username = new FormControl();
   password = new FormControl();
   repeatedPassword = new FormControl();
@@ -20,6 +19,73 @@ export class SignInComponent {
   dataNascita= new FormControl();
   errorMessage = "";
   recaptcha: boolean = false;
+
+
+  constructor(private auth:AuthServiceService, private router:Router) {
+}
+
+  registrati() {
+    if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
+      if(!this.recaptcha) {
+        this.errorMessage = "Completa il captcha";
+        return;
+      }
+      var utente: UtenteRegistrazione = {
+        username: this.username.value,
+        password: this.password.value,
+        nome: this.nome.value,
+        cognome: this.cognome.value,
+        nazionalita: this.findKeyByValue(this.nazionalita.value),
+        dataNascita: this.dataNascita.value,
+        admin: false,
+        punteggio: 0,
+        punteggioSettimanale: 0
+      }
+      if (this.password.value == this.repeatedPassword.value) {
+          if (new Date(this.dataNascita.value) < new Date()) {
+            this.auth.signIn(utente).subscribe(response => {
+              if (response) {
+                this.auth.setToken(response.token);
+                this.router.navigate(["/"]);
+                this.errorMessage = "";
+              } else {
+                this.errorMessage = "Nome utente già in uso";
+              }
+            });
+          } else {
+            this.errorMessage = "Data di nascita non valida";
+          }
+        } else {
+          this.errorMessage = "Le password non coincidono";
+        }
+      }else{
+        this.errorMessage = "Compila tutti i campi";
+    }
+  }
+
+  findKeyByValue (nazionalita:string){
+    const keys = Object.keys(this.nationalities);
+    for (const key of keys) {
+      if (this.nationalities[key] === nazionalita) {
+        return key;
+      }
+    }
+    return "undefined"
+  }
+
+  clearErrorMessage() {
+    this.errorMessage = "";
+  }
+
+  sonoValide(...variabili: (FormControl | null)[]): boolean {
+    return variabili.every(variabile => variabile?.valid);
+  }
+
+  recaptchaResolved(recaptcha: boolean) {
+    this.recaptcha = recaptcha;
+  }
+
+  protected readonly Object = Object;
   nationalities: { [key: string]: string } = {
     "it": "Italia",
     "ad": "Andorra",
@@ -269,69 +335,8 @@ export class SignInComponent {
     "yt": "Mayotte",
     "za": "Sudafrica",
     "zm": "Zambia",
-    "zw": "Zimbabwe"  
+    "zw": "Zimbabwe"
   };
-
-  constructor(private auth:AuthServiceService, private router:Router) {
 }
 
-  registrati() {
-    this.submitted = true;
-    if(!this.recaptcha)
-      this.errorMessage = "Completa il captcha";
-    else if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
-      var utente: UtenteRegistrazione = {
-        username: this.username.value,
-        password: this.password.value,
-        nome: this.nome.value,
-        cognome: this.cognome.value,
-        nazionalita: this.findKeyByValue(this.nazionalita.value),
-        dataNascita: this.dataNascita.value,
-        admin: false,
-        punteggio: 0,
-        punteggioSettimanale: 0
-      }
-      if (this.password.value == this.repeatedPassword.value) {
-          if (new Date(this.dataNascita.value) < new Date()) {
-            this.auth.signIn(utente).subscribe(response => {
-              if (response) {
-                this.auth.setToken(response.token);
-                this.router.navigate(["/"]);
-                this.errorMessage = "";
-              } else {
-                this.errorMessage = "Nome utente già in uso";
-              }
-            });
-          } else {
-            this.errorMessage = "Data di nascita non valida";
-          }
-        } else {
-          this.errorMessage = "Le password non coincidono";
-        }
-      }
-  }
 
-  findKeyByValue (nazionalita:string){
-    const keys = Object.keys(this.nationalities);
-    for (const key of keys) {
-      if (this.nationalities[key] === nazionalita) {
-        return key;
-      }
-    }
-    return "undefined"
-  }
-
-  clearErrorMessage() {
-    this.errorMessage = "";
-  }
-
-  sonoValide(...variabili: (FormControl | null)[]): boolean {
-    return variabili.every(variabile => variabile?.valid);
-  }
-
-  recaptchaResolved(recaptcha: boolean) {
-    this.recaptcha = recaptcha;
-  }
-
-  protected readonly Object = Object;
-}

@@ -1,48 +1,43 @@
+<figure>
+  <img src="assets/foto/signIn.png" alt="scacchiFoto">
+</figure>
 <div class="center">
-  <form [ngClass]="{ 'modulo-form was-validated': submitted, 'modulo-form': !submitted }" (ngSubmit)="registrati()" (click)="clearErrorMessage()">
+  <form class="modulo-form" (ngSubmit)="registrati()" (click)="clearErrorMessage()">
     <div class="h4">Registrazione</div>
     <div class="mb-3 mt-3">
       <label for="nome" class="form-label">Nome:</label>
       <input class="form-control dim" id="nome" placeholder="Inserisci nome" name="nome" [formControl]="nome" required>
-      <div *ngIf="submitted && !nome.valid" class="invalid-feedback">Riempi questo campo</div>
-    </div>
+          </div>
     <div class="mb-3">
       <label for="cognome" class="form-label">Cognome:</label>
       <input class="form-control dim" id="cognome" placeholder="Inserisci cognome" name="cognome" [formControl]="cognome" required>
-      <div *ngIf="submitted && !cognome.valid" class="invalid-feedback">Riempi questo campo</div>
-    </div>
+  </div>
     <div class="mb-3 mb-3">
       <label for="username" class="form-label">Username:</label>
-      <input type="username" class="form-control dim" id="username" placeholder="Inserisci username" name="username" [formControl]="username" required>
-      <div *ngIf="submitted && !username.valid" class="invalid-feedback">Riempi questo campo</div>
+      <input type="text" class="form-control was-validated dim" id="username" placeholder="Inserisci username" name="username" [formControl]="username" required>
     </div>
     <div class="mb-3">
       <label for="pwd" class="form-label">Password:</label>
       <input type="password" class="form-control dim" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password" required>
-      <div *ngIf="submitted && !password.valid" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <div class="mb-3">
       <label for="rppwd" class="form-label">Ripeti password:</label>
       <input type="password" class="form-control dim" id="rppwd" placeholder="Inserisci password" name="rppswd" [formControl]="repeatedPassword" required>
-      <div *ngIf="submitted && !repeatedPassword.valid" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <div class="mb-3">
       <label class="form-label">Nazionalità:</label>
         <select title="nazionalita" class="form-select dim" id="nazionalita" name="nazionalità" [formControl]="nazionalita" required>
           <option *ngFor="let nazione of Object.values(nationalities)"  [value]="nazione">{{nazione}}</option>
         </select>
-      <div *ngIf="submitted && !nazionalita.valid" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <div class="mb-3 mb-3">
       <label for="dataNascita" class="form-label">Data di nascita:</label>
       <input type="date" class="form-control dim" id="dataNascita" name="dataNascita" [formControl]="dataNascita" required>
-      <div *ngIf="submitted && !dataNascita.valid" class="invalid-feedback">Riempi questo campo</div>
     </div>
     <app-recaptcha (onCaptchaComplete)="recaptchaResolved($event)"></app-recaptcha>
-    <div *ngIf="errorMessage" class="alert alert-danger">
+    <div *ngIf="errorMessage" class="error-message mt-3">
       {{ errorMessage }}
     </div>
-    <br *ngIf="errorMessage">
-    <button type="submit" class="btn btn-primary">Registrati</button>
+    <button type="submit" class="btn btn-primary mt-3">Registrati</button>
   </form>
 </div>

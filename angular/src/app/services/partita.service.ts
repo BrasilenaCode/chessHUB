@@ -59,4 +59,11 @@ export class PartitaService {
   dammiUltimePartiteFuoriTorneo(username: string) {
     return this.http.post<Partita[]>(this.backendUrl+"/partite/ultimeFuoriTorneo",username);
   }
+
+  eliminaPartita(id:number){
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
+    }
+    return this.http.post(this.backendUrl+"/partite/elimina",id, header);
+  }
 }
