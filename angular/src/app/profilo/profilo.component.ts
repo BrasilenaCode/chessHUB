@@ -40,9 +40,6 @@ export class ProfiloComponent implements OnInit{
       this.caricamentoFinito = true;
     });
   }
-  vaiAlleStatistiche(): void {
-    this.router.navigate(['/statistiche']);
-  }
   vaiAllePartite(): void {
     this.router.navigate(['/partite'], {queryParams: {username: this.username!}});
   }

@@ -1,4 +1,8 @@
-  <p class="col">{{richiesta?.username}}</p>
-  <p class="col"><button *ngIf="!nascondi" class="btn btn-success" (click)="accetta()">Accetta</button></p>
-  <p class="col"><button *ngIf="!nascondi" class="btn btn-danger" (click)="rifiuta()">Rifiuta</button></p>
-  <p class="col text-center" *ngIf="nascondi">{{statoRichiesta}}</p>
+ <div class="row justify-content-center margine mx-auto w-50">
+  <p class="col text-center d-flex align-items-center mar" (click)="vaiAlProfilo(richiesta?.username)">{{richiesta?.username}}</p>
+  <p class="col" *ngIf="!nascondi">
+    <button  class="btn btn-success mx-2" (click)="accetta()">Accetta</button>
+    <button class="btn btn-danger" (click)="rifiuta()">Rifiuta</button>
+  </p>
+  <p class="col text-center mx-2" *ngIf="nascondi" [ngClass]="{'error-message':statoRichiesta==='Richiesta rifiutata', 'accept':statoRichiesta==='Richiesta accettata'}">{{statoRichiesta}}</p>
+ </div>

@@ -30,4 +30,8 @@ export class RichiestaComponent {
       this.statoRichiesta = "Richiesta rifiutata";
     });
   }
+
+  vaiAlProfilo(username: string | undefined) {
+    this.router.navigate(['/profiloPubblico'], {queryParams: {username: username}});
+  }
 }

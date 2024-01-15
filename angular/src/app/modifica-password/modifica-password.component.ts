@@ -16,7 +16,7 @@ export class ModificaPasswordComponent {
     submitPassword().then((response: string) => {
       if(response=="ok"){
         this.auth.removeToken();
-        alert("Password modificata con successo");
+        alert("Password modificata con successo, effettua nuovamente il login");
         this.router.navigate(['/login']);
       }else{
         alert(response);
