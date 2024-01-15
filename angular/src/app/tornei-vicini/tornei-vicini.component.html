@@ -3,40 +3,6 @@
     <div class="overlay flex-center rgba-blue-light">
     </div>
 </figure> 
-<div class="container justify-content-center contenitore">
-    <h1 class="text-center fw-bold display-1 text-white margine">Cerca tornei vicini a te</h1>
-
-    <div class="text-center modulo-form mb-5">
-        <div class="row justify-content-center mb-4">
-            <p class="p-0 m-0">Posizione attuale: </p>
-            <input type="text" class="form-control-lg" [(ngModel)]="location1"placeholder="es. Via delle vie, Milano">
-        </div>
-        <div class="row justify-content-center mb-4">
-            <p class="p-0 m-0">Distanza massima in km: </p>
-            <input title="distanza" type="number" class="form-control-lg" [(ngModel)]="distance">
-        </div>
-        <div class="row justify-content-center mb-5">
-            <button class="btn btn-primary" (click)="searchLocation()">Trova</button>
-        </div>
-        <div class="row justify-content-center">
-            <google-map
-                height="40vw"
-                width="60vw"
-                [center]="center"
-                [zoom]="zoom"
-                (mapClick)="moveMap($event)"
-            >
-                <map-marker [position]="display" [options]="options"></map-marker>
-                <map-marker *ngIf="show" [position]="displayDest"></map-marker>
-            </google-map>
-        </div>
-    </div>
-<div class="row justify-content-center text-center">
-    <div *ngFor="let location of listToShow" [ngClass]="{'col': location.value, 'justify-content-center': location.value, 'mb-4': location.value}">
-        <app-torneo-show *ngIf="location.value" [torneo]="tornei.get(location.key)"></app-torneo-show>
-        <button *ngIf="location.value" class="btn btn-primary mb-4" (click)="markLocation(tornei.get(location.key).luogo, false)">Mostra sulla mappa</button>
-    </div>
-</div>
-</div>
+<app-maps [showEntirely]="true"></app-maps>
 
 

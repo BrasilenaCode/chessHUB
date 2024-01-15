@@ -21,17 +21,3 @@
     align-items: center;
     justify-content: center;
 }
-.margine{
-    margin-bottom:27vh;
-}
-.contenitore{
-    margin-top: 27vh;
-}
-.modulo-form {
-    position: relative;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
