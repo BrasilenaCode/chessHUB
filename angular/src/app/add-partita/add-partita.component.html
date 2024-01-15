@@ -1,32 +1,72 @@
-<h1>Caricamento Partita Torneo</h1>
-<p>Torneo: {{partita?.torneo?.nome}} - t: {{partita?.turno}}</p>
-<p>W: {{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}}</p>
-<p>B: {{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}}</p>
+<figure>
+    <img class="titolo" src="assets/foto/profilo.jpg" alt="fotoPlayers"/>
+    <div class="overlay flex-center rgba-blue-light">
+    </div>
+</figure>
 
-<select [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
-    <option value="0"> </option>
-    <option value="1"> 1-0 </option>
-    <option value="2"> 0-1 </option>
-    <option value="3"> 1/2 - 1/2 </option>
-</select>
+<div class="container justify-content-center contenitore mb-4">
+    <h1 class="text-center fw-bold display-1 text-white margine">Caricamento Partita Torneo</h1>
+    <div class="text-center mb-5">
+        <h2>{{partita?.torneo?.nome}} - turno {{partita?.turno}}</h2>
+        <h3 class="p-0 m-0">{{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}}</h3>
+        <p class="p-0 m-0">VS</p>
+        <h3 class="p-0 m-0">{{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}}</h3>
 
-<label>Commenti</label>
-<textarea [(ngModel)]="commentoAttuale" placeholder="Inserisci un commento alla mossa corrente"></textarea>
-<button (click)="salvaCommento()">Salva Commento</button>
-<button (click)="cancellaCommento()">Cancella Commento</button>
-<button (click)="undoMove()">Annulla</button>
+        <label class = "fw-bold">Importa partita da PGN <br>
+            <input type="file" accept=".txt" (change)="importa($event)">
+        </label>
 
-<button (click)="salvaPartita()">Salva Partita</button>
-<label>Importa partita da PGN <input type="file" accept=".txt" (change)="importa($event)"></label>
+        <h3>Risultato</h3>
+        <select class="form-control-sm" [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
+            <option value="0"> </option>
+            <option value="1"> 1-0 </option>
+            <option value="2"> 0-1 </option>
+            <option value="3"> 1/2 - 1/2 </option>
+        </select>
+    </div>
 
-<div id=board></div>
+    <div class="text-center row justify-content-around">
+        <div class="text-center mt-4 mb-4 col-xl-2">
+            <label>Commenti</label>
+            <div class="mb-3">
+                <textarea class="form-control" [(ngModel)]="commentoAttuale" id="commentArea" placeholder="Inserisci un commento alla mossa corrente"></textarea>
+            </div>
+            <div class="row">
+                <button class="btn btn-success col mx-1" (click)="salvaCommento()">Salva Commento</button>
+                <button class="btn btn-danger col" (click)="cancellaCommento()">Cancella Commento</button>
+            </div>
+        </div>
 
-<div id= formulario >
-<table id= formulario >
-    <tr *ngFor="let mossa of mosse">
-    <td id= n-formulario>{{mossa[0]}}</td>
-    <td>{{mossa[1]}}</td>
-    <td>{{mossa[2]}}</td>
-    </tr>
-</table>
+        <div class="col-xl-4 text-center mb-4">
+            <div id=board></div>
+        </div>
+
+        <div id="formulario" class="col-xl-2 mb-4">
+            <div class="row justify-content-center">
+                <div class="col text-center colonne">Turno</div>
+                <div class="col text-center colonne">Bianco</div>
+                <div class="col text-center colonne">Nero</div>
+            </div>
+            <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
+                <div *ngFor="let mossa of mosse" class="row justify-content-center">
+                    <div class="riga col text-center">{{mossa[0]}}</div>
+                    <div class="riga col text-center">{{mossa[1]}}</div>
+                    <div class="riga col text-center">{{mossa[2]}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button class="btn btn-secondary" (click)="undoMove()">Cancella Mossa</button>
+        </div>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" (click)="scaricaPGN()">Scarica PGN</button>
+        </div>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" (click)="salvaPartita()">Salva Partita</button>
+        </div>
+
+    </div>
 </div>

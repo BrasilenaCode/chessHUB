@@ -15,11 +15,9 @@ export class AddPartitaComponent implements OnInit{
     static game: Chess = new Chess();
     static board?: any;
     partita?: Partita;
-    static gameStatus: string = "";
     static gameState: string = "0";
     mosse: string[][] = [];
 
-    gameStatusPublic: string = "";
     commentoAttuale: string = "";
     risultato: string = "";
     positionEnded: boolean = false;
@@ -67,12 +65,9 @@ export class AddPartitaComponent implements OnInit{
       this.fenAttuale = AddPartitaComponent.game.fen();
       if(this.commentoAttuale != AddPartitaComponent.game.getComment())
         this.commentoAttuale = AddPartitaComponent.game.getComment();
-      this.gameStatusPublic = AddPartitaComponent.gameStatus;
       if(AddPartitaComponent.gameState != "0"){
         this.risultato = AddPartitaComponent.gameState;
         this.positionEnded = true;
-      }else{
-        this.positionEnded = false;
       }
       this.updateFormulario();
     }
@@ -135,44 +130,23 @@ export class AddPartitaComponent implements OnInit{
     static isBlackPiece (piece : string) : boolean{ return /^b/.test(piece); }
 
     static updateStatus () : void{
-      let statusHTML = '';
       let esito = '0';
 
-      const whosTurn = AddPartitaComponent.game.turn() === 'w' ? 'White' : 'Black';
-
-      if (!AddPartitaComponent.game.isGameOver()) {
-        if (AddPartitaComponent.game.inCheck()) statusHTML = whosTurn + ' is in check! ';
-        statusHTML = statusHTML + whosTurn + ' to move.';
-      } else if (AddPartitaComponent.game.isCheckmate() && AddPartitaComponent.game.turn() == 'w') {
-        statusHTML = 'Game over: white is in checkmate. Black wins!';
+      if (AddPartitaComponent.game.isCheckmate() && AddPartitaComponent.game.turn() == 'w') {
         esito = '2';
       } else if (AddPartitaComponent.game.isCheckmate() && AddPartitaComponent.game.turn() == 'b') {
-        statusHTML = 'Game over: black is in checkmate. White wins!';
         esito = '1';
-      } else if (AddPartitaComponent.game.isStalemate() && AddPartitaComponent.game.turn() == 'w') {
-        statusHTML = 'Game is drawn. White is stalemated.';
-        esito = '3';
-      } else if (AddPartitaComponent.game.isStalemate() && AddPartitaComponent.game.turn() == 'b') {
-        statusHTML = 'Game is drawn. Black is stalemated.';
-        esito = '3';
-      } else if (AddPartitaComponent.game.isThreefoldRepetition()) {
-        statusHTML = 'Game is drawn by threefold repetition rule.';
-        esito = '3';
-      } else if (AddPartitaComponent.game.isInsufficientMaterial()) {
-        statusHTML = 'Game is drawn by insufficient material.';
-        esito = '3';
       } else if (AddPartitaComponent.game.isDraw()) {
-        statusHTML = 'Game is drawn by fifty-move rule.';
         esito = '3';
       }
       AddPartitaComponent.gameState = esito;
-      AddPartitaComponent.gameStatus = statusHTML;
     }
 
     undoMove(): void {
       AddPartitaComponent.game.undo();
       AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
       this.risultato = "0";
+      this.positionEnded = false;
       AddPartitaComponent.updateStatus();
       this.commentoAttuale = AddPartitaComponent.game.getComment();
     }
@@ -190,13 +164,13 @@ export class AddPartitaComponent implements OnInit{
       AddPartitaComponent.updateStatus();
     }
 
-    generaHeaderPGN(): void {
+    generaPGN(): void {
       if(this.partita?.torneo?.nome != null && this.partita?.torneo?.nome != "")
         AddPartitaComponent.game.header('Event', this.partita.torneo.nome + "");
       if(this.partita?.torneo?.luogo != null && this.partita?.torneo?.luogo != "")
         AddPartitaComponent.game.header('Site', this.partita.torneo.luogo + "");
       if(this.partita?.torneo?.dataInizio != null && this.partita?.torneo?.dataInizio + "" != "")
-        AddPartitaComponent.game.header('Date', this.partita.torneo.dataInizio.getDate + "");
+        AddPartitaComponent.game.header('Date', this.partita.torneo.dataInizio.getDate().toString() + "");
       if(this.partita?.turno != null && this.partita?.turno + "" != "")
         AddPartitaComponent.game.header('Round', this.partita?.turno + "");
       let result = "";
@@ -206,9 +180,6 @@ export class AddPartitaComponent implements OnInit{
         result = "0-1";
       else if(this.risultato == "3")
         result = "1/2-1/2";
-      else{
-        result = "NC";
-      }
       AddPartitaComponent.game.header('Result', result);
       if(this.partita?.giocatore1?.cognome != null && this.partita?.giocatore1?.cognome != "" && this.partita?.giocatore1?.nome != null && this.partita?.giocatore1?.nome != "")
         AddPartitaComponent.game.header('White', this.partita?.giocatore1?.cognome + "" + this.partita?.giocatore1.nome);
@@ -217,12 +188,16 @@ export class AddPartitaComponent implements OnInit{
       }
 
     salvaPartita(): void {
-      this.generaHeaderPGN();
+      if(this.risultato == "0"){
+        alert("Inserisci un risultato per salvare la partita");
+        return;
+      }
+
+      this.generaPGN();
       AddPartitaComponent.updateStatus();
       if(this.partita == null)
         return;
-      if(AddPartitaComponent.game.fen() != "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
-        this.partita.pgn = AddPartitaComponent.game.pgn();
+      this.partita.pgn = AddPartitaComponent.game.pgn();
       this.partita.esito = this.risultato;
       this.partitaService.salvaPartita(this.partita).subscribe(result=> {
         if(this.partita?.torneo?.id != null)
@@ -234,22 +209,38 @@ export class AddPartitaComponent implements OnInit{
     }
 
     importa(event: any) : void {
-      const File = event.target.files[0];
+      let File = event.target.files[0];
       if(File)
         this.readFile(File);
     }
 
     readFile(file: File) {
-      const fileReader = new FileReader();
+      let fileReader = new FileReader();
 
       fileReader.onload = (e) => {
-        const fileContent = fileReader.result as string;
+        let fileContent = fileReader.result as string;
         AddPartitaComponent.game.loadPgn(fileContent);
         AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
         AddPartitaComponent.updateStatus();
       };
 
       fileReader.readAsText(file);
+    }
+
+    scaricaPGN(): void {
+      this.generaPGN();
+      let textContent = AddPartitaComponent.game.pgn();
+      let blob = new Blob([textContent], { type: 'text/plain' });
+      let url = window.URL.createObjectURL(blob);
+  
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = "partita.txt";
+      document.body.appendChild(a);
+      a.click();
+  
+
+      window.URL.revokeObjectURL(url);
     }
 
 
