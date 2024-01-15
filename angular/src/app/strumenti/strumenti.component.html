@@ -1,0 +1,11 @@
+<h1> Partite </h1>
+
+<button *ngIf="!autenticato()" (click) = "importaPartita()">Genera PGN</button>
+<button *ngIf="autenticato()" (click) = "salvaPartita()">Importa Partita</button>
+<button (click) = "visualizzaPartitaDaPgn()">Visualizza Partita da PGN</button>
+
+
+<div>
+    <h2>Ultime Partite Caricate</h2>
+    <app-partita-show *ngFor="let partita of partite" [partita]="partita" [seePrivacy]=false></app-partita-show>
+</div>

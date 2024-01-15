@@ -45,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { TorneiViciniComponent } from './tornei-vicini/tornei-vicini.component';
+import { StrumentiComponent } from './strumenti/strumenti.component';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import { TorneiViciniComponent } from './tornei-vicini/tornei-vicini.component';
     Page404Component,
     RecaptchaComponent,
     TorneiViciniComponent,
+    StrumentiComponent,
   ],
     imports: [
         HttpClientModule,

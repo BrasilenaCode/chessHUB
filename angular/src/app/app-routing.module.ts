@@ -25,6 +25,7 @@ import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component
 import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 import { TorneiViciniComponent } from './tornei-vicini/tornei-vicini.component';
 import { Page404Component } from './page404/page404.component';
+import { StrumentiComponent } from './strumenti/strumenti.component';
 
 const routes: Routes = [
   {"path": "", component: HomeComponent},
@@ -51,6 +52,7 @@ const routes: Routes = [
   {"path": "amici", component: AmiciComponent},
   {"path": "ricerca", component: TabDiRicercaComponent},
   {"path": "generatorePgn", component: CreaPgnComponent},
+  {"path": "strumenti", component: StrumentiComponent},
   {"path": "**", component: Page404Component}
 ];
 

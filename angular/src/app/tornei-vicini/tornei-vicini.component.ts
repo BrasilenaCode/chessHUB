@@ -15,10 +15,7 @@ throw new Error('Method not implemented.');
 }
   constructor(private http: HttpClient, private torneoService: TorneoService) {}
 
-  options = {
-    icon: '../../assets/foto/map-pin-solid.svg',
-    scaledSize: new google.maps.Size(40, 40)
-  }
+  options = {}
 
 
 location1: string = '';
@@ -31,6 +28,12 @@ listToShow: { key: string, value: boolean }[] = [];
 
 
 ngOnInit(): void {
+  try{
+    this.options = {
+      icon: '../../assets/foto/map-pin-solid.svg',
+      scaledSize: new google.maps.Size(40, 40),
+    };
+  }catch(e){}
   this.torneoService.dammiTornei().subscribe(tornei => {
     tornei.forEach(torneo => {
       if (torneo.stato === 'prossimo') {

@@ -1,30 +1,3 @@
-/*.card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.card > p, .card > label, .card > select, .card > button {
-  margin: 0 5px;
-  white-space: nowrap;
-}
-
-.card > select, .card > label {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.card > p#white, .card > p#black {
-  font-weight: bold;
-  flex-grow: 1;
-}
-
-.card > button {
-  flex-grow: 0;
-}
-*/
-
 .card {
   position: relative;
   margin: 2vw;

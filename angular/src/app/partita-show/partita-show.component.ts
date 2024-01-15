@@ -5,6 +5,7 @@ import {UtentiService} from "../services/utenti.service";
 import {AuthServiceService} from "../services/auth.service";
 import { NgModel } from '@angular/forms';
 import { PartitaService } from '../services/partita.service';
+import { Chess } from 'chess.js';
 
 @Component({
   selector: 'app-partita-show',
@@ -13,6 +14,7 @@ import { PartitaService } from '../services/partita.service';
 })
 export class PartitaShowComponent implements OnInit{
   @Input() partita?: Partita;
+  @Input() seePrivacy = true;
   privacy?:boolean;
   admin?:boolean;
   white : string = "";
@@ -26,16 +28,32 @@ export class PartitaShowComponent implements OnInit{
     this.setNomePartita();
     this.setPrivacy();
   }
+
   setNomePartita(): void {
+    let pgn = new Chess();
+    let pgnLoaded = true;
+    try{
+      pgn.loadPgn(this.partita!.pgn);
+    }catch(e){
+      pgnLoaded = false;
+    } 
     let giocatore1: string | undefined = this.partita?.giocatore1?.username;
-    if (giocatore1 == undefined)
-      this.white = "Giocatore1";
+    if (giocatore1 == undefined || giocatore1 == "custom"){
+      if(pgnLoaded && pgn.header()["White"] != undefined)
+        this.white = pgn.header()["White"];
+      else
+        this.white = "Giocatore1";
+    }
     else{
       this.white = giocatore1;
     }
     let giocatore2: string | undefined = this.partita?.giocatore2?.username;
-    if (giocatore2 == undefined)
-      this.black = "Giocatore2";
+    if (giocatore2 == undefined || giocatore2 == "custom"){
+      if(pgnLoaded && pgn.header()["Black"] != undefined)
+        this.black = pgn.header()["Black"];
+      else
+        this.black = "Giocatore2";
+    }
     else{
       this.black = giocatore2;
     }
@@ -63,8 +81,12 @@ export class PartitaShowComponent implements OnInit{
   }
 
   visualizzaPartita(): void {
-    if(this.privacy)
+    if(this.admin && this.partita?.esito == "0")
+      this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
+    else if(this.privacy || this.admin)
       this.router.navigate(['/partita'], {queryParams: {id: this.partita?.id}});
+    else
+      alert("Non hai i permessi per visualizzare questa partita");
   }
 
   private setPrivacy() {
