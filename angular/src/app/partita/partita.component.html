@@ -56,7 +56,8 @@
 
 </div>
 
-<div *ngIf = "!custom && (admin || proprietario) && !locked">
-  <button (click)="modifica()">Modifica</button>
-  <button (click)="elimina()">Elimina</button>
+<div>
+  <button *ngIf= "!custom && admin && !locked"(click)="modifica()">Modifica</button>
+  <button *ngIf= "!custom && (admin || proprietario) && !locked" (click)="elimina()">Elimina</button>
 </div>
+  

@@ -23,6 +23,7 @@ export class AddPartitaComponent implements OnInit{
     commentoAttuale: string = "";
     risultato: string = "";
     positionEnded: boolean = false;
+    fenAttuale : string = "";
 
     config = {
       draggable: true,
@@ -53,6 +54,7 @@ export class AddPartitaComponent implements OnInit{
       }
       try{
       AddPartitaComponent.game.loadPgn(this.partita.pgn);
+      AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
       }
       catch(e){
         return;
@@ -60,7 +62,10 @@ export class AddPartitaComponent implements OnInit{
     }
 
     updateStats(): void {
-      if(this.gameStatusPublic != AddPartitaComponent.gameStatus)
+      if(this.fenAttuale == AddPartitaComponent.game.fen())
+        return;
+      this.fenAttuale = AddPartitaComponent.game.fen();
+      if(this.commentoAttuale != AddPartitaComponent.game.getComment())
         this.commentoAttuale = AddPartitaComponent.game.getComment();
       this.gameStatusPublic = AddPartitaComponent.gameStatus;
       if(AddPartitaComponent.gameState != "0"){
@@ -69,7 +74,10 @@ export class AddPartitaComponent implements OnInit{
       }else{
         this.positionEnded = false;
       }
-
+      this.updateFormulario();
+    }
+  
+    updateFormulario(): void {
       this.mosse = [];
       let cont : number = 0;
       AddPartitaComponent.game.history({verbose : true}).forEach(mossa => {
@@ -164,6 +172,7 @@ export class AddPartitaComponent implements OnInit{
     undoMove(): void {
       AddPartitaComponent.game.undo();
       AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
+      this.risultato = "0";
       AddPartitaComponent.updateStatus();
       this.commentoAttuale = AddPartitaComponent.game.getComment();
     }

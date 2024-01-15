@@ -2,7 +2,6 @@
 <p>Torneo: {{partita?.torneo?.nome}} - t: {{partita?.turno}}</p>
 <p>W: {{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}}</p>
 <p>B: {{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}}</p>
-<p>{{gameStatusPublic}}</p>
 
 <select [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
     <option value="0"> </option>

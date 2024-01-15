@@ -52,17 +52,6 @@ export class PartitaComponent implements OnInit{
   constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private authService : AuthServiceService, private utentiService : UtentiService, private router : Router){}
 
   ngOnInit(): void {
-    if(this.authService.isAuthenticated()){
-      this.authService.isAdmin().subscribe(admin => this.admin = admin);
-      this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
-        if(utente.username == this.partita?.giocatore1.username || utente.username == this.partita?.giocatore2.username)
-          if(this.partita?.torneo.id == -1)
-            this.proprietario = true;
-      });
-    }
-    if(this.partita?.torneo.stato != "passato" || this.partita?.torneo.id == -1)
-      this.locked = false;
-
     try{
       this.board = Chessboard2('board1', 'start');
     }
@@ -72,12 +61,27 @@ export class PartitaComponent implements OnInit{
     }else{
       this.custom = false;
       this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => {
+        if(partita == null){
+          this.router.navigate(['/page404']);
+          return;
+        }
         this.partita = partita;
+        if(this.authService.isAuthenticated()){
+          this.authService.isAdmin().subscribe(admin => this.admin = admin);
+          this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
+            if(utente.username == this.partita?.giocatore1.username || utente.username == this.partita?.giocatore2.username)
+              if(this.partita?.torneo.id == -1)
+                this.proprietario = true;
+          });
+        }
+        if(this.partita?.torneo.stato != "passato" || this.partita?.torneo.id == -1)
+          this.locked = false;
+        if(this.partita.id == -1)
+          this.locked = true;
         this.caricamentoPartita(this.partita?.pgn);
         this.caricaDati();
       });
     }
-    
   }
 
   caricamentoPartita(pgn : string | undefined): void {
@@ -252,11 +256,7 @@ export class PartitaComponent implements OnInit{
   }
 
   modifica() : void {
-    if(this.partita?.torneo.id != -1)
-      this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
-    else{
-      this.router.navigate(['/generatorePgn'], {queryParams: {id: this.partita?.id}});
-    }
+    this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
   }
 
   elimina() : void {
@@ -266,8 +266,8 @@ export class PartitaComponent implements OnInit{
       if(confirm("Sei sicuro di voler eliminare la partita?")){
         this.partitaService.eliminaPartita(this.partita?.id!).subscribe((response) => {
           if(response){
-            this.router.navigate(['/']);
             alert("Partita eliminata con successo");
+            this.router.navigate(['/']);
           }
           else
             alert("Errore nell'eliminazione della partita");
