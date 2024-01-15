@@ -1,10 +1,9 @@
 #board1 {
-    width: 400px;
-    height: 400px;
-    margin: auto;
-    position: center;
+  width: 400px;
+  height: 400px;
+  border: 1px solid #ccc;
+  margin: auto;
 }
-
 td {
     width: 100px;
     border: 1px solid black;
@@ -14,19 +13,8 @@ td {
     cursor: default;
     background-color: #f5f5f5;
 }
-
-div #formulario {
-    overflow: auto;
-    position: absolute;
-    right: 0;
-    border: 1px solid black;
-}
-
-div #commento {
-    overflow: auto;
-    position: absolute;
-    left: center;
-    border: 1px solid black;
+.riga {
+  background-color: #ccc;
 }
 
 img.titolo{
@@ -53,14 +41,21 @@ img.titolo{
     justify-content: center;
 }
 .container{
-    margin-top: 60vh;
-    width: 70%;
+    margin-top: 27vh
 }
 
+.margineSinistra{
+    margin-left: 2vw;
+}
 .clickCursor {
     cursor: pointer;
 }
 
 .selected {
-    background-color: #ff0000;
+    background-color: #666666;
+}
+
+
+.margine{
+  margin-bottom:30vh;
 }

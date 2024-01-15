@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UtentiService } from '../services/utenti.service';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
+import {faAdd} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-strumenti',
@@ -40,9 +41,5 @@ export class StrumentiComponent implements OnInit {
   }
 
 
-
-
-
-
-
+    protected readonly faAdd = faAdd;
 }

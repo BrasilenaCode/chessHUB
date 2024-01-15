@@ -1,11 +1,19 @@
-<h1> Partite </h1>
-
-<button *ngIf="!autenticato()" (click) = "importaPartita()">Genera PGN</button>
-<button *ngIf="autenticato()" (click) = "salvaPartita()">Importa Partita</button>
-<button (click) = "visualizzaPartitaDaPgn()">Visualizza Partita da PGN</button>
-
-
+<figure>
+  <img src="assets/foto/partita.png" alt="fotoPlayers"/>
+  <div class="overlay flex-center rgba-blue-light">
+  </div>
+</figure>
 <div>
-    <h2>Ultime Partite Caricate</h2>
-    <app-partita-show *ngFor="let partita of partite" [partita]="partita" [seePrivacy]=false></app-partita-show>
+  <h1 class="titolo text-center fw-bold display-1 text-white">Partite</h1>
+  <div class="container text-center">
+    <button *ngIf="!autenticato()" class="btn btn-primary" (click) = "importaPartita()">Genera PGN</button>
+    <button *ngIf="autenticato()" class="btn btn-primary" (click) = "salvaPartita()">Importa Partita</button>
+    <button (click) = "visualizzaPartitaDaPgn()" class="btn btn-primary margine">Visualizza Partita da PGN</button>
+  </div>
+  <div>
+      <h2 class="text-center mt-5">Ultime Partite Caricate</h2>
+      <div class="row justify-content-center riga">
+        <app-partita-show class="col justify-content-center d-flex" *ngFor="let partita of partite" [partita]="partita" [seePrivacy]=false></app-partita-show>
+      </div>
+    </div>
 </div>

@@ -2,15 +2,14 @@
     <img class="titolo" src="assets/foto/profilo.jpg" alt="fotoPlayers"/>
     <div class="overlay flex-center rgba-blue-light">
     </div>
-</figure> 
+</figure>
 <div class="container justify-content-center contenitore mb-4">
     <h1 class="text-center fw-bold display-1 text-white margine">Generatore PGN</h1>
-    
     <div class="text-center mb-5">
         <h2> AVVERSARI </h2>
         <div>
-            <div *ngIf = "!guest" class="mb-4"> 
-                <label for="colore" class="mx-3">Il tuo colore è: </label> 
+            <div *ngIf = "!guest" class="mb-4">
+                <label class="mx-3">Il tuo colore è: </label>
                 <input title="colore" type="radio" [(ngModel)]="colore" name="colore" value="bianco" class="form-check-input border-primary">Bianco
                 <input title="colore" type="radio" [(ngModel)]="colore" name="colore" value="nero" class="form-check-input border-primary">Nero
             </div>
@@ -24,10 +23,10 @@
                         <p class="p-0 m-0"><label class="form-label">NERO:  </label></p>
                         <input title="nomeNero" class="form-control-sm" [(ngModel)] = "avversario">
                     </div>
-                     
+
                 </div>
                 <div *ngIf = "colore == 'nero' && !guest" class="row">
-                    
+
                     <div class="mb-4">
                         <p class="p-0 m-0"><label class="form-label ">BIANCO: </label></p>
                         <input title="nomeBianco" class="form-control-sm" [(ngModel)] = "avversario">
@@ -36,7 +35,7 @@
                         <p class="p-0 m-0"><label class="form-label">NERO:  </label></p>
                         <input title="nomeNero" class="form-control-sm" [(ngModel)] = "io" [disabled] = true>
                     </div>
-                     
+
                 </div>
                 <div *ngIf = "guest" class="row justify-content-center">
                     <div class="mb-4">
@@ -54,7 +53,7 @@
     <div class="text-center mb-4">
         <h2>TORNEO</h2>
         <div>
-            <label for="torneo" class="mx-3">Partiene appartenente ad un torneo?</label>   
+            <label class="mx-3">Partita appartenente ad un torneo?</label>
             <input title="torneo" type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="1">SI
             <input title="torneo" type="radio" [(ngModel)]="appartieneTorneo" name="torneo" value="0">NO
         </div>
@@ -75,12 +74,12 @@
                 <p class="p-0 m-0">TURNO: </p>
                 <input class="form-control-sm" type = "number" [(ngModel)]="turno" id="numeroTurno" title="Turno">
             </div>
-            
+
         </div>
     </div>
     <div class="text-center mb-4">
         <h2> PARTITA </h2>
-        
+
         <p>RISULTATO
         <select class="form-control-sm" [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
             <option value="0"> </option>
@@ -90,8 +89,7 @@
         </select>
         </p>
     </div>
-    
-    <div class="text-center row justify-content-around" [ngClass]="">
+    <div class="text-center row justify-content-around">
         <div class="text-center mt-4 mb-4 col-xl-2">
             <label for="commentArea">Commenti</label>
             <div class="mb-3">
@@ -102,7 +100,7 @@
                 <button class="btn btn-danger col" (click)="cancellaCommento()">Cancella Commento</button>
             </div>
         </div>
-        
+
         <div class="col-xl-4 text-center mb-4">
             <div id=board></div>
         </div>
@@ -125,7 +123,7 @@
     <div class="text-center mt-4">
         <button class="btn btn-secondary" (click)="undoMove()">Cancella Mossa</button>
     </div>
-     
+
     <div class="text-center mt-3">
         <button class="btn btn-primary" (click)="scaricaPGN()">Scarica PGN</button>
     </div>
@@ -133,5 +131,5 @@
     <div *ngIf="!guest" class="text-center mt-3">
         <button class="btn btn-primary" (click)="salvaPartita()">Salva Partita</button>
     </div>
-    
+
 </div>

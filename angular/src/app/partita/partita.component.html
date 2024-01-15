@@ -2,58 +2,57 @@
   <img class="titolo" src="assets/foto/profilo.jpg" alt="fotoPlayers"/>
   <div class="overlay flex-center rgba-blue-light">
   </div>
-</figure>  
-<div class="container justify-content-center ">
+</figure>
+<div class="container justify-content-center">
   <h1 class="text-center fw-bold display-1 text-white margine">Partita</h1>
-
-  <div *ngIf = "custom && selezioneInCorso">
-    <label>Importa partita da PGN <input type="file" accept=".txt" (change)="importa($event)"></label>
+  <div *ngIf = "custom && selezioneInCorso" class="justify-content-center">
+    <div class="text-center">Importa partita da PGN</div>
+    <div class="text-center"><input type="file" accept=".txt" (change)="importa($event)"></div>
     {{errorePGN}}
   </div>
-
-
-  <div class="text-center justify-content-center mt-5 mb-5"> 
+  <div class="text-center justify-content-center mt-5 mb-3">
     <h2 class="d-inline-block mx-2">{{info["White"]}}</h2>
     <h3 class="d-inline-block mx-2"> VS </h3>
     <h2 class="d-inline-block mx-2">{{info["Black"]}}</h2>
   </div>
-
-  <div class="text-center justify-content-center mb-5">
+  <div class="text-center justify-content-center mb-3">
     <p> <b>Evento</b>: {{info["Event"]}} - {{info["Round"]}}</p>
     <p> <b>Luogo</b>: {{info["Site"]}}</p>
     <p> <b>Data</b>: {{info["Date"]}}</p>
   </div>
 
-  <div id="formulario" class="col-xl-2 mb-4">
-    <div class="row justify-content-center">
+  <div class="text-center row justify-content-around">
+    <div class="text-center mt-4 mb-4 col-xl-2">
+      <label>Commento:</label>
+      <div class="mb-3">
+        <p>{{commentoAttuale}}</p>
+      </div>
+    </div>
+    <div class="col-xl-4 text-center mb-4">
+      <div id=board1></div>
+    </div>
+    <div id="formulario" class="col-xl-2 mb-4">
+      <div class="row justify-content-center">
         <div class="col text-center colonne">Turno</div>
         <div class="col text-center colonne">Bianco</div>
         <div class="col text-center colonne">Nero</div>
-    </div>
-    <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
+      </div>
+      <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
         <div *ngFor="let mossa of mosse" class="row justify-content-center">
-            <div class="riga col text-center">{{mossa[0]}}</div>
-            <div (click)="goTo(mossa[0], 0)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 1}">{{mossa[1]}}</div>
-            <div (click)="goTo(mossa[0], 1)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 0}">{{mossa[2]}}</div>
+          <div class="riga col text-center">{{mossa[0]}}</div>
+          <div (click)="goTo(mossa[0], 0)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 1}">{{mossa[1]}}</div>
+          <div (click)="goTo(mossa[0], 1)" class="riga col text-center clickCursor" [ngClass] = "{'selected': mossa[0] == n.toString() && nAttuale%2 == 0}">{{mossa[2]}}</div>
         </div>
+      </div>
     </div>
   </div>
-
-
-  <div id = commento>
-    <h3 id = titolo-commento> Commento: </h3>
-    <p> {{commentoAttuale}} </p>
-  </div>
-
-  <div id = board1></div>
-
-  <p> Auto Mode: 
-  <button id="automode" (click)="auto()">OFF</button>
+  <p class="text-center"> Auto Mode:
+  <button id="automode" [ngClass]="{'btn-success': !automatic, 'btn-danger':automatic}" class="btn btn-primary" (click)="auto()">ON</button>
   </p>
-
-  <button (click)="previousMove()">Mossa Precedente</button>
-  <button (click)="nextMove()">Mossa Successiva</button>
-
+  <div class="text-center mb-5 mt-2">
+    <button (click)="previousMove()" class="btn btn-primary text-center" >Mossa Precedente</button>
+    <button (click)="nextMove()" class="btn btn-primary text-center margineSinistra" >Mossa Successiva</button>
+  </div>
 </div>
 
 <div *ngIf = "!custom && (admin || proprietario) && !locked">

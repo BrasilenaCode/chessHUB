@@ -102,7 +102,7 @@ public class PartiteController {
 
     @GetMapping("/partite/fuoriTorneo")
     public List<Partita> fuoriTorneo(HttpServletRequest req) {
-        List<Partita> partite = DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita1 -> partita1.getTorneo().getId() == -1).toList();
+        List<Partita> partite = DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita1 -> partita1.getTorneo().getId() == -1 && partita1.getId()!=-1).toList();
         if(partite.size() < 10)
             return partite;
         else

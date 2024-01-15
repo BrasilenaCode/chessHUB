@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
-import { Utente } from '../model/utente';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Chess } from 'chess.js';
 import {UtentiService} from "../services/utenti.service";
@@ -77,7 +76,7 @@ export class PartitaComponent implements OnInit{
         this.caricaDati();
       });
     }
-    
+
   }
 
   caricamentoPartita(pgn : string | undefined): void {
@@ -143,11 +142,11 @@ export class PartitaComponent implements OnInit{
   auto() : void {
     this.automatic = !this.automatic;
     if (this.automatic) {
-      document.getElementById("automode")!.innerHTML = "ON";
+      document.getElementById("automode")!.innerHTML = "OFF";
       this.clock = setInterval(() => this.nextMove(), 1000);
     }
     else{
-      document.getElementById("automode")!.innerHTML = "OFF";
+      document.getElementById("automode")!.innerHTML = "ON";
       clearInterval(this.clock);
     }
   }
@@ -183,13 +182,13 @@ export class PartitaComponent implements OnInit{
       this.info["White"] = this.partita.giocatore1.nome + " " + this.partita.giocatore1.cognome;
     else if(this.game.header()["White"] != undefined)
       this.info["White"] = this.game.header()["White"];
-      
+
 
     if(this.partita.giocatore2.username != "custom")
       this.info["Black"] = this.partita.giocatore2.nome + " " + this.partita.giocatore2.cognome;
     else if(this.game.header()["Black"] != undefined)
       this.info["Black"] = this.game.header()["Black"];
-      
+
 
     if(this.partita.turno != undefined)
       this.info["Round"] = this.partita.turno + " ";
@@ -238,7 +237,7 @@ export class PartitaComponent implements OnInit{
 
   readFile(file: File) {
     const fileReader = new FileReader();
-  
+
     fileReader.onload = (e) => {
       const fileContent = fileReader.result as string;
       this.caricamentoPartita(fileContent);
