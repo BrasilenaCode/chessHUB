@@ -5,7 +5,7 @@
 </figure>
 <div class="container justify-content-center">
   <h1 class="text-center fw-bold display-1 text-white margine">Partita</h1>
-  <div *ngIf = "custom && selezioneInCorso" class="justify-content-center">
+  <div *ngIf = "custom && selezioneInCorso" class="justify-content-center text-center">
     <div class="text-center">Importa partita da PGN</div>
     <div class="text-center"><input type="file" accept=".txt" (change)="importa($event)"></div>
     {{errorePGN}}
@@ -14,6 +14,7 @@
     <h2 class="d-inline-block mx-2">{{info["White"]}}</h2>
     <h3 class="d-inline-block mx-2"> VS </h3>
     <h2 class="d-inline-block mx-2">{{info["Black"]}}</h2>
+    <h4 class="text-center">{{info["Result"]}}</h4>
   </div>
   <div class="text-center justify-content-center mb-3">
     <p> <b>Evento</b>: {{info["Event"]}} - {{info["Round"]}}</p>
@@ -33,9 +34,9 @@
     </div>
     <div id="formulario" class="col-xl-2 mb-4">
       <div class="row justify-content-center">
-        <div class="col text-center colonne">Turno</div>
-        <div class="col text-center colonne">Bianco</div>
-        <div class="col text-center colonne">Nero</div>
+        <div class="col text-center colonne fw-bold">Turno</div>
+        <div class="col text-center colonne fw-bold">Bianco</div>
+        <div class="col text-center colonne fw-bold pad">Nero</div>
       </div>
       <div style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
         <div *ngFor="let mossa of mosse" class="row justify-content-center">
@@ -55,11 +56,7 @@
   </div>
 </div>
 
-<div *ngIf = "!custom && (admin || proprietario) && !locked">
-  <button (click)="modifica()">Modifica</button>
-  <button (click)="elimina()">Elimina</button>
-</div>
-<div>
-  <button *ngIf= "!custom && admin && !locked"(click)="modifica()">Modifica</button>
-  <button *ngIf= "!custom && (admin || proprietario) && !locked" (click)="elimina()">Elimina</button>
+<div class="row zero">
+  <button *ngIf= "!custom && admin && !locked" class="btn btn-primary w-auto destra mb-2" (click)="modifica()">Modifica</button>
+  <button *ngIf= "!custom && (admin || proprietario) && !locked" class="btn btn-danger w-auto mar3 mb-2" (click)="elimina()">Elimina</button>
 </div>

@@ -55,7 +55,29 @@ img.titolo{
     background-color: #666666;
 }
 
+.pad{
+  padding-right: 2vw;
+}
 
+.destra{
+  margin-right:0;
+  margin-left: auto;
+}
+
+.zero{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mar3{
+  margin-right: 0.5vw;
+  margin-left: 0.5vw;
+}
 .margine{
   margin-bottom:30vh;
+}
+@media only screen and (max-width: 1430px) {
+  .colonne{
+    font-size: 0.9rem !important;
+  }
 }

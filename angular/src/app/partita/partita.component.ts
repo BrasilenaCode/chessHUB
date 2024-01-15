@@ -42,7 +42,7 @@ export class PartitaComponent implements OnInit{
     "Site": "Sconosciuto",
     "Date": "Non Presente",
     "Round": "0",
-    "Result": "NC",
+    "Result": "",
     "Event": "Personalizzato"
   };
 
