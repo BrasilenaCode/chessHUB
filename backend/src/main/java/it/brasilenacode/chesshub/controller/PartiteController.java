@@ -1,6 +1,7 @@
 package it.brasilenacode.chesshub.controller;
 
 import it.brasilenacode.chesshub.persistenza.DBManager;
+import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.utilities.PartiteModel;
@@ -77,6 +78,9 @@ public class PartiteController {
     public Long addPartita(HttpServletRequest req, @RequestBody Partita partita) {
         if(Auth.isAuthenticated(req)){
             DBManager.getInstance().getPartitaDao().saveOrUpdate(partita);
+            if(partita.getTorneo() != null && partita.getTorneo().getId() != -1){
+                aggiornaPunteggi(partita);
+            }
             return partita.getId();
         }
         return null;
@@ -108,5 +112,21 @@ public class PartiteController {
         else
             return partite.subList(0,9);
     }
-
+    private void aggiornaPunteggi(Partita partita){
+        TorneoDao torneoDao = DBManager.getInstance().getTorneoDao();
+        int punteggio1 = 0;
+        int punteggio2 = 0;
+        if(partita.getEsito().equals("1")){
+            punteggio1 = 3;
+            punteggio2 = 0;
+        } else if(partita.getEsito().equals("2")){
+            punteggio1 = 0;
+            punteggio2 = 3;
+        } else if (partita.getEsito().equals("3")){
+            punteggio1 = 1;
+            punteggio2 = 1;
+        }
+        torneoDao.updatePunteggio(partita.getTorneo(), partita.getGiocatore1(), punteggio1);
+        torneoDao.updatePunteggio(partita.getTorneo(), partita.getGiocatore2(), punteggio2);
+    }
 }

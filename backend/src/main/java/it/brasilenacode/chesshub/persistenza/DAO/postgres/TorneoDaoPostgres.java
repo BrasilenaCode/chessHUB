@@ -210,4 +210,16 @@ public class TorneoDaoPostgres implements TorneoDao {
         }
         return 0;
     }
+    public void updatePunteggio(Torneo torneo, Utente utente, int punteggio){
+        String query = "UPDATE iscrizione set punteggio = ? where torneo = ? and utente = ?";
+        try{
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setInt(1, punteggio);
+            st.setLong(2, torneo.getId());
+            st.setString(3, utente.getUsername());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

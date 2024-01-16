@@ -15,4 +15,5 @@ public interface TorneoDao {
     void removePartecipante(Torneo torneo, Utente utente);
     void addPartecipante(Torneo torneo, Utente utente);
     void aggiornaIscrizione(Utente user);
+    void updatePunteggio(Torneo torneo, Utente utente, int punteggio);
 }
