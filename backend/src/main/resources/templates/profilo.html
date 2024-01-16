@@ -1,24 +1,25 @@
-<h1 th:text="'Profilo Personale'" class="text-center display-1 text-white mb-2 fw-bold" style="font-size:4rem;"></h1>
-<h2 th:text="${utente.username}" class="text-center display-1 text-white fw-bold mb-5" style="font-size:3rem; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black;"></h2>
-<div class="justify-content-center mt-5 mb-5">
+<h1 th:text="'Profilo Personale'" class="text-center display-1 text-white mb-2 fw-bold" style="font-size:4rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></h1>
+<h2 th:text="${utente.username}" class="text-center display-1 text-white fw-bold mb-5" style="font-size:3rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);"></h2>
+<div class="justify-content-center mt-5 mb-3">
     <p class="text-black fw-bold text-center" style="margin-top:25vh; font-size:20px">Dati Personali</p>
     <div class="row pt-5" style="margin: 0">
         <p th:text="'Nome'" class="col text-center fw-bold"></p>
         <p th:text="'Cognome'" class="col text-center fw-bold"></p>
         <p th:text="'Data di nascita'" class="col text-center fw-bold"></p>
         <p th:text="'Nazionalità'" class="col text-center fw-bold"></p>
-        <p  class="col"></p>
     </div>
     <div class="row" style="margin: 0">
         <p th:text="${utente.nome}" class="col text-center"></p>
         <p th:text="${utente.cognome}" class="col text-center"></p>
         <p th:text="${dataNascita}" class="col text-center"></p>
         <p  class="col text-center"><img th:src="'data:image/png;base64,' + ${bandiera}" th:alt="${utente.nazionalita}"></p>
-        <p class="col text-center"><a href="/modificaDati" th:text="'Modifica dati'" class="btn btn-primary" style="width: 8vw"></a></p>
+    </div>
+    <div class="justify-content-center text-center mt-3">
+        <a href="/modificaDati" class="btn btn-primary w-auto text-center mb-2">Modifica Dati</a>
     </div>
 </div>
 <div>
-    <h4 class="pt-3 text-center mt-2">I tuoi punteggi</h4>
+    <h4 class="pt-3 text-center">I tuoi punteggi</h4>
     <div class="row justify-content-center mt-5" style="margin-right:0; margin-left:0;">
         <div class="card col-sm-4 pb-4 pt-2" style="width: 12rem; position: relative; margin: 0vw 2vw;">
             <p class="card-title h3 text-center">Punteggio settimanale</p>

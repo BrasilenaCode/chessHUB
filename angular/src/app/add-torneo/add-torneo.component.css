@@ -1,4 +1,4 @@
-.dim{
+.dim {
   width: 100%;
   display: flex;
   align-items: center;
@@ -6,6 +6,7 @@
   height: 80vh;
   margin: 0;
   flex-direction: column;
+  margin-bottom: 20vh;
 }
 
 .dimForm{

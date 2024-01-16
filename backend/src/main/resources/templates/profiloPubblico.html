@@ -1,4 +1,4 @@
-<h1 th:text="'Profilo di '+${utente.username}" class="text-center display-1 text-white mb-5 fw-bold" style="font-size:4rem;"></h1>
+<h1 th:text="'Profilo di '+${utente.username}" class="text-center display-1 text-white mb-5 fw-bold" style="font-size:4rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"></h1>
 <div class="justify-content-center mt-5 mb-2">
     <p class="text-black fw-bold text-center" style="margin-top:30vh; font-size:20px">Dati Personali</p>
     <div class="row pt-5" style="margin: 0">
@@ -28,4 +28,4 @@
     </div>
 </div>
 <h5 th:if="${utente.admin}" class="text-center mt-4">Utente Admin</h5>
-<p class="text-center mt-2"><a th:href="@{/amici(utente=${utente.username})}" th:text="'Follower: ' + ${utente.follower}" class="btn btn-primary" style="width:20vw"></a></p>
+<p class="text-center mt-3"><a th:href="@{/amici(utente=${utente.username})}" th:text="'Follower: ' + ${utente.follower}" class="btn btn-primary" style="width:20vw"></a></p>

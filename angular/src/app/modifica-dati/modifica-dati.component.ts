@@ -10,7 +10,6 @@ declare const submit: any;
 })
 export class ModificaDatiComponent implements OnInit{
   utente?:Utente;
-  submitted = false;
   constructor(private router:Router) {}
 
   ngOnInit(): void {
@@ -18,7 +17,6 @@ export class ModificaDatiComponent implements OnInit{
   }
   protected readonly Object = Object;
   onSubmit() {
-    this.submitted=true;
     submit();
     this.router.navigate(['/profilo']);
   }

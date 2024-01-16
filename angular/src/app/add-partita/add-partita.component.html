@@ -3,19 +3,16 @@
     <div class="overlay flex-center rgba-blue-light">
     </div>
 </figure>
-
 <div class="container justify-content-center contenitore mb-4">
     <h1 class="text-center fw-bold display-1 text-white margine">Caricamento Partita Torneo</h1>
     <div class="text-center mb-5">
-        <h2>{{partita?.torneo?.nome}} - turno {{partita?.turno}}</h2>
+        <h2 class="mb-3">{{partita?.torneo?.nome}} - turno {{partita?.turno}}</h2>
         <h3 class="p-0 m-0">{{partita?.giocatore1?.cognome}} {{partita?.giocatore1?.nome}}</h3>
         <p class="p-0 m-0">VS</p>
         <h3 class="p-0 m-0">{{partita?.giocatore2?.cognome}} {{partita?.giocatore2?.nome}}</h3>
-
-        <label class = "fw-bold">Importa partita da PGN <br>
+        <label class = "fw-bold mb-3 mt-4">Importa partita da PGN <br>
             <input type="file" accept=".txt" (change)="importa($event)">
         </label>
-
         <h3>Risultato</h3>
         <select class="form-control-sm" [(ngModel)]="risultato" [disabled]="positionEnded" id="risultato" title="Risultato">
             <option value="0"> </option>

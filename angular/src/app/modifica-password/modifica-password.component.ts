@@ -8,7 +8,6 @@ declare const submitPassword: any;
   styleUrl: './modifica-password.component.css'
 })
 export class ModificaPasswordComponent {
-  submitted = false;
 
   constructor(private router:Router, private auth:AuthServiceService) {
   }

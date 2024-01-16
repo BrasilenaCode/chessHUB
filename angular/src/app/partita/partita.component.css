@@ -40,6 +40,10 @@ img.titolo{
     align-items: center;
     justify-content: center;
 }
+
+.display-1{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 .container{
     margin-top: 27vh
 }
