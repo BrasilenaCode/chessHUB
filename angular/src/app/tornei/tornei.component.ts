@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { TorneoService } from '../services/torneo.service';
 import {Router} from "@angular/router";
 import {faAdd} from "@fortawesome/free-solid-svg-icons";
 import { Torneo } from '../model/torneo';
-import {UtentiService} from "../services/utenti.service";
 import {AuthServiceService} from "../services/auth.service";
 
 @Component({
