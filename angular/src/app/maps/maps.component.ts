@@ -15,7 +15,12 @@ import { Utente } from '../model/utente';
 export class MapsComponent implements OnChanges {
 
   @Input() torneo?: Torneo;
+  /*
+    se showEntirely è vera mostra solo la mappa con il luogo del torneo pinnato,
+    se falsa mostra tutta quanta la view dei tornei vicini 
+  */
   @Input() showEntirely: boolean = false;  
+  atLeastOneTournament: boolean = false;
 
 
   constructor(private http: HttpClient,
@@ -37,10 +42,6 @@ export class MapsComponent implements OnChanges {
   showError: boolean = false;
   errorMessage: string = '';
   displayDefault: boolean = true; // se vera, viene mostrata la posizione di default sulla mappa (defaultCenter)
-  /*
-    se showEntirely è vera mostra solo la mappa con il luogo del torneo pinnato,
-    se falsa mostra tutta quanta la view dei tornei vicini 
-  */
   tornei = new Map();           // coppia <chiave torneo | torneo>
   listOfLocations = new Map();  // coppia <chiave torneo | boolean (per mostrarlo o meno)>
   listToShow: { key: string, value: boolean }[] = [];   // array perché non si può iterare sulle mappe nell'html :(
@@ -94,8 +95,7 @@ markLocation(place: string, iamhere: boolean) {
     if (response.results.length > 0 && response.results[0].geometry != undefined) {
       location = response.results[0].geometry.location;
       /*
-      iamhere serve per dire alla mappa di cambiare marker, se sono qui mostra l'svg
-      altrimenti il marker predefinito di google
+      iamhere serve per inizializzare il giusto marker
       */
       if (iamhere) {
         this.display = { lat: location.lat, lng: location.lng };
@@ -104,7 +104,6 @@ markLocation(place: string, iamhere: boolean) {
         this.displayDest = { lat: location.lat, lng: location.lng };
         this.center = this.displayDest;
       }
-      this.showError = false;
       this.displayDefault = false;
       this.zoom = 10;
     } else {
@@ -114,6 +113,7 @@ markLocation(place: string, iamhere: boolean) {
 }
 
 searchLocation() {
+  this.showError = false;
   if (!this.showEntirely) {
     if (this.torneo != undefined) {
       this.markLocation(this.torneo.luogo, false)
@@ -126,8 +126,6 @@ searchLocation() {
   }
 }
 
-
-
 calculateDistanceBetweenLocations(position1: google.maps.LatLngLiteral, position2: google.maps.LatLngLiteral): number {
   const latLng1 = new google.maps.LatLng(position1.lat, position1.lng);
   const latLng2 = new google.maps.LatLng(position2.lat, position2.lng);
@@ -135,7 +133,7 @@ calculateDistanceBetweenLocations(position1: google.maps.LatLngLiteral, position
 }
 
 calculateDistance() {
-  let atLeastOneTournament = false;
+  this.atLeastOneTournament = false;
   for (const [toCheck, torneo] of this.tornei.entries()) {
     if (this.location1 && toCheck) {
       this.getGeocoding(this.location1).subscribe((response1: any) => {
@@ -152,7 +150,8 @@ calculateDistance() {
               );
               if (this.distance >= calculatedDistance) {
                 this.listOfLocations.set(toCheck, true);
-                atLeastOneTournament = true;
+                this.atLeastOneTournament = true;
+                this.showError = false;
               } else {
                 this.listOfLocations.set(toCheck, false);
               }
@@ -163,7 +162,9 @@ calculateDistance() {
       });
     }
   }
-
+  if (!this.atLeastOneTournament) {
+    this.raiseError("nessun torneo.")
+  }
 }
 
 }
