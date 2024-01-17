@@ -33,38 +33,39 @@ export class AddPartitaComponent implements OnInit{
 
     constructor(@Inject(PLATFORM_ID) private platformId: Object, private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private router:Router){}
 
+    // Prendo la partita dal database e carico le informazioni sulla pagina
     ngOnInit(): void {
       this.router.events.subscribe((event: any) => {
         if (event && event.routerEvent instanceof NavigationEnd && isPlatformBrowser(this.platformId)) {
           window.scrollTo(0, 0);
         }
       });
-      this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => this.partita = partita)
+      this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => 
+        {this.partita = partita;
+          this.caricamentoPartita();
+        })
       try{
         AddPartitaComponent.board = Chessboard2('board', this.config);
         window.setInterval(() => {
           this.updateStats();
         }, 60);
-        window.setTimeout(() => {
-          this.caricamentoPartita();
-        }, 250);
     }catch(e){}
     }
 
+    // Carica la partita nella board e nel motore logico (chess.js)
     caricamentoPartita(): void {
       this.risultato = this.partita!.esito;
       if (this.partita?.pgn == null || this.partita.pgn == "") {
         return;
       }
       try{
-      AddPartitaComponent.game.loadPgn(this.partita.pgn);
-      AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
+        AddPartitaComponent.game.loadPgn(this.partita.pgn);
+        AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
       }
-      catch(e){
-        return;
-      }
+      catch(e){}
     }
 
+    // Aggiorno le informazioni sulla pagina
     updateStats(): void {
       if(this.fenAttuale == AddPartitaComponent.game.fen())
         return;
@@ -78,6 +79,7 @@ export class AddPartitaComponent implements OnInit{
       this.updateFormulario();
     }
 
+    // Aggiorno il formulario con le mosse
     updateFormulario(): void {
       this.mosse = [];
       let cont : number = 0;
@@ -94,6 +96,7 @@ export class AddPartitaComponent implements OnInit{
       });
     }
 
+    // Funzioni per la board di chessboard.js: Quando un pezzo viene toccato, mostro le mosse possibili
     onDragStart (dragStartEvt : any) : any{
       if (AddPartitaComponent.game.isGameOver()) {
         return false;
@@ -112,6 +115,7 @@ export class AddPartitaComponent implements OnInit{
       })
     }
 
+    // Funzioni per la board di chessboard.js: Quando un pezzo viene mosso, aggiorno la board
     onDrop (dropEvt : any) : any{
       let move;
       AddPartitaComponent.board.clearCircles();
@@ -132,9 +136,11 @@ export class AddPartitaComponent implements OnInit{
       AddPartitaComponent.updateStatus();
     }
 
+    // Funzioni di servizio per capire se un pezzo è bianco o nero
     static isWhitePiece (piece : string) : boolean { return /^w/.test(piece); }
     static isBlackPiece (piece : string) : boolean{ return /^b/.test(piece); }
 
+    // Funzione di servizio per la libreria di chessboard che serve per aggiornare lo stato interno della partita
     static updateStatus () : void{
       let esito = '0';
 
@@ -148,6 +154,7 @@ export class AddPartitaComponent implements OnInit{
       AddPartitaComponent.gameState = esito;
     }
 
+    // Annulla l'ultima mossa fatta e aggiorna la pagina con la mossa precedente
     undoMove(): void {
       AddPartitaComponent.game.undo();
       AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
@@ -157,6 +164,7 @@ export class AddPartitaComponent implements OnInit{
       this.commentoAttuale = AddPartitaComponent.game.getComment();
     }
 
+    // Salva il commento della mossa attuale
     salvaCommento(): void {
       if (this.commentoAttuale == "")
         return;
@@ -164,12 +172,14 @@ export class AddPartitaComponent implements OnInit{
       AddPartitaComponent.updateStatus();
     }
 
+    // Cancella il commento della mossa attuale
     cancellaCommento(): void {
       this.commentoAttuale = "";
       AddPartitaComponent.game.deleteComment();
       AddPartitaComponent.updateStatus();
     }
 
+    // Genero i dati del PGN
     generaPGN(): void {
       if(this.partita?.torneo?.nome != null && this.partita?.torneo?.nome != "")
         AddPartitaComponent.game.header('Event', this.partita.torneo.nome + "");
@@ -193,6 +203,7 @@ export class AddPartitaComponent implements OnInit{
         AddPartitaComponent.game.header('Black', this.partita?.giocatore2?.cognome + "" + this.partita?.giocatore2.nome);
       }
 
+    // Mando la partita al backend per salvarla
     salvaPartita(): void {
       if(this.risultato == "0"){
         alert("Inserisci un risultato per salvare la partita");
@@ -214,12 +225,14 @@ export class AddPartitaComponent implements OnInit{
       );
     }
 
+    // Carica un PGN da file
     importa(event: any) : void {
       let File = event.target.files[0];
       if(File)
         this.readFile(File);
     }
 
+    // Legge il file e lo carica nella board
     readFile(file: File) {
       let fileReader = new FileReader();
 
@@ -233,6 +246,7 @@ export class AddPartitaComponent implements OnInit{
       fileReader.readAsText(file);
     }
 
+    // Scarica il PGN della partita
     scaricaPGN(): void {
       this.generaPGN();
       let textContent = AddPartitaComponent.game.pgn();
@@ -248,7 +262,5 @@ export class AddPartitaComponent implements OnInit{
 
       window.URL.revokeObjectURL(url);
     }
-
-
 
 }

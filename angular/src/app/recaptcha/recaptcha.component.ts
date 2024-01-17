@@ -11,7 +11,7 @@ declare var Chessboard2: any;
   styleUrl: './recaptcha.component.css'
 })
 export class RecaptchaComponent {
-  // TODO da commentare
+  // Ritorna true quando il captcha è risolto
   @Output() onCaptchaComplete = new EventEmitter<boolean>();
 
   constructor(private recaptchaService: RecaptchaServiceService) { }
@@ -31,6 +31,7 @@ export class RecaptchaComponent {
     onChange: this.onChange,
   }
 
+  // Carica la board e la sfida
   ngOnInit(): void {
     try {
       RecaptchaComponent.board = Chessboard2('board', this.config);
@@ -54,6 +55,7 @@ export class RecaptchaComponent {
     }catch(e){}
   }
 
+  // Funzioni per la board
   onDragStart (dragStartEvt : any) : any{
     if (RecaptchaComponent.game.isGameOver() || RecaptchaComponent.end) {
       return false;
@@ -72,6 +74,7 @@ export class RecaptchaComponent {
     })
   }
 
+  // Funzioni per la board
   onDrop (dropEvt : any) : any{
     let move;
     RecaptchaComponent.board.clearCircles();
@@ -88,6 +91,7 @@ export class RecaptchaComponent {
     RecaptchaComponent.board.fen(RecaptchaComponent.game.fen());
   }
 
+  // Funzioni per la board
   onChange (): void{
     if(RecaptchaComponent.positioning){
       RecaptchaComponent.positioning = false;
@@ -96,6 +100,7 @@ export class RecaptchaComponent {
     RecaptchaComponent.end = true;
   }
 
+  // Funzioni per la board
   static isWhitePiece (piece : string) : boolean { return /^w/.test(piece); }
   static isBlackPiece (piece : string) : boolean{ return /^b/.test(piece); }
 
@@ -119,6 +124,7 @@ export class RecaptchaComponent {
     )
   }
 
+  // Funzione per comunicare al componente padre che il captcha è risolto
   complete() : void{
     this.onCaptchaComplete.emit(true);
   }
