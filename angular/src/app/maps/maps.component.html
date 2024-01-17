@@ -17,7 +17,7 @@
         <div *ngIf="showError" class="row justify-content-center mb-5">
             <p>{{ errorMessage }}</p>
         </div>
-        <div class="row justify-content-center">
+        <div *ngIf="showMap" class="row justify-content-center">
             <google-map
                 height="40vw"
                 width="60vw"
