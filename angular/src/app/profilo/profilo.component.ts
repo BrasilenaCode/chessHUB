@@ -31,6 +31,7 @@ export class ProfiloComponent implements OnInit{
   refreshParentComponent() {
     this.getPaginaUtente();
   }
+  // richiede la pagina del profilo all'utente loggato
   getPaginaUtente(): void {
     this.utentiService.dammiUtenteAcceduto().subscribe(utente => {
       this.username = utente.username;
@@ -43,9 +44,11 @@ export class ProfiloComponent implements OnInit{
   vaiAllePartite(): void {
     this.router.navigate(['/partite'], {queryParams: {username: this.username!}});
   }
+  // si prende le richieste di amicizia
   private getRichiesteAmicizia() {
     this.utentiService.dammiRichiesteAmicizia().subscribe(richieste => this.richieste = richieste);
   }
+  // elimina l'account dell'utente (prima di fare ciò aggiorna lo storico delle partite e delle iscrizioni)
   eliminaAccount() {
     const conferma = window.confirm('Sei sicuro di voler eliminare l\'account?');
     if (conferma) {

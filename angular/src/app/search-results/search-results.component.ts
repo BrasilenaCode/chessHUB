@@ -15,6 +15,7 @@ export class SearchResultsComponent implements OnInit{
     constructor(private torneoService: TorneoService, private route: ActivatedRoute) { }
   
     ngOnInit(): void {
+      // TODO serve veramente questa componente?
       this.searchTerm = this.route.snapshot.queryParams['searchTerm'];
       this.torneoService.searchTorneo(this.searchTerm).subscribe(tornei => this.tornei = tornei);
     }
