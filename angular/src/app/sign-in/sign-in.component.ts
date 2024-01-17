@@ -3,6 +3,7 @@ import {FormControl } from "@angular/forms";
 import {AuthServiceService} from "../services/auth.service";
 import {Router} from "@angular/router";
 import {UtenteRegistrazione} from '../model/utente';
+import { UtentiService } from '../services/utenti.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,53 +18,73 @@ export class SignInComponent {
   cognome= new FormControl();
   nazionalita=new FormControl();
   dataNascita= new FormControl();
+  email = new FormControl();
   errorMessage = "";
   recaptcha: boolean = false;
+  buttonText: string = "Avanti";
+  nextStep: boolean = false;
+  authCode = new FormControl();
 
 
-  constructor(private auth:AuthServiceService, private router:Router) {}
+  constructor(private auth:AuthServiceService,
+    private utentiService: UtentiService,
+     private router:Router) {}
 
   registrati() {
-    if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
-      // se il recaptcha non viene risolto non si va avanti
-      if(!this.recaptcha) {
-        this.errorMessage = "Completa il captcha";
-        return;
-      }
-      var utente: UtenteRegistrazione = {
-        username: this.username.value,
-        password: this.password.value,
-        nome: this.nome.value,
-        cognome: this.cognome.value,
-        nazionalita: this.findKeyByValue(this.nazionalita.value),
-        dataNascita: this.dataNascita.value,
-        admin: false,
-        punteggio: 0,
-        punteggioSettimanale: 0
-      }
-      // controlla se la password e la conferma della password coincidono
-      if (this.password.value == this.repeatedPassword.value) {
-        // controlla che la data di nascita sia una data passata
-          if (new Date(this.dataNascita.value) < new Date()) {
-            // invia una richiesta per registrare l'utente
-            this.auth.signIn(utente).subscribe(response => {
-              if (response) {
-                this.auth.setToken(response.token);
-                this.router.navigate(["/"]);
-                this.errorMessage = "";
-              } else {
-                this.errorMessage = "Nome utente già in uso";
-              }
-            });
-          } else {
-            this.errorMessage = "Data di nascita non valida";
-          }
-        } else {
-          this.errorMessage = "Le password non coincidono";
-        }
-      }else{
-        this.errorMessage = "Compila tutti i campi";
+    var utente: UtenteRegistrazione = {
+      username: this.username.value,
+      password: this.password.value,
+      nome: this.nome.value,
+      cognome: this.cognome.value,
+      nazionalita: this.findKeyByValue(this.nazionalita.value),
+      dataNascita: this.dataNascita.value,
+      admin: false,
+      punteggio: 0,
+      punteggioSettimanale: 0,
+      email: this.email.value,
     }
+    if (this.buttonText == 'Avanti') {
+      if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita, this.email)&&this.dataNascita.value!=null) {
+        // se il recaptcha non viene risolto non si va avanti
+        if(!this.recaptcha) {
+          this.errorMessage = "Completa il captcha";
+          return;
+        }
+        // controlla se la password e la conferma della password coincidono
+        if (this.password.value == this.repeatedPassword.value) {
+          // controlla che la data di nascita sia una data passata
+            if (new Date(this.dataNascita.value) < new Date()) {
+              this.utentiService.dammiUtente(utente.username).subscribe(utente => {
+                if (utente != null) {
+                  this.errorMessage = "Nome utente già in uso.";
+                } else {
+                  this.buttonText = 'Verifica';
+                  this.nextStep = true;
+                  this.errorMessage = '';
+                }
+              })
+              
+            } else {
+              this.errorMessage = "Data di nascita non valida";
+            }
+          } else {
+            this.errorMessage = "Le password non coincidono";
+          }
+        }else{
+          this.errorMessage = "Compila tutti i campi";
+      }
+    } else {
+      this.auth.signIn(utente).subscribe(response => {
+        if (response) {
+          this.auth.setToken(response.token);
+          this.router.navigate(["/"]);
+          this.errorMessage = "";
+        } else {
+          this.errorMessage = "Nome utente già in uso";
+        }
+      });
+    }
+    
   }
 
   // cerco nella mappa se la nazionalità inserita dall'utente è presente tra i valori
