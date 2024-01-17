@@ -29,26 +29,6 @@ public class PartiteController {
     public List<Partita> dammiPartiteGiocatore(@RequestBody String username){
         return PartiteModel.dammiPartiteGiocatore(username);
     }
-    // chiamata per ottenere le partite di un torneo
-    @PostMapping("/partite/torneo")
-    public List<Partita> dammiPartiteTorneo(@RequestBody long id){
-        return PartiteModel.dammiPartiteTorneo(id);
-    }
-    // chiamata per ottenere le partite di una data
-    @PostMapping("/partite/data")
-    public List<Partita> dammiPartiteData(@RequestBody String data){
-        return PartiteModel.dammiPartiteData(data);
-    }
-    // chiamata per ottenere le partite vinte da un giocatore
-    @PostMapping("/partite/vincitore")
-    public List<Partita> dammiPartiteVincitore(@RequestBody String username){
-        return PartiteModel.dammiPartiteVincitore(username);
-    }
-    // chiamata per ottenere le partite perse da un giocatore
-    @PostMapping("/partite/perdente")
-    public List<Partita> dammiPartitePerdente(@RequestBody String username){
-        return PartiteModel.dammiPartitePerdente(username);
-    }
     // chiamata per ottenere le partite già giocate di un utente
     @PostMapping("/partite/giocate")
     public List<Partita> dammiPartiteGiocate(@RequestBody String username) {
@@ -68,11 +48,6 @@ public class PartiteController {
             return true;
         }
         return false;
-    }
-    // chiamata per ottenere le partite patta di un utente 
-    @PostMapping("/partite/patte")
-    public List<Partita> dammiPartitePatte(@RequestBody String username) {
-        return PartiteModel.dammiPartitepatte(username);
     }
     // chiamata per ottenere le ultime 3 partite giocate da un utente
     @PostMapping("/partite/ultime")

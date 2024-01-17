@@ -24,20 +24,6 @@ public class PartiteModel {
     public static List<Partita> dammiPartiteGiocatore(String username){
         return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)).toList();
     }
-    // chiamata per ottenere le partite di un torneo
-    public static List<Partita> dammiPartiteTorneo(long id){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getTorneo().getId() == id).toList();
-    }
-    // chiamata per ottenere le partite di una data
-    public static List<Partita> dammiPartiteData(String data){
-        Date date;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(data);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> date.equals(partita.getData())).toList();
-    }
     // chiamata per ottenere le partite vinte da un giocatore
     public static List<Partita> dammiPartiteVincitore(String username){
         return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> (partita.getGiocatore1().getUsername().equals(username) && partita.getEsito().equals("1")) || (partita.getGiocatore2().getUsername().equals(username) && partita.getEsito().equals("2"))).toList();
