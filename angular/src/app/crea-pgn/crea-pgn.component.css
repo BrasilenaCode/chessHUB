@@ -5,6 +5,10 @@
     margin: auto;
 }
 
+.larghezza{
+  width:10vw;
+}
+
 @media only screen and (max-width: 400px) {
   #board1{
     width: 80%;

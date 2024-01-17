@@ -44,6 +44,7 @@ export class AnteprimaProfiloComponent implements OnInit {
   }
 
   vaiAlProfilo(utente:Utente) {
+    //vado al profilo dell'utente cliccato o al mio profilo personale se clicco sul mio nome
     this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto => {
       if (utenteAcceduto != undefined && utenteAcceduto.username == utente.username)
         this.router.navigate(['/profilo']);

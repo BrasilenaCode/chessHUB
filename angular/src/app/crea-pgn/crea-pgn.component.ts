@@ -66,6 +66,7 @@ export class CreaPgnComponent implements OnInit{
 
   colore : string = "bianco";
   risultato : string= "0";
+  visibilita : string = "";
   io : string = "";
   appartieneTorneo : string = "0";
   avversario : string = "";
@@ -196,6 +197,11 @@ export class CreaPgnComponent implements OnInit{
       return;
     }
 
+    if(this.visibilita=="") {
+      alert("Inserisci la visibilità della partita");
+      return;
+    }
+
     if(this.mosse.length == 0){
       alert("Non è possibile salvare una partita senza mosse");
       return;
@@ -216,7 +222,7 @@ export class CreaPgnComponent implements OnInit{
         turno: this.turno,
         esito: this.risultato,
         pgn: CreaPgnComponent.game.pgn(),
-        privacy: "pubblica"
+        privacy: this.visibilita
       }
     }
     else{
@@ -229,7 +235,7 @@ export class CreaPgnComponent implements OnInit{
         turno: this.turno,
         esito: this.risultato,
         pgn: CreaPgnComponent.game.pgn(),
-        privacy: "pubblica"
+        privacy: this.visibilita
       }
     }
     this.partitaService.salvaPartita(partita).subscribe(((id) => {

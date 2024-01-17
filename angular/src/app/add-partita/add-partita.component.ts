@@ -198,13 +198,13 @@ export class AddPartitaComponent implements OnInit{
         alert("Inserisci un risultato per salvare la partita");
         return;
       }
-
       this.generaPGN();
       AddPartitaComponent.updateStatus();
       if(this.partita == null)
         return;
       this.partita.pgn = AddPartitaComponent.game.pgn();
       this.partita.esito = this.risultato;
+      this.partita.privacy = "pubblica";
       this.partitaService.salvaPartita(this.partita).subscribe(result=> {
         if(this.partita?.torneo?.id != null)
           this.router.navigate(['/torneo'], {queryParams: {torneoId: this.partita?.torneo?.id}});
