@@ -112,7 +112,7 @@ public class MailManager {
         if (this.authCodes.containsKey(uuid)) {
             Pair tmp = this.authCodes.get(uuid);
             if(tmp.getFirst().equals(authCode)) {
-                this.authCodes.remove(uuid);
+                this.deleteAuth(uuid);
                 return "corretto";
             } else {
                 Integer tries = tmp.getSecond();
@@ -121,7 +121,7 @@ public class MailManager {
                     return "sbagliato";
                 }
                 else {
-                    this.authCodes.remove(uuid);
+                    this.deleteAuth(uuid);
                     return "rimosso";
                 }
             }
@@ -137,4 +137,8 @@ public class MailManager {
         }
     }
 
+    // elimina l'authCode dalla mappa
+    public void deleteAuth(String inputUuid) {
+        this.authCodes.remove(inputUuid);
+    }
 }
