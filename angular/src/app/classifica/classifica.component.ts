@@ -25,7 +25,7 @@ export class ClassificaComponent implements OnInit{
 
   ngOnInit(){
     this.cercaUtente();
-    this.getBestUser();
+    this.getBestUsers();
     this.cercaPosizione();
     this.testo="Visualizza classifica completa";
     this.visualizzaBottone=true;
@@ -33,7 +33,8 @@ export class ClassificaComponent implements OnInit{
   }
   constructor(private utentiService:UtentiService, private router:Router){}
 
-  private getBestUser() {
+  //prende gli utenti e li ordina per punteggio settimanale e punteggio totale
+  private getBestUsers() {
     this.utentiService.dammiUtenti().subscribe(user => {
       this.utentiMigliori = user.slice().sort((a: Utente, b: Utente) => b.punteggio - a.punteggio)
       this.utentiMiglioriSettimana = user.slice().sort((a: Utente, b: Utente) => b.punteggioSettimanale - a.punteggioSettimanale)
@@ -42,6 +43,8 @@ export class ClassificaComponent implements OnInit{
     });
   }
 
+
+  //carica la classifica degli utenti migliori
   load() {
     if(this.testo=="Visualizza classifica completa") {
       this.testo = "Carica Altri";
@@ -56,6 +59,7 @@ export class ClassificaComponent implements OnInit{
     this.utentiMiglioriVisualizzati=this.utentiMigliori?.slice(0, length);
   }
 
+  //carica la classifica degli utenti migliori della settimana
   loadWeek(){
       if(this.testo=="Visualizza classifica completa") {
         this.testo = "Carica Altri";
@@ -70,6 +74,7 @@ export class ClassificaComponent implements OnInit{
       this.utentiMiglioriSettimanaVisualizzati=this.utentiMiglioriSettimana?.slice(0, length);
   }
 
+  //verifica se l'utente visualizzato è l'utente loggato
   cercaUtente(): any | undefined {
       this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto=> {
         if(utenteAcceduto!=undefined)
@@ -77,6 +82,8 @@ export class ClassificaComponent implements OnInit{
       });
   }
 
+
+  //cerca la posizione dell'utente loggato
   cercaPosizione(){
     if(this.utentiMigliori!=undefined){
       for (let i = 0; i < this.utentiMigliori.length; i++) {
@@ -93,6 +100,8 @@ export class ClassificaComponent implements OnInit{
       }
     }
   }
+
+  //visualizza il profilo dell'utente cliccato
   visualizzaUtente(user: Utente) {
     if(this.usernameUtente!=undefined&&user.username==this.usernameUtente)
       this.router.navigate(['/profilo']);

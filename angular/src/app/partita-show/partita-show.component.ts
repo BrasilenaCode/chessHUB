@@ -30,6 +30,8 @@ export class PartitaShowComponent implements OnInit{
   }
 
   setNomePartita(): void {
+    //setta i parametri per la visualizzazione della partita, se non è stata giocata tenta di prendere i nomi dal pgn se non ci riesce mette giocatore1 e giocatore2.
+    //se la partita è stata giocata setta i nomi dei giocatori e il risultato
     let pgn = new Chess();
     let pgnLoaded = true;
     try{

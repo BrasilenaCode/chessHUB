@@ -17,11 +17,8 @@ export class TorneiComponent implements OnInit{
   constructor(private router:Router, private auth:AuthServiceService) { }
 
   addTorneo() {
+    //va alla pagina di aggiunta del torneo
     this.router.navigate(['/addTorneo']);
-  }
-
-  onSearch(){
-    this.router.navigate(['/searchResults'], {queryParams: {searchTerm: this.searchTerm}});
   }
 
   protected readonly faAdd = faAdd;

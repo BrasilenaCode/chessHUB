@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Torneo, TorneoForm} from "../model/torneo";
+import {TorneoForm} from "../model/torneo";
 import {TorneoService} from "../services/torneo.service";
 import {FormControl} from "@angular/forms";
 

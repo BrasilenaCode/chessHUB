@@ -1,5 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UtentiService} from "../services/utenti.service";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-about',

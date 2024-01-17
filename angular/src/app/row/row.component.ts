@@ -16,8 +16,15 @@ export class RowComponent implements OnInit{
 
 
   ngOnInit(){
+    //condizione per verificare se l'utente visualizzato è l'utente acceduto
     this.condizione=this.utenteAcceduto==this.utente?.username;
+    //condizione per far visualizzare i punteggi relativi al torneo o alla classifica generale
     if(this.punteggi!=undefined)
       this.condizioneClassifica=true;
+    //caso in cui l'utente è stato eliminato
+    if(this.utente?.username=="custom"){
+      this.utente.username="eliminato"
+      this.utente.nazionalita="";
+    }
   }
 }
