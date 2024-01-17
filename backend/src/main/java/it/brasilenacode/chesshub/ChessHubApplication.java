@@ -10,7 +10,9 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 public class ChessHubApplication {
 
     public static void main(String[] args) {
+        // avvio dell'applicazione
         SpringApplication.run(ChessHubApplication.class, args);
+        // creazione dell'utente, del torneo e della partita di prova
         DBManager.getInstance().createGuest();
     }
 }

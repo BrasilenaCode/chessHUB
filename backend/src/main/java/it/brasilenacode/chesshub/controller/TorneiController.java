@@ -166,6 +166,8 @@ public class TorneiController {
             if (DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getTorneo().getId() == torneo.getId()).map(partita -> partita.getEsito().equals("0")).filter(esito -> esito == true).count() != 0){
                 return false;
             }
+            // calcolo il vincitore e lo setto nel torneo
+            torneo.getPunteggi().entrySet().stream().max(Map.Entry.comparingByValue()).ifPresent(entry -> torneo.setVincitore(DBManager.getInstance().getUtenteDao().findByPrimaryKey(entry.getKey())));
             // setto lo stato del torneo a concluso
             torneo.setStato("passato");
             // salvo il torneo
