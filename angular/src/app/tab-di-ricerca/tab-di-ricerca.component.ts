@@ -12,6 +12,7 @@ export class TabDiRicercaComponent {
   constructor(private exchDataService: ExchangeDataService, private router:Router) {
   }
 
+  // in base al valore delle booleane viene mostrato un tab specifico
   showUsers: boolean = true;
   showTournaments: boolean = false;
 
@@ -26,6 +27,7 @@ export class TabDiRicercaComponent {
 
   onChanges(event: any) {
     this.router.navigate(['/ricerca'])
+    // se il contenuto del textfield della ricerca viene modificato, si aggiorna la stringa del servie
     this.exchDataService.updateString(event.target.value)
   }
 }

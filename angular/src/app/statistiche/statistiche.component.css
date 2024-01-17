@@ -14,13 +14,8 @@
   width: 15rem;
 }
 
-
 .card-body {
   padding: 5%;
-}
-
-.card:hover {
-  background-color: gray;
 }
 
 .stats-chart {
