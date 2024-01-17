@@ -9,112 +9,83 @@ import {Partita} from "../model/partita";
 @Injectable({
   providedIn: 'root'
 })
+// classe che gestisce le chiamate al backend per i tornei
 export class TorneoService {
-
+  // url del backend
   private backendUrl = "http://localhost:8080";
-
+  // costruttore
   constructor(private http:HttpClient, private auth:AuthServiceService) { }
-
+  // metodo che ritorna un torneo dato il suo id
   dammiTorneo(id:number):Observable<Torneo>{
     return this.http.post<Torneo>(this.backendUrl+"/tornei/id",id);
   }
+  // metodo che ritorna tutti i tornei
   dammiTornei():Observable<Torneo[]>{
     return this.http.get<Torneo[]>(this.backendUrl+"/tornei/all");
   }
-  dammiTorneiNome(nome:string):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/nome", nome);
-  }
-  dammiTorneiGiocatore(utente:Utente):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/giocatore",utente.username);
-  }
-  dammiTorneiDataInizio(data:Date):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/dataInizio/", data.getFullYear()+"-"+(data.getMonth()+1)+"-"+data.getDay());
-  }
-  dammiTorneiDataFine(data:Date):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/dataFine/", data.getFullYear()+"-"+(data.getMonth()+1)+"-"+data.getDay());
-  }
-  dammiTorneiLuogo(luogo:string):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/luogo/", luogo);
-  }
+  // metodo che ritorna tutti i tornei di un certo stato
   dammiTorneiStato(stato:string):Observable<Torneo[]>{
     return this.http.post<Torneo[]>(this.backendUrl+"/tornei/stato", stato);
   }
-  dammiTorneiNumeroPartecipantiMaggiore(numero:number):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/numeroPartecipantiMaggiore", numero);
-  }
-  dammiTorneiNumeroPartecipantiMinore(numero:number):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/numeroPartecipantiMinore", numero);
-  }
-  dammiTorneiNumeroPartecipantiUguale(numero:number):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/numeroPartecipantiUguale", numero);
-  }
-  dammiTorneiGiocatoreVincitore(utente:Utente):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/vincitore", utente.username);
-  }
-  // TODO: possono farlo solo gli amministratori
-  dammiNuovoTorneo(utenti:Utente[]):Observable<Torneo>{
-    return this.http.post<Torneo>(this.backendUrl+"/tornei/nuovo",utenti);
-  }
-  prova():any{
-    window.alert("prova");
-  }
-
+  // metodo per aggiungere un torneo
   addTorneo(torneo: TorneoForm):Observable<boolean> {
     return this.http.post<boolean>(this.backendUrl+"/tornei/add", torneo);
   }
-
-  searchTorneo(searchTerm: string):Observable<Torneo[]>{
-    return this.http.post<Torneo[]>(this.backendUrl+"/tornei/search", searchTerm);
-  }
+  // metodo iscrivere un giocatore ad un torneo
   iscriviGiocatore(torneoId: number | undefined):Observable<boolean>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/iscrivimi", torneoId, header);
   }
+  // metodo per generare un torneo
   generaTorneo(torneoId: number | undefined):Observable<Partita[]>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<Partita[]>(this.backendUrl+"/tornei/genera", torneoId, header);
   }
+  // metodo per chiudere un torneo
   chiudiTorneo(torneoId: number | undefined):Observable<boolean>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/chiudi", torneoId, header);
   }
+  // metodo per verificare se un giocatore è iscritto ad un torneo
   isIscritto(torneoId: number | undefined):Observable<boolean>{
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/isIscritto", torneoId, header);
   }
-
+  // metodo per ottenere le partite di un torneo
   dammiPartite(torneoId: number) {
     return this.http.post<Partita[]>(this.backendUrl+"/tornei/partite", torneoId);
   }
-
+  // metodo per cercare un torneo
   ricercaTornei(param: string): Observable<Torneo[][]> {
     return this.http.post<Torneo[][]>(this.backendUrl+"/tornei/ricerca", param);
   }
+  // metodo per disiscrivere un giocatore da un torneo
   disiscriviGiocatore(id: number | undefined) {
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/disiscrivimi", id, header);
   }
-
+  // metodo per aggiornare iscrizioni custom
   aggiornaIscrizioneCustom() {
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
     }
     return this.http.post<boolean>(this.backendUrl+"/tornei/aggiornaCustom", "", header);
   }
+  // metodo per ottenere gli utenti di un torneo
   dammiUtentiTorneo(id: number): Observable<Utente[]> {
     return this.http.post<Utente[]>(this.backendUrl+"/tornei/utentiTorneo", id);
   }
-
+  // metodo per ottenere i punteggi di un torneo
   dammiPunteggi(id: number) {
     return this.http.post<Map<string, number>>(this.backendUrl+"/tornei/punteggiTorneo", id);
   }

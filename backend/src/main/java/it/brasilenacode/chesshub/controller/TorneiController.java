@@ -9,11 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 // controller per i servizi dei tornei
 @RestController
@@ -28,42 +25,6 @@ public class TorneiController {
     @GetMapping("/tornei/all")
     public List<Torneo> dammiTornei(){
         return DBManager.getInstance().getTorneoDao().findAll();
-    }
-    // chiamata per ottenere i tornei tramite il nome
-    @PostMapping("/tornei/nome")
-    public List<Torneo> dammiTorneiNome(@RequestBody String body) {
-        return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getNome().equals(body)).toList();
-    }
-    // chiamata per ottenere i tornei in cui ha partecipato un giocatore
-    @PostMapping("/tornei/giocatore")
-    public List<Torneo> dammiTorneiGiocatore(@RequestBody String body) {
-        Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(body);
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore1().equals(utente) || partita.getGiocatore2().equals(utente)).map(Partita::getTorneo).distinct().toList();
-    }
-    // chiamata per ottenere i tornei tramite la data di inizio
-    @PostMapping("/tornei/dataInizio")
-    public List<Torneo> dammiTorneiDataInizio(@RequestBody String body) {
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(body);
-            return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getDataInizio().toInstant().equals(date.toInstant())).toList();
-        } catch (ParseException e) {
-            return new ArrayList<>();
-        }
-    }
-    // chiamata per ottenere i tornei tramite la data di fine
-    @PostMapping("/tornei/dataFine")
-    public List<Torneo> dammiTorneiDataFine(@RequestBody String body) {
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(body);
-            return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getDataFine().toInstant().equals(date.toInstant())).toList();
-        } catch (ParseException e) {
-            return new ArrayList<>();
-        }
-    }
-    // chiamata per ottenere i tornei tramite il luogo
-    @PostMapping("/tornei/luogo")
-    public List<Torneo> dammiTorneiLuogo(@RequestBody String body) {
-        return DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getLuogo().equals(body)).toList();
     }
     // chiamata per ottenere i tornei per lo stato
     @PostMapping("/tornei/stato")
