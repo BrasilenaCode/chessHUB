@@ -41,6 +41,7 @@ export class ProfiloPubblicoComponent implements OnInit{
       this.auth.isAdmin().subscribe(risultato => {
         this.admin = risultato;
       });
+      // verifica se l'utente è admin o se lo segui già
       this.utentiService.verificaSeAdmin(this.username).subscribe(risultato => this.utenteAdmin = risultato);
       this.utentiService.verificaSeSeguiUtente(this.username).subscribe(risultato => {
         this.seguendo = risultato;
@@ -50,9 +51,11 @@ export class ProfiloPubblicoComponent implements OnInit{
       });
     }
   }
+  // richiede il profilo pubblico dell'utente
   getPaginaUtente(): void {
     this.utentiService.paginaProfiloPubblico(this.username!).subscribe(pagina => this.pagina = pagina);
   }
+  // richiede le ultime partite giocate dall'utente (anche quelle fuori torneo)
   getPartiteUtente(): void {
     this.partiteService.dammiUltimePartiteGiocate(this.username!).subscribe(partite => {
       this.partite = partite;
@@ -67,6 +70,7 @@ export class ProfiloPubblicoComponent implements OnInit{
   vaiAllePartite(): void {
     this.router.navigate(['/partite'], {queryParams: {username: this.username!}});
   }
+  // manda una richiesta di follow all'utente
   segui(){
     this.utentiService.seguiUtente(this.username!).subscribe(risultato => {
       if(risultato)
@@ -76,6 +80,7 @@ export class ProfiloPubblicoComponent implements OnInit{
     });
   }
 
+  // toglie il follow all'utente
   nonSeguire() {
     this.utentiService.smettiDiSeguire(this.username!).subscribe(risultato => {
       this.seguendo=false;
@@ -83,6 +88,7 @@ export class ProfiloPubblicoComponent implements OnInit{
     });
   }
 
+  // rende admin l'utente
   rendiAdmin() {
     this.auth.createAdmin(this.username!).subscribe(result=> this.utenteAdmin=true);
   }

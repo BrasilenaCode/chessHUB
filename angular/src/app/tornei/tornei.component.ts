@@ -27,6 +27,8 @@ export class TorneiComponent implements OnInit{
   protected readonly faAdd = faAdd;
 
   ngOnInit(): void {
+    // se l'utente è autenticato, si verifica che sia admin
+    // (in base a questo verranno mostrate le funzionalità admin)
     if(this.auth.isAuthenticated())
       this.auth.isAdmin().subscribe(result=> this.isAdmin=result);
     else

@@ -15,6 +15,8 @@ export class TorneiStatoComponent implements OnInit{
   ngOnInit(): void {
     this.getTorneiStato();
   }
+
+  // restituisce tutti i tornei con uno stato specifico
   getTorneiStato(): void {
     if(this.stato == undefined) return;
     this.torneiService.dammiTorneiStato(this.stato).subscribe

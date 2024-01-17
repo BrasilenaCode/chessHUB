@@ -17,11 +17,13 @@ export class StrumentiComponent implements OnInit {
   constructor(private authService : AuthServiceService, private router : Router, private utentiService : UtentiService, private partitaService : PartitaService) { }
 
   ngOnInit(): void {
+    // prende tutte le partite fuori torneo
     this.partitaService.dammiPartiteFuoriTorneo().subscribe((partite) => {
       this.partite = partite;
     });
   }
 
+  // verifica se l'utente acceduto è autenticato
   autenticato() : boolean {
     return this.authService.isAuthenticated();
   }
@@ -35,11 +37,12 @@ export class StrumentiComponent implements OnInit {
   }
 
   salvaPartita() {
+    // porta alla schermata del generatore PGN dell'utente loggato
     this.utentiService.dammiUtenteAcceduto().subscribe((utente) => {
       this.router.navigate(['/generatorePgn'], {queryParams: {username: utente.username}});
     });
   }
 
-
-    protected readonly faAdd = faAdd;
+  protected readonly faAdd = faAdd;
+  
 }

@@ -17,6 +17,7 @@ export class RichiestaComponent {
   constructor(private utentiService: UtentiService, private router:Router){}
 
   accetta() {
+    // per accettare richieste di amicizia
     this.utentiService.accettaRichiesta(this.richiesta).subscribe(response=>{
       this.nascondi = true;
       this.refreshParent.emit();
@@ -25,12 +26,14 @@ export class RichiestaComponent {
   }
 
   rifiuta() {
+    // per rifiutare richieste di amicizia
     this.utentiService.rifiutaRichiesta(this.richiesta).subscribe(response=>{
       this.nascondi = true;
       this.statoRichiesta = "Richiesta rifiutata";
     });
   }
 
+  // per visitare il profilo dell'utente che ti ha fatto richiesta
   vaiAlProfilo(username: string | undefined) {
     this.router.navigate(['/profiloPubblico'], {queryParams: {username: username}});
   }

@@ -10,6 +10,8 @@ export class ExchangeDataService {
   currentString = this.stringSource.asObservable();
 
   updateString(newString: string) {
+    // ogni volta che l'utente modifica il textfield del tab di ricerca
+    // la stringa viene aggiornata
     this.stringSource.next(newString);
   }
   

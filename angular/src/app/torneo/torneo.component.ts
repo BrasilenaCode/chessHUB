@@ -30,11 +30,12 @@ export class TorneoComponent implements OnInit{
   constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService, private utentiService: UtentiService, private router: Router) {}
 
   ngOnInit() {
+    // Recupero dei dettagli del torneo: punteggi, partite e gli utenti partecipanti
     this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => this.torneo = torneo);
     this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi =>{
       this.punteggiTorneo = new Map(Object.entries(punteggi));
     });
-
+    
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
       this.loadPartite(partite);
       if(partite?.length > 0) {
@@ -44,6 +45,8 @@ export class TorneoComponent implements OnInit{
     });
     this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => this.utentiTorneo = utenti);
     this.cercaUtente();
+
+    // controllo se l'utente è autenticato
     if(this.authService.isAuthenticated()) {
       this.torneoService.isIscritto(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(risultato => {
         this.flagIscritto = risultato
@@ -56,6 +59,8 @@ export class TorneoComponent implements OnInit{
       this.flagAdmin = false;
     }
   }
+
+  // ricerca l'utente attualmente loggato
   cercaUtente(): any | undefined {
     this.utentiService.dammiUtenteAcceduto().subscribe(utenteAcceduto=> {
       if(utenteAcceduto!=undefined)
@@ -63,7 +68,7 @@ export class TorneoComponent implements OnInit{
     });
   }
 
-
+  // invia una richiesta di iscrizione al torneo
   iscrivimi(){
     this.torneoService.iscriviGiocatore(this.torneo?.id).subscribe(risultato => {
       if(risultato){
@@ -76,6 +81,7 @@ export class TorneoComponent implements OnInit{
     });
   }
 
+  // Carica le partite organizzandole per turno
   loadPartite(partite?: Partita[]){
     if(partite == null)
       return;
@@ -90,6 +96,7 @@ export class TorneoComponent implements OnInit{
     }
   }
 
+  // invia una richiesta per generare le partite del torneo
   generaTorneo(){
     this.torneoService.generaTorneo(this.torneo?.id).subscribe(risultato => {
       if(risultato) {
@@ -100,6 +107,8 @@ export class TorneoComponent implements OnInit{
       }
     });
   }
+
+  // invia una richiesta per chiudere il torneo
   chiudiTorneo(){
     this.torneoService.chiudiTorneo(this.torneo?.id).subscribe(risultato => {
       if(!risultato) {
@@ -123,6 +132,7 @@ export class TorneoComponent implements OnInit{
       this.turno--;
   }
 
+  // invia una richiesta per disiscriversi dal torneo
   discrivimi() {
     this.torneoService.disiscriviGiocatore(this.torneo?.id).subscribe(risultato => {
       if(risultato){
@@ -134,6 +144,8 @@ export class TorneoComponent implements OnInit{
       }
     });
   }
+
+  // Naviga alla pagina del profilo utente, pubblico o privato, in base all'utente cliccato
   visualizzaUtente(user: Utente) {
     if(user.username=="custom")
       return;

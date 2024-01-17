@@ -24,6 +24,8 @@ export class AnteprimaProfiloComponent implements OnInit {
               private router:Router) {}
 
   ngOnInit() {
+    // faccio una subscribe alla stringa del service, e ogni volta che cambia
+    // verrà chiamata ricercaUtente
     this.exchDataService.currentString.subscribe((newString) => {
       if (newString != '') {
         this.toSearch = newString;

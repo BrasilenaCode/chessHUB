@@ -210,4 +210,24 @@ public class TorneoDaoPostgres implements TorneoDao {
         }
         return 0;
     }
+    public void updatePunteggio(Torneo torneo, Utente utente, int punteggio){
+        String queryGet = "SELECT * FROM iscrizione WHERE torneo = ? and utente = ?";
+        String querySet = "UPDATE iscrizione SET punteggio = ? where torneo = ? and utente = ?";
+        try{
+            PreparedStatement stGet = connection.prepareStatement(queryGet);
+            stGet.setLong(1, torneo.getId());
+            stGet.setString(2, utente.getUsername());
+            ResultSet rs = stGet.executeQuery();
+            if(rs.next()){
+                punteggio += rs.getInt("punteggio");
+            }
+            PreparedStatement stSet = connection.prepareStatement(querySet);
+            stSet.setInt(1, punteggio);
+            stSet.setLong(2, torneo.getId());
+            stSet.setString(3, utente.getUsername());
+            stSet.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

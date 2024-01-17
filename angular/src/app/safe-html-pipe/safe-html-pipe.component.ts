@@ -7,6 +7,7 @@ export class SafeHtmlPipe implements PipeTransform  {
   @Input() pagina:string| undefined;
   constructor(private sanitized: DomSanitizer) {}
   transform(value: string) {
+    // TODO da commentare
     return this.sanitized.bypassSecurityTrustHtml(value);
   }
 }

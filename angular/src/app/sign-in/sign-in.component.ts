@@ -21,11 +21,11 @@ export class SignInComponent {
   recaptcha: boolean = false;
 
 
-  constructor(private auth:AuthServiceService, private router:Router) {
-}
+  constructor(private auth:AuthServiceService, private router:Router) {}
 
   registrati() {
     if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita)&&this.dataNascita.value!=null) {
+      // se il recaptcha non viene risolto non si va avanti
       if(!this.recaptcha) {
         this.errorMessage = "Completa il captcha";
         return;
@@ -41,8 +41,11 @@ export class SignInComponent {
         punteggio: 0,
         punteggioSettimanale: 0
       }
+      // controlla se la password e la conferma della password coincidono
       if (this.password.value == this.repeatedPassword.value) {
+        // controlla che la data di nascita sia una data passata
           if (new Date(this.dataNascita.value) < new Date()) {
+            // invia una richiesta per registrare l'utente
             this.auth.signIn(utente).subscribe(response => {
               if (response) {
                 this.auth.setToken(response.token);
@@ -63,6 +66,7 @@ export class SignInComponent {
     }
   }
 
+  // cerco nella mappa se la nazionalità inserita dall'utente è presente tra i valori
   findKeyByValue (nazionalita:string){
     const keys = Object.keys(this.nationalities);
     for (const key of keys) {
@@ -76,11 +80,11 @@ export class SignInComponent {
   clearErrorMessage() {
     this.errorMessage = "";
   }
-
+  // controlla che nessun campo sia nullo
   sonoValide(...variabili: (FormControl | null)[]): boolean {
     return variabili.every(variabile => variabile?.valid);
   }
-
+  // controlla che il recaptcha sia risolto
   recaptchaResolved(recaptcha: boolean) {
     this.recaptcha = recaptcha;
   }

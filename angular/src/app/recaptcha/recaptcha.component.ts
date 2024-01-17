@@ -11,6 +11,7 @@ declare var Chessboard2: any;
   styleUrl: './recaptcha.component.css'
 })
 export class RecaptchaComponent {
+  // TODO da commentare
   @Output() onCaptchaComplete = new EventEmitter<boolean>();
 
   constructor(private recaptchaService: RecaptchaServiceService) { }
@@ -98,6 +99,7 @@ export class RecaptchaComponent {
   static isWhitePiece (piece : string) : boolean { return /^w/.test(piece); }
   static isBlackPiece (piece : string) : boolean{ return /^b/.test(piece); }
 
+  // chiamata al backend per verificare che il captcha è risolto
   check(challenge: string, response: string) : void{
     this.recaptchaService.checkCaptcha(challenge, response).subscribe(
       (response) => {

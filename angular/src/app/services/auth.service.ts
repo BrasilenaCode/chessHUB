@@ -13,6 +13,8 @@ export class AuthServiceService{
   private backendUrl = "http://localhost:8080";
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http:HttpClient, private router:Router) { }
   public token?:string | null;
+
+  // prende il token dal browser
   getToken(){
     if (this.token == undefined){
       if(isPlatformBrowser(this.platformId)) {
@@ -22,6 +24,7 @@ export class AuthServiceService{
     return this.token;
   }
 
+  // setta il token nel browser
   setToken(token:string){
     this.token = token;
     if(isPlatformBrowser(this.platformId)) {
@@ -29,6 +32,7 @@ export class AuthServiceService{
     }
   }
 
+  // rimuove il token dal browser
   removeToken(){
     this.token = undefined;
     if(isPlatformBrowser(this.platformId)) {
@@ -36,6 +40,7 @@ export class AuthServiceService{
     }
   }
 
+  // chiamata al backend per capire se il mio token è valido
   checkAuthentication(){
     this.http.post<AuthToken>(this.backendUrl + "/isAuthenticated",
     {"Authorization":"Basic " + this.token}, {withCredentials: true}).subscribe(
@@ -47,6 +52,7 @@ export class AuthServiceService{
     );
   }
 
+  // ritorna vero se il token esiste
   isAuthenticated(){
     return this.getToken() != undefined;
   }

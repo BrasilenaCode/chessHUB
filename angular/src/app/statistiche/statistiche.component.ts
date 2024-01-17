@@ -13,13 +13,12 @@ import { isPlatformBrowser } from '@angular/common';
 
 export class StatisticheComponent implements OnInit {
   @ViewChild("chart") chart!: ElementRef;
-  caricamentoFinito: boolean = false;
-  utente!: Utente;
+  caricamentoFinito: boolean = false;   // serve per mostrare lo spinner di caricamento
   numVinte?: number = 0;
   numPerse?: number = 0;
   numPatte?: number = 0;
   numTorneiVinti?: number = 0;
-  isScreenResized: boolean = true;
+  isScreenResized: boolean = false;     // serve per il css
   constructor(private utentiService: UtentiService, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
@@ -49,10 +48,10 @@ export class StatisticheComponent implements OnInit {
     const breakpointWidth = 750;
 
     if (screenWidth >= breakpointWidth){
-      this.isScreenResized = true;
+      this.isScreenResized = false;
 
     }else{
-      this.isScreenResized = false;
+      this.isScreenResized = true;
     }
   }
   createBarChart() {
@@ -63,6 +62,7 @@ export class StatisticheComponent implements OnInit {
       data: {
         labels: ['Grafico di visualizzazione'],
         datasets: [
+          // setto le colonne del grafico
           {
             label: "Vittorie",
             data: [this.numVinte],
