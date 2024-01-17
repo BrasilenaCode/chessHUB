@@ -20,37 +20,10 @@ declare var Chessboard2: any;
 export class CreaPgnComponent implements OnInit{
   static game: Chess = new Chess();
   static board?: any;
-  isScreenResized: boolean = false;
-  isScreenShrinked: boolean = false;
   en? : Utente;
   me? : Utente;
   customTorneo? : Torneo;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
-    this.checkWindowWidth();
-  }
-  checkWindowWidth(): void {
-    let screenWidth=0;
-    if(isPlatformBrowser(this.platformId))
-         screenWidth = window.innerWidth;
-    const breakpointWidth = 1430;
-    const shrinked = 1010;
-
-    if (screenWidth >= breakpointWidth){
-      this.isScreenResized = false;
-      this.isScreenShrinked = false;
-    }else{
-      if (screenWidth < shrinked) {
-        this.isScreenShrinked = true;
-        this.isScreenResized = false;
-
-      } else {
-        this.isScreenResized = true;
-        this.isScreenShrinked = false;
-      }
-    }
-  }
 
   config = {
     draggable: true,
@@ -59,10 +32,7 @@ export class CreaPgnComponent implements OnInit{
     onDrop: this.onDrop,
   }
 
-  static gameStatus: string = "";
   static gameState: string = "0";
-
-  gameStatusPublic: string = "";
 
   colore : string = "bianco";
   risultato : string= "0";
@@ -83,9 +53,9 @@ export class CreaPgnComponent implements OnInit{
   positionEnded : boolean = false;
 
   constructor(private utentiService : UtentiService, private activatedRoute: ActivatedRoute,
-     private torneoService: TorneoService, private partitaService : PartitaService, private router: Router,
-     @Inject(PLATFORM_ID) private platformId: Object) {}
+     private torneoService: TorneoService, private partitaService : PartitaService, private router: Router) {}
 
+  // Carica la board e se l'utente è loggato carica le informazioni sulla partita per poter salvare la partita
   ngOnInit(): void {
     try{
       CreaPgnComponent.board = Chessboard2('board', this.config);
@@ -113,10 +83,9 @@ export class CreaPgnComponent implements OnInit{
     this.torneoService.dammiTorneo(-1).subscribe(torneo => {
       this.customTorneo = torneo;
     });
-
-
   }
 
+  // Salva il commento della posizione attuale
   salvaCommento(): void {
     if (this.commentoAttuale == "")
       return;
@@ -125,6 +94,7 @@ export class CreaPgnComponent implements OnInit{
     this.updateFormulario();
   }
 
+  // Cancella il commento della posizione attuale
   cancellaCommento(): void {
     this.commentoAttuale = "";
     CreaPgnComponent.game.deleteComment();
@@ -132,12 +102,14 @@ export class CreaPgnComponent implements OnInit{
     this.updateFormulario();
   }
 
+  // Annullo l'ultima mossa fatta e aggiorno le informazioni sulla pagina
   undoMove(): void {
     CreaPgnComponent.game.undo();
     CreaPgnComponent.board.position(CreaPgnComponent.game.fen());
     CreaPgnComponent.updateStatus();
   }
 
+  // Scarica il file pgn della partita
   scaricaPGN(): void {
     this.generaPGN();
     const textContent = CreaPgnComponent.game.pgn();
@@ -155,6 +127,7 @@ export class CreaPgnComponent implements OnInit{
     window.URL.revokeObjectURL(url);
   }
 
+  // Genera l'header del file pgn
   generaPGN(): void {
     if(this.appartieneTorneo == "1"){
       if(this.nomeTorneo != "")
@@ -173,10 +146,7 @@ export class CreaPgnComponent implements OnInit{
       result = "0-1";
     else if(this.risultato == "3")
       result = "1/2-1/2";
-    else{
-      result = "NC";
-    }
-    if(result != "NC")
+    if(result != "")
       CreaPgnComponent.game.header('Result', result);
     if(this.colore == "bianco"){
       if(this.io != "")
@@ -191,6 +161,7 @@ export class CreaPgnComponent implements OnInit{
     }
   }
 
+  // Salva la partita nel database
   salvaPartita(): void {
     if(this.risultato == "0"){
       alert("Inserisci un risultato per salvare la partita");
@@ -243,13 +214,13 @@ export class CreaPgnComponent implements OnInit{
     }));
   }
 
+  // Aggiorna le informazioni sulla pagina
   updateStats(): void {
     if(this.fenAttuale == CreaPgnComponent.game.fen())
       return;
     this.fenAttuale = CreaPgnComponent.game.fen();
     if(this.commentoAttuale != CreaPgnComponent.game.getComment())
       this.commentoAttuale = CreaPgnComponent.game.getComment();
-    this.gameStatusPublic = CreaPgnComponent.gameStatus;
     if(CreaPgnComponent.gameState != "0"){
       this.risultato = CreaPgnComponent.gameState;
       this.positionEnded = true;
@@ -259,6 +230,7 @@ export class CreaPgnComponent implements OnInit{
     this.updateFormulario();
   }
 
+  // Aggiorna il formulario delle mosse
   updateFormulario(): void {
     this.mosse = [];
     let cont : number = 0;
@@ -275,14 +247,11 @@ export class CreaPgnComponent implements OnInit{
     });
   }
 
-  static isWhitePiece(piece : String): boolean {
-    return piece.search(/^w/) !== -1
-  }
+  // Funzioni di servizio della board per capire se un pezzo è bianco o nero
+  static isWhitePiece(piece : String): boolean {return piece.search(/^w/) !== -1}
+  static isBlackPiece(piece : String): boolean {return piece.search(/^b/) !== -1}
 
-  static isBlackPiece(piece : String): boolean {
-    return piece.search(/^b/) !== -1
-  }
-
+  // Funzioni per la board di chessboard.js: Quando un pezzo viene rilasciato, aggiorno la board
   onDrop (dropEvt : any) : any{
     let move;
     CreaPgnComponent.board.clearCircles();
@@ -304,6 +273,7 @@ export class CreaPgnComponent implements OnInit{
     CreaPgnComponent.updateStatus();
   }
 
+  // Funzioni per la board di chessboard.js: Quando un pezzo viene toccato, mostro le mosse possibili
   onDragStart (dragStartEvt : any) : any{
     if (CreaPgnComponent.game.isGameOver()) {
       return false;
@@ -322,39 +292,18 @@ export class CreaPgnComponent implements OnInit{
     })
   }
 
+  // Funzione per la board: Aggirno lo stato interno della partita
   static updateStatus(): void {
-    let statusHTML = '';
     let esito = '0';
 
-    const whosTurn = CreaPgnComponent.game.turn() === 'w' ? 'White' : 'Black';
-
-    if (!CreaPgnComponent.game.isGameOver()) {
-      if (CreaPgnComponent.game.inCheck()) statusHTML = whosTurn + ' is in check! ';
-      statusHTML = statusHTML + whosTurn + ' to move.';
-    } else if (CreaPgnComponent.game.isCheckmate() && CreaPgnComponent.game.turn() == 'w') {
-      statusHTML = 'Game over: white is in checkmate. Black wins!';
+    if (CreaPgnComponent.game.isCheckmate() && CreaPgnComponent.game.turn() == 'w') {
       esito = '2';
     } else if (CreaPgnComponent.game.isCheckmate() && CreaPgnComponent.game.turn() == 'b') {
-      statusHTML = 'Game over: black is in checkmate. White wins!';
       esito = '1';
-    } else if (CreaPgnComponent.game.isStalemate() && CreaPgnComponent.game.turn() == 'w') {
-      statusHTML = 'Game is drawn. White is stalemated.';
-      esito = '3';
-    } else if (CreaPgnComponent.game.isStalemate() && CreaPgnComponent.game.turn() == 'b') {
-      statusHTML = 'Game is drawn. Black is stalemated.';
-      esito = '3';
-    } else if (CreaPgnComponent.game.isThreefoldRepetition()) {
-      statusHTML = 'Game is drawn by threefold repetition rule.';
-      esito = '3';
-    } else if (CreaPgnComponent.game.isInsufficientMaterial()) {
-      statusHTML = 'Game is drawn by insufficient material.';
-      esito = '3';
     } else if (CreaPgnComponent.game.isDraw()) {
-      statusHTML = 'Game is drawn by fifty-move rule.';
       esito = '3';
     }
     CreaPgnComponent.gameState = esito;
-    CreaPgnComponent.gameStatus = statusHTML;
   }
 
 }
