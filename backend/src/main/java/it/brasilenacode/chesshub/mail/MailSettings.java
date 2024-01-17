@@ -6,6 +6,6 @@ public class MailSettings {
 
     public static final String notifierMail = "chessHUB.brasilenaCode@gmail.com";
 
-    public static final String notifierPswd = ""; // inserire password della mail
+    public static final String notifierPswd = "wldo lwir objp fxsk";
 
 }
