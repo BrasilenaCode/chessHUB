@@ -20,6 +20,7 @@ export interface Utente{
   punteggio:number
   admin:boolean;
   punteggioSettimanale:number;
+  email: string;
 }
 
 export interface UtenteLogin{

@@ -56,6 +56,9 @@
         <input type="text" class="form-control dim" id="authCode" placeholder="Inserisci password" name="authCode" [formControl]="authCode" required>
         </div>
       </div>
+      <a href="" (click)="requestAuthCode()">Richiedi un nuovo codice</a>
+      <a href="" (click)="goToForm()">Ritorna al form</a>
+      <div *ngIf="errorMessage" class="error-message mt-3"></div>
     </ng-template>
       <button type="submit" class="btn btn-primary mt-3">{{ buttonText }}</button>
   </form>

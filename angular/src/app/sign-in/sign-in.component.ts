@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormControl } from "@angular/forms";
 import {AuthServiceService} from "../services/auth.service";
 import {Router} from "@angular/router";
-import {UtenteRegistrazione} from '../model/utente';
+import {Utente, UtenteRegistrazione} from '../model/utente';
 import { UtentiService } from '../services/utenti.service';
 
 @Component({
@@ -24,46 +24,62 @@ export class SignInComponent {
   buttonText: string = "Avanti";
   nextStep: boolean = false;
   authCode = new FormControl();
+  utente!: UtenteRegistrazione;
+  continueRegistering!: boolean;
+  tries!: number;
 
 
   constructor(private auth:AuthServiceService,
     private utentiService: UtentiService,
      private router:Router) {}
 
+
+  /*
+  questa funzione è suddivisa in due step, in modo tale da poter riusare la stessa funzione del (click):
+  ~Step 1: 
+    il bottone visualizzato è 'Avanti'. Questo vuoldire che si sta compilando il form
+    di registrazione perciò si prendono gli input dell'utente, si validano, si controlla il captcha,
+    si controlla che le password coincidano, si valida la data di nascita e, prima di passare allo
+    step successivo, si controlla che l'username inserito dall'utente non sia presente nel DB: in tal caso,
+    l'utente non può andare avanti e deve cambiare l'username. Se l'username è valido il bottone diventa
+    'Verifica' e si passa al secondo step.
+  ~Step 2: 
+    L'utente procede con l'inviare il codice di verifica ricevuto via mail. si hanno tre tentativi:
+    il loop di controllo finisce nel caso l'utente raggiunga il numero massimo di tentativi o inserisca il codice
+    corretto (o il server restituisca errore). Nel caso il codice sia corretto, viene effettuata
+    la registrazione vera e propria dell'utente nel DB.
+  */ 
   registrati() {
-    var utente: UtenteRegistrazione = {
-      username: this.username.value,
-      password: this.password.value,
-      nome: this.nome.value,
-      cognome: this.cognome.value,
-      nazionalita: this.findKeyByValue(this.nazionalita.value),
-      dataNascita: this.dataNascita.value,
-      admin: false,
-      punteggio: 0,
-      punteggioSettimanale: 0,
-      email: this.email.value,
-    }
     if (this.buttonText == 'Avanti') {
+      this.utente = {
+        username: this.username.value,
+        password: this.password.value,
+        nome: this.nome.value,
+        cognome: this.cognome.value,
+        nazionalita: this.findKeyByValue(this.nazionalita.value),
+        dataNascita: this.dataNascita.value,
+        admin: false,
+        punteggio: 0,
+        punteggioSettimanale: 0,
+        email: this.email.value,
+      }
       if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita, this.email)&&this.dataNascita.value!=null) {
-        // se il recaptcha non viene risolto non si va avanti
         if(!this.recaptcha) {
           this.errorMessage = "Completa il captcha";
           return;
         }
-        // controlla se la password e la conferma della password coincidono
         if (this.password.value == this.repeatedPassword.value) {
-          // controlla che la data di nascita sia una data passata
             if (new Date(this.dataNascita.value) < new Date()) {
-              this.utentiService.dammiUtente(utente.username).subscribe(utente => {
+              this.utentiService.dammiUtente(this.utente.username).subscribe(utente => {
                 if (utente != null) {
                   this.errorMessage = "Nome utente già in uso.";
                 } else {
                   this.buttonText = 'Verifica';
+                  this.requestAuthCode();
                   this.nextStep = true;
                   this.errorMessage = '';
                 }
-              })
-              
+              });
             } else {
               this.errorMessage = "Data di nascita non valida";
             }
@@ -74,17 +90,56 @@ export class SignInComponent {
           this.errorMessage = "Compila tutti i campi";
       }
     } else {
-      this.auth.signIn(utente).subscribe(response => {
-        if (response) {
-          this.auth.setToken(response.token);
-          this.router.navigate(["/"]);
-          this.errorMessage = "";
-        } else {
-          this.errorMessage = "Nome utente già in uso";
-        }
-      });
+      this.tries = 3;
+      this.continueRegistering = false;
+      while (this.tries > 0 || this.continueRegistering) {
+        this.auth.verifyAuthCodeWhenRegistering(this.authCode.value).subscribe(response => {
+          
+          switch (response) {
+            case "corretto":
+              this.errorMessage = ""
+              this.continueRegistering = true;
+              break;
+
+            case "sbagliato":
+              this.tries--;
+              this.errorMessage = 'Numero di tentativi rimasti: ' + this.tries;
+              break;
+
+            case "errore":
+              this.errorMessage = 'Si è verificato un errore. Consigliato richiedere un nuovo codice.'
+              this.tries = 0;
+              break;
+
+            default:
+              this.errorMessage = 'si è verificato un errore nel server.';
+              break;
+
+          }
+          if (this.tries == 0) this.auth.clearUUID();
+          if (this.continueRegistering) {
+            this.auth.signIn(this.utente).subscribe(response => {
+              if (response) {
+                this.auth.setToken(response.token);
+                this.router.navigate(["/"]);
+                this.errorMessage = "";
+              } 
+              /*
+              else {
+                this.errorMessage = "Nome utente già in uso";
+              }
+              */
+            });
+          }
+        });
+      }
+       
     }
-    
+  }
+
+  // richiede un nuovo codice
+  requestAuthCode(): void {
+    this.auth.getAuthCodeUUID(this.utente.username);
   }
 
   // cerco nella mappa se la nazionalità inserita dall'utente è presente tra i valori
@@ -96,6 +151,10 @@ export class SignInComponent {
       }
     }
     return "undefined"
+  }
+
+  goToForm(): void {
+    this.nextStep = false;
   }
 
   clearErrorMessage() {
