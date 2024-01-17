@@ -31,8 +31,7 @@ export class ClassificaComponent implements OnInit{
     this.visualizzaBottone=true;
 
   }
-  constructor(private utentiService:UtentiService, private router:Router){
-  }
+  constructor(private utentiService:UtentiService, private router:Router){}
 
   private getBestUser() {
     this.utentiService.dammiUtenti().subscribe(user => {
@@ -82,7 +81,6 @@ export class ClassificaComponent implements OnInit{
     if(this.utentiMigliori!=undefined){
       for (let i = 0; i < this.utentiMigliori.length; i++) {
         if(this.utentiMigliori[i].username==this.usernameUtente){
-          this.usernameUtente=this.usernameUtente;
           this.indice=i+1;
         }
       }

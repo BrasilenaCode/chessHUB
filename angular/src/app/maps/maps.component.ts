@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { HttpClient } from '@angular/common/http';
 import { Torneo } from '../model/torneo';
 import { TorneoService } from '../services/torneo.service';
-import { UtentiService } from '../services/utenti.service';
 import { Utente } from '../model/utente';
 
 
@@ -19,7 +18,7 @@ export class MapsComponent implements OnChanges {
     se showEntirely è vera mostra solo la mappa con il luogo del torneo pinnato,
     se falsa mostra tutta quanta la view per ricercare tornei vicini
   */
-  @Input() showEntirely: boolean = false;  
+  @Input() showEntirely: boolean = false;
 
   constructor(private http: HttpClient,
      private torneoService: TorneoService) {}
@@ -36,7 +35,7 @@ export class MapsComponent implements OnChanges {
   zoom = 6;
   options = {}              // serve ad app-marker per settare un'icona personalizzata come marker
   location1: string = '';   // stringa che identifica la posizione attuale
-  distance: number = 0; 
+  distance: number = 0;
   showError: boolean = false;
   errorMessage: string = '';
   displayDefault: boolean = true; // se vera, viene mostrata la posizione di default sulla mappa (defaultCenter)
@@ -74,7 +73,7 @@ export class MapsComponent implements OnChanges {
     this.showError = true;
     this.errorMessage = messageToShow;
     this.center = this.defaultCenter;
-    this.zoom = 5; 
+    this.zoom = 5;
     this.displayDefault = true;
   }
 
@@ -93,7 +92,7 @@ export class MapsComponent implements OnChanges {
       let location: any;
       if (response.results.length > 0 && response.results[0].geometry != undefined) {
         location = response.results[0].geometry.location;
-      
+
         // iamhere serve per inizializzare il giusto marker
         if (iamhere) {
           this.display = { lat: location.lat, lng: location.lng };

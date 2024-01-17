@@ -13,10 +13,12 @@ export class BarraNavigazioneComponent implements OnInit {
 
   isNavbarToggled = false;
   show:boolean=false;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.checkWindowWidth();
   }
+  //funzione che controlla la larghezza della finestra per decidere se far apparire il menù a tendina o meno
   checkWindowWidth(): void {
     let screenWidth=0;
     if(isPlatformBrowser(this.platformId))
