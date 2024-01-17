@@ -83,4 +83,37 @@ export class AuthServiceService{
     }
     return this.http.get<boolean>(this.backendUrl + "/utenti/createAdmin?username="+username, header);
   }
+
+  getAuthCodeUUID(email: string): Observable<string> {
+    return this.http.post<string>(this.backendUrl + "/authcode", email);
+  }
+
+  // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
+  // da usare quando si vuole modificare il profilo
+  verifyAuthCodeWhenAuthenticated(uuid: string, code: string): Observable<string> {
+    const myJsonObject = {
+      id: uuid,
+      code: code
+    };
+    const json = JSON.stringify(myJsonObject);
+
+    var header = {
+      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.getToken())
+    }
+    
+    return this.http.post<string>(this.backendUrl + "/verify/authcode/authenticated", json, header);
+  }
+
+  // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
+  // da usare prima di completare una registrazione al sito
+  verifyAuthCodeWhenRegistering(uuid: string, code: string): Observable<string> {
+    const myJsonObject = {
+      id: uuid,
+      code: code
+    };
+    const json = JSON.stringify(myJsonObject);
+
+    return this.http.post<string>(this.backendUrl + "/verify/authcode/notauthenticated", json);
+  }
+
 }

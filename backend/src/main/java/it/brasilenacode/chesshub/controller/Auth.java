@@ -1,14 +1,17 @@
 package it.brasilenacode.chesshub.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import it.brasilenacode.chesshub.mail.MailManager;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
+import it.brasilenacode.chesshub.utilities.Pair;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.IOException;
 import java.util.Base64;
 
 // controller per i servizi di autenticazione
@@ -16,6 +19,7 @@ import java.util.Base64;
 // abilita le richieste da localhost:4200
 @CrossOrigin(value = "http://localhost:4200", allowCredentials = "true")
 public class Auth {
+
     // classe per il token di autenticazione
     private class AuthToken{
         String token;
@@ -90,6 +94,54 @@ public class Auth {
             return false;
         }
     }
+
+    // il frontend manda a questo endpoint un authcode e l'id associato ad esso
+    // viene fatta una richiesta nel momento in cui l'utente è autenticato
+    // ERGO vuole modificare i propri dati personali
+    @PostMapping("/verify/authcode/authenticated")
+    public static String verifyAuthCodeWhenAuthenticated(@RequestBody String pair, HttpServletRequest req) {
+        if (isAuthenticated(req)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                JsonNode node = objectMapper.readTree(pair);
+                String uuid = node.get("id").asText();
+                String code = node.get("code").asText();
+                return MailManager.getInstance().isAuthCodeCorrect(uuid, code);
+            } catch (IOException e) {
+                System.out.println("ERROR READING THE JSON FOR AUTHCODE.");
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
+
+    // il frontend manda a questo endpoint un authcode e l'id associato ad esso
+    // viene fatta una richiesta nel momento in cui l'utente non è autenticato
+    // ERGO vuole registrarsi al sito
+    @PostMapping("/verify/authcode/notauthenticated")
+    public static String verifyAuthCodeWhenRegistering(@RequestBody String pair) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode node = objectMapper.readTree(pair);
+            String uuid = node.get("id").asText();
+            String code = node.get("code").asText();
+            return MailManager.getInstance().isAuthCodeCorrect(uuid, code);
+        } catch (IOException e) {
+            System.out.println("ERROR READING THE JSON FOR AUTHCODE.");
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    // da questo endpoint, il frontend riceve l'id associato all'authcode che l'utente dovrà inserire
+    // (authcode che viene mandato alla mail dell'utente)
+    @PostMapping("/authcode")
+    public String sendAuthCode(@RequestBody String mail) {
+        String uuid = MailManager.getInstance().getUuid();
+        boolean mailSent = MailManager.getInstance().send(mail, uuid);
+        return (mailSent)? uuid : "errore";
+    }
+
     // metodo per prendere l'utente dal token
     public static Utente getUserByToken(String token){
         // decodifico il token, se esiste

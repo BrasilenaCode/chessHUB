@@ -20,7 +20,6 @@ import { AddTorneoComponent } from './add-torneo/add-torneo.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TorneiStatoComponent } from './tornei-stato/tornei-stato.component';
 import { TorneoComponent } from './torneo/torneo.component';
-import { SearchResultsComponent } from './search-results/search-results.component';
 import { StatisticheComponent } from './statistiche/statistiche.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -39,13 +38,13 @@ import { AnteprimaTorneoComponent } from './anteprima-torneo/anteprima-torneo.co
 import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
 import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 import {ProfiloComponent} from "./profilo/profilo.component";
-import {SafeHtmlPipe} from "./safe-html-pipe/safe-html-pipe.component";
 import { Page404Component } from './page404/page404.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { TorneiViciniComponent } from './tornei-vicini/tornei-vicini.component';
 import { StrumentiComponent } from './strumenti/strumenti.component';
+import { SafeHtmlPipe } from './safe-html.pipe';
 
 
 @NgModule({
@@ -63,7 +62,6 @@ import { StrumentiComponent } from './strumenti/strumenti.component';
     AddTorneoComponent,
     TorneiStatoComponent,
     TorneoComponent,
-    SearchResultsComponent,
     StatisticheComponent,
     SignInComponent,
     MapsComponent,
@@ -81,11 +79,11 @@ import { StrumentiComponent } from './strumenti/strumenti.component';
     TabDiRicercaComponent,
     CreaPgnComponent,
     ProfiloComponent,
-    SafeHtmlPipe,
     Page404Component,
     RecaptchaComponent,
     TorneiViciniComponent,
     StrumentiComponent,
+    SafeHtmlPipe,
   ],
     imports: [
         HttpClientModule,

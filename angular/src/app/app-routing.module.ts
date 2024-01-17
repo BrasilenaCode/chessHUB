@@ -8,7 +8,6 @@ import { TorneiComponent } from './tornei/tornei.component';
 import { ClassificaComponent } from './classifica/classifica.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import {AddTorneoComponent} from "./add-torneo/add-torneo.component";
-import { SearchResultsComponent } from './search-results/search-results.component';
 import { TorneoComponent } from './torneo/torneo.component';
 import { StatisticheComponent } from './statistiche/statistiche.component';
 import {SignInComponent} from "./sign-in/sign-in.component";
@@ -35,7 +34,6 @@ const routes: Routes = [
   {"path": "tornei", component: TorneiComponent},
   {"path": "classifica", component: ClassificaComponent},
   {"path": "addTorneo", component: AddTorneoComponent},
-  {"path": "searchResults", component: SearchResultsComponent},
   {"path": "signIn", component: SignInComponent},
   {"path": "torneo", component: TorneoComponent},
   {"path": "statistiche", component: StatisticheComponent, canActivate:[AuthGuardService]},
