@@ -38,13 +38,13 @@ import { AnteprimaTorneoComponent } from './anteprima-torneo/anteprima-torneo.co
 import { TabDiRicercaComponent } from './tab-di-ricerca/tab-di-ricerca.component';
 import { CreaPgnComponent } from './crea-pgn/crea-pgn.component';
 import {ProfiloComponent} from "./profilo/profilo.component";
-import {SafeHtmlPipe} from "./safe-html-pipe/safe-html-pipe.component";
 import { Page404Component } from './page404/page404.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { TorneiViciniComponent } from './tornei-vicini/tornei-vicini.component';
 import { StrumentiComponent } from './strumenti/strumenti.component';
+import { SafeHtmlPipe } from './safe-html.pipe';
 
 
 @NgModule({
@@ -79,11 +79,11 @@ import { StrumentiComponent } from './strumenti/strumenti.component';
     TabDiRicercaComponent,
     CreaPgnComponent,
     ProfiloComponent,
-    SafeHtmlPipe,
     Page404Component,
     RecaptchaComponent,
     TorneiViciniComponent,
     StrumentiComponent,
+    SafeHtmlPipe,
   ],
     imports: [
         HttpClientModule,
