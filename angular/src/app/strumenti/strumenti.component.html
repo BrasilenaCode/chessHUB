@@ -6,9 +6,9 @@
 <div>
   <h1 class="titolo text-center fw-bold display-1 text-white">Partite</h1>
   <div class="container text-center">
-    <button *ngIf="!autenticato()" class="btn btn-primary" (click) = "importaPartita()">Genera PGN</button>
-    <button *ngIf="autenticato()" class="btn btn-primary" (click) = "salvaPartita()">Importa Partita</button>
-    <button (click) = "visualizzaPartitaDaPgn()" class="btn btn-primary margine">Visualizza Partita da PGN</button>
+    <button *ngIf="!autenticato()" class="btn btn-primary mt-2" (click) = "importaPartita()">Genera PGN</button>
+    <button *ngIf="autenticato()" class="btn btn-primary mt-2" (click) = "salvaPartita()">Importa Partita</button>
+    <button (click) = "visualizzaPartitaDaPgn()" class="btn btn-primary margine mt-2">Visualizza Partita da PGN</button>
   </div>
   <div>
       <h2 class="text-center mt-5">Ultime Partite Caricate</h2>

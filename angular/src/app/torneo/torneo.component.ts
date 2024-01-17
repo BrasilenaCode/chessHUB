@@ -39,7 +39,7 @@ export class TorneoComponent implements OnInit{
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
       this.loadPartite(partite);
       if(partite?.length > 0) {
-        this.turno = 1;
+        this.turno = 0;
         this.flagPartite = false;
       }
     });

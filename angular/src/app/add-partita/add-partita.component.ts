@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { Chess } from 'chess.js';
 import { Partita } from '../model/partita';
 import { PartitaService } from '../services/partita.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {isPlatformBrowser} from "@angular/common";
 
 declare var Chessboard2: any;
 
@@ -30,9 +31,14 @@ export class AddPartitaComponent implements OnInit{
       onDrop: this.onDrop,
     }
 
-    constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private router:Router){}
+    constructor(@Inject(PLATFORM_ID) private platformId: Object, private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private router:Router){}
 
     ngOnInit(): void {
+      this.router.events.subscribe((event: any) => {
+        if (event && event.routerEvent instanceof NavigationEnd && isPlatformBrowser(this.platformId)) {
+          window.scrollTo(0, 0);
+        }
+      });
       this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => this.partita = partita)
       try{
         AddPartitaComponent.board = Chessboard2('board', this.config);
@@ -71,7 +77,7 @@ export class AddPartitaComponent implements OnInit{
       }
       this.updateFormulario();
     }
-  
+
     updateFormulario(): void {
       this.mosse = [];
       let cont : number = 0;
@@ -232,13 +238,13 @@ export class AddPartitaComponent implements OnInit{
       let textContent = AddPartitaComponent.game.pgn();
       let blob = new Blob([textContent], { type: 'text/plain' });
       let url = window.URL.createObjectURL(blob);
-  
+
       let a = document.createElement('a');
       a.href = url;
       a.download = "partita.txt";
       document.body.appendChild(a);
       a.click();
-  
+
 
       window.URL.revokeObjectURL(url);
     }

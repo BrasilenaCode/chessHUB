@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, Inject, PLATFORM_ID} from '@angular/core';
 import { OnInit } from '@angular/core';
 import { UtentiService } from '../services/utenti.service';
-import { Router } from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import {Partita} from "../model/partita";
 import { PartitaService } from '../services/partita.service';
 import {AuthServiceService} from "../services/auth.service";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-profilo-pubblico',
@@ -13,7 +14,7 @@ import {AuthServiceService} from "../services/auth.service";
   styleUrl: './profilo-pubblico.component.css',
 })
 export class ProfiloPubblicoComponent implements OnInit{
-  constructor(private utentiService: UtentiService, private activatedRoute: ActivatedRoute, private partiteService: PartitaService, private auth:AuthServiceService, private router:Router) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private utentiService: UtentiService, private activatedRoute: ActivatedRoute, private partiteService: PartitaService, private auth:AuthServiceService, private router:Router) { }
   pagina?: string = "";
   partite?: Partita[]=[];
   partiteFuoriTorneo?: Partita[];
@@ -25,8 +26,12 @@ export class ProfiloPubblicoComponent implements OnInit{
   username?: string;
   condizione1: number=0;
   condizione2: number=0;
-
   ngOnInit(): void {
+    this.router.events.subscribe((event: any) => {
+      if (event && event.routerEvent instanceof NavigationEnd && isPlatformBrowser(this.platformId)) {
+        window.scrollTo(0, 0);
+      }
+    });
     this.username=this.activatedRoute.snapshot.queryParams["username"];
     this.getPaginaUtente();
     this.getPartiteUtente();

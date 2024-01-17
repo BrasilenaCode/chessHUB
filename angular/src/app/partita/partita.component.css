@@ -1,6 +1,6 @@
 #board1 {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: auto;
   border: 1px solid #ccc;
   margin: auto;
 }
@@ -44,6 +44,12 @@ img.titolo{
 .display-1{
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+@media only screen and (max-width: 400px) {
+  #board1{
+    width: 80%;
+  }
+}
 .container{
     margin-top: 27vh
 }
@@ -65,18 +71,8 @@ img.titolo{
 
 .destra{
   margin-right:0;
-  margin-left: auto;
 }
 
-.zero{
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.mar3{
-  margin-right: 0.5vw;
-  margin-left: 0.5vw;
-}
 .margine{
   margin-bottom:30vh;
 }
