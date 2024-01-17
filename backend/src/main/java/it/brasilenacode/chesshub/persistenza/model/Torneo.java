@@ -109,7 +109,8 @@ public class Torneo {
         PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
         for(int turno=1;turno < partecipanti.size();turno++){
             for(int partecipante=0;partecipante<partecipanti.size()/2;partecipante++){
-                Partita partita = new Partita(this, partecipanti.get(partecipante), partecipanti.get(partecipanti.size() - partecipante-1), new Date(), "0", turno);
+                Date date = new Date(this.getDataInizio().getTime() + (((getDataFine().getTime() - getDataInizio().getTime()) / (partecipanti.size()-1)) * turno));
+                Partita partita = new Partita(this, partecipanti.get(partecipante), partecipanti.get(partecipanti.size() - partecipante-1), date, "0", turno);
                 partite.add(partita);
                 if (!(partita.getGiocatore2().getUsername().equals("__RIPOSO__") || partita.getGiocatore1().getUsername().equals("__RIPOSO__"))) {
                     partitaDao.saveOrUpdate(partita);
