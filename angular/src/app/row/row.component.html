@@ -1,7 +1,6 @@
 <div [ngClass]="{'utente':condizione,'riga':!condizione}" class="row justify-content-center">
     <div class="col text-center" >{{index}}</div>
-    <div class="col text-center">{{utente?.nome}}</div>
-    <div class="col text-center">{{utente?.cognome}}</div>
+    <div class="col text-center">{{utente?.username}}</div>
     <div class="col text-center">{{utente?.nazionalita}}</div>
     <div *ngIf="!condizioneClassifica" class="col text-center">{{utente?.punteggio}}</div>
     <div *ngIf="condizioneClassifica" class="col text-center">{{punteggi?.get(utente!.username)}}</div>

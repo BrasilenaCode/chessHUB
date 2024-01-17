@@ -44,7 +44,7 @@ export class CreaPgnComponent implements OnInit{
       if (screenWidth < shrinked) {
         this.isScreenShrinked = true;
         this.isScreenResized = false;
-      
+
       } else {
         this.isScreenResized = true;
         this.isScreenShrinked = false;
@@ -89,7 +89,6 @@ export class CreaPgnComponent implements OnInit{
     try{
       CreaPgnComponent.board = Chessboard2('board', this.config);
     }catch(e){}
-
     try{
       window.setInterval(() => {
         this.updateStats();
@@ -113,7 +112,7 @@ export class CreaPgnComponent implements OnInit{
     this.torneoService.dammiTorneo(-1).subscribe(torneo => {
       this.customTorneo = torneo;
     });
-    
+
 
   }
 
@@ -205,7 +204,7 @@ export class CreaPgnComponent implements OnInit{
     this.generaPGN();
     if(this.me == null || this.en == null || this.customTorneo == null)
       return;
-    
+
     let partita : Partita;
     if(this.colore == "bianco"){
       partita = {

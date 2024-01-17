@@ -31,5 +31,6 @@
         </div>
     </div>
 </div>
-<p class="text-center mt-5"><a th:href="@{/amici(utente=${utente.username})}" th:text="'Follower: ' + ${utente.follower}" class="btn btn-primary" style="width:20vw"></a></p>
+<h5 th:if="${utente.admin}" class="text-center mt-4">Utente Admin</h5>
+<p class="text-center mt-3"><a th:href="@{/amici(utente=${utente.username})}" th:text="'Follower: ' + ${utente.follower}" class="btn btn-primary w-auto"></a></p>
 

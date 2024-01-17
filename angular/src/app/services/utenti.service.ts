@@ -58,34 +58,6 @@ export class UtentiService {
     return this.http.get<Utente[]>(this.backendUrl + "/utenti/all")
   }
 
-  getUtente(username:string):Observable<Utente>{
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
-    }
-    return this.http.post<Utente>(this.backendUrl + "/getUtente", username, header)
-  }
-  aggiungiUtente(utente:Utente):any{
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
-    }
-
-    return this.http.post(this.backendUrl+"/addUtente", utente, header).subscribe((risposta) => {
-    console.log('Risposta dal backend:', risposta);}, (errore) => {
-    console.error('Errore durante la richiesta al backend:', errore);
-    }
-    );
-  }
-  updateUtente(utente:Utente):any{
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)
-    }
-    return this.http.post(this.backendUrl+"/updateUtente", utente, header).subscribe((risposta) => {
-    console.log('Risposta dal backend:', risposta);}, (errore) => {
-    console.error('Errore durante la richiesta al backend:', errore);
-    }
-    );
-  }
-
   deleteUtente(){
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.token)

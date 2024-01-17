@@ -29,7 +29,7 @@
         <p>{{commentoAttuale}}</p>
       </div>
     </div>
-    <div class="col-xl-4 text-center mb-4">
+    <div class="col text-center mb-4">
       <div id=board1></div>
     </div>
     <div id="formulario" class="col-xl-2 mb-4">
@@ -50,13 +50,12 @@
   <p class="text-center"> Auto Mode:
   <button id="automode" [ngClass]="{'btn-success': !automatic, 'btn-danger':automatic}" class="btn btn-primary" (click)="auto()">ON</button>
   </p>
-  <div class="text-center mb-5 mt-2">
-    <button (click)="previousMove()" class="btn btn-primary text-center" >Mossa Precedente</button>
-    <button (click)="nextMove()" class="btn btn-primary text-center margineSinistra" >Mossa Successiva</button>
-  </div>
 </div>
-
-<div class="row zero">
-  <button *ngIf= "!custom && admin && !locked" class="btn btn-primary w-auto destra mb-2" (click)="modifica()">Modifica</button>
-  <button *ngIf= "!custom && (admin || proprietario) && !locked" class="btn btn-danger w-auto mar3 mb-2" (click)="elimina()">Elimina</button>
+<div class="text-center justify-content-center destra row mb-3">
+  <button (click)="previousMove()" class="btn btn-primary col-sm-2 mx-1 mt-1 w-auto" >Mossa Precedente</button>
+  <button (click)="nextMove()" class="btn btn-primary col-sm-2 mx-1 mt-1 w-auto" >Mossa Successiva</button>
+</div>
+<div class="text-center justify-content-center destra row mb-3">
+  <button *ngIf= "!custom && admin && !locked" class="btn btn-primary col-sm-1 mx-1 w-auto" (click)="modifica()">Modifica</button>
+  <button *ngIf= "!custom && (admin || proprietario) && !locked" class="btn btn-danger col-sm-1 w-auto mx-1" (click)="elimina()">Elimina</button>
 </div>

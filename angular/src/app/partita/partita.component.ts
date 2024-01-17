@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { Chess } from 'chess.js';
 import {UtentiService} from "../services/utenti.service";
 import { AuthServiceService } from '../services/auth.service';
+import {HttpClient} from "@angular/common/http";
+import {isPlatformBrowser} from "@angular/common";
 
 declare var Chessboard2: any;
 
@@ -48,9 +50,13 @@ export class PartitaComponent implements OnInit{
 
   comments : {[key: string]: string} = {};
 
-  constructor(private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private authService : AuthServiceService, private utentiService : UtentiService, private router : Router){}
-
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private authService : AuthServiceService, private utentiService : UtentiService, private router : Router){}
   ngOnInit(): void {
+    this.router.events.subscribe((event: any) => {
+      if (event && event.routerEvent instanceof NavigationEnd && isPlatformBrowser(this.platformId)) {
+        window.scrollTo(0, 0);
+      }
+    });
     try{
       this.board = Chessboard2('board1', 'start');
     }

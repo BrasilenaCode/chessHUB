@@ -1,8 +1,14 @@
 #board {
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: auto;
     border: 1px solid #ccc;
     margin: auto;
+}
+
+@media only screen and (max-width: 400px) {
+  #board1{
+    width: 80%;
+  }
 }
 .riga {
     background-color: #ccc;

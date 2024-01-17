@@ -36,7 +36,7 @@ export class PartitaShowComponent implements OnInit{
       pgn.loadPgn(this.partita!.pgn);
     }catch(e){
       pgnLoaded = false;
-    } 
+    }
     let giocatore1: string | undefined = this.partita?.giocatore1?.username;
     if (giocatore1 == undefined || giocatore1 == "custom"){
       if(pgnLoaded && pgn.header()["White"] != undefined)
@@ -70,16 +70,6 @@ export class PartitaShowComponent implements OnInit{
     }
   }
 
-  salvaPartita(): void {
-    if (this.partita != undefined){
-      this.partitaService.salvaPartita(this.partita).subscribe();
-    }
-  }
-
-  caricaPartita(): void {
-    this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
-  }
-
   visualizzaPartita(): void {
     if(this.admin && this.partita?.esito == "0")
       this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
@@ -103,12 +93,22 @@ export class PartitaShowComponent implements OnInit{
           this.privacy=false;
         else if (this.partita?.privacy == "pubblica")
           this.privacy = true;
-        else {
-          if (this.partita?.privacy!="privata" && (this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore1?.username!) || (this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore2?.username!)))) {
-            this.privacy = true;
+        else if (this.partita?.privacy=="amici"){
+            this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore1?.username!).subscribe(
+              risultato => {
+                if(risultato)
+                  this.privacy = true;
+                else
+                  this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore2?.username!).subscribe(
+                    risultato => {
+                      if(risultato)
+                        this.privacy = true;
+                    }
+                  );
+              }
+            );
           }
         }
-      }
     });
   }
 }
