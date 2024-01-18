@@ -6,7 +6,7 @@
 <div class="container justify-content-center">
   <h1 class="text-center fw-bold display-1 text-white margine">Partita</h1>
   <div *ngIf = "custom && selezioneInCorso" class="justify-content-center text-center">
-    <div class="text-center">Importa partita da PGN</div>
+    <div class="text-center fw-bold">Importa partita da PGN</div>
     <div class="text-center"><input type="file" accept=".txt" (change)="importa($event)"></div>
     {{errorePGN}}
   </div>
