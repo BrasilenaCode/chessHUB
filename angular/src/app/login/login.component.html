@@ -21,11 +21,14 @@
             <input type="text" class="form-control" id="mail" placeholder="Inserisci email" name="mail" [formControl]="mail">
           </div>
         </ng-template>
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="!nextStep">
           <a class="dimensione custom" (click)="richiediCodice()">Hai dimenticato la password?</a>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="!nextStep">
           <a href="signIn" class="dimensione">Non sei registrato? Registrati!</a>
+        </div>
+        <div class="mb-3" *ngIf="nextStep">
+          <a href="login" class="dimensione">Torna indietro</a>
         </div>
       </div>
       <ng-template #showCodeForm>
@@ -35,8 +38,13 @@
           per modificare il campo "email" in caso di errori di battitura.
         </p>
         <div class="mb-3 mt-3" *ngIf="!showPasswordForm; else changePass">
-          <label for="code" class="form-label">Codice:</label>
-          <input type="text" class="form-control" id="code" name="code" [formControl]="code">
+          <div>
+            <label for="code" class="form-label">Codice:</label>
+            <input type="text" class="form-control" id="code" name="code" [formControl]="code">
+          </div>
+          <div class="mb-3">
+            <a class="dimensione custom" (click)="requestAuthCode()">Richiedi un nuovo codice</a>
+          </div>
         </div>
         <ng-template #changePass>
           <div class="mb-3 mt-3">
