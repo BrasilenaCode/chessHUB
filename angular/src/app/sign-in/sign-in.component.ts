@@ -1,11 +1,9 @@
-import {Component, Inject, PLATFORM_ID} from '@angular/core';
+import { Component } from '@angular/core';
 import {FormControl } from "@angular/forms";
 import {AuthServiceService} from "../services/auth.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {UtenteRegistrazione} from '../model/utente';
+import {Router} from "@angular/router";
+import {Utente, UtenteRegistrazione} from '../model/utente';
 import { UtentiService } from '../services/utenti.service';
-import {PartitaService} from "../services/partita.service";
-import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-sign-in',
@@ -31,9 +29,10 @@ export class SignInComponent {
   tries!: number;
 
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private auth:AuthServiceService,
+  constructor(private auth:AuthServiceService,
     private utentiService: UtentiService,
      private router:Router) {}
+
 
   /*
   questa funzione è suddivisa in due step, in modo tale da poter riusare la stessa funzione del (click):
@@ -75,11 +74,17 @@ export class SignInComponent {
                 if (utente != null) {
                   this.errorMessage = "Nome utente già in uso.";
                 } else {
-                  window.scrollTo(0, 0);
-                  this.buttonText = 'Verifica';
-                  this.requestAuthCode();
-                  this.nextStep = true;
-                  this.errorMessage = '';
+                  this.utentiService.controllaMail(this.email.value).subscribe(check => {
+                    if (!check) {
+                      this.errorMessage = 'Mail selezionata già associata ad un account.';
+                    } else {
+                      window.scrollTo(0,0);
+                      this.buttonText = 'Verifica';
+                      this.requestAuthCode();
+                      this.nextStep = true;
+                      this.errorMessage = '';
+                    }
+                  });
                 }
               });
             } else {
@@ -91,57 +96,45 @@ export class SignInComponent {
         }else{
           this.errorMessage = "Compila tutti i campi";
       }
-    } else {
       this.tries = 3;
       this.continueRegistering = false;
-      while (this.tries > 0 || this.continueRegistering) {
-        this.auth.verifyAuthCodeWhenRegistering(this.authCode.value).subscribe(response => {
-
-          switch (response) {
-            case "corretto":
-              this.errorMessage = ""
-              this.continueRegistering = true;
-              break;
-
-            case "sbagliato":
-              this.tries--;
-              this.errorMessage = 'Numero di tentativi rimasti: ' + this.tries;
-              break;
-
-            case "errore":
-              this.errorMessage = 'Si è verificato un errore. Consigliato richiedere un nuovo codice.'
-              this.tries = 0;
-              break;
-
-            default:
-              this.errorMessage = 'si è verificato un errore nel server.';
-              break;
-
+    } else {
+      var code = this.authCode.value;
+      if (this.tries > 0 || this.continueRegistering) {
+        this.auth.verifyAuthCodeWhenRegistering(code).subscribe(response => {
+          console.log(response)
+          if (response === "corretto") {
+            this.errorMessage = "";
+            this.continueRegistering = true;
+          } else if (response === "sbagliato") {
+            this.tries--;
+            this.errorMessage = 'Numero di tentativi rimasti: ' + this.tries;
+          } else if (response === "errore") {
+            this.errorMessage = 'Si è verificato un errore. Consigliato richiedere un nuovo codice.';
+            this.tries = 0;
+          } else {
+            this.errorMessage = 'Si è verificato un errore nel server.';
           }
-          if (this.tries == 0) this.auth.clearUUID();
           if (this.continueRegistering) {
             this.auth.signIn(this.utente).subscribe(response => {
               if (response) {
                 this.auth.setToken(response.token);
                 this.router.navigate(["/"]);
-                this.errorMessage = "";
               }
-              /*
-              else {
-                this.errorMessage = "Nome utente già in uso";
-              }
-              */
+
             });
           }
         });
       }
-
+      if (this.tries == 0) this.auth.clearUUID();
     }
   }
 
   // richiede un nuovo codice
   requestAuthCode(): void {
-    this.auth.getAuthCodeUUID(this.utente.username);
+    this.auth.getAuthCodeUUID(this.utente.email);
+    this.tries = 3;
+    this.continueRegistering = false;
   }
 
   // cerco nella mappa se la nazionalità inserita dall'utente è presente tra i valori
@@ -156,6 +149,7 @@ export class SignInComponent {
   }
 
   goToForm(): void {
+    this.buttonText = 'Avanti';
     this.nextStep = false;
   }
 

@@ -63,11 +63,7 @@ public class TorneiController {
     public boolean aggiungiPartecipante(HttpServletRequest req, @RequestBody int torneoId){
         // se l'utente è autenticato
         if(Auth.isAuthenticated(req)){
-            Utente utente = Auth.getUser(req);
-            // prendo il torneo
-            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-            // salvo il partecipante nel torneo
-            DBManager.getInstance().getTorneoDao().addPartecipante(torneo, utente);
+            TorneoModel.aggiungiPartecipante(Auth.getUser(req), torneoId);
             return true;
         }
         // se non ho potuto inserirlo, ritorno false
@@ -78,13 +74,7 @@ public class TorneiController {
     public boolean rimuoviPartecipante(HttpServletRequest req, @RequestBody int torneoId){
         // se l'utente è autenticato
         if(Auth.isAuthenticated(req)){
-            Utente utente = Auth.getUser(req);
-            // prendo il torneo
-            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-            torneo.removePartecipante(utente);
-            // rimuovo il partecipante dal torneo
-            DBManager.getInstance().getTorneoDao().removePartecipante(torneo, utente);
-            return true;
+            return TorneoModel.rimuoviPartecipante(Auth.getUser(req), torneoId);
         }
         // se non ho potuto rimuoverlo, ritorno false
         return false;
@@ -120,12 +110,7 @@ public class TorneiController {
     public boolean isIscritto(HttpServletRequest req, @RequestBody int torneoId){
         // se l'utente è autenticato
         if(Auth.isAuthenticated(req)){
-            // prendo l'utente
-            Utente utente = Auth.getUser(req);
-            // prendo il torneo
-            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-            // restituisco se l'utente è iscritto al torneo
-            return torneo.getPartecipanti().contains(utente);
+            return TorneoModel.isIscritto(Auth.getUser(req), torneoId);
         }
         // se l'utente non è autenticato, restituisco false
         return false;

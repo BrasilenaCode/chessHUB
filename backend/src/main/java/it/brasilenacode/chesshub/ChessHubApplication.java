@@ -19,6 +19,6 @@ public class ChessHubApplication {
         // avvio dell'applicazione
         SpringApplication.run(ChessHubApplication.class, args);
         // creazione dell'utente, del torneo e della partita di prova
-        DBManager.getInstance().createGuest();
+        //DBManager.getInstance().createGuest();
     }
 }

@@ -15,7 +15,7 @@ public class MailManager {
 
     private Session session;
 
-    private Map<String, Pair> authCodes;    // mappa contenente le coppie <ID del authCode, <authCode, numTentativi>
+    private Map<String, Pair> authCodes;    // mappa contenente le coppie <ID del authCode, <authCode, numTentativi>>
 
     /* MESSAGGI PREDEFINITI PER SPEDIRE L'AUTHCODE */
     private final String subject = "Autenticazione";

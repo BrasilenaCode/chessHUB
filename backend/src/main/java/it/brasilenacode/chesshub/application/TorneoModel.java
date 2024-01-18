@@ -87,10 +87,12 @@ public class TorneoModel {
 
     public static boolean aggiornaCustom(Utente u) {
         // prendo i tornei in cui è iscritto
+        System.out.println("Aggiorno custom");
         List<Torneo> tornei=DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getPartecipanti().contains(u)).toList();
         // se un torneo è in corso non posso aggiornarlo
-        if(tornei.stream().filter(torneo -> torneo.getStato().equals("inCorso")).count() != 0)
+        if(!tornei.stream().filter(torneo -> torneo.getStato().equals("inCorso")).toList().isEmpty())
             return false;
+        System.out.println("Tornei trovati");
         // per ogni torneo a cui è iscritto
         for(Torneo torneo:tornei){
             // se il torneo è prossimo, rimuovo l'iscrizione
@@ -99,8 +101,11 @@ public class TorneoModel {
                 // altrimenti setto l'utente a custom
             else {
                 //se l'utente eliminato è il vincitore di un torneo, setto il vincitore a custom
-                if(torneo.getVincitore().getUsername().equals(u.getUsername()))
+                if(torneo.getVincitore().getUsername().equals(u.getUsername())) {
                     torneo.setVincitore(DBManager.getInstance().getUtenteDao().findByPrimaryKey("custom"));
+                    DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
+                }
+                System.out.println("Utente eliminato da un torneo");
                 DBManager.getInstance().getTorneoDao().aggiornaIscrizione(u);
             }
         }
@@ -125,5 +130,28 @@ public class TorneoModel {
         // ritorno la lista delle partite, cercandole nel database
         return new ArrayList<>(partitaDao.findAll().stream().filter(partita -> partita.getTorneo().getId() == torneoId).toList());
 
+    }
+
+    public static boolean rimuoviPartecipante(Utente utente, int torneoId) {
+        // prendo il torneo
+        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+        torneo.removePartecipante(utente);
+        // rimuovo il partecipante dal torneo
+        DBManager.getInstance().getTorneoDao().removePartecipante(torneo, utente);
+        return true;
+    }
+
+    public static void aggiungiPartecipante(Utente utente, int torneoId) {
+        // prendo il torneo
+        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+        // salvo il partecipante nel torneo
+        DBManager.getInstance().getTorneoDao().addPartecipante(torneo, utente);
+    }
+
+    public static boolean isIscritto(Utente utente, int torneoId) {
+        // prendo il torneo
+        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+        // restituisco se l'utente è iscritto al torneo
+        return torneo.getPartecipanti().contains(utente);
     }
 }

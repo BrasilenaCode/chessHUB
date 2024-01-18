@@ -1,6 +1,4 @@
 package it.brasilenacode.chesshub.controller;
-
-
 import it.brasilenacode.chesshub.application.UtenteModel;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
@@ -46,13 +44,6 @@ public class UtentiController {
         // se non sono autenticato, restituisco false
         return false;
     }
-
-    // chiamata per ottenere le statistiche di un utente
-    @PostMapping("/utenti/statistiche")
-    @ResponseBody
-    public List<Integer> ritornaStatistiche(HttpServletRequest req) {
-       return UtenteModel.getStatistiche(Auth.getUser(req));
-    }
     // chiamata per cercare utenti
     @PostMapping("/utenti/ricerca")
     public List<List<Utente>> ricercaUtenti(@RequestBody String string){
@@ -77,7 +68,7 @@ public class UtentiController {
         Utente utente=Auth.getUser(req);
         // se è autenticato, aggiorno la password
         if(utente!=null){
-           return UtenteModel.updatePassword(utente, passwords);
+            return UtenteModel.updatePassword(utente, passwords);
         }
         // se non è autenticato, restituisco false
         return false;
@@ -88,22 +79,18 @@ public class UtentiController {
         // controllo che l'utente sia autenticato
         if(Auth.isAuthenticated(req)){
             // se è autenticato, restituisco se è admin
-            return Auth.getUser(req).isAdmin();
+            Utente utente = Auth.getUser(req);
+            return utente.isAdmin();
         }
         // se non è autenticato, restituisco false
         return false;
     }
     // chiamata per dare i privilegi di admin ad un utente
     @GetMapping("/utenti/createAdmin")
-    public boolean createAdmin(HttpServletRequest req){
+    public boolean createAdmin(HttpServletRequest req){ // todo: get o post?, body o header?
         // controllo che l'utente sia autenticato
         if(Auth.isAuthenticated(req)){
-            // do i privilegi di admin ad un utente
-            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(req.getParameter("username"));
-            utente.setAdmin(true);
-            // salvo l'utente
-            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
-            return true;
+            return UtenteModel.createAdmin(req.getParameter("username"));
         }
         // se non è autenticato, restituisco false
         return false;
@@ -114,7 +101,8 @@ public class UtentiController {
         // controllo che l'utente sia autenticato
         if(Auth.isAuthenticated(req)){
             // restituisco se l'utente è admin
-            return DBManager.getInstance().getUtenteDao().findByPrimaryKey(username).isAdmin();
+            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            return utente.isAdmin();
         }
         // se non è autenticato, restituisco false
         return false;
@@ -206,9 +194,42 @@ public class UtentiController {
     // chiamata per ottenere gli utenti che un utente segue
     @PostMapping("/utente/getFollowers")
     public List<Utente> getFollowers(HttpServletRequest req, @RequestBody String username){
-       // restituisco gli utenti che segue
-        Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
-        return DBManager.getInstance().getUtenteDao().getFollower(utente);
+        // controllo che l'utente sia autenticato
+        if(Auth.isAuthenticated(req)){
+            // restituisco gli utenti che segue
+            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            return DBManager.getInstance().getUtenteDao().getFollower(utente);
+        }
+        // se non è autenticato, restituisco null
+        return null;
+    }
+
+    // endpoint per abilitare il recupero della password
+    // @ResponseBody necessario altrimenti da problemi di CORS
+    @PostMapping("/utenti/recuperopassword")
+    @ResponseBody
+    public boolean recuperoPassword(@RequestBody String data) {
+        return UtenteModel.recuperoPassword(data);
+    }
+
+    @PostMapping("/utenti/controllaMail")
+    @ResponseBody
+    public boolean controllaMail(@RequestBody String email) {
+        List<Utente> utenti = DBManager.getInstance().getUtenteDao().findAll().stream().filter(utente -> utente.getEmail().equals(email)).toList();
+        return utenti.isEmpty();
+    }
+
+    // chiamata per ottenere le statistiche di un utente
+    @PostMapping("/utenti/statistiche")
+    @ResponseBody
+    public List<Integer> ritornaStatistiche(HttpServletRequest req) {
+        // controllo che l'utente sia autenticato
+        if(Auth.isAuthenticated(req)){
+            // restituisco le statistiche
+            return UtenteModel.getStatistiche(Auth.getUser(req));
+        }
+        // se non è autenticato, restituisco null
+        return null;
     }
 }
 

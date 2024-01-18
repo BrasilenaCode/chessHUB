@@ -50,6 +50,7 @@ public class Auth {
         return null;
     }
     // chiamata per la registrazione
+
     @PostMapping("/signIn")
     public AuthToken registerUser(HttpServletRequest request, @RequestBody Utente user) {
         // controllo che non ci siano altri utenti con lo stesso username
@@ -95,26 +96,6 @@ public class Auth {
     }
 
     // il frontend manda a questo endpoint un authcode e l'id associato ad esso
-    // viene fatta una richiesta nel momento in cui l'utente è autenticato
-    // ERGO vuole modificare i propri dati personali
-    @PostMapping("/verify/authcode/authenticated")
-    public static String verifyAuthCodeWhenAuthenticated(@RequestBody String pair, HttpServletRequest req) {
-        if (isAuthenticated(req)) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                JsonNode node = objectMapper.readTree(pair);
-                String uuid = node.get("id").asText();
-                String code = node.get("code").asText();
-                return MailManager.getInstance().isAuthCodeCorrect(uuid, code);
-            } catch (IOException e) {
-                System.out.println("ERROR READING THE JSON FOR AUTHCODE.");
-                e.printStackTrace();
-            }
-        }
-        return "";
-    }
-
-    // il frontend manda a questo endpoint un authcode e l'id associato ad esso
     // viene fatta una richiesta nel momento in cui l'utente non è autenticato
     // ERGO vuole registrarsi al sito
     @PostMapping("/verify/authcode/notauthenticated")
@@ -124,7 +105,8 @@ public class Auth {
             JsonNode node = objectMapper.readTree(pair);
             String uuid = node.get("id").asText();
             String code = node.get("code").asText();
-            return MailManager.getInstance().isAuthCodeCorrect(uuid, code);
+            String toSend = MailManager.getInstance().isAuthCodeCorrect(uuid, code);
+            return toSend;
         } catch (IOException e) {
             System.out.println("ERROR READING THE JSON FOR AUTHCODE.");
             e.printStackTrace();
@@ -140,8 +122,8 @@ public class Auth {
         try {
             JsonNode node = objectMapper.readTree(json);
             String inputUuid = node.get("id").asText();
-            MailManager.getInstance().deleteAuth(inputUuid);
             String mail = node.get("mail").asText();
+            MailManager.getInstance().deleteAuth(inputUuid);
             String uuid = MailManager.getInstance().getUuid();
             boolean mailSent = MailManager.getInstance().send(mail, uuid);
             return (mailSent)? uuid : "errore";

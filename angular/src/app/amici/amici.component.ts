@@ -16,7 +16,9 @@ export class AmiciComponent implements OnInit{
   }
   ngOnInit(): void {
     //prendo gli amici dell'utente
-    this.utentiService.getFollowers(this.activatedRoute.snapshot.queryParams['utente']).subscribe(amici => this.amici = amici);
+    this.utentiService.getFollowers(this.activatedRoute.snapshot.queryParams['utente']).subscribe(amici => {
+      this.amici = amici;
+    });
   }
 
   vaiAlProfilo(amico: Utente) {

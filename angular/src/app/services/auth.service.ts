@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthToken, Utente, UtenteLogin } from '../model/utente';
+import { AuthToken, Utente, UtenteLogin, UtenteRegistrazione } from '../model/utente';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 
@@ -68,7 +68,7 @@ export class AuthServiceService{
     {"Authorization":"Basic " + this.token}, {withCredentials: true});
   }
 
-  signIn(utente: Utente) {
+  signIn(utente: UtenteRegistrazione) {
     return this.http.post<AuthToken>(this.backendUrl + "/signIn", utente, {withCredentials: true});
   }
   isAdmin():Observable<boolean>{
@@ -97,24 +97,10 @@ export class AuthServiceService{
       mail: email
     };
     const json = JSON.stringify(myJsonObject);
-    this.http.post<string>(this.backendUrl + "/authcode", json).subscribe(uuid => {
+    this.http.post(this.backendUrl + "/authcode", json, {responseType: 'text'}).subscribe(uuid => {
       this.uuid = uuid;
+      console.log(uuid);
     });
-  }
-
-  // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
-  // da usare quando si vuole modificare il profilo
-  verifyAuthCodeWhenAuthenticated(code: string): Observable<string> {
-    const myJsonObject = {
-      id: this.uuid,
-      code: code
-    };
-    const json = JSON.stringify(myJsonObject);
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.getToken())
-    }
-    
-    return this.http.post<string>(this.backendUrl + "/verify/authcode/authenticated", json, header);
   }
 
   // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
@@ -126,7 +112,7 @@ export class AuthServiceService{
     };
     const json = JSON.stringify(myJsonObject);
 
-    return this.http.post<string>(this.backendUrl + "/verify/authcode/notauthenticated", json);
+    return this.http.post(this.backendUrl + "/verify/authcode/notauthenticated", json, {responseType: 'text'});
   }
 
   // elimina l'id del codice auth

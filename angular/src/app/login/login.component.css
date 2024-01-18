@@ -6,6 +6,9 @@
   margin-bottom: 9vh;
 }
 
+.custom:hover {
+  cursor: pointer;
+}
 .altezza{
   height: 100%;
   padding-bottom: 5vh;

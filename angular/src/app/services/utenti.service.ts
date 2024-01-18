@@ -119,4 +119,18 @@ export class UtentiService {
     }
     return this.http.post<boolean>(this.backendUrl + "/utente/admin",username, header)
   }
+
+  // cambio password nel caso l'utente se la sia dimenticata
+  recuperaPassword(username: string, pass: string): Observable<boolean> {
+    const obj = {
+      "username": username,
+      "password": pass
+    }
+    const json = JSON.stringify(obj);
+    return this.http.post<boolean>(this.backendUrl + "/utenti/recuperopassword", json);
+  }
+
+  controllaMail(mail: string): Observable<boolean> {
+    return this.http.post<boolean>(this.backendUrl + "/utenti/controllaMail", mail);
+  }
 }

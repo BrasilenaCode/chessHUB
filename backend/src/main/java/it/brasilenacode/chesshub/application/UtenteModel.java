@@ -1,5 +1,8 @@
 package it.brasilenacode.chesshub.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.brasilenacode.chesshub.controller.Auth;
 import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
@@ -75,6 +78,32 @@ public class UtenteModel {
         }
         // aggiorno la password
         utente.setPassword(BCrypt.hashpw(pwd, BCrypt.gensalt()));
+        DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
+        return true;
+    }
+
+    public static boolean recuperoPassword(String data) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode node = objectMapper.readTree(data);
+            String username = node.get("username").asText();
+            String password = node.get("password").asText();
+            UtenteDao dao = DBManager.getInstance().getUtenteDao();
+            Utente utente = dao.findByPrimaryKey(username);
+            if (utente == null) return false;
+            utente.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+            return dao.saveOrUpdate(utente);
+        } catch (JsonProcessingException e) {
+            System.out.println("ERROR TRYING TO READ JSON.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean createAdmin(String username) {
+        Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+        utente.setAdmin(true);
+        // salvo l'utente
         DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
         return true;
     }
