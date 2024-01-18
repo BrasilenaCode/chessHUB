@@ -73,12 +73,17 @@ export class SignInComponent {
               this.utentiService.dammiUtente(this.utente.username).subscribe(utente => {
                 if (utente != null) {
                   this.errorMessage = "Nome utente già in uso.";
-                } // TODO fare un controllo che la mail inserita dell'utente non sia già associata a questo utente
-                else {
-                  this.buttonText = 'Verifica';
-                  this.requestAuthCode();
-                  this.nextStep = true;
-                  this.errorMessage = '';
+                } else {
+                  this.utentiService.controllaMail(this.email.value).subscribe(check => {
+                    if (!check) {
+                      this.errorMessage = 'Mail selezionata già associata ad un account.';
+                    } else {
+                      this.buttonText = 'Verifica';
+                      this.requestAuthCode();
+                      this.nextStep = true;
+                      this.errorMessage = '';
+                    }
+                  });
                 }
               });
             } else {
@@ -109,23 +114,20 @@ export class SignInComponent {
           } else {
             this.errorMessage = 'Si è verificato un errore nel server.';
           }
-          
+          if (this.continueRegistering) {
+            this.auth.signIn(this.utente).subscribe(response => {
+              if (response) {
+                this.auth.setToken(response.token);
+                this.router.navigate(["/"]);
+              }
+              
+            });
+          }
         });
       } 
       if (this.tries == 0) this.auth.clearUUID();
-      if (this.continueRegistering) {
-        this.auth.signIn(this.utente).subscribe(response => {
-          if (response) {
-            this.auth.setToken(response.token);
-            this.router.navigate(["/"]);
-          }
-          /*
-          else {
-            this.errorMessage = "Nome utente già in uso";
-          }
-          */
-        });
-      }
+      
+      
       
        
     }

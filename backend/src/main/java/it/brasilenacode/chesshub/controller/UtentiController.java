@@ -275,5 +275,12 @@ public class UtentiController {
             return false;
         }
     }
+
+    @PostMapping("/utenti/controllaMail")
+    @ResponseBody
+    public boolean controllaMail(@RequestBody String email) {
+        List<Utente> utenti = DBManager.getInstance().getUtenteDao().findAll().stream().filter(utente -> utente.getEmail().equals(email)).toList();
+        return utenti.isEmpty();
+    }
 }
 

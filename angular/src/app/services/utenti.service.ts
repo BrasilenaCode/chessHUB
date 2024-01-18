@@ -132,4 +132,8 @@ export class UtentiService {
     const json = JSON.stringify(obj);
     return this.http.post<boolean>(this.backendUrl + "/utenti/recuperopassword", json);
   }
+
+  controllaMail(mail: string): Observable<boolean> {
+    return this.http.post<boolean>(this.backendUrl + "/utenti/controllaMail", mail);
+  }
 }
