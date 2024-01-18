@@ -59,6 +59,7 @@ export class TorneoComponent implements OnInit{
     });
     this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi => this.punteggiTorneo = new Map(Object.entries(punteggi)));
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
+      this.caricamentoFinito = true;
       this.loadPartite(partite);
       if(partite?.length > 0) {
         this.turno = 0;
@@ -115,7 +116,6 @@ export class TorneoComponent implements OnInit{
       this.partiteTurno[partite[i].turno-1].push(partite[i]);
       this.partiteTurno[partite[i].turno-1].sort((a, b) => b.esito.localeCompare(a.esito));
     }
-    this.caricamentoFinito = true;
   }
 
   // invia una richiesta per generare le partite del torneo
