@@ -39,7 +39,7 @@ export class TorneoComponent implements OnInit{
     // Recupero dei dettagli del torneo: punteggi, partite e gli utenti partecipanti
     this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => {
       this.torneo = torneo
-      if(this.torneo.stato=="concluso" && this.torneo.vincitore.username=="custom")
+      if(this.torneo.stato=="passato" && this.torneo.vincitore.username=="custom")
         this.torneo.vincitore.username="eliminato";
     });
     this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => this.utentiTorneo = utenti);
@@ -132,8 +132,6 @@ export class TorneoComponent implements OnInit{
       } else {
         this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => {
           this.torneo = torneo;
-          if(this.torneo.stato=="concluso" && this.torneo.vincitore.username=="custom")
-            this.torneo.vincitore.username="eliminato";
         });
         this.flagPartite = true;
         if(this.torneo!=undefined)
