@@ -66,7 +66,7 @@ public class DBManager {
         // se l'utente fittizio non esiste
         if (getUtenteDao().findByPrimaryKey("custom") == null) {
             // query per creare l'utente fittizio
-            String query = "INSERT INTO utente VALUES ('custom', 'custom', 'custom', 'custom', '2021-01-01', 'custom', false) ON CONFLICT DO NOTHING";
+            String query = "INSERT INTO utente VALUES ('custom', 'custom', 'custom', 'custom', '2021-01-01', 'custom', false, 'custom') ON CONFLICT DO NOTHING";
             try {
                 // creo lo statement
                 Statement st = connection.createStatement();
@@ -79,7 +79,7 @@ public class DBManager {
         // se il torneo fittizio non esiste
         if(getTorneoDao().findByPrimaryKey(-1) == null){
             // query per creare il torneo fittizio
-            String query = "INSERT INTO torneo VALUES (-1, 'Partite fuori torneo', '2021-01-01', '2021-01-02', 'Arcavacata (Rende)', 'fuoriTorneo', null, 0) ON CONFLICT DO NOTHING";
+            String query = "INSERT INTO torneo VALUES (-1, 'Partite fuori torneo', '2021-01-01', '2021-01-02', 'Arcavacata (Rende)', 'fuoriTorneo', null) ON CONFLICT DO NOTHING";
             try{
                 // creo lo statement
                 Statement st = connection.createStatement();

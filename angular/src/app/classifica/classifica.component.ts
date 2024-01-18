@@ -52,7 +52,7 @@ export class ClassificaComponent implements OnInit{
     }
     var length=this.utentiMiglioriVisualizzati?.length;
     if(length!=undefined) {
-      length += 10;
+      length += 30;
       if (length >= this.utentiMigliori!.length)
         this.visualizzaBottone = false;
     }
@@ -67,7 +67,7 @@ export class ClassificaComponent implements OnInit{
       }
       var length=this.utentiMiglioriSettimanaVisualizzati?.length;
       if(length!=undefined) {
-        length += 10;
+        length += 30;
         if (length >= this.utentiMigliori!.length)
           this.visualizzaBottone = false;
       }

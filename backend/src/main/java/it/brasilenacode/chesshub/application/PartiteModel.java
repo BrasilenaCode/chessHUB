@@ -1,8 +1,10 @@
 package it.brasilenacode.chesshub.application;
 
+import it.brasilenacode.chesshub.controller.Auth;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
+import it.brasilenacode.chesshub.persistenza.model.Utente;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,20 +25,6 @@ public class PartiteModel {
     // chiamata per ottenere le partite di un giocatore
     public static List<Partita> dammiPartiteGiocatore(String username){
         return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getId()!=-1 && partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)).toList();
-    }
-    // chiamata per ottenere le partite di un torneo
-    public static List<Partita> dammiPartiteTorneo(long id){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getTorneo().getId() == id).toList();
-    }
-    // chiamata per ottenere le partite di una data
-    public static List<Partita> dammiPartiteData(String data){
-        Date date;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(data);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> date.equals(partita.getData())).toList();
     }
     // chiamata per ottenere le partite vinte da un giocatore
     public static List<Partita> dammiPartiteVincitore(String username){
@@ -93,5 +81,41 @@ public class PartiteModel {
         // aggiorno i punteggi
         torneoDao.updatePunteggio(partita.getTorneo(), partita.getGiocatore1(), punteggio1);
         torneoDao.updatePunteggio(partita.getTorneo(), partita.getGiocatore2(), punteggio2);
+    }
+
+    public static void setCustom(String username) {
+        // prendo tutte le partite dell'utente
+        List<Partita> partiteUtente = PartiteModel.dammiPartiteGiocatore(username);
+        // per ogni partita, setto l'utente custom come giocatore 1 o 2
+        for (Partita p : partiteUtente) {
+            Utente custom = DBManager.getInstance().getUtenteDao().findByPrimaryKey("custom");
+            if (p.getGiocatore2().getUsername().equals(username)) {
+                p.setGiocatore2(custom);
+            } else if (p.getGiocatore1().getUsername().equals(username)) {
+                p.setGiocatore1(custom);
+            }
+            // salvo la partita nel database
+            DBManager.getInstance().getPartitaDao().saveOrUpdate(p);
+        }
+    }
+
+    public static List<Partita> fuoriTorneo() {
+        // prendo le partite
+        List<Partita> partite = DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita1 -> partita1.getTorneo().getId() == -1 && partita1.getId()!=-1).toList();
+        // ritorno le prime 10 partite, se ne esistono meno di 10 le ritorno tutte
+        if(partite.size() < 10)
+            return partite;
+        else
+            return partite.subList(0,9);
+    }
+
+    public static Long aggiungiPartita(Partita partita) {
+        DBManager.getInstance().getPartitaDao().saveOrUpdate(partita);
+        // se la partita è in un torneo, aggiorno i punteggi
+        if(partita.getTorneo() != null && partita.getTorneo().getId() != -1){
+            aggiornaPunteggi(partita);
+        }
+        // restituisco l'id della partita
+        return partita.getId();
     }
 }

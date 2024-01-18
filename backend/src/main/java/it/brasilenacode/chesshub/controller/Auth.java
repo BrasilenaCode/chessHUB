@@ -1,5 +1,6 @@
 package it.brasilenacode.chesshub.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.brasilenacode.chesshub.application.mail.MailManager;
@@ -127,17 +128,28 @@ public class Auth {
         } catch (IOException e) {
             System.out.println("ERROR READING THE JSON FOR AUTHCODE.");
             e.printStackTrace();
+            return "";
         }
-        return "";
     }
 
     // da questo endpoint, il frontend riceve l'id associato all'authcode che l'utente dovrà inserire
     // (authcode che viene mandato alla mail dell'utente)
     @PostMapping("/authcode")
-    public String sendAuthCode(@RequestBody String mail) {
-        String uuid = MailManager.getInstance().getUuid();
-        boolean mailSent = MailManager.getInstance().send(mail, uuid);
-        return (mailSent)? uuid : "errore";
+    public String sendAuthCode(@RequestBody String json) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode node = objectMapper.readTree(json);
+            String inputUuid = node.get("id").asText();
+            MailManager.getInstance().deleteAuth(inputUuid);
+            String mail = node.get("mail").asText();
+            String uuid = MailManager.getInstance().getUuid();
+            boolean mailSent = MailManager.getInstance().send(mail, uuid);
+            return (mailSent)? uuid : "errore";
+        } catch (JsonProcessingException e) {
+            System.out.println("ERROR TRYING TO READ JSON.");
+            e.printStackTrace();
+            return "errore";
+        }
     }
 
     // metodo per prendere l'utente dal token

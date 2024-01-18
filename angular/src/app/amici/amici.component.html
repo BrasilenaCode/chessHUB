@@ -1,12 +1,17 @@
-<div style="height: 100vh">
-  <h4 class="text-center mt-4">Amicizie</h4>
-  <div *ngFor="let amico of amici" >
-    <article class="card text-center" (click)="vaiAlProfilo(amico)">
+<figure>
+  <img src="assets/foto/friends.jpg" alt="fotoPlayers"/>
+  <div class="overlay flex-center rgba-blue-light">
+  </div>
+</figure>
+<div class="container margine">
+  <h1 class="mb-2 sposta text-center fw-bold display-1">Amicizie</h1>
+  <div *ngFor="let amico of amici" class="container w-75 margine-meno">
+    <article class="card text-center m-5" (click)="vaiAlProfilo(amico)">
       <h3 class="card-title text-center">{{ amico.username }}</h3>
       <h4 class="card-subtitle text-center mb-2 text-muted">{{ amico.nome }} {{ amico.cognome }}</h4>
-      <div class="overlay mask flex-center rgba-blue-light">
+      <div class="overlay-card mask flex-center rgba-blue-light">
       </div>
     </article>
   </div>
-  <div class="text-center" *ngIf="amici?.length == 0">Nessuna amicizia</div>
+  <div class="text-center margine-meno" *ngIf="amici?.length == 0">Non hai ancora amicizie</div>
 </div>

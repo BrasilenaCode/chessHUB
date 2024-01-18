@@ -1,6 +1,11 @@
-<div style="height:100vh">
-  <h1 class="text-center mt-5">Partite giocate</h1>
-<div class="tab row m-5 justify-content-center">
+<figure>
+  <img src="assets/foto/partite.jpg" alt="fotoPlayers"/>
+  <div class="overlay flex-center rgba-blue-light">
+  </div>
+</figure>
+<div class="container margine">
+  <h1 class="mb-2 sposta text-center fw-bold display-1 text-white ombra">Partite giocate</h1>
+<div class="tab row justify-content-center margine-meno mb-5">
   <button class="btn btn-lg btn-block tablinks mx-3 col-sm-2" [class.active]="all" (click)="visualizzaTutte()">Tutte</button>
   <button class="btn btn-lg btn-block tablinks mx-3 col-sm-2" [class.active]="showPublic" (click)="visualizzaPubbliche()">Pubbliche</button>
   <button class="btn btn-lg btn-block tablinks mx-3 col-sm-2" [class.active]="showFriends" (click)="visualizzaAmici()">Solo amici</button>

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { Torneo } from '../model/torneo';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, NavigationEnd} from '@angular/router';
 import { TorneoService } from '../services/torneo.service';
 import { AuthServiceService } from '../services/auth.service';
 import {Partita} from "../model/partita";
 import {Utente} from "../model/utente";
 import { UtentiService } from '../services/utenti.service';
 import { Router } from '@angular/router';
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-torneo',
@@ -27,13 +28,18 @@ export class TorneoComponent implements OnInit{
   flagErrore: boolean = false;
   flagRegistrato:boolean=true;
 
-  constructor(private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService, private utentiService: UtentiService, private router: Router) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService, private utentiService: UtentiService, private router: Router) {}
 
   ngOnInit() {
+    this.router.events.subscribe((event: any) => {
+      if (event && event.routerEvent instanceof NavigationEnd && isPlatformBrowser(this.platformId)) {
+        window.scrollTo(0, 0);
+      }
+    });
     // Recupero dei dettagli del torneo: punteggi, partite e gli utenti partecipanti
     this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => {
       this.torneo = torneo
-      if(this.torneo.vincitore.username=="custom")
+      if(this.torneo.stato=="concluso" && this.torneo.vincitore.username=="custom")
         this.torneo.vincitore.username="eliminato";
     });
     this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi =>{

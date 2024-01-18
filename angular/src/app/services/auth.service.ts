@@ -13,6 +13,7 @@ export class AuthServiceService{
   private backendUrl = "http://localhost:8080";
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http:HttpClient, private router:Router) { }
   public token?:string | null;
+  public uuid: string = '';
 
   // prende il token dal browser
   getToken(){
@@ -84,19 +85,31 @@ export class AuthServiceService{
     return this.http.get<boolean>(this.backendUrl + "/utenti/createAdmin?username="+username, header);
   }
 
-  getAuthCodeUUID(email: string): Observable<string> {
-    return this.http.post<string>(this.backendUrl + "/authcode", email);
+  // chiedo al backend di mandarmi un nuovo codice sulla mail
+  // (sto mandando il mio uuid corrente nel caso stessi richiedendo un nuovo codice
+  // ma quello precedente è ancora rimasto nella mappa del backend).
+  // TODO ho un dubbio: visto che la subscribe la faccio dentro qui, 
+  // quando successivamente mando la richiesta al backend per verificare il codice
+  // this.uuid sarà già stato ricevuto?
+  getAuthCodeUUID(email: string) {
+    const myJsonObject = {
+      id: this.uuid,
+      mail: email
+    };
+    const json = JSON.stringify(myJsonObject);
+    this.http.post<string>(this.backendUrl + "/authcode", json).subscribe(uuid => {
+      this.uuid = uuid;
+    });
   }
 
   // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
   // da usare quando si vuole modificare il profilo
-  verifyAuthCodeWhenAuthenticated(uuid: string, code: string): Observable<string> {
+  verifyAuthCodeWhenAuthenticated(code: string): Observable<string> {
     const myJsonObject = {
-      id: uuid,
+      id: this.uuid,
       code: code
     };
     const json = JSON.stringify(myJsonObject);
-
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.getToken())
     }
@@ -106,14 +119,19 @@ export class AuthServiceService{
 
   // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
   // da usare prima di completare una registrazione al sito
-  verifyAuthCodeWhenRegistering(uuid: string, code: string): Observable<string> {
+  verifyAuthCodeWhenRegistering(code: string): Observable<string> {
     const myJsonObject = {
-      id: uuid,
+      id: this.uuid,
       code: code
     };
     const json = JSON.stringify(myJsonObject);
 
     return this.http.post<string>(this.backendUrl + "/verify/authcode/notauthenticated", json);
+  }
+
+  // elimina l'id del codice auth
+  clearUUID(): void {
+    this.uuid = '';
   }
 
 }
