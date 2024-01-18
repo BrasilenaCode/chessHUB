@@ -256,6 +256,23 @@ export class PartitaComponent implements OnInit{
     fileReader.readAsText(file);
   }
 
+  scaricaPGN() : void {
+    if(this.partita?.pgn == undefined)
+      return;
+    let textContent = this.partita.pgn;
+    let blob = new Blob([textContent], { type: 'text/plain' });
+    let url = window.URL.createObjectURL(blob);
+
+    let a = document.createElement('a');
+    a.href = url;
+    a.download = "partita.txt";
+    document.body.appendChild(a);
+    a.click();
+
+
+    window.URL.revokeObjectURL(url);
+  }
+
   modifica() : void {
     this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
   }

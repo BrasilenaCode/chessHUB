@@ -54,6 +54,7 @@
   <button (click)="nextMove()" class="btn btn-primary col-sm-2 mx-1 mt-1 w-auto" >Mossa Successiva</button>
 </div>
 <div class="text-center justify-content-center destra row mb-3">
+  <button *ngIf= "!custom" class = "btn btn-primary col-sm-2 mx-1 mt-1 w-auto" (click)="scaricaPGN()">Scarica PGN</button>
   <button *ngIf= "!custom && admin && !locked" class="btn btn-primary col-sm-1 mx-1 w-auto" (click)="modifica()">Modifica</button>
   <button *ngIf= "!custom && (admin || proprietario) && !locked" class="btn btn-danger col-sm-1 w-auto mx-1" (click)="elimina()">Elimina</button>
 </div>
