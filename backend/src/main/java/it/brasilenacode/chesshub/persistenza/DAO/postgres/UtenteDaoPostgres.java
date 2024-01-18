@@ -77,7 +77,10 @@ public class UtenteDaoPostgres implements UtenteDao {
         // se ho trovato più di due utenti
         if (result.size() >= 2) {
             // ordino gli utenti per distanza dalla stringa cercata
-            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(username, utente.getUsername())));
+            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(username.toLowerCase(), utente.getUsername().toLowerCase())));
+            if(result.size() > 12){
+                result = result.subList(0, 12);
+            }
         }
         // ritorno la lista degli utenti
         return result;
@@ -90,7 +93,7 @@ public class UtenteDaoPostgres implements UtenteDao {
         // se ho trovato più di due utenti
         if (result.size() >= 2) {
             // ordino gli utenti per distanza dalla stringa cercata
-            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(name, utente.getNome())));
+            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(name.toLowerCase(), utente.getNome().toLowerCase())));
         }
         // ritorno la lista degli utenti
         return result;
@@ -103,7 +106,7 @@ public class UtenteDaoPostgres implements UtenteDao {
         // se ho trovato più di due utenti
         if (result.size() >= 2) {
             // ordino gli utenti per lunghezza dalla stringa
-            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(surname, utente.getCognome())));
+            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(surname.toLowerCase(), utente.getCognome().toLowerCase())));
         }
         // ritorno la lista degli utenti
         return result;

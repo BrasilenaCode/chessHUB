@@ -12,7 +12,7 @@
   </div>
   <div>
       <h2 class="text-center mt-5">Ultime Partite Caricate</h2>
-      <p *ngIf="partite.length == 0">Non ci sono partite caricate di recente</p>
+      <p *ngIf="partite.length == 0" class="text-center">Non ci sono partite caricate di recente</p>
       <div class="row justify-content-center riga">
         <app-partita-show class="col justify-content-center d-flex" *ngFor="let partita of partite" [partita]="partita" [seePrivacy]=false></app-partita-show>
       </div>
