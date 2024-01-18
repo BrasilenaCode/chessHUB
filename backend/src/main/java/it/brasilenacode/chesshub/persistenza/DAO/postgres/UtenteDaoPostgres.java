@@ -135,7 +135,7 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
     // metodo per salvare o aggiornare un utente
     @Override
-    public void saveOrUpdate(Utente utente) {
+    public boolean saveOrUpdate(Utente utente) {
         // se l'utente non esiste, lo devo aggiungere
         if (findByPrimaryKey(utente.getUsername()) == null) {
             // query per aggiungere l'utente
@@ -154,8 +154,10 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setString(8, utente.getEmail());
                 // eseguo la query
                 st.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         // altrimenti devo aggiornarlo
         } else {
@@ -180,8 +182,10 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setString(7, utente.getUsername());
                 // eseguo la query
                 st.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }
     }

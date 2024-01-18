@@ -73,7 +73,8 @@ export class SignInComponent {
               this.utentiService.dammiUtente(this.utente.username).subscribe(utente => {
                 if (utente != null) {
                   this.errorMessage = "Nome utente già in uso.";
-                } else {
+                } // TODO fare un controllo che la mail inserita dell'utente non sia già associata a questo utente
+                else {
                   this.buttonText = 'Verifica';
                   this.requestAuthCode();
                   this.nextStep = true;
@@ -89,57 +90,52 @@ export class SignInComponent {
         }else{
           this.errorMessage = "Compila tutti i campi";
       }
-    } else {
       this.tries = 3;
       this.continueRegistering = false;
-      while (this.tries > 0 || this.continueRegistering) {
-        this.auth.verifyAuthCodeWhenRegistering(this.authCode.value).subscribe(response => {
+    } else {
+      var code = this.authCode.value;
+      if (this.tries > 0 || this.continueRegistering) {
+        this.auth.verifyAuthCodeWhenRegistering(code).subscribe(response => {
+          console.log(response)
+          if (response === "corretto") {
+            this.errorMessage = "";
+            this.continueRegistering = true;
+          } else if (response === "sbagliato") {
+            this.tries--;
+            this.errorMessage = 'Numero di tentativi rimasti: ' + this.tries;
+          } else if (response === "errore") {
+            this.errorMessage = 'Si è verificato un errore. Consigliato richiedere un nuovo codice.';
+            this.tries = 0;
+          } else {
+            this.errorMessage = 'Si è verificato un errore nel server.';
+          }
           
-          switch (response) {
-            case "corretto":
-              this.errorMessage = ""
-              this.continueRegistering = true;
-              break;
-
-            case "sbagliato":
-              this.tries--;
-              this.errorMessage = 'Numero di tentativi rimasti: ' + this.tries;
-              break;
-
-            case "errore":
-              this.errorMessage = 'Si è verificato un errore. Consigliato richiedere un nuovo codice.'
-              this.tries = 0;
-              break;
-
-            default:
-              this.errorMessage = 'si è verificato un errore nel server.';
-              break;
-
+        });
+      } 
+      if (this.tries == 0) this.auth.clearUUID();
+      if (this.continueRegistering) {
+        this.auth.signIn(this.utente).subscribe(response => {
+          if (response) {
+            this.auth.setToken(response.token);
+            this.router.navigate(["/"]);
           }
-          if (this.tries == 0) this.auth.clearUUID();
-          if (this.continueRegistering) {
-            this.auth.signIn(this.utente).subscribe(response => {
-              if (response) {
-                this.auth.setToken(response.token);
-                this.router.navigate(["/"]);
-                this.errorMessage = "";
-              } 
-              /*
-              else {
-                this.errorMessage = "Nome utente già in uso";
-              }
-              */
-            });
+          /*
+          else {
+            this.errorMessage = "Nome utente già in uso";
           }
+          */
         });
       }
+      
        
     }
   }
 
   // richiede un nuovo codice
   requestAuthCode(): void {
-    this.auth.getAuthCodeUUID(this.utente.username);
+    this.auth.getAuthCodeUUID(this.utente.email);
+    this.tries = 3;
+    this.continueRegistering = false;
   }
 
   // cerco nella mappa se la nazionalità inserita dall'utente è presente tra i valori
@@ -154,6 +150,7 @@ export class SignInComponent {
   }
 
   goToForm(): void {
+    this.buttonText = 'Avanti';
     this.nextStep = false;
   }
 

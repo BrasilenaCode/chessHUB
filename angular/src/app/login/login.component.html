@@ -5,22 +5,56 @@
 <div class="center">
   <form class="modulo-form" (ngSubmit)="faiLogin()" (click)="clearErrorMessage()">
     <div class="h4">Accesso</div>
-    <div class="mb-3 mt-3">
-      <label for="username" class="form-label">Username:</label>
-      <input type="username" class="form-control" id="username" placeholder="Inserisci username" name="username" [formControl]="username">
-    </div>
-    <div class="mb-3">
-      <label for="pwd" class="form-label">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password">
-    </div>
-    <div class="mb-3">
-      <a href="signIn" class="dimensione">Non sei registrato? Registrati!</a>
+    <div>
+      <div *ngIf="!verifyCode; else showCodeForm">
+        <div class="mb-3 mt-3">
+          <label for="username" class="form-label">Username:</label>
+          <input type="username" class="form-control" id="username" placeholder="Inserisci username" name="username" [formControl]="username">
+        </div>
+        <div class="mb-3" *ngIf="!nextStep; else showMailField">
+          <label for="pwd" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password">
+        </div>
+        <ng-template #showMailField>
+          <div class="mb-3">
+            <label for="mail" class="form-label">E-mail:</label>
+            <input type="text" class="form-control" id="mail" placeholder="Inserisci email" name="mail" [formControl]="mail">
+          </div>
+        </ng-template>
+        <div class="mb-3">
+          <a class="dimensione" (click)="richiediCodice()">Hai dimenticato la password?</a>
+        </div>
+        <div class="mb-3">
+          <a href="signIn" class="dimensione">Non sei registrato? Registrati!</a>
+        </div>
+      </div>
+      <ng-template #showCodeForm>
+        <p class="text-xs text-center mt-4">
+          Abbiamo inviato un codice alla mail che hai fornito per poter portare a termina la registrazione. 
+          Se stai riscontrando problemi nel ricevere il codice, puoi provare a richiederne uno nuovo o tornare indietro
+          per modificare il campo "email" in caso di errori di battitura.
+        </p>
+        <div class="mb-3 mt-3" *ngIf="!showPasswordForm; else changePass">
+          <label for="code" class="form-label">Codice:</label>
+          <input type="text" class="form-control" id="code" name="code" [formControl]="code">
+        </div>
+        <ng-template #changePass>
+          <div class="mb-3 mt-3">
+            <label for="pass" class="form-label">Nuova password:</label>
+            <input type="password" class="form-control" id="pass" name="pass" [formControl]="updatePassword">
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="code" class="form-label">Conferma password:</label>
+            <input type="code" class="form-control" id="code" name="code" [formControl]="confirmUpdatePassword">
+          </div>
+        </ng-template>
+      </ng-template>
     </div>
     <div *ngIf="errorMessage" class="error-message text-center">
       {{ errorMessage }}
     </div>
     <br *ngIf="errorMessage">
-    <button type="submit" class="btn btn-primary">Accedi</button>
+    <button type="submit" class="btn btn-primary">{{ this.buttonText }}</button>
   </form>
 </div>
 </div>

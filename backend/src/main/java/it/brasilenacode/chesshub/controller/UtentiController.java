@@ -1,6 +1,9 @@
 package it.brasilenacode.chesshub.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
@@ -249,6 +252,28 @@ public class UtentiController {
         }
         // se non è autenticato, restituisco null
         return null;
+    }
+
+    // endpoint per abilitare il recupero della password
+    // @ResponseBody necessario altrimenti da problemi di CORS
+    @PostMapping("/utenti/recuperopassword")
+    @ResponseBody
+    public boolean recuperoPassword(@RequestBody String data) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode node = objectMapper.readTree(data);
+            String username = node.get("username").asText();
+            String password = node.get("password").asText();
+            UtenteDao dao = DBManager.getInstance().getUtenteDao();
+            Utente utente = dao.findByPrimaryKey(username);
+            if (utente == null) return false;
+            utente.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+            return dao.saveOrUpdate(utente);
+        } catch (JsonProcessingException e) {
+            System.out.println("ERROR TRYING TO READ JSON.");
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 

@@ -16,7 +16,7 @@ public interface UtenteDao {
     // metodo per trovare gli utenti con cognome simile al parametro
     List<Utente> tryToFindUserBySurname(String surname);
     // metodo per aggiornare o salvare un utente
-    void saveOrUpdate(Utente utente);
+    boolean saveOrUpdate(Utente utente);
     // metodo per eliminare un utente
     void delete(Utente utente);
     // metodo per trovare tutte le richieste di amicizia di un utente
