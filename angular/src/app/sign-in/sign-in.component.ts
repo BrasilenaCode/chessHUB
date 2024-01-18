@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormControl } from "@angular/forms";
 import {AuthServiceService} from "../services/auth.service";
 import {Router} from "@angular/router";
-import {Utente, UtenteRegistrazione} from '../model/utente';
+import {UtenteRegistrazione} from '../model/utente';
 import { UtentiService } from '../services/utenti.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class SignInComponent {
   dataNascita= new FormControl();
   email = new FormControl();
   errorMessage = "";
-  recaptcha: boolean = false;
+  //recaptcha: boolean = false;
   buttonText: string = "Avanti";
   nextStep: boolean = false;
   authCode = new FormControl();
@@ -64,10 +64,10 @@ export class SignInComponent {
         email: this.email.value,
       }
       if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita, this.email)&&this.dataNascita.value!=null) {
-        if(!this.recaptcha) {
+        /*if(!this.recaptcha) {
           this.errorMessage = "Completa il captcha";
           return;
-        }
+        }*/
         if (this.password.value == this.repeatedPassword.value) {
             if (new Date(this.dataNascita.value) < new Date()) {
               this.utentiService.dammiUtente(this.utente.username).subscribe(utente => {
@@ -102,7 +102,6 @@ export class SignInComponent {
       var code = this.authCode.value;
       if (this.tries > 0 || this.continueRegistering) {
         this.auth.verifyAuthCodeWhenRegistering(code).subscribe(response => {
-          console.log(response)
           if (response === "corretto") {
             this.errorMessage = "";
             this.continueRegistering = true;
@@ -162,7 +161,7 @@ export class SignInComponent {
   }
   // controlla che il recaptcha sia risolto
   recaptchaResolved(recaptcha: boolean) {
-    this.recaptcha = recaptcha;
+    //this.recaptcha = recaptcha;
   }
 
   protected readonly Object = Object;

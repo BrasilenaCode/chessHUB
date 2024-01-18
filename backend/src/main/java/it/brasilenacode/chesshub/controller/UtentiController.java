@@ -194,14 +194,9 @@ public class UtentiController {
     // chiamata per ottenere gli utenti che un utente segue
     @PostMapping("/utente/getFollowers")
     public List<Utente> getFollowers(HttpServletRequest req, @RequestBody String username){
-        // controllo che l'utente sia autenticato
-        if(Auth.isAuthenticated(req)){
-            // restituisco gli utenti che segue
-            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
-            return DBManager.getInstance().getUtenteDao().getFollower(utente);
-        }
-        // se non è autenticato, restituisco null
-        return null;
+        // restituisco gli utenti che segue
+        Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+        return DBManager.getInstance().getUtenteDao().getFollower(utente);
     }
 
     // endpoint per abilitare il recupero della password

@@ -87,12 +87,10 @@ public class TorneoModel {
 
     public static boolean aggiornaCustom(Utente u) {
         // prendo i tornei in cui è iscritto
-        System.out.println("Aggiorno custom");
         List<Torneo> tornei=DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getPartecipanti().contains(u)).toList();
         // se un torneo è in corso non posso aggiornarlo
         if(!tornei.stream().filter(torneo -> torneo.getStato().equals("inCorso")).toList().isEmpty())
             return false;
-        System.out.println("Tornei trovati");
         // per ogni torneo a cui è iscritto
         for(Torneo torneo:tornei){
             // se il torneo è prossimo, rimuovo l'iscrizione
@@ -105,7 +103,6 @@ public class TorneoModel {
                     torneo.setVincitore(DBManager.getInstance().getUtenteDao().findByPrimaryKey("custom"));
                     DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
                 }
-                System.out.println("Utente eliminato da un torneo");
                 DBManager.getInstance().getTorneoDao().aggiornaIscrizione(u);
             }
         }

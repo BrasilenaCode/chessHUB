@@ -13,18 +13,22 @@ export class RowComponent implements OnInit{
   @Input()utenteAcceduto?:string;
   condizione?:boolean;
   condizioneClassifica:boolean=false;
+  punti?:number;
 
 
   ngOnInit(){
     //condizione per verificare se l'utente visualizzato è l'utente acceduto
     this.condizione=this.utenteAcceduto==this.utente?.username;
     //condizione per far visualizzare i punteggi relativi al torneo o alla classifica generale
-    if(this.punteggi!=undefined)
-      this.condizioneClassifica=true;
+    if(this.punteggi!=undefined) {
+      this.condizioneClassifica = true;
+      this.punti= this.punteggi?.get(this.utente!.username);
+    }
     //caso in cui l'utente è stato eliminato
     if(this.utente?.username=="custom"){
       this.utente.username="eliminato"
       this.utente.nazionalita="";
+      this.punti=this.punteggi?.get("custom");
     }
   }
 }

@@ -10,6 +10,10 @@
   width: 250px;
 }
 
+.link{
+  cursor:pointer;
+}
+
 .pad {
   top: 20vh;
 }

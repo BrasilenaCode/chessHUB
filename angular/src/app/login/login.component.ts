@@ -127,9 +127,13 @@ export class LoginComponent {
     }
   }
 
+  setNextStep(bool: boolean) {
+    this.nextStep = bool;
+  }
+
   // richiede un nuovo codice
-  requestAuthCode(mail: string): void {
-    this.auth.getAuthCodeUUID(mail);
+  requestAuthCode(): void {
+    this.auth.getAuthCodeUUID(this.mail.value);
     this.tries = 3;
     this.continueOperation = false;
   }
@@ -138,8 +142,6 @@ export class LoginComponent {
     this.nextStep = true;
     this.buttonText = 'Avanti';
   }
-
-  
 
   clearErrorMessage() {
     this.errorMessage = "";

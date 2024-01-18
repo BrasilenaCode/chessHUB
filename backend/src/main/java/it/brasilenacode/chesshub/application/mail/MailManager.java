@@ -1,7 +1,5 @@
 package it.brasilenacode.chesshub.application.mail;
-
 import it.brasilenacode.chesshub.application.Pair;
-
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

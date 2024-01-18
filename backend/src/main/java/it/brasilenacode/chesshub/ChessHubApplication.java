@@ -1,5 +1,4 @@
 package it.brasilenacode.chesshub;
-
 import it.brasilenacode.chesshub.application.mail.MailManager;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +18,6 @@ public class ChessHubApplication {
         // avvio dell'applicazione
         SpringApplication.run(ChessHubApplication.class, args);
         // creazione dell'utente, del torneo e della partita di prova
-        //DBManager.getInstance().createGuest();
+        DBManager.getInstance().createGuest();
     }
 }
