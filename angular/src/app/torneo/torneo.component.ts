@@ -16,6 +16,8 @@ import {isPlatformBrowser} from "@angular/common";
 })
 export class TorneoComponent implements OnInit{
 
+  caricamentoFinito: boolean = false;
+
   turno: number = 0;
   torneo?: Torneo;
   usernameUtente: string = "nessuno";
@@ -113,6 +115,7 @@ export class TorneoComponent implements OnInit{
       this.partiteTurno[partite[i].turno-1].push(partite[i]);
       this.partiteTurno[partite[i].turno-1].sort((a, b) => b.esito.localeCompare(a.esito));
     }
+    this.caricamentoFinito = true;
   }
 
   // invia una richiesta per generare le partite del torneo
