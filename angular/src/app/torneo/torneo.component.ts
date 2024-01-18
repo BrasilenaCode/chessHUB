@@ -27,6 +27,7 @@ export class TorneoComponent implements OnInit{
   flagPartite: boolean = true;
   flagErrore: boolean = false;
   flagRegistrato:boolean=true;
+  actualCustom: number[] = new Array<number>();
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private torneoService: TorneoService, private activatedRoute: ActivatedRoute, private authService: AuthServiceService, private utentiService: UtentiService, private router: Router) {}
 
@@ -42,7 +43,18 @@ export class TorneoComponent implements OnInit{
       if(this.torneo.stato=="passato" && this.torneo.vincitore.username=="custom")
         this.torneo.vincitore.username="eliminato";
     });
-    this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => this.utentiTorneo = utenti);
+    this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => {
+      this.utentiTorneo = utenti;
+      var ac = 1;
+      for (let i = 0; i < this.utentiTorneo.length; i++) {
+        if(this.utentiTorneo[i].username=="custom"){
+          this.actualCustom.push(ac);
+          ac++;
+        } else {
+          this.actualCustom.push(0);
+        }
+      }
+    });
     this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi => this.punteggiTorneo = new Map(Object.entries(punteggi)));
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
       this.loadPartite(partite);
@@ -65,15 +77,6 @@ export class TorneoComponent implements OnInit{
       this.flagRegistrato = false;
       this.flagAdmin = false;
     }
-  }
-  calculateActualCustom(index: number): number{
-    var actualCustom = 0;
-    for(let i = 0; i < index+1; i++){
-      if(this.utentiTorneo[i].username == "custom"){
-        actualCustom++;
-      }
-    }
-    return actualCustom;
   }
 
   // ricerca l'utente attualmente loggato
