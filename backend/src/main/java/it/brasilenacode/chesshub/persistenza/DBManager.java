@@ -6,7 +6,7 @@ import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DAO.postgres.PartitaDaoPostgres;
 import it.brasilenacode.chesshub.persistenza.DAO.postgres.TorneoDaoPostgres;
 import it.brasilenacode.chesshub.persistenza.DAO.postgres.UtenteDaoPostgres;
-import it.brasilenacode.chesshub.utilities.JsonReader;
+import it.brasilenacode.chesshub.application.JsonReader;
 
 
 import java.sql.Connection;

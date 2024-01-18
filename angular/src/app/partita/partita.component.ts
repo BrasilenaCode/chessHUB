@@ -5,7 +5,6 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { Chess } from 'chess.js';
 import {UtentiService} from "../services/utenti.service";
 import { AuthServiceService } from '../services/auth.service';
-import {HttpClient} from "@angular/common/http";
 import {isPlatformBrowser} from "@angular/common";
 
 declare var Chessboard2: any;
@@ -29,12 +28,9 @@ export class PartitaComponent implements OnInit{
   automatic : boolean = false;
   clock? : NodeJS.Timeout;
   errorePGN = "";
-
   locked : boolean = true;
   proprietario : boolean = false;
-
   admin : boolean = false;
-
   custom : boolean = false;
   selezioneInCorso : boolean = true;
 
@@ -71,6 +67,7 @@ export class PartitaComponent implements OnInit{
           return;
         }
         this.partita = partita;
+        console.log(this.partita);
         if(this.authService.isAuthenticated()){
           this.authService.isAdmin().subscribe(admin => this.admin = admin);
           this.utentiService.dammiUtenteAcceduto().subscribe(utente => {

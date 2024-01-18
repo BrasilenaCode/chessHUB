@@ -3,7 +3,7 @@ import { Chess } from 'chess.js';
 import { Partita } from '../model/partita';
 import { PartitaService } from '../services/partita.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {isPlatformBrowser} from "@angular/common";
+import {DatePipe, isPlatformBrowser} from "@angular/common";
 
 declare var Chessboard2: any;
 
@@ -31,7 +31,7 @@ export class AddPartitaComponent implements OnInit{
       onDrop: this.onDrop,
     }
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object, private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private router:Router){}
+    constructor(@Inject(PLATFORM_ID) private platformId: Object, private partitaService : PartitaService, private activatedRoute: ActivatedRoute, private router:Router, private dataPipe:DatePipe){}
 
     // Prendo la partita dal database e carico le informazioni sulla pagina
     ngOnInit(): void {
@@ -40,7 +40,7 @@ export class AddPartitaComponent implements OnInit{
           window.scrollTo(0, 0);
         }
       });
-      this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita => 
+      this.partitaService.dammiPartita(parseInt(this.activatedRoute.snapshot.queryParams['id'])).subscribe(partita =>
         {this.partita = partita;
           this.caricamentoPartita();
         })
@@ -185,8 +185,8 @@ export class AddPartitaComponent implements OnInit{
         AddPartitaComponent.game.header('Event', this.partita.torneo.nome + "");
       if(this.partita?.torneo?.luogo != null && this.partita?.torneo?.luogo != "")
         AddPartitaComponent.game.header('Site', this.partita.torneo.luogo + "");
-      if(this.partita?.torneo?.dataInizio != null && this.partita?.torneo?.dataInizio + "" != "")
-        AddPartitaComponent.game.header('Date', this.partita.torneo.dataInizio.getDate().toString() + "");
+      if(this.partita?.data != null && this.partita?.data + "" != "")
+        AddPartitaComponent.game.header('Date', this.dataPipe.transform(this.partita.data, 'yyyy-MM-dd')  + "");
       if(this.partita?.turno != null && this.partita?.turno + "" != "")
         AddPartitaComponent.game.header('Round', this.partita?.turno + "");
       let result = "";

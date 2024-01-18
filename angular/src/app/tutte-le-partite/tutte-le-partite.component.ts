@@ -31,8 +31,7 @@ export class TutteLePartiteComponent implements OnInit{
     // prendo le partite concluse dell'utente
     this.username=this.activatedRoute.snapshot.queryParams['username'];
     this.partiteService.dammiPartiteGiocatore(this.username!).subscribe(partite => {
-      // TODO esito "-1" che vuoldire ?????
-      this.partite = partite.filter(partita => (partita.esito != "0" && partita.esito != "-1"))
+      this.partite = partite.filter(partita => (partita.esito != "0"))
       this.partiteVisualizzate=this.partite;
     });
   }
@@ -42,7 +41,7 @@ export class TutteLePartiteComponent implements OnInit{
     this.showPublic = true;
     this.showFriends = false;
     this.all = false;
-    this.partiteVisualizzate=this.partite?.filter(partita => partita.privacy == "public");
+    this.partiteVisualizzate=this.partite?.filter(partita => partita.privacy == "pubblica");
   }
 
   visualizzaTutte() {

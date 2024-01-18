@@ -231,7 +231,7 @@ public class UtenteDaoPostgres implements UtenteDao {
             ResultSet rs = st.executeQuery();
             // per ogni utente trovato
             while(rs.next()) {
-                // prendo l'utente dal daatabase
+                // prendo l'utente dal database
                 Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(rs.getString("seguace"));
                 // aggiungo l'utente alla lista degli utenti che hanno richiesto l'amicizia
                 richieste.add(u);

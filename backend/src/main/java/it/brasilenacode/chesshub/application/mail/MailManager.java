@@ -1,9 +1,6 @@
-package it.brasilenacode.chesshub.mail;
+package it.brasilenacode.chesshub.application.mail;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import it.brasilenacode.chesshub.utilities.Pair;
+import it.brasilenacode.chesshub.application.Pair;
 
 import java.util.*;
 import javax.mail.*;

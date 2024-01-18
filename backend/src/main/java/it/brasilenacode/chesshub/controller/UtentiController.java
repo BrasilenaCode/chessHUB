@@ -1,15 +1,11 @@
 package it.brasilenacode.chesshub.controller;
 
 
-import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
+import it.brasilenacode.chesshub.application.UtenteModel;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 import jakarta.servlet.http.HttpServletRequest;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 // controller per i servizi degli utenti
@@ -50,18 +46,17 @@ public class UtentiController {
         // se non sono autenticato, restituisco false
         return false;
     }
+
+    // chiamata per ottenere le statistiche di un utente
+    @PostMapping("/utenti/statistiche")
+    @ResponseBody
+    public List<Integer> ritornaStatistiche(HttpServletRequest req) {
+       return UtenteModel.getStatistiche(Auth.getUser(req));
+    }
     // chiamata per cercare utenti
     @PostMapping("/utenti/ricerca")
     public List<List<Utente>> ricercaUtenti(@RequestBody String string){
-        // restituisco una lista di liste di utenti
-        List<List<Utente>> toSend = new ArrayList<>();
-        UtenteDao dao = DBManager.getInstance().getUtenteDao();
-        // cerco gli utenti per nome, cognome e username
-        toSend.add(dao.tryToFindUsersByKey(string));
-        toSend.add(dao.tryToFindUserByName(string));
-        toSend.add(dao.tryToFindUserBySurname(string));
-        // restituisco la lista
-        return toSend;
+       return UtenteModel.ricercaUtenti(string);
     }
     // chiamata per aggiornare un utente
     @PostMapping("/updateUtente")
@@ -70,25 +65,7 @@ public class UtentiController {
         Utente utente=Auth.getUser(req);
         // se è autenticato, aggiorno i dati
         if(utente!=null){
-            String nome=dati.get("key1");
-            String cognome=dati.get("key2");
-            String nazionalita=dati.get("key4");
-            String dataNascita=dati.get("key3");
-            utente.setNome(nome);
-            utente.setCognome(cognome);
-            utente.setNazionalita(nazionalita);
-            String inputString = dataNascita;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date=null;
-            try {
-                date = sdf.parse(inputString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            utente.setDataNascita(date);
-            // salvo l'utente aggiornato
-            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
-            return true;
+            return UtenteModel.updateUtente(utente, dati);
         }
         // se non è autenticato, restituisco false
         return false;
@@ -100,16 +77,7 @@ public class UtentiController {
         Utente utente=Auth.getUser(req);
         // se è autenticato, aggiorno la password
         if(utente!=null){
-            // controllo che la vecchia password sia corretta
-            String oldpwd = passwords.get("key1");
-            String pwd = passwords.get("key2");
-            if(!BCrypt.checkpw(oldpwd, utente.getPassword())) {
-                return false;
-            }
-            // aggiorno la password
-            utente.setPassword(BCrypt.hashpw(pwd, BCrypt.gensalt()));
-            DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
-            return true;
+           return UtenteModel.updatePassword(utente, passwords);
         }
         // se non è autenticato, restituisco false
         return false;
@@ -120,20 +88,18 @@ public class UtentiController {
         // controllo che l'utente sia autenticato
         if(Auth.isAuthenticated(req)){
             // se è autenticato, restituisco se è admin
-            Utente utente = Auth.getUser(req);
-            return utente.isAdmin();
+            return Auth.getUser(req).isAdmin();
         }
         // se non è autenticato, restituisco false
         return false;
     }
     // chiamata per dare i privilegi di admin ad un utente
     @GetMapping("/utenti/createAdmin")
-    public boolean createAdmin(HttpServletRequest req){ // todo: get o post?, body o header?
+    public boolean createAdmin(HttpServletRequest req){
         // controllo che l'utente sia autenticato
         if(Auth.isAuthenticated(req)){
             // do i privilegi di admin ad un utente
-            String username=req.getParameter("username");
-            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(req.getParameter("username"));
             utente.setAdmin(true);
             // salvo l'utente
             DBManager.getInstance().getUtenteDao().saveOrUpdate(utente);
@@ -148,8 +114,7 @@ public class UtentiController {
         // controllo che l'utente sia autenticato
         if(Auth.isAuthenticated(req)){
             // restituisco se l'utente è admin
-            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
-            return utente.isAdmin();
+            return DBManager.getInstance().getUtenteDao().findByPrimaryKey(username).isAdmin();
         }
         // se non è autenticato, restituisco false
         return false;
@@ -241,14 +206,9 @@ public class UtentiController {
     // chiamata per ottenere gli utenti che un utente segue
     @PostMapping("/utente/getFollowers")
     public List<Utente> getFollowers(HttpServletRequest req, @RequestBody String username){
-        // controllo che l'utente sia autenticato
-        if(Auth.isAuthenticated(req)){
-            // restituisco gli utenti che segue
-            Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
-            return DBManager.getInstance().getUtenteDao().getFollower(utente);
-        }
-        // se non è autenticato, restituisco null
-        return null;
+       // restituisco gli utenti che segue
+        Utente utente = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+        return DBManager.getInstance().getUtenteDao().getFollower(utente);
     }
 }
 

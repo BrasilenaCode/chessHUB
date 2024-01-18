@@ -1,4 +1,4 @@
-package it.brasilenacode.chesshub.mail;
+package it.brasilenacode.chesshub.application.mail;
 
 public class MailSettings {
 

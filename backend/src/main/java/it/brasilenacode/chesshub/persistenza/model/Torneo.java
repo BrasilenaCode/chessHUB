@@ -96,49 +96,7 @@ public class Torneo {
         this.numeroPartecipanti++;
         this.partecipanti.add(u);
     }
-    // metodo per generare le partite
-    public List<Partita> generaPartite(){
-        // creo la lista delle partite
-        List<Partita> partite=new ArrayList<>();
-        // se il numero di partecipanti è dispari
-        if(this.getPartecipanti().size()%2 != 0){
-            // aggiungo un partecipante fittizio
-            Utente riposo = new Utente("__RIPOSO__");
-            this.addPartecipante(riposo);
-        // se non ho ancora caricato i partecipanti
-        } else if(partecipanti == null){
-            // li carico
-            getPartecipanti();
-        }
-        // per ogni turno
-        PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
-        // per ogni turno
-        for(int turno=1;turno < partecipanti.size();turno++){
-            // per ogni partecipante
-            for(int partecipante=0;partecipante<partecipanti.size()/2;partecipante++){
-                // creo la partita
-                Date date = new Date(this.getDataInizio().getTime() + (((getDataFine().getTime() - getDataInizio().getTime()) / (partecipanti.size()-1)) * turno));
-                Partita partita = new Partita(this, partecipanti.get(partecipante), partecipanti.get(partecipanti.size() - partecipante-1), date, "0", turno);
-                // se non è un riposo
-                if (!(partita.getGiocatore2().getUsername().equals("__RIPOSO__") || partita.getGiocatore1().getUsername().equals("__RIPOSO__"))) {
-                    // aggiungo la partita alla lista
-                    partite.add(partita);
-                    // salva la partita nel db
-                    partitaDao.saveOrUpdate(partita);
-                }
-            }
-            // ruoto i partecipanti
-            partecipanti.add(1, partecipanti.remove(partecipanti.size() - 1));
-        }
-        // ritorno la lista delle partite
-        return partite;
-    }
-    // metodo per trovare le partite
-    public List<Partita> trovaPartite() {
-        PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();
-        // ritorno la lista delle partite, cercandole nel database
-        return new ArrayList<>(partitaDao.findAll().stream().filter(partita -> partita.getTorneo().getId() == this.getId()).toList());
-    }
+
     // metodo per rimuovere un partecipante
     public void removePartecipante(Utente utente) {
         // se non ho ancora caricato i partecipanti

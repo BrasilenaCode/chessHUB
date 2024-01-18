@@ -72,6 +72,7 @@ export class PartitaShowComponent implements OnInit{
     }
   }
 
+  //se la partita è stata giocata e l'utente è admin o la partita è pubblica o l'utente segue uno dei due giocatori allora può visualizzare la partita
   visualizzaPartita(): void {
     if(this.admin && this.partita?.esito == "0")
       this.router.navigate(['/addPartita'], {queryParams: {id: this.partita?.id}});
@@ -81,11 +82,17 @@ export class PartitaShowComponent implements OnInit{
       alert("Non hai i permessi per visualizzare questa partita");
   }
 
+  //imposta la visibilità, se l'utente è admin o la partita è pubblica o l'utente segue uno dei due giocatori allora può visualizzare la partita
   private setPrivacy() {
     this.privacy = false;
     this.admin = false;
-    if(!this.auth.isAuthenticated())
+    if(!this.auth.isAuthenticated()){
+      if(this.partita?.privacy== "pubblica" && this.partita.esito != "0")
+        this.privacy = true;
+      else
+        this.privacy = false;
       return;
+    }
     this.auth.isAdmin().subscribe(risultato=>{
       if (risultato){
         this.privacy = true;

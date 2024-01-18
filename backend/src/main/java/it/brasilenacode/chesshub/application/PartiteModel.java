@@ -1,4 +1,4 @@
-package it.brasilenacode.chesshub.utilities;
+package it.brasilenacode.chesshub.application;
 
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
@@ -22,7 +22,7 @@ public class PartiteModel {
     }
     // chiamata per ottenere le partite di un giocatore
     public static List<Partita> dammiPartiteGiocatore(String username){
-        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)).toList();
+        return DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getId()!=-1 && partita.getGiocatore2().getUsername().equals(username) || partita.getGiocatore1().getUsername().equals(username)).toList();
     }
     // chiamata per ottenere le partite di un torneo
     public static List<Partita> dammiPartiteTorneo(long id){

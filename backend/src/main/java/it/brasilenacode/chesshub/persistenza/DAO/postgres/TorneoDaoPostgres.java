@@ -225,8 +225,6 @@ public class TorneoDaoPostgres implements TorneoDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // aggiorno il torneo
-        saveOrUpdate(torneo); // todo: si può togliere dato che abbiamo rimosso il campo numeroPartecipanti nel db?
     }
     // metodo per aggiornare l'iscrizione di un utente
     @Override

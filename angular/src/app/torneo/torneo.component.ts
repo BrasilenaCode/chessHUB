@@ -31,11 +31,15 @@ export class TorneoComponent implements OnInit{
 
   ngOnInit() {
     // Recupero dei dettagli del torneo: punteggi, partite e gli utenti partecipanti
-    this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => this.torneo = torneo);
+    this.torneoService.dammiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(torneo => {
+      this.torneo = torneo
+      if(this.torneo.vincitore.username=="custom")
+        this.torneo.vincitore.username="eliminato";
+    });
     this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi =>{
       this.punteggiTorneo = new Map(Object.entries(punteggi));
     });
-    
+
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
       this.loadPartite(partite);
       if(partite?.length > 0) {
@@ -147,7 +151,7 @@ export class TorneoComponent implements OnInit{
 
   // Naviga alla pagina del profilo utente, pubblico o privato, in base all'utente cliccato
   visualizzaUtente(user: Utente) {
-    if(user.username=="custom")
+    if(user.username=="eliminato")
       return;
     if(this.usernameUtente!=undefined&&user.username==this.usernameUtente)
       this.router.navigate(['/profilo']);

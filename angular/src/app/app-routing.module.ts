@@ -43,7 +43,7 @@ const routes: Routes = [
   {"path": "addPartita", component: AddPartitaComponent},
   {"path": "ricercaUtente", component: AnteprimaProfiloComponent},
   {"path": "partite", component: TutteLePartiteComponent, canActivate:[AuthGuardService]},
-  {"path": "amici", component: AmiciComponent,  canActivate:[AuthGuardService]},
+  {"path": "amici", component: AmiciComponent},
   {"path": "modificaDati", component: ModificaDatiComponent, canActivate:[AuthGuardService]},
   {"path": "modificaPassword", component: ModificaPasswordComponent, canActivate:[AuthGuardService]},
   {"path": "torneiVicini", component: TorneiViciniComponent},

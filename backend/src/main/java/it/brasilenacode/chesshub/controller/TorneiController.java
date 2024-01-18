@@ -1,14 +1,11 @@
 package it.brasilenacode.chesshub.controller;
-
-import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
+import it.brasilenacode.chesshub.application.TorneoModel;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +81,7 @@ public class TorneiController {
             Utente utente = Auth.getUser(req);
             // prendo il torneo
             Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
+            torneo.removePartecipante(utente);
             // rimuovo il partecipante dal torneo
             DBManager.getInstance().getTorneoDao().removePartecipante(torneo, utente);
             return true;
@@ -94,24 +92,15 @@ public class TorneiController {
     // chiamata per ottenere se esistono delle partite in un torneo
     @PostMapping("/tornei/partite")
     public List<Partita> esistonoPartite(HttpServletRequest req, @RequestBody int torneoId){
-        // prendo il torneo
-        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
         // restituisco le partite trovate nel torneo
-        return torneo.trovaPartite();
+        return TorneoModel.trovaPartite(torneoId);
     }
     // chiamata per iniziare un torneo
     @PostMapping("/tornei/genera")
     public List<Partita> generaTorneo(HttpServletRequest req, @RequestBody int torneoId){
         // se l'utente è autenticato e l'utente è un admin
         if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
-            // prendo il torneo
-            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-            // setto lo stato del torneo a inCorso
-            torneo.setStato("inCorso");
-            // salvo il torneo
-            DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
-            // genero le partite e le restituisco
-            return torneo.generaPartite();
+            return TorneoModel.generaPartite(torneoId);
         }
         // se non ho potuto generare le partite, restituisco null
         return null;
@@ -121,19 +110,7 @@ public class TorneiController {
     public boolean chiudiTorneo(HttpServletRequest req, @RequestBody int torneoId){
         // se l'utente è autenticato e l'utente è un admin
         if(Auth.isAuthenticated(req) && Auth.getUser(req).isAdmin()){
-            // prendo il torneo
-            Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-            // setto lo stato del torneo a concluso
-            if (DBManager.getInstance().getPartitaDao().findAll().stream().filter(partita -> partita.getTorneo().getId() == torneo.getId()).map(partita -> partita.getEsito().equals("0")).filter(esito -> esito == true).count() != 0){
-                return false;
-            }
-            // calcolo il vincitore e lo setto nel torneo
-            torneo.getPunteggi().entrySet().stream().max(Map.Entry.comparingByValue()).ifPresent(entry -> torneo.setVincitore(DBManager.getInstance().getUtenteDao().findByPrimaryKey(entry.getKey())));
-            // setto lo stato del torneo a concluso
-            torneo.setStato("passato");
-            // salvo il torneo
-            DBManager.getInstance().getTorneoDao().saveOrUpdate(torneo);
-            return true;
+            return TorneoModel.chiudiTorneo(torneoId);
         }
         // se non ho potuto chiudere il torneo, restituisco false
         return false;
@@ -156,39 +133,14 @@ public class TorneiController {
     // chiamata per cercare i tornei
     @PostMapping("/tornei/ricerca")
     public List<List<Torneo>> trovaTornei(@RequestBody String string, HttpServletRequest req) {
-        // matrice da inviare al frontend
-        List<List<Torneo>> toSend = new ArrayList<>();
-        TorneoDao dao = DBManager.getInstance().getTorneoDao();
-        // aggiungo i tornei trovati tramite nome
-        toSend.add(dao.tryToFindByName(string));
-        // aggiungo i tornei trovati tramite luogo
-        toSend.add(dao.tryToFindByLocation(string));
-        // restituisco la matrice dei tornei
-        return toSend;
+        return TorneoModel.trovaTornei(string);
     }
     // chiamata per aggiornare gli utenti a custom nei tornei
     @PostMapping("/tornei/aggiornaCustom")
     public boolean aggiornaCustom(HttpServletRequest req) {
         // se l'utente è autenticato
         if (Auth.isAuthenticated(req)) {
-            // prendo l'utente
-            Utente u=Auth.getUser(req);
-            // prendo i tornei in cui è iscritto
-            List<Torneo> tornei=DBManager.getInstance().getTorneoDao().findAll().stream().filter(torneo -> torneo.getPartecipanti().contains(u)).toList();
-            // se un torneo è in corso non posso aggiornarlo
-            if(tornei.stream().filter(torneo -> torneo.getStato().equals("inCorso")).count() != 0)
-                return false;
-            // per ogni torneo a cui è iscritto
-            for(Torneo torneo:tornei){
-                // se il torneo è prossimo, rimuovo l'iscrizione
-                if(torneo.getStato().equals("prossimo"))
-                    DBManager.getInstance().getTorneoDao().removePartecipante(torneo, u);
-                // altrimenti setto l'utente a custom
-                else
-                    DBManager.getInstance().getTorneoDao().aggiornaIscrizione(u);
-            }
-            // restituisco true
-            return true;
+           return TorneoModel.aggiornaCustom(Auth.getUser(req));
         }
         // se l'utente non è autenticato, restituisco false
         return false;
@@ -196,13 +148,7 @@ public class TorneiController {
     // chiamata per ottenere gli utenti iscritti ad un torneo
     @PostMapping("/tornei/utentiTorneo")
     public List<Utente> dammiUtentiTorneo(@RequestBody int torneoId){
-        // prendo il torneo
-        Torneo torneo = DBManager.getInstance().getTorneoDao().findByPrimaryKey(torneoId);
-        // restituisco gli utenti iscritti al torneo, ordinati per punteggio
-        List<Utente> utenti = torneo.getPartecipanti();
-        Map<String, Integer> punteggi = torneo.getPunteggi();
-        utenti.sort((o1, o2) -> punteggi.get(o1.getUsername()) > punteggi.get(o2.getUsername()) ? -1 : 1);
-        return utenti;
+        return TorneoModel.dammiUtentiTorneo(torneoId);
     }
     // chiamata per ottenere i punteggi di un torneo
     @PostMapping("/tornei/punteggiTorneo")

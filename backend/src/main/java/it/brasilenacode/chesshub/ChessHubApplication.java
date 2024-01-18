@@ -1,6 +1,6 @@
 package it.brasilenacode.chesshub;
 
-import it.brasilenacode.chesshub.mail.MailManager;
+import it.brasilenacode.chesshub.application.mail.MailManager;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

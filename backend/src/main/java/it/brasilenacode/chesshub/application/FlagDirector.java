@@ -1,4 +1,4 @@
-package it.brasilenacode.chesshub.utilities;
+package it.brasilenacode.chesshub.application;
 
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64;
 

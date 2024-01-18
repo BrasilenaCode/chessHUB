@@ -110,10 +110,7 @@ export class UtentiService {
   }
   // metodo per ottenere i follower dell'utente loggato
   getFollowers(username:string) {
-    var header = {
-      headers: new HttpHeaders().set('Authorization', 'Basic ' + this.auth.getToken())
-    }
-    return this.http.post<Utente[]>(this.backendUrl + "/utente/getFollowers",username, header)
+    return this.http.post<Utente[]>(this.backendUrl + "/utente/getFollowers",username)
   }
   // verifica se un utente è un admin
   verificaSeAdmin(username: string | undefined) {

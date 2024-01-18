@@ -3,8 +3,8 @@ package it.brasilenacode.chesshub.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
-import it.brasilenacode.chesshub.utilities.JsonReader;
-import it.brasilenacode.chesshub.utilities.RecaptchaDirector;
+import it.brasilenacode.chesshub.application.JsonReader;
+import it.brasilenacode.chesshub.application.RecaptchaDirector;
 
 // controller per i servizi di recaptcha
 @RestController

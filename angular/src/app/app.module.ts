@@ -45,6 +45,7 @@ import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { TorneiViciniComponent } from './tornei-vicini/tornei-vicini.component';
 import { StrumentiComponent } from './strumenti/strumenti.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
+import {DatePipe} from "@angular/common";
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     TorneoService,
     UtentiService,
     PartitaService,
+    DatePipe,
     provideHttpClient(withFetch()),
     provideClientHydration()
   ],

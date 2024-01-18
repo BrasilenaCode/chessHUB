@@ -1,4 +1,4 @@
-package it.brasilenacode.chesshub.utilities;
+package it.brasilenacode.chesshub.application;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

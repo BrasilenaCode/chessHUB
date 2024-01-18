@@ -1,4 +1,4 @@
-package it.brasilenacode.chesshub.utilities;
+package it.brasilenacode.chesshub.application;
 
 public class Pair {
 

@@ -1,4 +1,4 @@
-package it.brasilenacode.chesshub.utilities;
+package it.brasilenacode.chesshub.application;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
