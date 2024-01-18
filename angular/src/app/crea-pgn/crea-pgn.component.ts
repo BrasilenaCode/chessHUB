@@ -179,8 +179,10 @@ export class CreaPgnComponent implements OnInit{
     }
 
     this.generaPGN();
-    if(this.me == null || this.en == null || this.customTorneo == null)
+    if(this.me == null || this.en == null || this.customTorneo == null){
+      alert("Errore interno");
       return;
+    }
 
     let partita : Partita;
     if(this.colore == "bianco"){
