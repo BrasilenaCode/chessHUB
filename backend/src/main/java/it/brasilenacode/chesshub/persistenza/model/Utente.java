@@ -14,6 +14,8 @@ public class Utente {
     private int punteggioSettimanale;
     private int follower;
     private boolean admin;
+    private String email;
+
     // costruttore
     public Utente() {}
     // costruttore con parametro username
@@ -81,6 +83,15 @@ public class Utente {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     // metodo equals
     @Override
     public boolean equals(Object o) {

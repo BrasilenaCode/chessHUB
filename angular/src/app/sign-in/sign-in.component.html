@@ -2,42 +2,64 @@
   <img src="assets/foto/signIn.png" alt="scacchiFoto">
 </figure>
 <div class="center">
-  <form class="modulo-form" (ngSubmit)="registrati()" (click)="clearErrorMessage()">
+  <form class="modulo-form" (ngSubmit)="registrati()" (click)="clearErrorMessage()" [ngClass]="{'pad': nextStep}">
     <div class="h4">Registrazione</div>
-    <div class="mb-3 mt-3">
-      <label for="nome" class="form-label">Nome:</label>
-      <input class="form-control dim" id="nome" placeholder="Inserisci nome" name="nome" [formControl]="nome" required>
-          </div>
-    <div class="mb-3">
-      <label for="cognome" class="form-label">Cognome:</label>
-      <input class="form-control dim" id="cognome" placeholder="Inserisci cognome" name="cognome" [formControl]="cognome" required>
-  </div>
-    <div class="mb-3 mb-3">
-      <label for="username" class="form-label">Username:</label>
-      <input type="text" class="form-control was-validated dim" id="username" placeholder="Inserisci username" name="username" [formControl]="username" required>
+    <div *ngIf="!nextStep; else showNextStep">
+      <div class="mb-3 mt-3">
+        <label for="nome" class="form-label">Nome:</label>
+        <input class="form-control dim" id="nome" placeholder="Inserisci nome" name="nome" [formControl]="nome" required>
+            </div>
+      <div class="mb-3">
+        <label for="cognome" class="form-label">Cognome:</label>
+        <input class="form-control dim" id="cognome" placeholder="Inserisci cognome" name="cognome" [formControl]="cognome" required>
     </div>
-    <div class="mb-3">
-      <label for="pwd" class="form-label">Password:</label>
-      <input type="password" class="form-control dim" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password" required>
+      <div class="mb-3 mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <input type="text" class="form-control was-validated dim" id="username" placeholder="Inserisci username" name="username" [formControl]="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="pwd" class="form-label">Password:</label>
+        <input type="password" class="form-control dim" id="pwd" placeholder="Inserisci password" name="pswd" [formControl]="password" required>
+      </div>
+      <div class="mb-3">
+        <label for="rppwd" class="form-label">Ripeti password:</label>
+        <input type="password" class="form-control dim" id="rppwd" placeholder="Inserisci password" name="rppswd" [formControl]="repeatedPassword" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="text" class="form-control dim" id="email" placeholder="es. mario.rossi@example.com" name="email" [formControl]="email" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Nazionalità:</label>
+          <select title="nazionalita" class="form-select dim" id="nazionalita" name="nazionalità" [formControl]="nazionalita" required>
+            <option *ngFor="let nazione of Object.values(nationalities)"  [value]="nazione">{{nazione}}</option>
+          </select>
+      </div>
+      <div class="mb-3 mb-3">
+        <label for="dataNascita" class="form-label">Data di nascita:</label>
+        <input type="date" class="form-control dim" id="dataNascita" name="dataNascita" [formControl]="dataNascita" required>
+      </div>
+      <app-recaptcha (onCaptchaComplete)="recaptchaResolved($event)"></app-recaptcha>
+      <div *ngIf="errorMessage" class="error-message mt-3">
+        {{ errorMessage }}
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="rppwd" class="form-label">Ripeti password:</label>
-      <input type="password" class="form-control dim" id="rppwd" placeholder="Inserisci password" name="rppswd" [formControl]="repeatedPassword" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Nazionalità:</label>
-        <select title="nazionalita" class="form-select dim" id="nazionalita" name="nazionalità" [formControl]="nazionalita" required>
-          <option *ngFor="let nazione of Object.values(nationalities)"  [value]="nazione">{{nazione}}</option>
-        </select>
-    </div>
-    <div class="mb-3 mb-3">
-      <label for="dataNascita" class="form-label">Data di nascita:</label>
-      <input type="date" class="form-control dim" id="dataNascita" name="dataNascita" [formControl]="dataNascita" required>
-    </div>
-    <app-recaptcha (onCaptchaComplete)="recaptchaResolved($event)"></app-recaptcha>
-    <div *ngIf="errorMessage" class="error-message mt-3">
-      {{ errorMessage }}
-    </div>
-    <button type="submit" class="btn btn-primary mt-3">Registrati</button>
+    <ng-template #showNextStep>
+      <p class="text-xs text-center mt-4">
+        Abbiamo inviato un codice alla mail che hai fornito per poter portare a termina la registrazione. 
+        Se stai riscontrando problemi nel ricevere il codice, puoi provare a richiederne uno nuovo o tornare indietro
+        per modificare il campo "email" in caso di errori di battitura.
+      </p>
+      <div class="mb-3 justify-content-center text-center mt-4">
+        <label for="authCode" class="form-label">Inserisci codice:</label>
+        <div class="text-center">
+        <input type="text" class="form-control dim" id="authCode" placeholder="Inserisci password" name="authCode" [formControl]="authCode" required>
+        </div>
+      </div>
+      <a href="" (click)="requestAuthCode()">Richiedi un nuovo codice</a>
+      <a href="" (click)="goToForm()">Ritorna al form</a>
+      <div *ngIf="errorMessage" class="error-message mt-3"></div>
+    </ng-template>
+      <button type="submit" class="btn btn-primary mt-3">{{ buttonText }}</button>
   </form>
 </div>

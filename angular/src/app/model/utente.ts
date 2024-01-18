@@ -7,7 +7,8 @@ export interface UtenteRegistrazione{
     dataNascita:Date;
     punteggio:number
     admin:boolean;
-    punteggioSettimanale:number
+    punteggioSettimanale:number;
+    email: string;
 }
 
 export interface Utente{
@@ -18,7 +19,8 @@ export interface Utente{
   dataNascita:Date;
   punteggio:number
   admin:boolean;
-  punteggioSettimanale:number
+  punteggioSettimanale:number;
+  email: string;
 }
 
 export interface UtenteLogin{

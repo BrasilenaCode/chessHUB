@@ -87,7 +87,10 @@ export class AuthServiceService{
 
   // chiedo al backend di mandarmi un nuovo codice sulla mail
   // (sto mandando il mio uuid corrente nel caso stessi richiedendo un nuovo codice
-  // ma quello precedente è ancora rimasto nella mappa del backend)
+  // ma quello precedente è ancora rimasto nella mappa del backend).
+  // TODO ho un dubbio: visto che la subscribe la faccio dentro qui, 
+  // quando successivamente mando la richiesta al backend per verificare il codice
+  // this.uuid sarà già stato ricevuto?
   getAuthCodeUUID(email: string) {
     const myJsonObject = {
       id: this.uuid,
@@ -101,13 +104,12 @@ export class AuthServiceService{
 
   // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
   // da usare quando si vuole modificare il profilo
-  verifyAuthCodeWhenAuthenticated(uuid: string, code: string): Observable<string> {
+  verifyAuthCodeWhenAuthenticated(code: string): Observable<string> {
     const myJsonObject = {
       id: this.uuid,
       code: code
     };
     const json = JSON.stringify(myJsonObject);
-
     var header = {
       headers: new HttpHeaders().set('Authorization', 'Basic ' + this.getToken())
     }
@@ -117,7 +119,7 @@ export class AuthServiceService{
 
   // mando al backend l'id della richiesta di verifica del codice e il codice inserito dall'utente
   // da usare prima di completare una registrazione al sito
-  verifyAuthCodeWhenRegistering(uuid: string, code: string): Observable<string> {
+  verifyAuthCodeWhenRegistering(code: string): Observable<string> {
     const myJsonObject = {
       id: this.uuid,
       code: code
@@ -127,7 +129,7 @@ export class AuthServiceService{
     return this.http.post<string>(this.backendUrl + "/verify/authcode/notauthenticated", json);
   }
 
-  // elimina l'uuid
+  // elimina l'id del codice auth
   clearUUID(): void {
     this.uuid = '';
   }

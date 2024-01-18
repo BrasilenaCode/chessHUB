@@ -139,7 +139,7 @@ public class UtenteDaoPostgres implements UtenteDao {
         // se l'utente non esiste, lo devo aggiungere
         if (findByPrimaryKey(utente.getUsername()) == null) {
             // query per aggiungere l'utente
-            String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String insertStr = "INSERT INTO utente VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try {
                 // creo lo statement
                 PreparedStatement st = connection.prepareStatement(insertStr);
@@ -150,7 +150,8 @@ public class UtenteDaoPostgres implements UtenteDao {
                 st.setString(4, utente.getPassword());
                 st.setDate(5, new java.sql.Date(utente.getDataNascita().getTime()));
                 st.setString(6, utente.getNazionalita());
-                st.setBoolean(7, false); //utente.isAdmin()
+                st.setBoolean(7, false);
+                st.setString(8, utente.getEmail());
                 // eseguo la query
                 st.executeUpdate();
             } catch (SQLException e) {
@@ -354,6 +355,7 @@ public class UtenteDaoPostgres implements UtenteDao {
         utente.setAdmin(rs.getBoolean("admin"));
         utente.setPunteggio(getPunteggio(utente.getUsername()));
         utente.setPunteggioSettimanale(getPunteggioSettimanale(utente.getUsername()));
+        utente.setEmail(rs.getString("email"));
         // ritorno l'utente
         return utente;
     }
