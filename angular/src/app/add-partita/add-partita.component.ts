@@ -170,6 +170,7 @@ export class AddPartitaComponent implements OnInit{
         return;
       AddPartitaComponent.game.setComment(this.commentoAttuale);
       AddPartitaComponent.updateStatus();
+      this.updateFormulario();
     }
 
     // Cancella il commento della mossa attuale
@@ -177,6 +178,7 @@ export class AddPartitaComponent implements OnInit{
       this.commentoAttuale = "";
       AddPartitaComponent.game.deleteComment();
       AddPartitaComponent.updateStatus();
+      this.updateFormulario();
     }
 
     // Genero i dati del PGN
@@ -237,6 +239,8 @@ export class AddPartitaComponent implements OnInit{
       let fileReader = new FileReader();
 
       fileReader.onload = (e) => {
+        this.positionEnded = false;
+        this.risultato = "0";
         let fileContent = fileReader.result as string;
         AddPartitaComponent.game.loadPgn(fileContent);
         AddPartitaComponent.board.fen(AddPartitaComponent.game.fen());
