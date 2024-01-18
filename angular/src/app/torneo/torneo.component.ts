@@ -42,11 +42,8 @@ export class TorneoComponent implements OnInit{
       if(this.torneo.stato=="concluso" && this.torneo.vincitore.username=="custom")
         this.torneo.vincitore.username="eliminato";
     });
-    this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi =>{
-      console.log(punteggi)
-      this.punteggiTorneo = new Map(Object.entries(punteggi));
-    });
-
+    this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => this.utentiTorneo = utenti);
+    this.torneoService.dammiPunteggi(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(punteggi => this.punteggiTorneo = new Map(Object.entries(punteggi)));
     this.torneoService.dammiPartite(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(partite => {
       this.loadPartite(partite);
       if(partite?.length > 0) {
@@ -54,7 +51,6 @@ export class TorneoComponent implements OnInit{
         this.flagPartite = false;
       }
     });
-    this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => this.utentiTorneo = utenti);
     this.cercaUtente();
 
     // controllo se l'utente è autenticato
@@ -69,6 +65,15 @@ export class TorneoComponent implements OnInit{
       this.flagRegistrato = false;
       this.flagAdmin = false;
     }
+  }
+  calculateActualCustom(index: number): number{
+    var actualCustom = 0;
+    for(let i = 0; i < index+1; i++){
+      if(this.utentiTorneo[i].username == "custom"){
+        actualCustom++;
+      }
+    }
+    return actualCustom;
   }
 
   // ricerca l'utente attualmente loggato
@@ -135,7 +140,6 @@ export class TorneoComponent implements OnInit{
           this.torneo.stato = "passato";
       }
     });
-
   }
 
   prossimoTurno(){

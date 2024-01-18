@@ -11,6 +11,7 @@ export class RowComponent implements OnInit{
   @Input()index?:number;
   @Input()punteggi?:Map<string, number>;
   @Input()utenteAcceduto?:string;
+  @Input()actualCustom?:number;
   condizione?:boolean;
   condizioneClassifica:boolean=false;
   punti?:number;
@@ -28,7 +29,7 @@ export class RowComponent implements OnInit{
     if(this.utente?.username=="custom"){
       this.utente.username="eliminato"
       this.utente.nazionalita="";
-      this.punti=this.punteggi?.get("custom");
+      this.punti=this.punteggi?.get("custom_"+this.actualCustom);
     }
   }
 }

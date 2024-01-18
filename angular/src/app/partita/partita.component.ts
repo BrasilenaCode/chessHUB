@@ -67,7 +67,6 @@ export class PartitaComponent implements OnInit{
           return;
         }
         this.partita = partita;
-        console.log(this.partita);
         if(this.authService.isAuthenticated()){
           this.authService.isAdmin().subscribe(admin => this.admin = admin);
           this.utentiService.dammiUtenteAcceduto().subscribe(utente => {

@@ -99,7 +99,6 @@ export class AuthServiceService{
     const json = JSON.stringify(myJsonObject);
     this.http.post(this.backendUrl + "/authcode", json, {responseType: 'text'}).subscribe(uuid => {
       this.uuid = uuid;
-      console.log(uuid);
     });
   }
 

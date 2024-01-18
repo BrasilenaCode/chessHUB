@@ -1,9 +1,5 @@
 package it.brasilenacode.chesshub.persistenza.model;
 
-import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
-import it.brasilenacode.chesshub.persistenza.DBManager;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

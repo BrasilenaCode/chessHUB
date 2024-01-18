@@ -1,13 +1,11 @@
 package it.brasilenacode.chesshub.application;
 
-import it.brasilenacode.chesshub.controller.Auth;
 import it.brasilenacode.chesshub.persistenza.DAO.PartitaDao;
 import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,6 +63,7 @@ public class TorneoModel {
             return false;
         }
         // calcolo il vincitore e lo setto nel torneo
+        // non controllo che ci sia un utente eliminato, perché fino a che non si chiude il torneo non si può eliminare un utente
         torneo.getPunteggi().entrySet().stream().max(Map.Entry.comparingByValue()).ifPresent(entry -> torneo.setVincitore(DBManager.getInstance().getUtenteDao().findByPrimaryKey(entry.getKey())));
         // setto lo stato del torneo a concluso
         torneo.setStato("passato");
@@ -116,11 +115,26 @@ public class TorneoModel {
         // restituisco gli utenti iscritti al torneo, ordinati per punteggio
         List<Utente> utenti = torneo.getPartecipanti();
         Map<String, Integer> punteggi = torneo.getPunteggi();
-        utenti.sort((o1, o2) -> punteggi.get(o1.getUsername()) > punteggi.get(o2.getUsername()) ? -1 : 1);
+        final int[] increaseAmount = {1};
+        utenti = utenti.stream()
+        .map(u -> {
+            String string = u.getUsername();
+            if(string.equals("custom")){
+                string = "custom_" + Integer.toString(increaseAmount[0]);
+                increaseAmount[0]++;
+            }
+            return string;
+        })
+        .sorted((s1, s2)-> punteggi.get(s1) > punteggi.get(s2) ? -1 : 1)
+        .map(username -> {
+            if(username.startsWith("custom")){
+                return DBManager.getInstance().getUtenteDao().findByPrimaryKey("custom");
+            }
+            return DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
+        })
+        .toList();
         return utenti;
     }
-
-
     // metodo per trovare le partite
     public static List<Partita> trovaPartite(int torneoId) {
         PartitaDao partitaDao = DBManager.getInstance().getPartitaDao();

@@ -77,7 +77,6 @@ export class LoginComponent {
         }
         if (this.tries > 0 || this.continueOperation) {
           this.auth.verifyAuthCodeWhenRegistering(code).subscribe(response => {
-          console.log("ciao codice " + response)
           if (response === "corretto") {
             this.continueOperation = true;
           } else if (response === "sbagliato") {

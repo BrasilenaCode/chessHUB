@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
 // proxy del torneo
 public class TorneoProxy extends Torneo {
     Connection conn;
@@ -41,12 +40,17 @@ public class TorneoProxy extends Torneo {
                 st.setLong(1, getId());
                 // eseguo la query
                 ResultSet rs = st.executeQuery();
+                int increaseAmount = 1;
                 // per ogni partecipante
                 while(rs.next()) {
                     // trovo l'utente
                     String username = rs.getString("utente");
                     Utente u = DBManager.getInstance().getUtenteDao().findByPrimaryKey(username);
                     // setto il punteggio
+                    if(username.equals("custom")){
+                        username = "custom_" + Integer.toString(increaseAmount);
+                        increaseAmount++;
+                    }
                     punteggi.put(username, rs.getInt("punteggio"));
                     // aggiungo l'utente alla lista dei partecipanti
                     partecipanti.add(u);
