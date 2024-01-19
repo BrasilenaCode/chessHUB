@@ -71,74 +71,22 @@ public class UtenteDaoPostgres implements UtenteDao {
     }
     // metodo per trovare tutti gli utenti
     @Override
-    public List<Utente> tryToFindUsersByKey(String username) {
+    public List<Utente> tryToFindUsersByKey(String toCheck) {
         // cerco gli utenti per username
-        List<Utente> result = tryToFindBy("username", username);
-        // se ho trovato più di due utenti
-        if (result.size() >= 2) {
-            // ordino gli utenti per distanza dalla stringa cercata
-            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(username.toLowerCase(), utente.getUsername().toLowerCase())));
-            if(result.size() > 12){
-                result = result.subList(0, 12);
-            }
-        }
-        // ritorno la lista degli utenti
-        return result;
+        return findAll().stream().filter(utente -> utente.getUsername().toLowerCase().contains(toCheck.toLowerCase())).sorted((u1, u2) -> LevenshteinDistance.getDefaultInstance().apply(toCheck.toLowerCase(), u2.getUsername().toLowerCase()) - LevenshteinDistance.getDefaultInstance().apply(toCheck.toLowerCase(), u1.getUsername().toLowerCase())).toList();
     }
     // metodo per trovare tutti gli utenti
     @Override
-    public List<Utente> tryToFindUserByName(String name) {
+    public List<Utente> tryToFindUserByName(String toCheck) {
         // cerco gli utenti per nome
-        List<Utente> result = tryToFindBy("nome", name);
-        // se ho trovato più di due utenti
-        if (result.size() >= 2) {
-            // ordino gli utenti per distanza dalla stringa cercata
-            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(name.toLowerCase(), utente.getNome().toLowerCase())));
-        }
-        // ritorno la lista degli utenti
-        return result;
+        return findAll().stream().filter(utente -> utente.getNome().toLowerCase().contains(toCheck.toLowerCase())).sorted((u1, u2) -> LevenshteinDistance.getDefaultInstance().apply(toCheck.toLowerCase(), u2.getNome().toLowerCase()) - LevenshteinDistance.getDefaultInstance().apply(toCheck.toLowerCase(), u1.getNome().toLowerCase())).toList();
+
     }
     // metodo per trovare tutti gli utenti
     @Override
-    public List<Utente> tryToFindUserBySurname(String surname) {
+    public List<Utente> tryToFindUserBySurname(String toCheck) {
         // cerco gli utenti per cognome
-        List<Utente> result = tryToFindBy("cognome", surname);
-        // se ho trovato più di due utenti
-        if (result.size() >= 2) {
-            // ordino gli utenti per lunghezza dalla stringa
-            result.sort(Comparator.comparingInt(utente -> LevenshteinDistance.getDefaultInstance().apply(surname.toLowerCase(), utente.getCognome().toLowerCase())));
-        }
-        // ritorno la lista degli utenti
-        return result;
-    }
-    // metodo per trovare tutti gli utenti tramite somiglianza ad un parametro
-    private List<Utente> tryToFindBy(String toCheck, String param) {
-        // query per trovare gli utenti
-        String query = "select * from utente where " + toCheck + " like ?";
-        // creo la lista degli utenti
-        List<Utente> utenti = new ArrayList<>();
-        try {
-            // creo lo statement
-            PreparedStatement statement = connection.prepareStatement(query);
-            // setto il parametro
-            statement.setString(1, "%" + param + "%");
-            // eseguo la query
-            try (ResultSet rs = statement.executeQuery()) {
-                // per ogni utente
-                while (rs.next()) {
-                    // creo l'utente e setto i parametri
-                    Utente utente = getProssimoUtente(rs);
-                    // aggiungo l'utente alla lista degli utenti
-                    if(utente.getUsername().equals("custom"))
-                        continue;
-                    utenti.add(utente);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // ritorno la lista degli utenti
-        return utenti;
+        return findAll().stream().filter(utente -> utente.getCognome().toLowerCase().contains(toCheck.toLowerCase())).sorted((u1, u2) -> LevenshteinDistance.getDefaultInstance().apply(toCheck.toLowerCase(), u2.getCognome().toLowerCase()) - LevenshteinDistance.getDefaultInstance().apply(toCheck.toLowerCase(), u1.getCognome().toLowerCase())).toList();
     }
     // metodo per salvare o aggiornare un utente
     @Override
