@@ -3,7 +3,6 @@ import { AuthServiceService } from '../services/auth.service';
 import {FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import { UtentiService } from '../services/utenti.service';
-import { Utente } from '../model/utente';
 
 
 @Component({
@@ -31,7 +30,13 @@ export class LoginComponent {
      private router:Router,
      private utentiService: UtentiService){}
 
-  // TODO da commentare
+  /*
+  se l'utente vuole fare login, vengono validati i campi e viene chiamato il metodo login dell'authService,
+  se l'utente vuole invece recuperare la password, dovrà inserire il proprio username ed email personale
+  e se validi verrà chiamato il metodo getAuthCodeUUID dell'authService per ottenere un codice di autenticazione.
+  L'utente riceverà una mail con il codice che dovrà inserire nel campo apposito,
+  se il codice è corretto l'utente potrà visualizzare la scherma per inserire la nuova password
+   */
   faiLogin(){
     if (this.buttonText == 'Accedi') {
       var user = this.username.value;
@@ -130,13 +135,14 @@ export class LoginComponent {
     this.nextStep = bool;
   }
 
-  // richiede un nuovo codice
+  // richiede un nuovo codice di autenticazione
   requestAuthCode(): void {
     this.auth.getAuthCodeUUID(this.mail.value);
     this.tries = 3;
     this.continueOperation = false;
   }
 
+  // richiede un codice e passa alla schermata di verifica
   richiediCodice(): void {
     this.nextStep = true;
     this.buttonText = 'Avanti';

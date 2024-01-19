@@ -47,6 +47,7 @@ export class TorneoComponent implements OnInit{
     });
     this.torneoService.dammiUtentiTorneo(parseInt(this.activatedRoute.snapshot.queryParams['torneoId'])).subscribe(utenti => {
       this.utentiTorneo = utenti;
+
       var ac = 1;
       for (let i = 0; i < this.utentiTorneo.length; i++) {
         if(this.utentiTorneo[i].username=="custom"){
