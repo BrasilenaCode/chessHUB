@@ -7,6 +7,7 @@ import { NgModel } from '@angular/forms';
 import { PartitaService } from '../services/partita.service';
 import { Chess } from 'chess.js';
 
+
 @Component({
   selector: 'app-partita-show',
   templateUrl: './partita-show.component.html',
@@ -93,6 +94,17 @@ export class PartitaShowComponent implements OnInit{
         this.privacy = false;
       return;
     }
+    this.utenteService.dammiUtenteAcceduto().subscribe(utente => {
+      if(utente.username == this.partita?.giocatore1?.username || utente.username == this.partita?.giocatore2?.username)
+        this.privacy = true;
+      else {
+        this.controllaSeAdmin();
+      }
+
+    });
+
+  }
+  private controllaSeAdmin() {
     this.auth.isAdmin().subscribe(risultato=>{
       if (risultato){
         this.privacy = true;
@@ -103,21 +115,21 @@ export class PartitaShowComponent implements OnInit{
         else if (this.partita?.privacy == "pubblica")
           this.privacy = true;
         else if (this.partita?.privacy=="amici"){
-            this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore1?.username!).subscribe(
-              risultato => {
-                if(risultato)
-                  this.privacy = true;
-                else
-                  this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore2?.username!).subscribe(
-                    risultato => {
-                      if(risultato)
-                        this.privacy = true;
-                    }
-                  );
-              }
-            );
-          }
+          this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore1?.username!).subscribe(
+            risultato => {
+              if(risultato)
+                this.privacy = true;
+              else
+                this.utenteService.verificaSeSeguiUtente(this.partita?.giocatore2?.username!).subscribe(
+                  risultato => {
+                    if(risultato)
+                      this.privacy = true;
+                  }
+                );
+            }
+          );
         }
+      }
     });
   }
 }
