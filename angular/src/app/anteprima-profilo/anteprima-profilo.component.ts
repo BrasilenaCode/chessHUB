@@ -12,6 +12,7 @@ import { Utente } from '../model/utente';
 export class AnteprimaProfiloComponent implements OnInit {
 
   toSearch: string = '';
+  caricamentoFinito: boolean = true;
   listOfUsers: Utente[][] = [];
   researchType: string[] = [
                             'Ricerca per nome utente',
@@ -28,6 +29,7 @@ export class AnteprimaProfiloComponent implements OnInit {
     // verrà chiamata ricercaUtente
     this.exchDataService.currentString.subscribe((newString) => {
       if (newString != '') {
+        this.caricamentoFinito = false;
         this.toSearch = newString;
         this.utentiService.ricercaUtente(this.toSearch).subscribe(
           utenti => {
@@ -35,10 +37,12 @@ export class AnteprimaProfiloComponent implements OnInit {
               this.listOfUsers = []
               this.listOfUsers = utenti;
             }
+            this.caricamentoFinito = true;
           }
         )
       } else {
         this.listOfUsers = []
+        this.caricamentoFinito = true;
       }
     });
   }

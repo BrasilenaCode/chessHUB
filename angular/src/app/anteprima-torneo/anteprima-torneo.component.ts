@@ -12,6 +12,7 @@ import { Torneo } from '../model/torneo';
 export class AnteprimaTorneoComponent implements OnInit {
 
   toSearch: string = '';
+  caricamentoFinito: boolean = true;
   listOfTournaments: Torneo[][] = [];
   researchType: string[] = [
                               'Ricerca per nome',
@@ -27,6 +28,7 @@ export class AnteprimaTorneoComponent implements OnInit {
     // verrà chiamata ricercaUtente
     this.exchDataService.currentString.subscribe((newString) => {
       if (newString != '') {
+        this.caricamentoFinito = false;
         this.toSearch = newString;
         this.torneiService.ricercaTornei(this.toSearch).subscribe(
           utenti => {
@@ -34,10 +36,12 @@ export class AnteprimaTorneoComponent implements OnInit {
               this.listOfTournaments = []
               this.listOfTournaments = utenti;
             }
+            this.caricamentoFinito = true;
           }
         )
       } else {
         this.listOfTournaments = []
+        this.caricamentoFinito = true;
       }
     });
   }

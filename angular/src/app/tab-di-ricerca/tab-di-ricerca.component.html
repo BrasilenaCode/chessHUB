@@ -5,8 +5,11 @@
 </figure>
 <div>
     <div class="container">
-        <form class="form-inline my-5 my-lg-0">
-            <input class="form-control mr-sm-2 barra text-center" type="search" placeholder="Cerca utenti o tornei..." (input)="onChanges($event)">
+        <form class="form-inline my-5 my-lg-0" (ngSubmit)="search()">
+            <div class="d-flex mx-5 container">
+                <input class="form-control mx-3 col mr-sm-2 barra text-center" type="search" placeholder="Cerca utenti o tornei..." [formControl]="toSearch">
+                <button class="col-sm-1 btn btn-primary" type="submit">Cerca</button>
+            </div>
         </form>
         <div class="risposta col justify-content-center">
             <div class="tab row m-5 justify-content-center">
