@@ -6,6 +6,12 @@
   background-color: #dcdcdc;
 }
 
+
+@media only screen and (max-width: 800px) {
+  .col{
+    width: 10vw;
+  }
+}
 .utente{
   background-color: #999;
   transition: background-color 0.3s;
