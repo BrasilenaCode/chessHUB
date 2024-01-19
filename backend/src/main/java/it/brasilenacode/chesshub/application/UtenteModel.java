@@ -3,7 +3,6 @@ package it.brasilenacode.chesshub.application;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.brasilenacode.chesshub.controller.Auth;
 import it.brasilenacode.chesshub.persistenza.DAO.UtenteDao;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.model.Utente;

@@ -87,7 +87,7 @@ public class UtentiController {
     }
     // chiamata per dare i privilegi di admin ad un utente
     @GetMapping("/utenti/createAdmin")
-    public boolean createAdmin(HttpServletRequest req){ // todo: get o post?, body o header?
+    public boolean createAdmin(HttpServletRequest req){
         // controllo che l'utente sia autenticato
         if(Auth.isAuthenticated(req)){
             return UtenteModel.createAdmin(req.getParameter("username"));

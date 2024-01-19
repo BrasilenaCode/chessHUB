@@ -1,15 +1,11 @@
 package it.brasilenacode.chesshub.application;
 
-import it.brasilenacode.chesshub.controller.Auth;
 import it.brasilenacode.chesshub.persistenza.DBManager;
 import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 // classe per i servizi delle partite

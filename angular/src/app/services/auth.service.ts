@@ -88,9 +88,6 @@ export class AuthServiceService{
   // chiedo al backend di mandarmi un nuovo codice sulla mail
   // (sto mandando il mio uuid corrente nel caso stessi richiedendo un nuovo codice
   // ma quello precedente è ancora rimasto nella mappa del backend).
-  // TODO ho un dubbio: visto che la subscribe la faccio dentro qui, 
-  // quando successivamente mando la richiesta al backend per verificare il codice
-  // this.uuid sarà già stato ricevuto?
   getAuthCodeUUID(email: string) {
     const myJsonObject = {
       id: this.uuid,
