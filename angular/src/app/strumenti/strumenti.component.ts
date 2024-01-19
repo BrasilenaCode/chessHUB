@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { UtentiService } from '../services/utenti.service';
 import { PartitaService } from '../services/partita.service';
 import { Partita } from '../model/partita';
-import {faAdd} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-strumenti',
@@ -13,6 +12,7 @@ import {faAdd} from "@fortawesome/free-solid-svg-icons";
 })
 export class StrumentiComponent implements OnInit {
   partite : Partita[] = [];
+  caricamento : boolean = true;
 
   constructor(private authService : AuthServiceService, private router : Router, private utentiService : UtentiService, private partitaService : PartitaService) { }
 
@@ -20,6 +20,7 @@ export class StrumentiComponent implements OnInit {
     // prende tutte le partite fuori torneo
     this.partitaService.dammiPartiteFuoriTorneo().subscribe((partite) => {
       this.partite = partite;
+      this.caricamento = false;
     });
   }
 
@@ -42,7 +43,5 @@ export class StrumentiComponent implements OnInit {
       this.router.navigate(['/generatorePgn'], {queryParams: {username: utente.username}});
     });
   }
-
-  protected readonly faAdd = faAdd;
   
 }
