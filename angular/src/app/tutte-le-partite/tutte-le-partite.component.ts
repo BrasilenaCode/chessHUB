@@ -10,6 +10,7 @@ import {isPlatformBrowser} from "@angular/common";
   styleUrl: './tutte-le-partite.component.css'
 })
 export class TutteLePartiteComponent implements OnInit{
+  caricamento: boolean = true;
   partite?: Partita[];
   partiteVisualizzate?: Partita[];
   username?: string;
@@ -33,6 +34,7 @@ export class TutteLePartiteComponent implements OnInit{
     this.partiteService.dammiPartiteGiocatore(this.username!).subscribe(partite => {
       this.partite = partite.filter(partita => (partita.esito != "0"))
       this.partiteVisualizzate=this.partite;
+      this.caricamento = false;
     });
   }
 

@@ -16,5 +16,13 @@
   </div>
   <app-partita-show class="col justify-content-center d-flex" *ngFor="let partita of partiteVisualizzate" [partita]="partita"></app-partita-show>
 </div>
+
+</div>
+
+<div class="overlay-loading" *ngIf="caricamento">
+  <div class="overlay-content">
+      <b>Caricamento...</b>
+      <mat-spinner></mat-spinner>
+  </div>
 </div>
 
