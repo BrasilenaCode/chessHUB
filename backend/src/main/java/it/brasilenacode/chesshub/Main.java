@@ -1,4 +1,4 @@
-package it.brasilenacode;
+package it.brasilenacode.chesshub;
 
 import java.util.Date;
 import java.time.LocalDate;
@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Random;
 import org.mindrot.jbcrypt.BCrypt;
 
-import it.brasilenacode.persistenza.DBManager;
-import it.brasilenacode.persistenza.DAO.postgres.TorneoProxy;
-import it.brasilenacode.persistenza.model.Torneo;
-import it.brasilenacode.persistenza.model.Utente;
+import it.brasilenacode.chesshub.application.TorneoModel;
+import it.brasilenacode.chesshub.persistenza.DBManager;
+import it.brasilenacode.chesshub.persistenza.DAO.postgres.TorneoProxy;
+import it.brasilenacode.chesshub.persistenza.model.Torneo;
+import it.brasilenacode.chesshub.persistenza.model.Utente;
 
 public class Main {
     public static void main(String[] args) {
@@ -92,7 +93,7 @@ public class Main {
                 t = tornei.get(new Random().nextInt(tornei.size()));
             }
             t.setStato("inCorso");
-            t.generaPartite();
+            TorneoModel.generaPartite( (int) t.getId());
             DBManager.getInstance().getTorneoDao().saveOrUpdate(t);
         }
     }

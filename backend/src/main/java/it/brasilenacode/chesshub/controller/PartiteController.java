@@ -1,9 +1,7 @@
 package it.brasilenacode.chesshub.controller;
 
 import it.brasilenacode.chesshub.persistenza.DBManager;
-import it.brasilenacode.chesshub.persistenza.DAO.TorneoDao;
 import it.brasilenacode.chesshub.persistenza.model.Partita;
-import it.brasilenacode.chesshub.persistenza.model.Utente;
 import it.brasilenacode.chesshub.application.PartiteModel;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
