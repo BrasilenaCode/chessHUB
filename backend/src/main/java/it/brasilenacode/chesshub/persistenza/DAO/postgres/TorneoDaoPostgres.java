@@ -8,7 +8,6 @@ import it.brasilenacode.chesshub.persistenza.DBManager;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 

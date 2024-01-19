@@ -1,8 +1,11 @@
 <div>
     <footer>
-        <p>Email: <em>{{ email }}</em> <span></span> </p>
-        <p>Telefono: <em>{{ tel }}</em> <span></span> </p>
-        <div>
+        <div class="d-inline text-white rounded border mx-3">
+            <a class="d-inline text-white" href="about">About</a>
+        </div>
+        <p class="mx-3"><em><a class="text-white" [href]="'mailto:' + email">{{ email }}</a></em> </p>
+        <p class="mx-3"><em><a class="text-white" [href]="'tel:' + tel">{{ tel }}</a></em></p>
+        <div class="mx-3">
             <a href="https://www.facebook.com/barricatecontrolagonzita" target="_blank"> 
                 <i style="font-size: 24px;" class="fab fa-facebook-square"></i>
             </a>
