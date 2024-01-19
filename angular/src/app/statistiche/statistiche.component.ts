@@ -1,7 +1,6 @@
 import { Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { UtentiService } from '../services/utenti.service';
-import { Utente } from '../model/utente';
 import { isPlatformBrowser } from '@angular/common';
 
 
