@@ -102,7 +102,7 @@ export class PartitaShowComponent implements OnInit{
       }
 
     });
-    
+
   }
   private controllaSeAdmin() {
     this.auth.isAdmin().subscribe(risultato=>{
