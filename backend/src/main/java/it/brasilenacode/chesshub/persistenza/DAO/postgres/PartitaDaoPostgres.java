@@ -113,7 +113,7 @@ public class PartitaDaoPostgres implements PartitaDao {
                 st.setString(6, partita.getEsito());
                 st.setInt(7, partita.getTurno());
                 st.setString(8, partita.getPGN());
-                st.setString(9, "pubblica");
+                st.setString(9, partita.getPrivacy());
                 // eseguo la query per aggiungere la partita
                 st.executeUpdate();
             } catch (SQLException e) {
