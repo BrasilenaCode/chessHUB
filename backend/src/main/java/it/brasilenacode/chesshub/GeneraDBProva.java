@@ -15,7 +15,7 @@ import it.brasilenacode.chesshub.persistenza.DAO.postgres.TorneoProxy;
 import it.brasilenacode.chesshub.persistenza.model.Torneo;
 import it.brasilenacode.chesshub.persistenza.model.Utente;
 
-public class Main {
+public class GeneraDBProva {
     public static void main(String[] args) {
         List<String> nomi = Arrays.stream(new String[]{"Sofia", "Giulia", "Martina", "Aurora", "Alice", "Ginevra", "Emma", "Greta", "Chiara", "Sara", "Francesco", "Alessandro", "Lorenzo", "Leonardo", "Mattia", "Andrea", "Gabriele", "Riccardo", "Matteo", "Tommaso"}).toList();
         List<String> cognomi = Arrays.stream(new String[]{"Rossi", "Russo", "Ferrari", "Esposito", "Bianchi", "Romano", "Colombo", "Ricci", "Marino", "Greco"}).toList();

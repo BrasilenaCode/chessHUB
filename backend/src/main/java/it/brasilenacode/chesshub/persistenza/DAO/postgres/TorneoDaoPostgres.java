@@ -12,6 +12,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.text.similarity.LevenshteinDistance;
+
 // DAO del torneo implementato in postgres
 public class TorneoDaoPostgres implements TorneoDao {
     Connection connection;
@@ -45,49 +47,15 @@ public class TorneoDaoPostgres implements TorneoDao {
     }
     // metodo per trovare un torneo tramite nome
     @Override
-    public List<Torneo> tryToFindByName(String name) {
+    public List<Torneo> tryToFindByName(String toCheck) {
+        return findAll().stream().filter(torneo -> torneo.getNome().contains(toCheck)).sorted((t1,t2) -> LevenshteinDistance.getDefaultInstance().apply(toCheck, t2.getNome()) - LevenshteinDistance.getDefaultInstance().apply(toCheck, t1.getNome())).toList();
         // cerco i tornei con un nome simile a quello passato
-        List<Torneo> result = tryToFindBy("nome", name);
-        // se ho trovato più di un torneo
-        if (result.size() >= 2) {
-            // ordino i tornei per lunghezza del nome
-            result.sort(Comparator.comparingInt(torneo -> Math.abs(name.length() - torneo.getNome().length())));
-        }
-        // ritorno i tornei
-        return result;
     }
     // metodo per trovare un torneo tramite luogo
     @Override
-    public List<Torneo> tryToFindByLocation(String location) {
+    public List<Torneo> tryToFindByLocation(String toCheck) {
         // cerco i tornei con un luogo simile a quello passato e li restituisco
-        return tryToFindBy("luogo", location);
-    }
-    // metodo per trovare i tornei con un parametro simile a quello passato
-    private List<Torneo> tryToFindBy(String toCheck, String param) {
-        // query per trovare i tornei
-        String query = "select * from torneo where " + toCheck + " like ?";
-        // creo la lista di tornei
-        List<Torneo> tornei = new ArrayList<>();
-        try {
-            // creo lo statement
-            PreparedStatement statement = connection.prepareStatement(query);
-            // setto il parametro
-            statement.setString(1, "%" + param + "%");
-            // eseguo la query
-            try (ResultSet set = statement.executeQuery()) {
-                // per ogni torneo trovato
-                while (set.next()) {
-                    // creo il torneo e setto i parametri
-                    Torneo tmp = getProssimoTorneo(set);
-                    // aggiungo il torneo alla lista
-                    tornei.add(tmp);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // ritorno la lista di tornei
-        return tornei;
+        return findAll().stream().filter(torneo -> torneo.getLuogo().contains(toCheck)).sorted((t1,t2) -> LevenshteinDistance.getDefaultInstance().apply(toCheck, t2.getLuogo()) - LevenshteinDistance.getDefaultInstance().apply(toCheck, t1.getLuogo())).toList();
     }
     // metodo per trovare tutti i tornei
     @Override
