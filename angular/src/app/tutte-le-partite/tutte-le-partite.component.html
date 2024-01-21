@@ -12,7 +12,7 @@
 </div>
 <div class="row justify-content-center mx-0">
   <div *ngIf="this.partiteVisualizzate?.length == 0" class="col-12 text-center">
-    <h3>Nessuna partita da mostrare</h3>
+    <h3 class="sotto">Nessuna partita da mostrare</h3>
   </div>
   <app-partita-show class="col justify-content-center d-flex" *ngFor="let partita of partiteVisualizzate" [partita]="partita"></app-partita-show>
 </div>

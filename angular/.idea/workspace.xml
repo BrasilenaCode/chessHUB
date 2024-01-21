@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6ec0332f-4b3a-43b7-a388-a08c3828760f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../backend/DBConnectionParameters.json" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/DBConnectionParameters.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/.." source="origin/main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2aDufhafLO5GDJhCYpTim7H1kpx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Hp/Desktop/progetto/chessHUB/backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Hp\\Desktop\\Nuova cartella\\chessHUB\\angular\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Hp\Desktop\Nuova cartella\chessHUB\angular\src\assets\foto" />
+      <recent name="C:\Users\Hp\Desktop\Nuova cartella\chessHUB\angular\src\assets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.Angular CLI Server">
+    <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular CLI Server" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6ec0332f-4b3a-43b7-a388-a08c3828760f" name="Changes" comment="" />
+      <created>1703865576294</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1703865576294</updated>
+      <workItem from="1703865577274" duration="11587000" />
+      <workItem from="1703922513240" duration="20470000" />
+      <workItem from="1704011505507" duration="6793000" />
+      <workItem from="1704028349883" duration="4724000" />
+      <workItem from="1704190883880" duration="5794000" />
+      <workItem from="1704196733498" duration="8167000" />
+      <workItem from="1704384439797" duration="15382000" />
+      <workItem from="1704460403730" duration="18419000" />
+      <workItem from="1704563160470" duration="8111000" />
+      <workItem from="1704641065638" duration="13738000" />
+      <workItem from="1704709173168" duration="1936000" />
+      <workItem from="1704730346357" duration="14753000" />
+      <workItem from="1704788782910" duration="27828000" />
+      <workItem from="1704897843825" duration="16518000" />
+      <workItem from="1704968045550" duration="28622000" />
+      <workItem from="1705068653958" duration="10522000" />
+      <workItem from="1705245825860" duration="16376000" />
+      <workItem from="1705314926173" duration="17072000" />
+      <workItem from="1705418168105" duration="3203000" />
+      <workItem from="1705479458239" duration="26613000" />
+      <workItem from="1705583735274" duration="15871000" />
+      <workItem from="1705654385264" duration="3872000" />
+      <workItem from="1705678289808" duration="4071000" />
+      <workItem from="1705861952557" duration="294000" />
+      <workItem from="1705862261404" duration="88000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$USER_HOME$/IdeaProjects/WebApplications/src/main/java/it/unical/informatica/webapp24/recensioniristoranti/controller/servlet/RistorantiServlet.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

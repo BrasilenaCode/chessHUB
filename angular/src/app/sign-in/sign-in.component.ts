@@ -20,7 +20,7 @@ export class SignInComponent {
   dataNascita= new FormControl();
   email = new FormControl();
   errorMessage = "";
-  //recaptcha: boolean = false;
+  recaptcha: boolean = false;
   buttonText: string = "Avanti";
   nextStep: boolean = false;
   authCode = new FormControl();
@@ -64,10 +64,10 @@ export class SignInComponent {
         email: this.email.value,
       }
       if(this.sonoValide(this.username, this.password, this.nome, this.cognome, this.nazionalita, this.email)&&this.dataNascita.value!=null) {
-        /*if(!this.recaptcha) {
+        if(!this.recaptcha) {
           this.errorMessage = "Completa il captcha";
           return;
-        }*/
+        }
         if (this.password.value == this.repeatedPassword.value) {
             if (new Date(this.dataNascita.value) < new Date()) {
               this.utentiService.dammiUtente(this.utente.username).subscribe(utente => {
@@ -161,7 +161,7 @@ export class SignInComponent {
   }
   // controlla che il recaptcha sia risolto
   recaptchaResolved(recaptcha: boolean) {
-    //this.recaptcha = recaptcha;
+    this.recaptcha = recaptcha;
   }
 
   protected readonly Object = Object;

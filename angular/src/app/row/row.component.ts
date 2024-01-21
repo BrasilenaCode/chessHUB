@@ -9,6 +9,7 @@ import { Utente } from '../model/utente';
 export class RowComponent implements OnInit{
   @Input()utente?:Utente;
   @Input()index?:number;
+  @Input()settimanale=false;
   @Input()punteggi?:Map<string, number>;
   @Input()utenteAcceduto?:string;
   @Input()actualCustom?:number;

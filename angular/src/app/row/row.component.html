@@ -2,6 +2,7 @@
     <div class="col text-center" >{{index}}</div>
     <div class="col text-center">{{utente?.username}}</div>
     <div class="col text-center">{{utente?.nazionalita}}</div>
-    <div *ngIf="!condizioneClassifica" class="col text-center">{{utente?.punteggio}}</div>
+    <div *ngIf="!condizioneClassifica&&!settimanale" class="col text-center">{{utente?.punteggio}}</div>
+    <div *ngIf="!condizioneClassifica&&settimanale" class="col text-center">{{utente?.punteggioSettimanale}}</div>
     <div *ngIf="condizioneClassifica" class="col text-center">{{punti}}</div>
 </div>

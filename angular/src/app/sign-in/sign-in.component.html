@@ -38,7 +38,7 @@
         <label for="dataNascita" class="form-label">Data di nascita:</label>
         <input type="date" class="form-control dim" id="dataNascita" name="dataNascita" [formControl]="dataNascita" required>
       </div>
-      <!--app-recaptcha (onCaptchaComplete)="recaptchaResolved($event)" *ngIf="!nextStep"></app-recaptcha-->
+      <app-recaptcha (onCaptchaComplete)="recaptchaResolved($event)" *ngIf="!nextStep"></app-recaptcha>
       <div *ngIf="errorMessage && !nextStep" class="error-message mt-3 text-center">
         {{ errorMessage }}
       </div>
