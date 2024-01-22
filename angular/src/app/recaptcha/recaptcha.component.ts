@@ -109,7 +109,7 @@ export class RecaptchaComponent {
     this.recaptchaService.checkCaptcha(challenge, response).subscribe(
       (response) => {
         if(response){
-          this.stato = "Sfida superata! Complimenti!";
+          this.stato = "Sfida superata!";
           this.complete();
         }
         else{

@@ -9,9 +9,9 @@
     <article class="card text-center m-5" (click)="vaiAlProfilo(amico)">
       <h3 class="card-title text-center">{{ amico.username }}</h3>
       <h4 class="card-subtitle text-center mb-2 text-muted">{{ amico.nome }} {{ amico.cognome }}</h4>
-      <div class="overlay-card mask flex-center rgba-blue-light">
+      <div class="overlay-card card m-0 mask flex-center rgba-blue-light">
       </div>
     </article>
   </div>
-  <div class="text-center margine-meno" *ngIf="amici?.length == 0">Non hai ancora amicizie</div>
+  <div class="text-center margine-meno" *ngIf="amici?.length == 0"><b>Ancora nessun amico :(</b></div>
 </div>
